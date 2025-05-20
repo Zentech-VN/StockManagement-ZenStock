@@ -1,133 +1,671 @@
 /* =======================================================================
-   ZENTECH_POLYCAFE – Dữ liệu mẫu
-   Author : Claude
-   Date   : 2025-05-14
+   STOCK-MANAGEMENT – Stored Procedures
+   Author : Zentech
+   Date   : 2025-05-17
    ======================================================================= */
 
-USE zentech_polycafe;
+USE zentech_stock_management;
 
--- 1. Thêm dữ liệu cho bảng ROLE
-INSERT INTO `ROLE` (`RoleName`) VALUES
-('ADMIN'),
-('MANAGER'),
-('CASHIER');
+DELIMITER //
 
--- 2. Thêm dữ liệu cho bảng CARD
-INSERT INTO `CARD` (`Status`) VALUES
-('LOCKED'),
-('LOCKED'),
-('LOCKED'),
-('LOCKED'),
-('LOCKED'),
-('LOCKED'),
-('LOCKED'),
-('LOCKED'),
-('LOCKED'),
-('LOCKED');
+-- =======================================================================
+-- UNIT
+-- =======================================================================
 
--- 3. Thêm dữ liệu cho bảng CATEGORY
-INSERT INTO `CATEGORY` (`CategoryName`) VALUES
-('COFFEE'),
-('TEA'),
-('JUICE'),
-('SMOOTHIE'),
-('SNACK'),
-('CAKE'),
-('BREAKFAST'),
-('LUNCH');
+DELIMITER //
 
--- 4. Thêm dữ liệu cho bảng USER
-INSERT INTO `USER` (`ID`, `Role_ID`, `UserName`, `Password`, `Email`, `FullName`, `Gender`, `Address`, `DoB`, `PhoneNumber`) VALUES
-(1, 1, 'admin', '$2a$12$ILMv5FfHkMgQMQ9A7hK4duU9Qz0L4m.BYiVOFxu2XT4g5YP95QzQ6', 'admin@zentech.vn', 'Nguyễn Quản Trị', 'MALE', '123 Lê Lợi, Quận 1, TP.HCM', '1990-05-15', '0901234567'),
-(2, 2, 'manager', '$2a$12$3VF46rD1yGgwDO4zxgzCB.PrlhNgjiH6aLFHwCQbVPvCnvRm3CTuy', 'manager@zentech.vn', 'Trần Quản Lý', 'FEMALE', '45 Nguyễn Thị Minh Khai, Quận 3, TP.HCM', '1992-07-20', '0912345678'),
-(3, 3, 'cashier1', '$2a$12$wj8jXzx7OGJOjGNqxH2rzeGZ3bnJadBLHVj.xYrmpzsy6.OmYGBwW', 'cashier1@zentech.vn', 'Lê Thu Ngân', 'FEMALE', '78 Cách Mạng Tháng 8, Quận 10, TP.HCM', '1995-03-12', '0923456789'),
-(4, 3, 'cashier2', '$2a$12$h5TF.Bz6rO3UUh7LmPMnpeWVPvoRf/6Y3.4KKsQgL4RH3jgGDpHsi', 'cashier2@zentech.vn', 'Phạm Thanh Toán', 'MALE', '56 Võ Văn Tần, Quận 3, TP.HCM', '1997-11-05', '0934567890');
+CREATE PROCEDURE insert_user_role(IN p_userID INT, IN p_roleID INT)
+BEGIN
+    INSERT INTO USER_ROLE (UserID, RoleID, AssignedAt)
+    VALUES (p_userID, p_roleID, NOW());
+END //
 
--- 5. Thêm dữ liệu cho bảng PRODUCT
-INSERT INTO `PRODUCT` (`Category_ID`, `Name`, `Price`, `Active`, `Description`, `Image_URL`) VALUES
--- COFFEE
-(1, 'Cà phê đen', 25000.00, 'ACTIVE', 'Cà phê đen truyền thống', '/images/products/black-coffee.jpg'),
-(1, 'Cà phê sữa', 30000.00, 'ACTIVE', 'Cà phê với sữa đặc', '/images/products/milk-coffee.jpg'),
-(1, 'Cappuccino', 45000.00, 'ACTIVE', 'Cà phê Ý với sữa và bọt sữa', '/images/products/cappuccino.jpg'),
-(1, 'Latte', 45000.00, 'ACTIVE', 'Cà phê Ý với nhiều sữa và ít bọt', '/images/products/latte.jpg'),
-(1, 'Americano', 40000.00, 'ACTIVE', 'Espresso pha với nước nóng', '/images/products/americano.jpg'),
--- TEA
-(2, 'Trà sen', 35000.00, 'ACTIVE', 'Trà ướp hương sen', '/images/products/lotus-tea.jpg'),
-(2, 'Trà đào', 40000.00, 'ACTIVE', 'Trà với đào tươi và syrup đào', '/images/products/peach-tea.jpg'),
-(2, 'Trà chanh', 30000.00, 'ACTIVE', 'Trà với nước cốt chanh tươi', '/images/products/lemon-tea.jpg'),
-(2, 'Trà sữa trân châu', 45000.00, 'ACTIVE', 'Trà sữa với trân châu đường đen', '/images/products/bubble-tea.jpg'),
--- JUICE
-(3, 'Nước cam', 35000.00, 'ACTIVE', 'Nước cam tươi vắt', '/images/products/orange-juice.jpg'),
-(3, 'Nước ép táo', 40000.00, 'ACTIVE', 'Nước ép từ táo tươi', '/images/products/apple-juice.jpg'),
-(3, 'Nước dừa', 35000.00, 'ACTIVE', 'Nước dừa tươi nguyên trái', '/images/products/coconut-water.jpg'),
--- SMOOTHIE
-(4, 'Sinh tố xoài', 45000.00, 'ACTIVE', 'Sinh tố xoài đặc', '/images/products/mango-smoothie.jpg'),
-(4, 'Sinh tố dâu', 45000.00, 'ACTIVE', 'Sinh tố dâu tây', '/images/products/strawberry-smoothie.jpg'),
-(4, 'Sinh tố bơ', 50000.00, 'ACTIVE', 'Sinh tố bơ đặc', '/images/products/avocado-smoothie.jpg'),
--- SNACK
-(5, 'Khoai tây chiên', 35000.00, 'ACTIVE', 'Khoai tây chiên giòn', '/images/products/french-fries.jpg'),
-(5, 'Bánh mì nướng tỏi', 30000.00, 'ACTIVE', 'Bánh mì nướng với bơ tỏi', '/images/products/garlic-bread.jpg'),
-(5, 'Xúc xích chiên', 40000.00, 'ACTIVE', 'Xúc xích chiên giòn', '/images/products/fried-sausage.jpg'),
--- CAKE
-(6, 'Bánh tiramisu', 55000.00, 'ACTIVE', 'Bánh tiramisu truyền thống', '/images/products/tiramisu.jpg'),
-(6, 'Bánh cheesecake', 60000.00, 'ACTIVE', 'Bánh phô mai mềm mịn', '/images/products/cheesecake.jpg'),
-(6, 'Bánh chocolate', 50000.00, 'ACTIVE', 'Bánh gato chocolate', '/images/products/chocolate-cake.jpg'),
--- BREAKFAST
-(7, 'Bánh mì trứng', 35000.00, 'ACTIVE', 'Bánh mì kẹp trứng ốp la', '/images/products/egg-sandwich.jpg'),
-(7, 'Phở bò', 65000.00, 'ACTIVE', 'Phở với thịt bò và nước dùng', '/images/products/beef-pho.jpg'),
-(7, 'Xôi gà', 45000.00, 'ACTIVE', 'Xôi với gà luộc xé', '/images/products/chicken-sticky-rice.jpg'),
--- LUNCH
-(8, 'Cơm gà', 60000.00, 'ACTIVE', 'Cơm với gà rán', '/images/products/chicken-rice.jpg'),
-(8, 'Bún bò', 70000.00, 'ACTIVE', 'Bún với thịt bò và nước dùng cay', '/images/products/beef-noodle.jpg'),
-(8, 'Mì xào hải sản', 75000.00, 'ACTIVE', 'Mì xào với hải sản tươi', '/images/products/seafood-noodle.jpg'),
-(8, 'Cơm chiên dương châu', 65000.00, 'LOCKED', 'Tạm ngưng bán do thiếu nguyên liệu', '/images/products/fried-rice.jpg');
+CREATE PROCEDURE delete_user_role(IN p_userID INT, IN p_roleID INT)
+BEGIN
+    DELETE FROM USER_ROLE
+    WHERE UserID = p_userID AND RoleID = p_roleID;
+END //
 
--- 6. Thêm dữ liệu cho bảng BILL
-INSERT INTO `BILL` (`User_ID`, `Card_ID`, `Status`) VALUES
-(3, 1, 'PAID'),
-(3, 2, 'PAID'),
-(4, 3, 'PAID'),
-(3, 4, 'PAID'),
-(4, 5, 'UNPAID'),
-(4, 6, 'UNPAID'),
-(4, 7, 'CANCELLED'),
-(3, 8, 'PAID');
+DELIMITER ;
 
--- 7. Thêm dữ liệu cho bảng BILLDETAILS
-INSERT INTO `BILLDETAILS` (`Bill_ID`, `Product_ID`, `Date`, `Quantity`, `Discount`, `TotalPrice_NoVAT`, `TotalPrice_WithVAT`) VALUES
--- Bill 1 - Khách hàng 7 (customer1)
-(1, 1, '2025-05-13 08:30:00', 2, NULL, 50000.00, 55000.00),
-(1, 6, '2025-05-13 08:30:00', 1, NULL, 35000.00, 38500.00),
-(1, 16, '2025-05-13 08:30:00', 1, NULL, 35000.00, 38500.00),
+-- =======================================================================
+-- INVENTORY
+-- =======================================================================
 
--- Bill 2 - Khách hàng 8 (customer2)
-(2, 4, '2025-05-13 10:15:00', 1, NULL, 45000.00, 49500.00),
-(2, 19, '2025-05-13 10:15:00', 1, NULL, 55000.00, 60500.00),
+DELIMITER //
 
--- Bill 3 - Khách hàng 9 (customer3)
-(3, 22, '2025-05-13 12:00:00', 1, NULL, 65000.00, 71500.00),
-(3, 11, '2025-05-13 12:00:00', 1, NULL, 40000.00, 44000.00),
-(3, 12, '2025-05-13 12:00:00', 2, NULL, 70000.00, 77000.00),
+CREATE PROCEDURE insert_inventory(IN p_productID INT, IN p_warehouseID INT, IN p_quantity INT)
+BEGIN
+    INSERT INTO INVENTORY (ProductID, WarehouseID, Quantity, CreatedAt, UpdatedAt)
+    VALUES (p_productID, p_warehouseID, p_quantity, NOW(), NOW());
+END //
 
--- Bill 4 - Khách hàng 7 (customer1)
-(4, 25, '2025-05-13 13:30:00', 1, NULL, 60000.00, 66000.00),
-(4, 18, '2025-05-13 13:30:00', 1, 0.1, 36000.00, 39600.00),
-(4, 10, '2025-05-13 13:30:00', 2, NULL, 70000.00, 77000.00),
+CREATE PROCEDURE update_inventory(IN p_id INT, IN p_productID INT, IN p_warehouseID INT, IN p_quantity INT)
+BEGIN
+    UPDATE INVENTORY
+    SET ProductID = p_productID,
+        WarehouseID = p_warehouseID,
+        Quantity = p_quantity,
+        UpdatedAt = NOW()
+    WHERE InventoryID = p_id;
+END //
 
--- Bill 5 - Khách hàng 8 (customer2) - Unpaid
-(5, 26, '2025-05-14 11:45:00', 1, NULL, 70000.00, 77000.00),
-(5, 7, '2025-05-14 11:45:00', 2, NULL, 80000.00, 88000.00),
+CREATE PROCEDURE delete_inventory(IN p_id INT)
+BEGIN
+    DELETE FROM INVENTORY WHERE InventoryID = p_id;
+END //
 
--- Bill 6 - Khách hàng 9 (customer3) - Unpaid
-(6, 13, '2025-05-14 14:20:00', 1, NULL, 45000.00, 49500.00),
-(6, 14, '2025-05-14 14:20:00', 1, NULL, 45000.00, 49500.00),
-(6, 20, '2025-05-14 14:20:00', 1, 0.15, 51000.00, 56100.00),
+DELIMITER ;
 
--- Bill 7 - Khách hàng 10 (customer4) - Cancelled
-(7, 2, '2025-05-14 16:00:00', 2, NULL, 60000.00, 66000.00),
-(7, 17, '2025-05-14 16:00:00', 1, NULL, 40000.00, 44000.00),
+-- =======================================================================
+-- SALES_ORDER
+-- =======================================================================
 
--- Bill 8 - Khách hàng 10 (customer4)
-(8, 27, '2025-05-14 17:30:00', 1, NULL, 75000.00, 82500.00),
-(8, 9, '2025-05-14 17:30:00', 2, 0.1, 81000.00, 89100.00),
-(8, 21, '2025-05-14 17:30:00', 1, NULL, 45000.00, 49500.00);
+DELIMITER //
+
+CREATE PROCEDURE insert_sales_order(
+    IN p_customerID INT,
+    IN p_orderDate TIMESTAMP,
+    IN p_expectedDate TIMESTAMP,
+    IN p_paymentMethod ENUM('CASH','TRANSFER'),
+    IN p_status ENUM('ACTIVE','LOCKED'),
+    IN p_totalAmount DECIMAL(10,2),
+    IN p_description VARCHAR(255)
+)
+BEGIN
+    INSERT INTO SALES_ORDER (
+        CustomerID, OrderDate, ExpectedDate, PaymentMethod, Status,
+        TotalAmount, Description, CreatedAt, UpdatedAt
+    )
+    VALUES (
+        p_customerID, p_orderDate, p_expectedDate, p_paymentMethod, p_status,
+        p_totalAmount, p_description, NOW(), NOW()
+    );
+END //
+
+CREATE PROCEDURE update_sales_order(
+    IN p_id INT,
+    IN p_customerID INT,
+    IN p_orderDate TIMESTAMP,
+    IN p_expectedDate TIMESTAMP,
+    IN p_paymentMethod ENUM('CASH','TRANSFER'),
+    IN p_status ENUM('ACTIVE','LOCKED'),
+    IN p_totalAmount DECIMAL(10,2),
+    IN p_description VARCHAR(255)
+)
+BEGIN
+    UPDATE SALES_ORDER
+    SET CustomerID = p_customerID,
+        OrderDate = p_orderDate,
+        ExpectedDate = p_expectedDate,
+        PaymentMethod = p_paymentMethod,
+        Status = p_status,
+        TotalAmount = p_totalAmount,
+        Description = p_description,
+        UpdatedAt = NOW()
+    WHERE SLID = p_id;
+END //
+
+CREATE PROCEDURE delete_sales_order(IN p_id INT)
+BEGIN
+    DELETE FROM SALES_ORDER WHERE SLID = p_id;
+END //
+
+DELIMITER ;
+
+-- =======================================================================
+-- SALES_ORDER_DETAIL
+-- =======================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE insert_sales_order_detail(
+    IN p_slid INT,
+    IN p_productID INT,
+    IN p_quantity INT,
+    IN p_unitPrice DECIMAL(10,2),
+    IN p_totalPrice DECIMAL(10,2),
+    IN p_totalVAT DECIMAL(10,2),
+    IN p_description VARCHAR(255)
+)
+BEGIN
+    INSERT INTO SALES_ORDER_DETAIL (
+        SLID, ProductID, Quantity, UnitPrice, TotalPrice,
+        TotalPrice_VAT, Description, CreatedAt, UpdatedAt
+    )
+    VALUES (
+        p_slid, p_productID, p_quantity, p_unitPrice,
+        p_totalPrice, p_totalVAT, p_description, NOW(), NOW()
+    );
+END //
+
+CREATE PROCEDURE update_sales_order_detail(
+    IN p_id INT,
+    IN p_slid INT,
+    IN p_productID INT,
+    IN p_quantity INT,
+    IN p_unitPrice DECIMAL(10,2),
+    IN p_totalPrice DECIMAL(10,2),
+    IN p_totalVAT DECIMAL(10,2),
+    IN p_description VARCHAR(255)
+)
+BEGIN
+    UPDATE SALES_ORDER_DETAIL
+    SET SLID = p_slid,
+        ProductID = p_productID,
+        Quantity = p_quantity,
+        UnitPrice = p_unitPrice,
+        TotalPrice = p_totalPrice,
+        TotalPrice_VAT = p_totalVAT,
+        Description = p_description,
+        UpdatedAt = NOW()
+    WHERE SLDetailID = p_id;
+END //
+
+CREATE PROCEDURE delete_sales_order_detail(IN p_id INT)
+BEGIN
+    DELETE FROM SALES_ORDER_DETAIL WHERE SLDetailID = p_id;
+END //
+
+DELIMITER ;
+
+
+-- =======================================================================
+-- PURCHASE_ORDER
+-- =======================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE insert_purchase_order(
+    IN p_userID INT,
+    IN p_supplierID INT,
+    IN p_orderDate TIMESTAMP,
+    IN p_expectedDate TIMESTAMP,
+    IN p_paymentMethod ENUM('CASH','TRANSFER'),
+    IN p_status ENUM('ACTIVE','LOCKED'),
+    IN p_totalAmount DECIMAL(10,2),
+    IN p_description VARCHAR(255)
+)
+BEGIN
+    INSERT INTO PURCHASE_ORDER (
+        UserID, SupplierID, OrderDate, ExpectedDate,
+        PaymentMethod, Status, TotalAmount, Description,
+        CreatedAt, UpdatedAt
+    )
+    VALUES (
+        p_userID, p_supplierID, p_orderDate, p_expectedDate,
+        p_paymentMethod, p_status, p_totalAmount, p_description,
+        NOW(), NOW()
+    );
+END //
+
+CREATE PROCEDURE update_purchase_order(
+    IN p_id INT,
+    IN p_userID INT,
+    IN p_supplierID INT,
+    IN p_orderDate TIMESTAMP,
+    IN p_expectedDate TIMESTAMP,
+    IN p_paymentMethod ENUM('CASH','TRANSFER'),
+    IN p_status ENUM('ACTIVE','LOCKED'),
+    IN p_totalAmount DECIMAL(10,2),
+    IN p_description VARCHAR(255)
+)
+BEGIN
+    UPDATE PURCHASE_ORDER
+    SET UserID = p_userID,
+        SupplierID = p_supplierID,
+        OrderDate = p_orderDate,
+        ExpectedDate = p_expectedDate,
+        PaymentMethod = p_paymentMethod,
+        Status = p_status,
+        TotalAmount = p_totalAmount,
+        Description = p_description,
+        UpdatedAt = NOW()
+    WHERE POID = p_id;
+END //
+
+CREATE PROCEDURE delete_purchase_order(IN p_id INT)
+BEGIN
+    DELETE FROM PURCHASE_ORDER WHERE POID = p_id;
+END //
+
+DELIMITER ;
+
+-- =======================================================================
+-- PURCHASE_ORDER_DETAIL
+-- =======================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE insert_purchase_order_detail(
+    IN p_poid INT,
+    IN p_productID INT,
+    IN p_quantity INT,
+    IN p_unitPrice DECIMAL(10,2),
+    IN p_totalPrice DECIMAL(10,2),
+    IN p_totalVAT DECIMAL(10,2),
+    IN p_description VARCHAR(255)
+)
+BEGIN
+    INSERT INTO PURCHASE_ORDER_DETAIL (
+        POID, ProductID, Quantity, UnitPrice,
+        TotalPrice, TotalPrice_VAT, Description,
+        CreatedAt, UpdatedAt
+    )
+    VALUES (
+        p_poid, p_productID, p_quantity, p_unitPrice,
+        p_totalPrice, p_totalVAT, p_description,
+        NOW(), NOW()
+    );
+END //
+
+CREATE PROCEDURE update_purchase_order_detail(
+    IN p_id INT,
+    IN p_poid INT,
+    IN p_productID INT,
+    IN p_quantity INT,
+    IN p_unitPrice DECIMAL(10,2),
+    IN p_totalPrice DECIMAL(10,2),
+    IN p_totalVAT DECIMAL(10,2),
+    IN p_description VARCHAR(255)
+)
+BEGIN
+    UPDATE PURCHASE_ORDER_DETAIL
+    SET POID = p_poid,
+        ProductID = p_productID,
+        Quantity = p_quantity,
+        UnitPrice = p_unitPrice,
+        TotalPrice = p_totalPrice,
+        TotalPrice_VAT = p_totalVAT,
+        Description = p_description,
+        UpdatedAt = NOW()
+    WHERE PODetailID = p_id;
+END //
+
+CREATE PROCEDURE delete_purchase_order_detail(IN p_id INT)
+BEGIN
+    DELETE FROM PURCHASE_ORDER_DETAIL WHERE PODetailID = p_id;
+END //
+
+DELIMITER ;
+
+-- =======================================================================
+-- CATEGORY
+-- =======================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE insert_category(
+    IN p_name VARCHAR(100),
+    IN p_description VARCHAR(255)
+)
+BEGIN
+    INSERT INTO CATEGORY (Name, Description, CreatedAt, UpdatedAt)
+    VALUES (p_name, p_description, NOW(), NOW());
+END //
+
+CREATE PROCEDURE update_category(
+    IN p_id INT,
+    IN p_name VARCHAR(100),
+    IN p_description VARCHAR(255)
+)
+BEGIN
+    UPDATE CATEGORY
+    SET Name = p_name,
+        Description = p_description,
+        UpdatedAt = NOW()
+    WHERE CategoryID = p_id;
+END //
+
+CREATE PROCEDURE delete_category(IN p_id INT)
+BEGIN
+    DELETE FROM CATEGORY WHERE CategoryID = p_id;
+END //
+
+DELIMITER ;
+
+-- =======================================================================
+-- SUPPLIER
+-- =======================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE insert_supplier(
+    IN p_name VARCHAR(100),
+    IN p_contactName VARCHAR(100),
+    IN p_description VARCHAR(255),
+    IN p_phone VARCHAR(20),
+    IN p_email VARCHAR(254),
+    IN p_address VARCHAR(255)
+)
+BEGIN
+    INSERT INTO SUPPLIER (Name, ContactName, Description, Phone, Email, Address, CreatedAt, UpdatedAt)
+    VALUES (p_name, p_contactName, p_description, p_phone, p_email, p_address, NOW(), NOW());
+END //
+
+CREATE PROCEDURE update_supplier(
+    IN p_id INT,
+    IN p_name VARCHAR(100),
+    IN p_contactName VARCHAR(100),
+    IN p_description VARCHAR(255),
+    IN p_phone VARCHAR(20),
+    IN p_email VARCHAR(254),
+    IN p_address VARCHAR(255)
+)
+BEGIN
+    UPDATE SUPPLIER
+    SET Name = p_name,
+        ContactName = p_contactName,
+        Description = p_description,
+        Phone = p_phone,
+        Email = p_email,
+        Address = p_address,
+        UpdatedAt = NOW()
+    WHERE SupplierID = p_id;
+END //
+
+CREATE PROCEDURE delete_supplier(IN p_id INT)
+BEGIN
+    DELETE FROM SUPPLIER WHERE SupplierID = p_id;
+END //
+
+DELIMITER ;
+
+-- =======================================================================
+-- CUSTOMER
+-- =======================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE insert_customer(
+    IN p_customerName VARCHAR(100),
+    IN p_contactName VARCHAR(100),
+    IN p_phone VARCHAR(20),
+    IN p_email VARCHAR(254),
+    IN p_address VARCHAR(255),
+    IN p_description VARCHAR(255)
+)
+BEGIN
+    INSERT INTO CUSTOMER (CustomerName, ContactName, Phone, Email, Address, Description, CreatedAt, UpdatedAt)
+    VALUES (p_customerName, p_contactName, p_phone, p_email, p_address, p_description, NOW(), NOW());
+END //
+
+CREATE PROCEDURE update_customer(
+    IN p_id INT,
+    IN p_customerName VARCHAR(100),
+    IN p_contactName VARCHAR(100),
+    IN p_phone VARCHAR(20),
+    IN p_email VARCHAR(254),
+    IN p_address VARCHAR(255),
+    IN p_description VARCHAR(255)
+)
+BEGIN
+    UPDATE CUSTOMER
+    SET CustomerName = p_customerName,
+        ContactName = p_contactName,
+        Phone = p_phone,
+        Email = p_email,
+        Address = p_address,
+        Description = p_description,
+        UpdatedAt = NOW()
+    WHERE CustomerID = p_id;
+END //
+
+CREATE PROCEDURE delete_customer(IN p_id INT)
+BEGIN
+    DELETE FROM CUSTOMER WHERE CustomerID = p_id;
+END //
+
+DELIMITER ;
+
+-- =======================================================================
+-- UNIT
+-- =======================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE insert_unit(
+    IN p_unitName VARCHAR(20)
+)
+BEGIN
+    INSERT INTO UNIT (UnitName)
+    VALUES (p_unitName);
+END //
+
+CREATE PROCEDURE update_unit(
+    IN p_id INT,
+    IN p_unitName VARCHAR(20)
+)
+BEGIN
+    UPDATE UNIT
+    SET UnitName = p_unitName
+    WHERE UnitID = p_id;
+END //
+
+CREATE PROCEDURE delete_unit(IN p_id INT)
+BEGIN
+    DELETE FROM UNIT WHERE UnitID = p_id;
+END //
+
+DELIMITER ;
+
+-- =======================================================================
+-- ROLE
+-- =======================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE insert_role(
+    IN p_roleName VARCHAR(20)
+)
+BEGIN
+    INSERT INTO ROLE (RoleName)
+    VALUES (p_roleName);
+END //
+
+CREATE PROCEDURE update_role(
+    IN p_id INT,
+    IN p_roleName VARCHAR(20)
+)
+BEGIN
+    UPDATE ROLE
+    SET RoleName = p_roleName
+    WHERE RoleID = p_id;
+END //
+
+CREATE PROCEDURE delete_role(IN p_id INT)
+BEGIN
+    DELETE FROM ROLE WHERE RoleID = p_id;
+END //
+
+DELIMITER ;
+
+-- =======================================================================
+-- PRODUCT_SUPPLIER
+-- =======================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE insert_product_supplier(
+    IN p_productID INT,
+    IN p_supplierID INT
+)
+BEGIN
+    INSERT INTO PRODUCT_SUPPLIER (ProductID, SupplierID)
+    VALUES (p_productID, p_supplierID);
+END //
+
+CREATE PROCEDURE delete_product_supplier(
+    IN p_productID INT,
+    IN p_supplierID INT
+)
+BEGIN
+    DELETE FROM PRODUCT_SUPPLIER
+    WHERE ProductID = p_productID AND SupplierID = p_supplierID;
+END //
+
+DELIMITER ;
+
+-- =======================================================================
+-- WAREHOUSE
+-- =======================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE insert_warehouse(
+    IN p_name VARCHAR(100),
+    IN p_address VARCHAR(255),
+    IN p_description VARCHAR(255),
+    IN p_phone VARCHAR(20),
+    IN p_email VARCHAR(254)
+)
+BEGIN
+    INSERT INTO WAREHOUSE (Name, Address, Description, Phone, Email, CreatedAt, UpdatedAt)
+    VALUES (p_name, p_address, p_description, p_phone, p_email, NOW(), NOW());
+END //
+
+CREATE PROCEDURE update_warehouse(
+    IN p_id INT,
+    IN p_name VARCHAR(100),
+    IN p_address VARCHAR(255),
+    IN p_description VARCHAR(255),
+    IN p_phone VARCHAR(20),
+    IN p_email VARCHAR(254)
+)
+BEGIN
+    UPDATE WAREHOUSE
+    SET Name = p_name,
+        Address = p_address,
+        Description = p_description,
+        Phone = p_phone,
+        Email = p_email,
+        UpdatedAt = NOW()
+    WHERE WarehouseID = p_id;
+END //
+
+CREATE PROCEDURE delete_warehouse(IN p_id INT)
+BEGIN
+    DELETE FROM WAREHOUSE WHERE WarehouseID = p_id;
+END //
+
+DELIMITER ;
+
+-- =======================================================================
+-- USER
+-- =======================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE insert_user(
+    IN p_username VARCHAR(20),
+    IN p_passwordHash VARCHAR(255),
+    IN p_phone VARCHAR(20),
+    IN p_email VARCHAR(254),
+    IN p_address VARCHAR(255),
+    IN p_description VARCHAR(255),
+    IN p_isActive ENUM('ACTIVE','LOCKED')
+)
+BEGIN
+    INSERT INTO USER (
+        Username, PasswordHash, Phone, Email, Address,
+        Description, IsActive, CreatedAt, UpdatedAt
+    )
+    VALUES (
+        p_username, p_passwordHash, p_phone, p_email, p_address,
+        p_description, p_isActive, NOW(), NOW()
+    );
+END //
+
+CREATE PROCEDURE update_user(
+    IN p_id INT,
+    IN p_username VARCHAR(20),
+    IN p_passwordHash VARCHAR(255),
+    IN p_phone VARCHAR(20),
+    IN p_email VARCHAR(254),
+    IN p_address VARCHAR(255),
+    IN p_description VARCHAR(255),
+    IN p_isActive ENUM('ACTIVE','LOCKED')
+)
+BEGIN
+    UPDATE USER
+    SET Username = p_username,
+        PasswordHash = p_passwordHash,
+        Phone = p_phone,
+        Email = p_email,
+        Address = p_address,
+        Description = p_description,
+        IsActive = p_isActive,
+        UpdatedAt = NOW()
+    WHERE UserID = p_id;
+END //
+
+CREATE PROCEDURE delete_user(IN p_id INT)
+BEGIN
+    DELETE FROM USER WHERE UserID = p_id;
+END //
+
+DELIMITER ;
+
+-- =======================================================================
+-- PRODUCT
+-- =======================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE insert_product(
+    IN p_productCode VARCHAR(20),
+    IN p_name VARCHAR(100),
+    IN p_description VARCHAR(255),
+    IN p_price DECIMAL(10,2),
+    IN p_imageURL VARCHAR(255),
+    IN p_unitID INT,
+    IN p_supplierID INT,
+    IN p_categoryID INT,
+    IN p_isActive ENUM('ACTIVE','LOCKED')
+)
+BEGIN
+    INSERT INTO PRODUCT (
+        ProductCode, Name, Description, Price, ImageURL,
+        UnitID, SupplierID, CategoryID, IsActive,
+        CreateAt, UpdatedAt
+    )
+    VALUES (
+        p_productCode, p_name, p_description, p_price, p_imageURL,
+        p_unitID, p_supplierID, p_categoryID, p_isActive,
+        NOW(), NOW()
+    );
+END //
+
+CREATE PROCEDURE update_product(
+    IN p_id INT,
+    IN p_productCode VARCHAR(20),
+    IN p_name VARCHAR(100),
+    IN p_description VARCHAR(255),
+    IN p_price DECIMAL(10,2),
+    IN p_imageURL VARCHAR(255),
+    IN p_unitID INT,
+    IN p_supplierID INT,
+    IN p_categoryID INT,
+    IN p_isActive ENUM('ACTIVE','LOCKED')
+)
+BEGIN
+    UPDATE PRODUCT
+    SET ProductCode = p_productCode,
+        Name = p_name,
+        Description = p_description,
+        Price = p_price,
+        ImageURL = p_imageURL,
+        UnitID = p_unitID,
+        SupplierID = p_supplierID,
+        CategoryID = p_categoryID,
+        IsActive = p_isActive,
+        UpdatedAt = NOW()
+    WHERE ProductID = p_id;
+END //
+
+CREATE PROCEDURE delete_product(IN p_id INT)
+BEGIN
+    DELETE FROM PRODUCT WHERE ProductID = p_id;
+END //
+
+DELIMITER ;
