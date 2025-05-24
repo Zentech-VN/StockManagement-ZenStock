@@ -132,6 +132,7 @@ public class GetOTP extends javax.swing.JFrame {
                 } else {
                     boolean check = AccountDAO.getInstance().checkOtp(this.email, otp);
                    if(check){
+                       this.dispose();
                        cg.setVisible(true);
                    } else{
                        JOptionPane.showMessageDialog(this, "Mã OTP không khớp");
