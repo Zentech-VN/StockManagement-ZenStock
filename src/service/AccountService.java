@@ -48,13 +48,13 @@ public class AccountService {
                     break;
             }
             model.addRow(new Object[]{
-                account.getManv(), account.getUsername(), getNhomQuyenDTO(account.getManhomquyen()).getTennhomquyen(), trangthaiString
+                account.getManv(), account.getUsername(), getPermGroup(account.getManhomquyen()).getTennhomquyen(), trangthaiString
             });
         }
         jTable1.setModel(model);
     }
      
-    public PermGroup getNhomQuyenDTO(int manhom){
+    public PermGroup getPermGroup(int manhom){
         return permGroupDAO.selectById(manhom+"");
     }
 }
