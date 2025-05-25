@@ -17,10 +17,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-/**
- *
- * @author Raven
- */
 public class LightDarkMode extends JPanel {
 
     public void setMenuFull(boolean menuFull) {
@@ -101,9 +97,9 @@ public class LightDarkMode extends JPanel {
         addStyle(buttonLight, !isDark);
         addStyle(buttonDark, isDark);
         if (isDark) {
-            buttonLighDark.setIcon(new FlatSVGIcon("raven/menu/mode/dark.svg"));
+            buttonLighDark.setIcon(new FlatSVGIcon("zentech/menu/mode/dark.svg"));
         } else {
-            buttonLighDark.setIcon(new FlatSVGIcon("raven/menu/mode/light.svg"));
+            buttonLighDark.setIcon(new FlatSVGIcon("zentech/menu/mode/light.svg"));
         }
     }
 

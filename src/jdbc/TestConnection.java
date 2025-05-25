@@ -1,4 +1,4 @@
-package helper;
+package jdbc;
 
 import java.sql.Connection;
 

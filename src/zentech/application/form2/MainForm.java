@@ -22,10 +22,6 @@ import zentech.application.form.other.FormRead;
 import zentech.menu2.Menu;
 import zentech.menu2.MenuAction;
 
-/**
- *
- * @author Raven
- */
 public class MainForm extends JLayeredPane {
 
     public MainForm() {

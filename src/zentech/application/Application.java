@@ -14,10 +14,6 @@ import zentech.application.form2.LoginForm;
 import zentech.application.form2.MainForm;
 import raven.toast.Notifications;
 
-/**
- *
- * @author Raven
- */
 public class Application extends javax.swing.JFrame {
 
     private static Application app;
@@ -84,7 +80,7 @@ public class Application extends javax.swing.JFrame {
 
     public static void main(String args[]) {
         FlatRobotoFont.install();
-        FlatLaf.registerCustomDefaultsSource("raven.theme");
+        FlatLaf.registerCustomDefaultsSource("zentech.theme");
         UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
         FlatMacDarkLaf.setup();
         java.awt.EventQueue.invokeLater(() -> {

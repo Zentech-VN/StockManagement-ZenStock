@@ -1,12 +1,7 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import raven.toast.Notifications;
 
-/**
- *
- * @author Raven
- */
 public class FormHomePage extends javax.swing.JPanel {
 
     public FormHomePage() {
