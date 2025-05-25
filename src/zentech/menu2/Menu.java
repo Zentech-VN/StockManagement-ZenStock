@@ -25,7 +25,7 @@ public class Menu extends JPanel {
         {"Trang chủ"},
         {"~WEB APP~"},
         {"Email", "Inbox", "Read", "Compost"},
-        {"Chat"},
+        {"Tài Khoản"},
         {"Calendar"},
         {"~COMPONENT~"},
         {"Advanced UI", "Cropper", "Owl Carousel", "Sweet Alert"},
