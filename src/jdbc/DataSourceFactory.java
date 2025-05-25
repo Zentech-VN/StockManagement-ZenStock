@@ -1,4 +1,4 @@
-package JDBC;
+package jdbc;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import java.util.Properties;

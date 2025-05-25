@@ -1,7 +1,7 @@
-package DAO;
+package dao;
 
-import ENTITY.Account;
-import JDBC.ConnectionHelper;
+import entity.Account;
+import jdbc.ConnectionHelper;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
