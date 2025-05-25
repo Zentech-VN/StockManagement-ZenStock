@@ -1,8 +1,8 @@
 package zentech.application.form2;
 
 import zentech.application.changepassword.ForgotPassword;
-import DAO.AccountDAO;
-import ENTITY.Account;
+import dao.AccountDAO;
+import entity.Account;
 import com.formdev.flatlaf.FlatClientProperties;
 import helper.BCrypt;
 import java.util.logging.Level;
