@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,6 +31,28 @@ public class AccountDAO {
 
         } catch (SQLException ex) {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+    
+    public ArrayList<Account> selectAll() {
+        ArrayList<Account> result = new ArrayList<Account>();
+        try {
+            Connection con = (Connection) ConnectionHelper.getConnection();
+            String sql = "SELECT * FROM taikhoan WHERE trangthai = '0' OR trangthai = '1'";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while(rs.next()){
+                int manv = rs.getInt("manv");
+                String username = rs.getString("tendangnhap");
+                String matkhau = rs.getString("matkhau");
+                int manhomquyen = rs.getInt("manhomquyen");
+                int trangthai = rs.getInt("trangthai");
+                Account tk = new Account(manv, username, matkhau, manhomquyen, trangthai);
+                result.add(tk);
+            }
+            ConnectionHelper.closeConnection(con);
+        } catch (Exception e) {
         }
         return result;
     }
@@ -146,5 +169,28 @@ public class AccountDAO {
         } catch (Exception e) {
         }
         return check;
+    }
+    
+    public Account selectById(String t) {
+        Account result = null;
+        try {
+            Connection con = (Connection) ConnectionHelper.getConnection();
+            String sql = "SELECT * FROM taikhoan WHERE manv=?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setString(1, t);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while(rs.next()){
+                int manv = rs.getInt("manv");
+                String tendangnhap = rs.getString("tendangnhap");
+                String matkhau = rs.getString("matkhau");
+                int trangthai = rs.getInt("trangthai");
+                int manhomquyen = rs.getInt("manhomquyen");
+                Account ac = new Account(manv, tendangnhap, matkhau, manhomquyen, trangthai);
+                return result;
+            }
+            ConnectionHelper.closeConnection(con);
+        } catch (Exception e) {
+        }
+        return result;
     }
 }

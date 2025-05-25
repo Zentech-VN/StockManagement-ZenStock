@@ -4,6 +4,11 @@
  */
 package zentech.application.form.other;
 
+import java.util.ArrayList;
+import java.util.List;
+import entity.Account;
+import service.AccountService;
+
 /**
  *
  * @author Duc Pham Ngoc
@@ -13,8 +18,13 @@ public class AccountForm extends javax.swing.JPanel {
     /**
      * Creates new form AccountForm
      */
+    
+    static List<Account> lista = new ArrayList<>();
+    static AccountService asv = new AccountService();
+    
     public AccountForm() {
         initComponents();
+        asv.LoadTable(lista, tblList);
     }
 
     /**
@@ -113,8 +123,8 @@ public class AccountForm extends javax.swing.JPanel {
                 .addComponent(jButton5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4)
                 .addContainerGap())
