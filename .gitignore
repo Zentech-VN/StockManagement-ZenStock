@@ -1,3 +1,14 @@
-/build/
-/nbproject/private/
-/dist/
+**/nbproject/private/
+**/nbproject/Makefile-*.mk
+**/nbproject/Package-*.bash
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+config/
+
+Beta
+0 / 0
+used queries
+1
