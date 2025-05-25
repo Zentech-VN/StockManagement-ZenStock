@@ -11,11 +11,14 @@ import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
 import zentech.menu.mode.ToolBarAccentColor;
 
 public class Menu extends JPanel {
@@ -86,6 +89,45 @@ public class Menu extends JPanel {
                 + "font:$Menu.header.font;"
                 + "foreground:$Menu.foreground");
 
+        userHeader = new JPanel();
+        userHeader.setLayout(new BoxLayout(userHeader, BoxLayout.X_AXIS));
+        userHeader.setBorder(new EmptyBorder(5, 5, 5, 5));
+        userHeader.setOpaque(false);
+        userHeader.putClientProperty(FlatClientProperties.STYLE,
+                "border:10, 10, 10, 10;"
+                + "background:$Menu.background;");
+
+        JLabel lbAvatar = new JLabel();
+        lbAvatar.setPreferredSize(new Dimension(40, 40));
+        lbAvatar.setIcon(new ImageIcon(getClass()
+                .getResource("/zentech/icon/png/user.png")));
+
+        lbUserName = new JLabel("User");
+        lbUserName.putClientProperty(FlatClientProperties.STYLE,
+                "font:$Menu.header.font;"
+                + "foreground:$Menu.foreground;");
+
+        lbUserRole = new JLabel("(Role)");
+        lbUserRole.putClientProperty(FlatClientProperties.STYLE,
+                "font:$Menu.label.font;"
+                + "foreground:$Menu.foreground;");
+
+        JPanel textPanel = new JPanel();
+        textPanel.setOpaque(false);
+        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
+        textPanel.add(lbUserName);
+        textPanel.add(lbUserRole);
+
+        userHeader.add(lbAvatar);
+        userHeader.add(Box.createHorizontalStrut(10));
+        userHeader.add(textPanel);
+
+        lbAvatar.setAlignmentY(Component.CENTER_ALIGNMENT);
+        textPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+        lbUserName.setAlignmentX(Component.LEFT_ALIGNMENT);
+        lbUserRole.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         //  Menu
         scroll = new JScrollPane();
         panelMenu = new JPanel(new MenuItemLayout(this));
@@ -109,6 +151,7 @@ public class Menu extends JPanel {
         toolBarAccentColor = new ToolBarAccentColor(this);
         toolBarAccentColor.setVisible(FlatUIUtils.getUIBoolean("AccentControl.show", false));
         add(header);
+        add(userHeader);
         add(scroll);
         add(lightDarkMode);
         add(toolBarAccentColor);
@@ -203,6 +246,10 @@ public class Menu extends JPanel {
     private JPanel panelMenu;
     private LightDarkMode lightDarkMode;
     private ToolBarAccentColor toolBarAccentColor;
+    private JPanel userHeader;
+    private JLabel lbUserName;
+    private JLabel lbUserRole;
+    private final int userHeaderHeight = 68;
 
     private class MenuLayout implements LayoutManager {
 
@@ -243,20 +290,23 @@ public class Menu extends JPanel {
                 int hgap = menuFull ? sheaderFullHgap : 0;
                 int accentColorHeight = 0;
                 if (toolBarAccentColor.isVisible()) {
-                    accentColorHeight = toolBarAccentColor.getPreferredSize().height+gap;
+                    accentColorHeight = toolBarAccentColor.getPreferredSize().height + gap;
                 }
 
                 header.setBounds(x + hgap, y, iconWidth - (hgap * 2), iconHeight);
+                int userY = y + iconHeight + gap;
+                userHeader.setBounds(x, userY, width, userHeaderHeight);
                 int ldgap = UIScale.scale(10);
                 int ldWidth = width - ldgap * 2;
                 int ldHeight = lightDarkMode.getPreferredSize().height;
                 int ldx = x + ldgap;
-                int ldy = y + height - ldHeight - ldgap  - accentColorHeight;
+                int ldy = y + height - ldHeight - ldgap - accentColorHeight;
 
                 int menux = x;
-                int menuy = y + iconHeight + gap;
+                int menuy = userY + userHeaderHeight + gap;
                 int menuWidth = width;
-                int menuHeight = height - (iconHeight + gap) - (ldHeight + ldgap * 2) - (accentColorHeight);
+                int menuHeight = height - (iconHeight + userHeaderHeight + gap * 2)
+                        - (ldHeight + ldgap * 2) - accentColorHeight;
                 scroll.setBounds(menux, menuy, menuWidth, menuHeight);
 
                 lightDarkMode.setBounds(ldx, ldy, ldWidth, ldHeight);
