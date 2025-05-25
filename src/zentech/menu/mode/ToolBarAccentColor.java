@@ -3,7 +3,6 @@ package zentech.menu.mode;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.icons.FlatAbstractIcon;
-import com.formdev.flatlaf.ui.FlatUIUtils;
 import com.formdev.flatlaf.util.ColorFunctions;
 import com.formdev.flatlaf.util.LoggingFacade;
 import com.formdev.flatlaf.util.UIScale;
@@ -23,10 +22,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import zentech.menu2.Menu;
 
-/**
- *
- * @author Raven
- */
 public class ToolBarAccentColor extends JPanel {
 
     private final Menu menu;

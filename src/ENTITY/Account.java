@@ -1,15 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ENTITY;
 
 import java.util.Objects;
 
-/**
- *
- * @author Duc Pham Ngoc
- */
 public class Account {
     private int manv;
     private String username;

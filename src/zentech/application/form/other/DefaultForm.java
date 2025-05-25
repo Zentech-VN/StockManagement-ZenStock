@@ -2,10 +2,6 @@ package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
-/**
- *
- * @author Raven
- */
 public class DefaultForm extends javax.swing.JPanel {
 
     public DefaultForm(String text) {

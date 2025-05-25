@@ -1,16 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package helper;
 
 import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 
-/**
- *
- * @author Duc Pham Ngoc
- */
 public class BCrypt {
     // BCrypt parameters
 	private static final int GENSALT_DEFAULT_LOG2_ROUNDS = 10;

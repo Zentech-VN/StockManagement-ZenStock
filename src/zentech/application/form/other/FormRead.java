@@ -2,10 +2,6 @@ package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
-/**
- *
- * @author Raven
- */
 public class FormRead extends javax.swing.JPanel {
 
     public FormRead() {

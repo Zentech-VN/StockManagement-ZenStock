@@ -8,14 +8,9 @@ import helper.BCrypt;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
 import zentech.application.Application;
 
-/**
- *
- * @author Raven
- */
 public class LoginForm extends javax.swing.JPanel {
 
     public LoginForm() {

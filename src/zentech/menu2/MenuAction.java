@@ -1,9 +1,5 @@
 package zentech.menu2;
 
-/**
- *
- * @author Raven
- */
 public class MenuAction {
 
     protected boolean isCancel() {

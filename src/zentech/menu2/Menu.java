@@ -18,10 +18,6 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import zentech.menu.mode.ToolBarAccentColor;
 
-/**
- *
- * @author Raven
- */
 public class Menu extends JPanel {
 
     private final String menuItems[][] = {
