@@ -7,7 +7,11 @@ package zentech.application.dialog;
 import entity.Staff;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import service.StaffListDialogService;
+import zentech.application.form.other.AccountForm;
 
 /**
  *
@@ -20,10 +24,15 @@ public class StaffListDialog extends javax.swing.JFrame {
      */
     static ArrayList<Staff> lists = new ArrayList<>();
     static StaffListDialogService ssv = new StaffListDialogService();
+    private AccountForm guiAccount;
     
     public StaffListDialog() {
         initComponents();
         setLocationRelativeTo(null);
+    }
+    
+    public int getRow(){
+        return jTable1.getSelectedRow();
     }
 
     /**
@@ -111,6 +120,13 @@ public class StaffListDialog extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        if(getRow()<0){
+            int input = JOptionPane.showConfirmDialog(null, 
+            "Vui lòng chọn nhân viên!:)", "Thông báo", JOptionPane.DEFAULT_OPTION);
+        } else{
+            AccountDialog acd = new AccountDialog(this, lists.get(getRow()).getManv());
+            acd.setVisible(true);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased

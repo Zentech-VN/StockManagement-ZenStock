@@ -4,7 +4,11 @@
  */
 package zentech.application.dialog;
 
+import entity.Account;
+import entity.PermGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import service.AccountDialogService;
 
 /**
  *
@@ -15,25 +19,129 @@ public class AccountDialog extends javax.swing.JFrame {
     /**
      * Creates new form AccountDialog
      */
-    public AccountDialog() {
+    private AccountDialogService accountService;
+    private Object taiKhoan; 
+    private int manv; 
+    private boolean isEditMode = false; 
+    
+    //edit
+    public AccountDialog(Object taiKhoan, int manv) {
+        this.taiKhoan = taiKhoan;
+        this.manv = manv;
+        this.isEditMode = false;
+        
         initComponents();
+        initializeService();
+        setupUI();
         setLocationRelativeTo(null);
     }
     
-    public boolean validateInput() {
-        if (txtUsername.getText().length() == 0) {
-            JOptionPane.showMessageDialog(this, "Vui lòng không để trống tên đăng nhập");
-            return false;
-        } else if (txtUsername.getText().length() < 6) {
-            JOptionPane.showMessageDialog(this, "Tên đăng nhập ít nhất 6 kí tự");
-            return false;
-        } else if (txtPass.getText().length() == 0) {
-            JOptionPane.showMessageDialog(this, "Vui lòng không để trống mật khẩu");
-            return false;
-        } else if (txtPass.getText().length() < 6) {
-            JOptionPane.showMessageDialog(this, "Mật khẩu ít nhất 6 ký tự");
+    //add
+    public AccountDialog(Object taiKhoan, int manv, Account account) {
+        this.taiKhoan = taiKhoan;
+        this.manv = manv;
+        this.isEditMode = false;
+        
+        initComponents();
+        initializeService();
+        setupUI();
+        loadAccountData(account);
+        setLocationRelativeTo(null);
+    }
+
+    private AccountDialog() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    private void initializeService() {
+        accountService = new AccountDialogService();
+    }
+    
+    private void setupUI() {
+        if (isEditMode) {
+            jLabel1.setText("Sửa tài khoản");
+            jButton2.setText("Cập nhật");
+        } else {
+            jLabel1.setText("Thêm tài khoản");
+            jButton2.setText("Thêm tài khoản");
+        }
+        
+        //Load dữ liệu cho ComboBox nhóm quyền
+        loadPermissionGroups();
+        
+        //Load dữ liệu cho ComboBox trạng thái
+        loadStatusComboBox();
+        
+        //Thêm sự kiện cho nút Hủy
+        jButton1.addActionListener(evt -> {
+            dispose();
+        });
+    }
+    
+    private void loadPermissionGroups() {
+        try {
+            DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+            for (PermGroup pg : accountService.getPermissionGroups()) {
+                model.addElement(pg.getTennhomquyen());
+            }
+            jComboBox1.setModel(model);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi tải danh sách nhóm quyền: " + e.getMessage(), 
+                                        "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void loadStatusComboBox() {
+        DefaultComboBoxModel<String> statusModel = new DefaultComboBoxModel<>();
+        statusModel.addElement("Hoạt động");
+        statusModel.addElement("Tạm khóa");
+        jComboBox2.setModel(statusModel);
+    }
+    
+    private void loadAccountData(Account account) {
+        if (account != null) {
+            txtUsername.setText(account.getUsername());
+            // Không hiển thị mật khẩu đã hash
+            txtPass.setText("");
+            
+            // Set selected permission group
+            for (int i = 0; i < accountService.getPermissionGroups().size(); i++) {
+                if (accountService.getPermissionGroups().get(i).getManhomquyen() == account.getManhomquyen()) {
+                    jComboBox1.setSelectedIndex(i);
+                    break;
+                }
+            }
+            
+            // Set selected status
+            jComboBox2.setSelectedIndex(account.getTrangthai()); // Giả sử trạng thái là int (0,1)
+        }
+    }
+    
+    private boolean validateInput() {
+        String username = txtUsername.getText().trim();
+        String password = txtPass.getText().trim();
+        
+        if (username.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên đăng nhập!", 
+                                        "Thông báo", JOptionPane.WARNING_MESSAGE);
+            txtUsername.requestFocus();
             return false;
         }
+        
+        if (password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mật khẩu!", 
+                                        "Thông báo", JOptionPane.WARNING_MESSAGE);
+            txtPass.requestFocus();
+            return false;
+        }
+        
+        if (password.length() < 6) {
+            JOptionPane.showMessageDialog(this, "Mật khẩu phải có ít nhất 6 ký tự!", 
+                                        "Thông báo", JOptionPane.WARNING_MESSAGE);
+            txtPass.requestFocus();
+            return false;
+        }
+        
         return true;
     }
 
@@ -79,6 +187,11 @@ public class AccountDialog extends javax.swing.JFrame {
         jButton1.setText("Hủy");
 
         jButton2.setText("Thêm tài khoản");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -140,6 +253,60 @@ public class AccountDialog extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        // Validate input
+        if (!validateInput()) {
+            return;
+        }
+        
+        String username = txtUsername.getText().trim();
+        String password = txtPass.getText().trim();
+        int permGroupIndex = jComboBox1.getSelectedIndex();
+        int statusIndex = jComboBox2.getSelectedIndex();
+        
+        try {
+            boolean success;
+            
+            if (isEditMode) {
+                // Cập nhật tài khoản
+                success = accountService.updateAccount(manv, username, password, 
+                                                     permGroupIndex, statusIndex, taiKhoan);
+                if (success) {
+                    JOptionPane.showMessageDialog(this, "Cập nhật tài khoản thành công!", 
+                                                "Thành công", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Cập nhật tài khoản thất bại!", 
+                                                "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                // Thêm tài khoản mới
+                success = accountService.addAccount(manv, username, password, 
+                                                  permGroupIndex, statusIndex, taiKhoan);
+                if (success) {
+                    JOptionPane.showMessageDialog(this, "Thêm tài khoản thành công!", 
+                                                "Thành công", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                } else {
+                    if (accountService.isUsernameExists(username)) {
+                        JOptionPane.showMessageDialog(this, "Tên đăng nhập đã tồn tại!", 
+                                                    "Lỗi", JOptionPane.ERROR_MESSAGE);
+                        txtUsername.requestFocus();
+                        txtUsername.selectAll();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Thêm tài khoản thất bại!", 
+                                                    "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Có lỗi xảy ra: " + e.getMessage(), 
+                                        "Lỗi", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
