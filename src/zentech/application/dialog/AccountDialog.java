@@ -86,8 +86,7 @@ public class AccountDialog extends javax.swing.JFrame {
             }
             jComboBox1.setModel(model);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Lỗi khi tải danh sách nhóm quyền: " + e.getMessage(), 
-                                        "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Lỗi khi tải danh sách nhóm quyền: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -101,10 +100,10 @@ public class AccountDialog extends javax.swing.JFrame {
     private void loadAccountData(Account account) {
         if (account != null) {
             txtUsername.setText(account.getUsername());
-            // Không hiển thị mật khẩu đã hash
+            //Không hiển thị mật khẩu đã hash
             txtPass.setText("");
             
-            // Set selected permission group
+            //Set selected permission group
             for (int i = 0; i < accountService.getPermissionGroups().size(); i++) {
                 if (accountService.getPermissionGroups().get(i).getManhomquyen() == account.getManhomquyen()) {
                     jComboBox1.setSelectedIndex(i);
@@ -112,8 +111,8 @@ public class AccountDialog extends javax.swing.JFrame {
                 }
             }
             
-            // Set selected status
-            jComboBox2.setSelectedIndex(account.getTrangthai()); // Giả sử trạng thái là int (0,1)
+            //Set selected status
+            jComboBox2.setSelectedIndex(account.getTrangthai()); 
         }
     }
     
@@ -122,22 +121,19 @@ public class AccountDialog extends javax.swing.JFrame {
         String password = txtPass.getText().trim();
         
         if (username.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên đăng nhập!", 
-                                        "Thông báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên đăng nhập!", "Thông báo", JOptionPane.WARNING_MESSAGE);
             txtUsername.requestFocus();
             return false;
         }
         
         if (password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập mật khẩu!", 
-                                        "Thông báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mật khẩu!", "Thông báo", JOptionPane.WARNING_MESSAGE);
             txtPass.requestFocus();
             return false;
         }
         
         if (password.length() < 6) {
-            JOptionPane.showMessageDialog(this, "Mật khẩu phải có ít nhất 6 ký tự!", 
-                                        "Thông báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Mật khẩu phải có ít nhất 6 ký tự!", "Thông báo", JOptionPane.WARNING_MESSAGE);
             txtPass.requestFocus();
             return false;
         }
@@ -271,39 +267,31 @@ public class AccountDialog extends javax.swing.JFrame {
             
             if (isEditMode) {
                 // Cập nhật tài khoản
-                success = accountService.updateAccount(manv, username, password, 
-                                                     permGroupIndex, statusIndex, taiKhoan);
+                success = accountService.updateAccount(manv, username, password, permGroupIndex, statusIndex, taiKhoan);
                 if (success) {
-                    JOptionPane.showMessageDialog(this, "Cập nhật tài khoản thành công!", 
-                                                "Thành công", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Cập nhật tài khoản thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
                     dispose();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Cập nhật tài khoản thất bại!", 
-                                                "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Cập nhật tài khoản thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
                 // Thêm tài khoản mới
-                success = accountService.addAccount(manv, username, password, 
-                                                  permGroupIndex, statusIndex, taiKhoan);
+                success = accountService.addAccount(manv, username, password, permGroupIndex, statusIndex, taiKhoan);
                 if (success) {
-                    JOptionPane.showMessageDialog(this, "Thêm tài khoản thành công!", 
-                                                "Thành công", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Thêm tài khoản thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
                     dispose();
                 } else {
                     if (accountService.isUsernameExists(username)) {
-                        JOptionPane.showMessageDialog(this, "Tên đăng nhập đã tồn tại!", 
-                                                    "Lỗi", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Tên đăng nhập đã tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                         txtUsername.requestFocus();
                         txtUsername.selectAll();
                     } else {
-                        JOptionPane.showMessageDialog(this, "Thêm tài khoản thất bại!", 
-                                                    "Lỗi", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Thêm tài khoản thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Có lỗi xảy ra: " + e.getMessage(), 
-                                        "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Có lỗi xảy ra: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
