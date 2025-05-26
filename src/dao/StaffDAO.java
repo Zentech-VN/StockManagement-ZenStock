@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import entity.Staff;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import jdbc.ConnectionHelper;
 /**
  *
@@ -73,6 +75,56 @@ public class StaffDAO {
             ConnectionHelper.closeConnection(con);
         } catch (SQLException ex) {
             Logger.getLogger(StaffDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+    
+    public ArrayList<Staff> selectAll() {
+        ArrayList<Staff> result = new ArrayList<Staff>();
+        try {
+            Connection con = (Connection) ConnectionHelper.getConnection();
+            String sql = "SELECT * FROM nhanvien WHERE trangthai = '1'";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while(rs.next()){
+                int manv = rs.getInt("manv");
+                String hoten = rs.getString("hoten");
+                int gioitinh = rs.getInt("gioitinh");
+                Date ngaysinh = rs.getDate("ngaysinh");
+                String sdt = rs.getString("sdt");
+                int trangthai = rs.getInt("trangthai");
+                String email = rs.getString("email");
+                Staff nv = new Staff(manv,hoten,gioitinh,ngaysinh,sdt,trangthai,email);
+                result.add(nv);
+            }
+            ConnectionHelper.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
+    public ArrayList<Staff> selectAllNV() {
+        ArrayList<Staff> result = new ArrayList<Staff>();
+        try {
+            Connection con = (Connection) ConnectionHelper.getConnection();
+            String sql = "SELECT * FROM nhanvien nv where nv.trangthai = 1 and not EXISTS(SELECT * FROM taikhoan tk WHERE nv.manv=tk.manv)";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while(rs.next()){
+                int manv = rs.getInt("manv");
+                String hoten = rs.getString("hoten");
+                int gioitinh = rs.getInt("gioitinh");
+                Date ngaysinh = rs.getDate("ngaysinh");
+                String sdt = rs.getString("sdt");
+                int trangthai = rs.getInt("trangthai");
+                String email = rs.getString("email");
+                Staff nv = new Staff(manv,hoten,gioitinh,ngaysinh,sdt,trangthai,email);
+                result.add(nv);
+            }
+            ConnectionHelper.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return result;
     }
