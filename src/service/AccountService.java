@@ -28,6 +28,12 @@ public class AccountService {
         this.listnq = PermGroupDAO.getInstance().selectAll();
     }
     
+    public void updateAcc(int rowIndex, Account updatedAccount) {
+        if (rowIndex >= 0 && rowIndex < lista.size()) {
+        lista.set(rowIndex, updatedAccount);
+        }
+    }
+    
      public void LoadTable(List<Account> listc, JTable jTable1) {
         lista = acc.selectAll();
         String[] title = {"MaNV", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"};

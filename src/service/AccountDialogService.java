@@ -74,19 +74,17 @@ public class AccountDialogService {
         try {
             //Sử dụng reflection để gọi các method của UI
             Class<?> clazz = taiKhoan.getClass();
-            if ("add".equals(action)) {
-                //Gọi method addAcc 
-                Object accountService = clazz.getField("accountService").get(taiKhoan);
-                Method addMethod = accountService.getClass().getMethod("addAcc", Account.class);
-                addMethod.invoke(accountService, acc);
+            //Gọi method addAcc 
+            Object accountService = clazz.getField("accountService").get(taiKhoan);
+            Method addMethod = accountService.getClass().getMethod("addAcc", Account.class);
+            addMethod.invoke(accountService, acc);
 
-                //Cập nhật bảng
-                Method getAllMethod = accountService.getClass().getMethod("getTaiKhoanAll");
-                Object allAccounts = getAllMethod.invoke(accountService);
+            //Cập nhật bảng
+            Method getAllMethod = accountService.getClass().getMethod("getTaiKhoanAll");
+            Object allAccounts = getAllMethod.invoke(accountService);
 
-                Method loadTableMethod = clazz.getMethod("loadTable", allAccounts.getClass());
-                loadTableMethod.invoke(taiKhoan, allAccounts);
-            }
+            Method loadTableMethod = clazz.getMethod("loadTable", allAccounts.getClass());
+            loadTableMethod.invoke(taiKhoan, allAccounts);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -69,8 +69,8 @@ public class EditAccountDialog extends javax.swing.JFrame {
     
     private void loadStatusComboBox() {
         DefaultComboBoxModel<String> statusModel = new DefaultComboBoxModel<>();
-        statusModel.addElement("Hoạt động");
         statusModel.addElement("Tạm khóa");
+        statusModel.addElement("Hoạt động");
         jComboBox2.setModel(statusModel);
     }
     

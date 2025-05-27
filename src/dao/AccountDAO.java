@@ -84,11 +84,11 @@ public class AccountDAO {
           int result = 0 ;
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
-            String sql = "UPDATE `taikhoan` SET `tendangnhap`=?,`trangthai`=?,`manhomquyen`=? WHERE manv=?";
+            String sql = "UPDATE `taikhoan` SET `tendangnhap`=?, `manhomquyen`=?, `trangthai`=? WHERE manv=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t.getUsername());
-            pst.setInt(2, t.getTrangthai());
-            pst.setInt(3, t.getManhomquyen());
+            pst.setInt(2, t.getManhomquyen());
+            pst.setInt(3, t.getTrangthai());
             pst.setInt(4, t.getManv());
             result = pst.executeUpdate();
             ConnectionHelper.closeConnection(con);
