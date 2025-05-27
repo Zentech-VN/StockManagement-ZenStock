@@ -57,4 +57,8 @@ public class AccountService {
     public PermGroup getPermGroup(int manhom){
         return permGroupDAO.selectById(manhom+"");
     }
+    
+    public ArrayList<Account> getTaiKhoanAll(){
+        return lista;
+    }
 }

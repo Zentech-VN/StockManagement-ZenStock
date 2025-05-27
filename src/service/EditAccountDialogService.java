@@ -6,19 +6,17 @@ package service;
 
 import dao.AccountDAO;
 import dao.PermGroupDAO;
-import entity.PermGroup;
-import java.util.ArrayList;
 import entity.Account;
+import entity.PermGroup;
 import helper.BCrypt;
 import java.lang.reflect.Method;
-import javax.swing.JOptionPane;
-import zentech.application.dialog.AccountDialog;
+import java.util.ArrayList;
 
 /**
  *
  * @author Duc Pham Ngoc
  */
-public class AccountDialogService {
+public class EditAccountDialogService {
     private ArrayList<PermGroup> listPg = PermGroupDAO.getInstance().selectAll();
     private ArrayList<Account> listAc = AccountDAO.getInstance().selectAll();
     
@@ -31,22 +29,19 @@ public class AccountDialogService {
         return false;
     }
     
-    public boolean addAccount(int manv, String username, String password, int permGroupIndex, int statusIndex, Object taiKhoan) {
+    public boolean updateAccount(int manv, String username, int permGroupIndex, int statusIndex, Object taiKhoan) {
         try {
-            // Kiểm tra username đã tồn tại
-            if (isUsernameExists(username)) {
+            //kiểm tra username không được để trống
+            if (username == null || username.trim().isEmpty()) {
                 return false;
             }
-            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));  
+            //lấy mã nhóm quyền
             int manhom = listPg.get(permGroupIndex).getManhomquyen();
-            //Tạo đối tượng tài khoản mới
-            Account acc = new Account(manv, username, hashedPassword, manhom, statusIndex);
-            
-            // Thêm vào database
-            AccountDAO.getInstance().insert(acc);
-            
-            listAc.add(acc);
-            updateUI(taiKhoan, acc, "add");
+            //Tạo đối tượng tài khoản cập nhật
+            Account acc = new Account(manv, username, manhom, statusIndex);
+            //Cập nhật trong database
+            AccountDAO.getInstance().update(acc);
+            updateUI(taiKhoan, acc, "update");
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,7 +64,8 @@ public class AccountDialogService {
         listPg = PermGroupDAO.getInstance().selectAll();
         listAc = AccountDAO.getInstance().selectAll();
     }
-   
+    
+    //Cập nhật UI - method này có thể được override hoặc sử dụng interface
     private void updateUI(Object taiKhoan, Account acc, String action) {
         try {
             //Sử dụng reflection để gọi các method của UI
@@ -79,14 +75,23 @@ public class AccountDialogService {
                 Object accountService = clazz.getField("accountService").get(taiKhoan);
                 Method addMethod = accountService.getClass().getMethod("addAcc", Account.class);
                 addMethod.invoke(accountService, acc);
-
-                //Cập nhật bảng
-                Method getAllMethod = accountService.getClass().getMethod("getTaiKhoanAll");
-                Object allAccounts = getAllMethod.invoke(accountService);
-
-                Method loadTableMethod = clazz.getMethod("loadTable", allAccounts.getClass());
-                loadTableMethod.invoke(taiKhoan, allAccounts);
+            } else if ("update".equals(action)) {
+                //Gọi method updateAcc 
+                Object accountService = clazz.getField("accountService").get(taiKhoan);
+                Method getRowSelectedMethod = clazz.getMethod("getRowSelected");
+                int rowSelected = (Integer) getRowSelectedMethod.invoke(taiKhoan);
+                
+                Method updateMethod = accountService.getClass().getMethod("updateAcc", int.class, Account.class);
+                updateMethod.invoke(accountService, rowSelected, acc);
             }
+            //Cập nhật bảng
+            Object accountService = clazz.getField("accountService").get(taiKhoan);
+            Method getAllMethod = accountService.getClass().getMethod("getTaiKhoanAll");
+            Object allAccounts = getAllMethod.invoke(accountService);
+            
+            Method loadTableMethod = clazz.getMethod("loadTable", allAccounts.getClass());
+            loadTableMethod.invoke(taiKhoan, allAccounts);
+            
         } catch (Exception e) {
             e.printStackTrace();
         }

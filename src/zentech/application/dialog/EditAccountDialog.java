@@ -15,33 +15,25 @@ import service.EditAccountDialogService;
  *
  * @author Duc Pham Ngoc
  */
-public class AccountDialog extends javax.swing.JFrame {
+public class EditAccountDialog extends javax.swing.JFrame {
 
     /**
-     * Creates new form AccountDialog
+     * Creates new form EditAccountDialog
      */
-    private AccountDialogService accountService;
+    private EditAccountDialogService accountService;
     private Object taiKhoan; 
     private int manv; 
-    private boolean isEditMode = false; 
-    
-    //edit
-    public AccountDialog(Object taiKhoan, int manv) {
-        this.taiKhoan = taiKhoan;
-        this.manv = manv;
-        this.isEditMode = false;
-        
-        initComponents();
-        initializeService();
-        setupUI();
-        setLocationRelativeTo(null);
+    private Account currentAccount;
+  
+    private EditAccountDialog() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
-    //add
-    public AccountDialog(Object taiKhoan, int manv, Account account) {
+    //edit
+    public EditAccountDialog(Object taiKhoan, int manv, Account account) {
         this.taiKhoan = taiKhoan;
         this.manv = manv;
-        this.isEditMode = false;
+        this.currentAccount = account;
         
         initComponents();
         initializeService();
@@ -49,24 +41,15 @@ public class AccountDialog extends javax.swing.JFrame {
         loadAccountData(account);
         setLocationRelativeTo(null);
     }
-
-    private AccountDialog() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
     
     private void initializeService() {
-        accountService = new AccountDialogService();
+        accountService = new EditAccountDialogService();
     }
     
     private void setupUI() {
-        
-        //Load dữ liệu cho ComboBox nhóm quyền
         loadPermissionGroups();
-        
-        //Load dữ liệu cho ComboBox trạng thái
         loadStatusComboBox();
         
-        //Thêm sự kiện cho nút Hủy
         jButton1.addActionListener(evt -> {
             dispose();
         });
@@ -94,25 +77,19 @@ public class AccountDialog extends javax.swing.JFrame {
     private void loadAccountData(Account account) {
         if (account != null) {
             txtUsername.setText(account.getUsername());
-            //Không hiển thị mật khẩu đã hash
-            txtPass.setText("");
-            
-            //Set selected permission group
+
             for (int i = 0; i < accountService.getPermissionGroups().size(); i++) {
                 if (accountService.getPermissionGroups().get(i).getManhomquyen() == account.getManhomquyen()) {
                     jComboBox1.setSelectedIndex(i);
                     break;
                 }
             }
-            
-            //Set selected status
             jComboBox2.setSelectedIndex(account.getTrangthai()); 
         }
     }
     
     private boolean validateInput() {
         String username = txtUsername.getText().trim();
-        String password = txtPass.getText().trim();
         
         if (username.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập tên đăng nhập!", "Thông báo", JOptionPane.WARNING_MESSAGE);
@@ -120,19 +97,38 @@ public class AccountDialog extends javax.swing.JFrame {
             return false;
         }
         
-        if (password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập mật khẩu!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-            txtPass.requestFocus();
-            return false;
-        }
-        
-        if (password.length() < 6) {
-            JOptionPane.showMessageDialog(this, "Mật khẩu phải có ít nhất 6 ký tự!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-            txtPass.requestFocus();
-            return false;
-        }
-        
         return true;
+    }
+    
+    private void handleEditAccount() {
+        if (!validateInput()) {
+            return;
+        }
+        
+        String username = txtUsername.getText().trim();
+        int permGroupIndex = jComboBox1.getSelectedIndex();
+        int statusIndex = jComboBox2.getSelectedIndex();
+        
+        try {
+            boolean success = accountService.updateAccount(currentAccount.getManv(), username, permGroupIndex, statusIndex, taiKhoan);
+            
+            if (success) {
+                JOptionPane.showMessageDialog(this, "Cập nhật tài khoản thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
+                dispose();
+            } else {
+                //Kiểm tra xem có phải do username đã tồn tại không (nếu username khác với username hiện tại)
+                if (!username.equals(currentAccount.getUsername()) && accountService.isUsernameExists(username)) {
+                    JOptionPane.showMessageDialog(this, "Tên đăng nhập đã tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    txtUsername.requestFocus();
+                    txtUsername.selectAll();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Cập nhật tài khoản thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi cập nhật tài khoản: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -145,14 +141,12 @@ public class AccountDialog extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        txtUsername = new javax.swing.JTextField();
-        txtPass = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        txtUsername = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -160,23 +154,31 @@ public class AccountDialog extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Thêm tài khoản");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jLabel1.setText("Cập Nhật Tài Khoản");
 
         jLabel2.setText("Tên đăng nhập");
 
-        jLabel3.setText("Mật khẩu");
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel4.setText("Nhóm quyền");
 
         jLabel5.setText("Trạng thái");
 
-        jButton1.setText("Hủy");
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Thêm tài khoản");
+        jButton1.setText("Lưu Thông Tin");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Hủy ");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -191,41 +193,38 @@ public class AccountDialog extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPass)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(25, 25, 25)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addComponent(jButton1)
-                .addGap(71, 71, 71)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(71, 71, 71)
+                .addComponent(jButton1)
+                .addGap(107, 107, 107))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -234,60 +233,28 @@ public class AccountDialog extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addGap(30, 30, 30))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        handleEditAccount();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        // Validate input
-        if (!validateInput()) {
-            return;
-        }
-        
-        String username = txtUsername.getText().trim();
-        String password = txtPass.getText().trim();
-        int permGroupIndex = jComboBox1.getSelectedIndex();
-        int statusIndex = jComboBox2.getSelectedIndex();
-        
-        try {
-            boolean success;
-            
-            if (isEditMode) {
-                // Cập nhật tài khoản
-                success = accountService.addAccount(manv, username, password, permGroupIndex, statusIndex, taiKhoan);
-                if (success) {
-                    JOptionPane.showMessageDialog(this, "Cập nhật tài khoản thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Cập nhật tài khoản thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                // Thêm tài khoản mới
-                success = accountService.addAccount(manv, username, password, permGroupIndex, statusIndex, taiKhoan);
-                if (success) {
-                    JOptionPane.showMessageDialog(this, "Thêm tài khoản thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
-                    dispose();
-                } else {
-                    if (accountService.isUsernameExists(username)) {
-                        JOptionPane.showMessageDialog(this, "Tên đăng nhập đã tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                        txtUsername.requestFocus();
-                        txtUsername.selectAll();
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Thêm tài khoản thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Có lỗi xảy ra: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -307,20 +274,20 @@ public class AccountDialog extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AccountDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditAccountDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AccountDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditAccountDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AccountDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditAccountDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AccountDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditAccountDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AccountDialog().setVisible(true);
+                new EditAccountDialog().setVisible(true);
             }
         });
     }
@@ -332,10 +299,8 @@ public class AccountDialog extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JTextField txtPass;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

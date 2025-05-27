@@ -20,6 +20,13 @@ public class Account {
         this.manhomquyen = manhomquyen;
         this.trangthai = trangthai;
     }
+    
+    public Account(int manv, String username, int manhomquyen, int trangthai) {
+        this.manv = manv;
+        this.username = username;
+        this.manhomquyen = manhomquyen;
+        this.trangthai = trangthai;
+    }
 
     public int getManv() {
         return manv;
