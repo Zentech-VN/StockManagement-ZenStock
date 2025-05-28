@@ -119,7 +119,7 @@ CREATE TABLE `taikhoan` (
   `tendangnhap` varchar(50) NOT NULL DEFAULT '',
   `trangthai` int(11) NOT NULL,
   `otp` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`tendangnhap`),
+  PRIMARY KEY (`tendangnhap`, `manv`),
   FOREIGN KEY (`manv`) REFERENCES `nhanvien` (`manv`),
   FOREIGN KEY (`manhomquyen`) REFERENCES `nhomquyen` (`manhomquyen`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
