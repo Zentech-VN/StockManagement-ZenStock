@@ -59,7 +59,6 @@ public class AccountDialog extends javax.swing.JFrame {
     }
     
     private void setupUI() {
-        
         //Load dữ liệu cho ComboBox nhóm quyền
         loadPermissionGroups();
         
@@ -86,8 +85,8 @@ public class AccountDialog extends javax.swing.JFrame {
     
     private void loadStatusComboBox() {
         DefaultComboBoxModel<String> statusModel = new DefaultComboBoxModel<>();
-        statusModel.addElement("Hoạt động");
         statusModel.addElement("Tạm khóa");
+        statusModel.addElement("Hoạt động");
         jComboBox2.setModel(statusModel);
     }
     

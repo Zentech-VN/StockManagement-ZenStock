@@ -122,7 +122,7 @@ public class StaffListDialog extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(getRow()<0){
             int input = JOptionPane.showConfirmDialog(null, 
-            "Vui lòng chọn nhân viên!:)", "Thông báo", JOptionPane.DEFAULT_OPTION);
+            "Vui lòng chọn nhân viên!", "Thông báo", JOptionPane.DEFAULT_OPTION);
         } else{
             AccountDialog acd = new AccountDialog(this, lists.get(getRow()).getManv());
             acd.setVisible(true);

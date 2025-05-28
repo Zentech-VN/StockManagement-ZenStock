@@ -31,7 +31,6 @@ public class EditAccountDialogService {
     
     public boolean updateAccount(int manv, String username, int permGroupIndex, int statusIndex, Object taiKhoan) {
         try {
-            //kiểm tra username không được để trống
             if (username == null || username.trim().isEmpty()) {
                 return false;
             }
@@ -45,11 +44,9 @@ public class EditAccountDialogService {
             int manhom = listPg.get(permGroupIndex).getManhomquyen();
             //Tạo đối tượng tài khoản cập nhật
             Account acc = new Account(manv, username, manhom, statusIndex);
-            //Cập nhật trong database
+            
             AccountDAO.getInstance().update(acc);
-            
             refreshData();
-            
             updateUI(taiKhoan, acc, "update");
             return true;
         } catch (Exception e) {
@@ -76,13 +73,14 @@ public class EditAccountDialogService {
         listAc = AccountDAO.getInstance().selectAll();
     }
     
-    //Cập nhật UI - method này có thể được override hoặc sử dụng interface
+    //Cấm sửa code chỗ này
     private void updateUI(Object taiKhoan, Account acc, String action) {
         //Sử dụng reflection để gọi các method của UI
         
         try {
             Class<?> clazz = taiKhoan.getClass();
             //Gọi method updateAcc 
+            //Cấm sửa code chỗ này
             Object accountService = clazz.getField("accountService").get(taiKhoan);
             Method getRowSelectedMethod = clazz.getMethod("getRowSelected");
             int rowSelected = (Integer) getRowSelectedMethod.invoke(taiKhoan);

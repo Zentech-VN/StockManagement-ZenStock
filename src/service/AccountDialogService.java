@@ -41,7 +41,6 @@ public class AccountDialogService {
             int manhom = listPg.get(permGroupIndex).getManhomquyen();
             //Tạo đối tượng tài khoản mới
             Account acc = new Account(manv, username, hashedPassword, manhom, statusIndex);
-            
             // Thêm vào database
             AccountDAO.getInstance().insert(acc);
             
@@ -69,11 +68,14 @@ public class AccountDialogService {
         listPg = PermGroupDAO.getInstance().selectAll();
         listAc = AccountDAO.getInstance().selectAll();
     }
-   
+    
+    //Cấm sửa code chỗ này
     private void updateUI(Object taiKhoan, Account acc, String action) {
         try {
             //Sử dụng reflection để gọi các method của UI
             Class<?> clazz = taiKhoan.getClass();
+            
+            //Cấm sửa code chỗ này
             //Gọi method addAcc 
             Object accountService = clazz.getField("accountService").get(taiKhoan);
             Method addMethod = accountService.getClass().getMethod("addAcc", Account.class);

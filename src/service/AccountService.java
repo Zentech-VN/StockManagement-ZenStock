@@ -65,6 +65,8 @@ public class AccountService {
     }
     
     public ArrayList<Account> getTaiKhoanAll(){
+        //luôn lấy dữ liệu mới từ DB
+        lista = AccountDAO.getInstance().selectAll();
         return lista;
     }
 }

@@ -201,6 +201,30 @@ public class AccountForm extends javax.swing.JPanel {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        int index = getRowSelected();
+        if (index != -1) {
+            int input = JOptionPane.showConfirmDialog(null,
+                "Bạn có chắc chắn muốn xóa tài khoản!", "Xóa tài khoản",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (input == 0) {
+            //xóa trong database
+            int result = AccountDAO.getInstance().delete(lista.get(index).getManv() + "");
+            
+            if (result > 0) {
+                //Cập nhật lại danh sách lista từ database
+                lista = asv.getTaiKhoanAll();
+                
+                //reload table
+                asv.LoadTable(lista, tblList);
+                
+                JOptionPane.showMessageDialog(this, "Xóa tài khoản thành công!", 
+                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Xóa tài khoản thất bại!", 
+                    "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
