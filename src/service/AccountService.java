@@ -69,4 +69,72 @@ public class AccountService {
         lista = AccountDAO.getInstance().selectAll();
         return lista;
     }
+    
+    public void LoadTableWithSearch(String searchText, JTable jTable1) {
+        lista = acc.selectAll();
+        String[] title = {"MaNV", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"};
+        DefaultTableModel model = new DefaultTableModel(title, 0);
+    
+        // Nếu không có từ khóa tìm kiếm, hiển thị tất cả
+        if (searchText == null || searchText.trim().isEmpty()) {
+            for (Account account : lista) {
+                addRowToModel(model, account);
+            }
+        } else {
+            //lọc danh sách theo từ khóa tìm kiếm
+            String searchLower = searchText.trim().toLowerCase();
+
+            for (Account account : lista) {
+                boolean match = false;
+                if (String.valueOf(account.getManv()).contains(searchLower)) {
+                    match = true;
+                }
+                if (account.getUsername() != null && 
+                    account.getUsername().toLowerCase().contains(searchLower)) {
+                    match = true;
+                }
+                try {
+                    PermGroup permGroup = getPermGroup(account.getManhomquyen());
+                    if (permGroup != null && permGroup.getTennhomquyen() != null &&
+                        permGroup.getTennhomquyen().toLowerCase().contains(searchLower)) {
+                        match = true;
+                    }
+                } catch (Exception e) {
+                    
+                }
+                String trangthaiString = getTrangThaiString(account.getTrangthai());
+                if (trangthaiString.toLowerCase().contains(searchLower)) {
+                    match = true;
+                }
+                if (match) {
+                    addRowToModel(model, account);
+                }
+            }
+        }
+    
+        jTable1.setModel(model);
+    }
+
+    private void addRowToModel(DefaultTableModel model, Account account) {
+        String trangthaiString = getTrangThaiString(account.getTrangthai());
+
+        model.addRow(new Object[]{
+            account.getManv(), 
+            account.getUsername(), 
+            getPermGroup(account.getManhomquyen()).getTennhomquyen(), 
+            trangthaiString
+        });
+    }
+
+
+    private String getTrangThaiString(int tt) {
+        switch (tt) {
+            case 1:
+                return "Hoạt động";
+            case 0:
+                return "Ngưng hoạt động";
+            default:
+                return "Không xác định";
+        }
+    }
 }
