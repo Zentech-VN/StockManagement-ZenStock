@@ -35,6 +35,21 @@ public class AccountDAO {
         return result;
     }
     
+    public int delete(String t) {
+         int result = 0 ;
+        try {
+            Connection con = (Connection) ConnectionHelper.getConnection();
+            String sql = "DELETE FROM `taikhoan` WHERE manv = ?";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            pst.setInt(1, Integer.parseInt(t));
+            result = pst.executeUpdate();
+            ConnectionHelper.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+    
     public ArrayList<Account> selectAll() {
         ArrayList<Account> result = new ArrayList<Account>();
         try {
@@ -84,11 +99,11 @@ public class AccountDAO {
           int result = 0 ;
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
-            String sql = "UPDATE `taikhoan` SET `tendangnhap`=?,`trangthai`=?,`manhomquyen`=? WHERE manv=?";
+            String sql = "UPDATE `taikhoan` SET `tendangnhap`=?, `manhomquyen`=?, `trangthai`=? WHERE manv=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t.getUsername());
-            pst.setInt(2, t.getTrangthai());
-            pst.setInt(3, t.getManhomquyen());
+            pst.setInt(2, t.getManhomquyen());
+            pst.setInt(3, t.getTrangthai());
             pst.setInt(4, t.getManv());
             result = pst.executeUpdate();
             ConnectionHelper.closeConnection(con);
@@ -147,7 +162,7 @@ public class AccountDAO {
             }
             ConnectionHelper.closeConnection(con);
         } catch (Exception e) {
-            // TODO: handle exception           
+                 
         }
         return tk;
     }
@@ -186,7 +201,7 @@ public class AccountDAO {
                 int trangthai = rs.getInt("trangthai");
                 int manhomquyen = rs.getInt("manhomquyen");
                 Account ac = new Account(manv, tendangnhap, matkhau, manhomquyen, trangthai);
-                return result;
+                result = ac;
             }
             ConnectionHelper.closeConnection(con);
         } catch (Exception e) {

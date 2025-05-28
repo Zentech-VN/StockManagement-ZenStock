@@ -4,10 +4,15 @@
  */
 package zentech.application.form.other;
 
+import dao.AccountDAO;
 import java.util.ArrayList;
 import java.util.List;
 import entity.Account;
+import javax.swing.JOptionPane;
 import service.AccountService;
+import zentech.application.dialog.AccountDialog;
+import zentech.application.dialog.EditAccountDialog;
+import zentech.application.dialog.StaffListDialog;
 
 /**
  *
@@ -18,15 +23,26 @@ public class AccountForm extends javax.swing.JPanel {
     /**
      * Creates new form AccountForm
      */
+    private AccountService asv = new AccountService();
+    private ArrayList<Account> lista = asv.getTaiKhoanAll();
     
-    static List<Account> lista = new ArrayList<>();
-    static AccountService asv = new AccountService();
-    
-    public AccountForm() {
+    public AccountForm(){
         initComponents();
         asv.LoadTable(lista, tblList);
     }
-
+    
+    public AccountForm(Account currentUser) {
+        initComponents();
+        asv.LoadTable(lista, tblList);
+    }
+    
+    public int getRowSelected() {
+        int index = tblList.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản");
+        }
+        return index;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,10 +57,10 @@ public class AccountForm extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        txtSearch = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
 
         tblList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -80,23 +96,21 @@ public class AccountForm extends javax.swing.JPanel {
             }
         });
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtSearchActionPerformed(evt);
             }
         });
-        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField1KeyReleased(evt);
+                txtSearchKeyReleased(evt);
             }
         });
 
         jButton4.setText("Làm mới");
-
-        jButton5.setText("Nhập Excel");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                jButton4ActionPerformed(evt);
             }
         });
 
@@ -104,6 +118,13 @@ public class AccountForm extends javax.swing.JPanel {
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setText("Nhập Excel");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
             }
         });
 
@@ -120,11 +141,11 @@ public class AccountForm extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5)
+                .addComponent(jButton8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(94, 94, 94)
+                .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4)
                 .addContainerGap())
@@ -137,10 +158,10 @@ public class AccountForm extends javax.swing.JPanel {
                     .addComponent(jButton1)
                     .addComponent(jButton2)
                     .addComponent(jButton3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6))
+                    .addComponent(jButton6)
+                    .addComponent(jButton8))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
         );
@@ -148,32 +169,82 @@ public class AccountForm extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        StaffListDialog sl = new StaffListDialog();
+        sl.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        int index = getRowSelected();
+    
+        //Kiểm tra index hợp lệ và danh sách không rỗng
+        if (index != -1 && lista != null && index < lista.size()) { 
+            Account selectedAccount = lista.get(index); 
+            EditAccountDialog ead = new EditAccountDialog(this, selectedAccount.getManv(), selectedAccount);
+            ead.setVisible(true);
+        } else {
+            if (lista == null || lista.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Danh sách tài khoản đang trống. Vui lòng tải lại dữ liệu!", 
+                    "Thông báo", JOptionPane.WARNING_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn một tài khoản để chỉnh sửa!", 
+                    "Thông báo", JOptionPane.WARNING_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        int index = getRowSelected();
+        if (index != -1) {
+            int input = JOptionPane.showConfirmDialog(null,
+                "Bạn có chắc chắn muốn xóa tài khoản!", "Xóa tài khoản",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (input == 0) {
+            //xóa trong database
+            int result = AccountDAO.getInstance().delete(lista.get(index).getManv() + "");
+            
+            if (result > 0) {
+                //Cập nhật lại danh sách lista từ database
+                lista = asv.getTaiKhoanAll();
+                
+                //reload table
+                asv.LoadTable(lista, tblList);
+                
+                JOptionPane.showMessageDialog(this, "Xóa tài khoản thành công!", 
+                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Xóa tài khoản thất bại!", 
+                    "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
     }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtSearchActionPerformed
 
-    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         // TODO add your handling code here:
+        String txt = txtSearch.getText();
+        asv.LoadTableWithSearch(txt, tblList);
         
-    }//GEN-LAST:event_jTextField1KeyReleased
+    }//GEN-LAST:event_txtSearchKeyReleased
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        lista = asv.getTaiKhoanAll();
+        asv.LoadTable(lista, tblList);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -181,10 +252,10 @@ public class AccountForm extends javax.swing.JPanel {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton8;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tblList;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
