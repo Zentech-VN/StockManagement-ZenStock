@@ -43,7 +43,7 @@ public class StaffListDialogService {
         }
         return result;
         } else {
-            return StaffDAO.getInstance().selectAll();
+            return StaffDAO.getInstance().selectAllNV();
         }
         
     }
