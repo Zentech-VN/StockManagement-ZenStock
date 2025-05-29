@@ -26,17 +26,9 @@ public class Menu extends JPanel {
     private final String menuItems[][] = {
         {"~MAIN~"},
         {"Trang chủ"},
-        {"~WEB APP~"},
-        {"Email", "Inbox", "Read", "Compost"},
+        {"~Quản Lý~"},
         {"Tài Khoản"},
-        {"Calendar"},
-        {"~COMPONENT~"},
-        {"Advanced UI", "Cropper", "Owl Carousel", "Sweet Alert"},
-        {"Forms", "Basic Elements", "Advanced Elements", "Editors", "Wizard"},
-        {"~OTHER~"},
-        {"Charts", "Apex", "Flot", "Peity", "Sparkline"},
-        {"Icons", "Feather Icons", "Flag Icons", "Mdi Icons"},
-        {"Special Pages", "Blank page", "Faq", "Invoice", "Profile", "Pricing", "Timeline"},
+        {"Nhân Viên"},
         {"Logout"}
     };
 

@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.2.15 Chrome/134.0.6998.205 Electron/35.2.1 Safari/537.36" version="26.2.15">
   <diagram name="Page-1" id="6ZywhKCyS5P9uW4rPHiX">
-    <mxGraphModel dx="1642" dy="1567" grid="1" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2528" dy="2089" grid="1" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -500,7 +500,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="jKetLLYl1tlQH_10owoD-161" value="" style="shape=table;startSize=0;container=1;collapsible=0;childLayout=tableLayout;" parent="1" vertex="1">
-          <mxGeometry x="160" y="480" width="440" height="280" as="geometry" />
+          <mxGeometry x="160" y="480" width="440" height="320" as="geometry" />
         </mxCell>
         <mxCell id="jKetLLYl1tlQH_10owoD-162" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="jKetLLYl1tlQH_10owoD-161" vertex="1">
           <mxGeometry width="440" height="40" as="geometry" />
@@ -595,30 +595,30 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="jKetLLYl1tlQH_10owoD-182" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="jKetLLYl1tlQH_10owoD-161" vertex="1">
-          <mxGeometry y="160" width="440" height="40" as="geometry" />
+          <mxGeometry y="160" width="440" height="80" as="geometry" />
         </mxCell>
         <mxCell id="jKetLLYl1tlQH_10owoD-183" value="PK" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" parent="jKetLLYl1tlQH_10owoD-182" vertex="1">
-          <mxGeometry width="40" height="40" as="geometry">
-            <mxRectangle width="40" height="40" as="alternateBounds" />
+          <mxGeometry width="40" height="80" as="geometry">
+            <mxRectangle width="40" height="80" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
         <mxCell id="jKetLLYl1tlQH_10owoD-184" value="tendangnhap" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" parent="jKetLLYl1tlQH_10owoD-182" vertex="1">
-          <mxGeometry x="40" width="160" height="40" as="geometry">
-            <mxRectangle width="160" height="40" as="alternateBounds" />
+          <mxGeometry x="40" width="160" height="80" as="geometry">
+            <mxRectangle width="160" height="80" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
         <mxCell id="jKetLLYl1tlQH_10owoD-185" value="DATE" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" parent="jKetLLYl1tlQH_10owoD-182" vertex="1">
-          <mxGeometry x="200" width="120" height="40" as="geometry">
-            <mxRectangle width="120" height="40" as="alternateBounds" />
+          <mxGeometry x="200" width="120" height="80" as="geometry">
+            <mxRectangle width="120" height="80" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
         <mxCell id="jKetLLYl1tlQH_10owoD-186" value="NOT NULL" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" parent="jKetLLYl1tlQH_10owoD-182" vertex="1">
-          <mxGeometry x="320" width="120" height="40" as="geometry">
-            <mxRectangle width="120" height="40" as="alternateBounds" />
+          <mxGeometry x="320" width="120" height="80" as="geometry">
+            <mxRectangle width="120" height="80" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
         <mxCell id="jKetLLYl1tlQH_10owoD-187" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="jKetLLYl1tlQH_10owoD-161" vertex="1">
-          <mxGeometry y="200" width="440" height="40" as="geometry" />
+          <mxGeometry y="240" width="440" height="40" as="geometry" />
         </mxCell>
         <mxCell id="jKetLLYl1tlQH_10owoD-188" value="" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" parent="jKetLLYl1tlQH_10owoD-187" vertex="1">
           <mxGeometry width="40" height="40" as="geometry">
@@ -641,7 +641,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="jKetLLYl1tlQH_10owoD-192" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="jKetLLYl1tlQH_10owoD-161" vertex="1">
-          <mxGeometry y="240" width="440" height="40" as="geometry" />
+          <mxGeometry y="280" width="440" height="40" as="geometry" />
         </mxCell>
         <mxCell id="jKetLLYl1tlQH_10owoD-193" value="" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" parent="jKetLLYl1tlQH_10owoD-192" vertex="1">
           <mxGeometry width="40" height="40" as="geometry">
