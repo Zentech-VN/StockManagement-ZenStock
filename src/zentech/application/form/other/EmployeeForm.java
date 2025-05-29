@@ -3,32 +3,35 @@ package zentech.application.form.other;
 import entity.Employee;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import raven.toast.Notifications;
 import service.EmployeeService;
 import zentech.application.dialog.EmployeeAddDialog;
+import zentech.application.dialog.EmployeeUpdateDialog;
 
 public class EmployeeForm extends javax.swing.JPanel {
 
     private EmployeeService employeeService;
     private List<Employee> employeeList = new ArrayList<>();
-    
+
     public EmployeeForm() {
         initComponents();
         CustomFont();
         loadEmployeeData();
     }
-    
+
     private void CustomFont() {
         tblNhanVien.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
         tblNhanVien.setRowHeight(30);
         tblNhanVien.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
     }
-    
+
     public void loadEmployeeData() {
         this.employeeService = new EmployeeService();
         DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
         model.setRowCount(0);
-        
+
         for (Employee x : employeeService.getAllEmployeeService()) {
             model.addRow(new Object[]{
                 x.getManv(),
@@ -297,9 +300,9 @@ public class EmployeeForm extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2)
                         .addGap(413, 413, 413)
                         .addComponent(jButton7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -331,8 +334,8 @@ public class EmployeeForm extends javax.swing.JPanel {
                         .addComponent(jButton7))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton1)
-                        .addComponent(jButton2)
-                        .addComponent(jButton3)))
+                        .addComponent(jButton3)
+                        .addComponent(jButton2)))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -343,11 +346,47 @@ public class EmployeeForm extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
+        int index = tblNhanVien.getSelectedRow();
+
+        if (index == -1) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Hãy chọn nhân viên muốn xoá");
+            return;
+        }
+
+        String ma = model.getValueAt(index, 0).toString();
+            int maInt = Integer.parseInt(ma);
+        
+        int ret = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xoá nhân viên có mã: " + maInt, "Xoá", JOptionPane.YES_NO_OPTION);
+        if (ret == JOptionPane.YES_OPTION) {
+            
+            this.employeeService = new EmployeeService();
+
+            if(employeeService.deleteEmployeeById(maInt)) {
+                loadEmployeeData();
+            }
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
+        int index = tblNhanVien.getSelectedRow();
+
+        if (index == -1) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Hãy chọn nhân viên muốn chỉnh sửa");
+            return;
+        }
+
+        String ma = model.getValueAt(index, 0).toString();
+        String hoTen = model.getValueAt(index, 1).toString();
+        String gioiTinh = model.getValueAt(index, 2).toString();
+        String ngaySinh = model.getValueAt(index, 3).toString();
+        String dienThoai = model.getValueAt(index, 4).toString();
+        String email = model.getValueAt(index, 5).toString();
+        String trangThai = model.getValueAt(index, 6).toString();
+
+        EmployeeUpdateDialog employeeUpdateDialog = new EmployeeUpdateDialog(this, ma, hoTen, gioiTinh, ngaySinh, dienThoai, email, trangThai);
+        employeeUpdateDialog.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed

@@ -59,18 +59,18 @@ public interface EmployeeDAO {
         }
     }
 
-    default boolean updateEmployee(Employee e) {
+    default boolean updateEmployee(int ma, String hoTen, int gioiTinh, Date ngaySinh, int dienThoai, String email, int trangThai) {
         String sql = "{CALL sp_nhanvien_update(?, ?, ?, ?, ?, ?, ?)}";
 
         try (
                 Connection conn = ConnectionHelper.getConnection(); CallableStatement cs = conn.prepareCall(sql)) {
-            cs.setInt(1, e.getManv());
-            cs.setString(2, e.getHoten());
-            cs.setInt(3, e.getGioitinh());
-            cs.setDate(4, e.getNgaysinh());
-            cs.setInt(5, e.getSdt());
-            cs.setString(6, e.getEmail());
-            cs.setInt(7, e.getTrangthai());
+            cs.setInt(1, ma);
+            cs.setString(2, hoTen);
+            cs.setInt(3, gioiTinh);
+            cs.setDate(4, ngaySinh);
+            cs.setInt(5, dienThoai);
+            cs.setString(6, email);
+            cs.setInt(7, trangThai);
 
             return cs.executeUpdate() > 0;
         } catch (SQLException ex) {

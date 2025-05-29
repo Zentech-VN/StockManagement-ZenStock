@@ -86,7 +86,7 @@ public class Employee {
     }
 
     public String getTrangThaiText() {
-        return trangthai == 1 ? "Hoạt động" : "Ngừng hoạt động";
+        return trangthai == 1 ? "Đang làm" : "Đã nghỉ";
     }
 
 }
