@@ -3,6 +3,7 @@ package entity;
 import java.sql.Date;
 
 public class Employee {
+
     private int manv;
     private String hoten;
     private int gioitinh;
@@ -80,5 +81,12 @@ public class Employee {
         this.trangthai = trangthai;
     }
 
-    
+    public String getGioiTinhText() {
+        return gioitinh == 1 ? "Nam" : "Nữ";
+    }
+
+    public String getTrangThaiText() {
+        return trangthai == 1 ? "Hoạt động" : "Ngừng hoạt động";
+    }
+
 }
