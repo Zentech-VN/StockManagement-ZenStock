@@ -3,6 +3,7 @@ package dao;
 import entity.Employee;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,17 +39,17 @@ public interface EmployeeDAO {
         return list;
     }
 
-    default boolean addEmployee(Employee e) {
+    default boolean addEmployee(String hoTen, int gioiTinh, Date ngaySinh, int dienThoai, String email) {
         String sql = "{CALL sp_nhanvien_add(?, ?, ?, ?, ?, ?)}";
 
         try (
                 Connection conn = ConnectionHelper.getConnection(); CallableStatement cs = conn.prepareCall(sql)) {
-            cs.setString(1, e.getHoten());
-            cs.setInt(2, e.getGioitinh());
-            cs.setDate(3, e.getNgaysinh());
-            cs.setInt(4, e.getSdt());
-            cs.setString(5, e.getEmail());
-            cs.setInt(6, e.getTrangthai());
+            cs.setString(1, hoTen);
+            cs.setInt(2, gioiTinh);
+            cs.setDate(3, ngaySinh);
+            cs.setInt(4, dienThoai);
+            cs.setString(5, email);
+            cs.setInt(6, 1);
 
             return cs.executeUpdate() > 0;
         } catch (SQLException ex) {

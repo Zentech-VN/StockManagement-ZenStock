@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import service.EmployeeService;
+import zentech.application.dialog.EmployeeAddDialog;
 
 public class EmployeeForm extends javax.swing.JPanel {
 
@@ -23,7 +24,7 @@ public class EmployeeForm extends javax.swing.JPanel {
         tblNhanVien.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
     }
     
-    private void loadEmployeeData() {
+    public void loadEmployeeData() {
         this.employeeService = new EmployeeService();
         DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
         model.setRowCount(0);
@@ -266,6 +267,11 @@ public class EmployeeForm extends javax.swing.JPanel {
         jButton4.setText("Tạo tài khoản");
 
         jButton5.setText("Làm mới");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Sắp xếp");
 
@@ -332,7 +338,8 @@ public class EmployeeForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        EmployeeAddDialog employeeAddDialog = new EmployeeAddDialog(this);
+        employeeAddDialog.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -342,6 +349,10 @@ public class EmployeeForm extends javax.swing.JPanel {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        loadEmployeeData();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
