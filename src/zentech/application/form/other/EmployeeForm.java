@@ -34,7 +34,6 @@ public class EmployeeForm extends javax.swing.JPanel {
 
     public EmployeeForm() {
         initComponents();
-//        customFont();
         loadEmployeeData();
         initalUI();
         initSearchListener();
@@ -54,6 +53,9 @@ public class EmployeeForm extends javax.swing.JPanel {
         txtNgaySinh.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Ngày sinh");
         txtDienThoai.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Điện Thoại");
         txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Email");
+        
+        txtTenDangNhap.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tên đăng nhập");
+        txtQuyenHan.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Quyền hạn");
 
         jComboBox1.addActionListener(evt -> applySort());
     }
@@ -64,12 +66,6 @@ public class EmployeeForm extends javax.swing.JPanel {
         c.setMinimumSize(size);
         c.setMaximumSize(size);
     }
-
-//    private void customFont() {
-//        tblNhanVien.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
-//        tblNhanVien.setRowHeight(30);
-//        tblNhanVien.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
-//    }
 
     public void loadEmployeeData() {
         this.employeeService = new EmployeeService();
