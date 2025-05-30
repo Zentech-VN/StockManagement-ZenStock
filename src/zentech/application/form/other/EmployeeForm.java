@@ -37,14 +37,13 @@ public class EmployeeForm extends javax.swing.JPanel {
         loadEmployeeData();
         initalUI();
         initSearchListener();
-        initExtraCombos();
-        applyTableFont();
-        initComboBoxListeners();
     }
 
     private void initalUI() {
+        tblNhanVien.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
         tblNhanVien.setRowHeight(30);
-        
+        tblNhanVien.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
+
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tìm kiếm");
 
         txtMa.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Mã");
@@ -53,11 +52,11 @@ public class EmployeeForm extends javax.swing.JPanel {
         txtNgaySinh.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Ngày sinh");
         txtDienThoai.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Điện Thoại");
         txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Email");
-        
+
         txtTenDangNhap.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tên đăng nhập");
         txtQuyenHan.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Quyền hạn");
 
-        jComboBox1.addActionListener(evt -> applySort());
+        cbbSapXep.addActionListener(evt -> applySort());
     }
 
     private void lockWidth(JComponent c) {
@@ -107,7 +106,7 @@ public class EmployeeForm extends javax.swing.JPanel {
     }
 
     private void applySort() {
-        int choice = jComboBox1.getSelectedIndex();
+        int choice = cbbSapXep.getSelectedIndex();
         List<RowSorter.SortKey> keys = new ArrayList<>();
 
         switch (choice) {
@@ -163,45 +162,6 @@ public class EmployeeForm extends javax.swing.JPanel {
         });
     }
 
-    private void initExtraCombos() {
-        // jComboBox2 – Font Size
-        jComboBox2.setModel(new DefaultComboBoxModel<>(new String[]{
-            "Nhỏ", "Mặc định", "Lớn"
-        }));
-        jComboBox2.setSelectedIndex(1); // Mặc định
-
-        // jComboBox3 – Font Family
-        jComboBox3.setModel(new DefaultComboBoxModel<>(FONT_MAP));
-        jComboBox3.setSelectedIndex(0); // Segoe UI
-    }
-
-    private void applyTableFont() {
-        // Lấy size & font người dùng chọn
-        int sizeIndex = jComboBox2.getSelectedIndex();
-        int fontIndex = jComboBox3.getSelectedIndex();
-
-        int fontSize = SIZE_MAP[sizeIndex];
-        String fontFam = FONT_MAP[fontIndex];
-
-        Font tableFont = new Font(fontFam, Font.PLAIN, fontSize);
-
-        // Đổi font cho bảng dữ liệu
-        tblNhanVien.setFont(tableFont);
-        tblNhanVien.setRowHeight(fontSize + 6); // tăng/giảm chiều cao hàng cho cân đối
-
-        // Header: làm đậm hơn một chút cho dễ nhìn
-        JTableHeader header = tblNhanVien.getTableHeader();
-        header.setFont(tableFont.deriveFont(Font.BOLD));
-    }
-
-    private void initComboBoxListeners() {
-        // Người dùng chọn size
-        jComboBox2.addActionListener(evt -> applyTableFont());
-
-        // Người dùng chọn font
-        jComboBox3.addActionListener(evt -> applyTableFont());
-    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -234,12 +194,8 @@ public class EmployeeForm extends javax.swing.JPanel {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cbbSapXep = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jLabel11 = new javax.swing.JLabel();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách Nhân Viên", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
 
@@ -288,7 +244,7 @@ public class EmployeeForm extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 937, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 943, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -301,20 +257,32 @@ public class EmployeeForm extends javax.swing.JPanel {
 
         panThongTin.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
 
+        txtMa.setEditable(false);
+
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setText("Mã");
+
+        txtHoTen.setEditable(false);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Họ tên");
 
+        txtGioiTinh.setEditable(false);
+
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Giới tính");
+
+        txtNgaySinh.setEditable(false);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Ngày sinh");
 
+        txtDienThoai.setEditable(false);
+
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Số điện thoại");
+
+        txtEmail.setEditable(false);
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("Email");
@@ -377,6 +345,10 @@ public class EmployeeForm extends javax.swing.JPanel {
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setText("Tên đăng nhập");
+
+        txtTenDangNhap.setEditable(false);
+
+        txtQuyenHan.setEditable(false);
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setText("Quyền hạn");
@@ -448,17 +420,9 @@ public class EmployeeForm extends javax.swing.JPanel {
 
         jButton7.setText("Xuất File");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mặc định", "Họ tên", "Ngày sinh", "Trạng thái" }));
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbbSapXep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mặc định", "Họ tên", "Ngày sinh", "Trạng thái" }));
 
         jLabel9.setText("Sắp xếp theo:");
-
-        jLabel10.setText("Font size:");
-
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel11.setText("Font:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -469,14 +433,7 @@ public class EmployeeForm extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 269, Short.MAX_VALUE)
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -486,10 +443,10 @@ public class EmployeeForm extends javax.swing.JPanel {
                                 .addComponent(jButton3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 338, Short.MAX_VALUE)
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cbbSapXep, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -507,13 +464,7 @@ public class EmployeeForm extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(7, 7, 7)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel11)))
+                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -527,7 +478,7 @@ public class EmployeeForm extends javax.swing.JPanel {
                         .addComponent(jButton4)
                         .addComponent(jButton5)
                         .addComponent(jButton7)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbbSapXep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel9))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton1)
@@ -634,18 +585,14 @@ public class EmployeeForm extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbbSapXep;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
