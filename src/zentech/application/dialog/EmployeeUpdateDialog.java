@@ -1,5 +1,6 @@
 package zentech.application.dialog;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import raven.datetime.DatePicker;
 import raven.toast.Notifications;
 import service.EmployeeService;
@@ -32,6 +33,13 @@ public class EmployeeUpdateDialog extends javax.swing.JFrame {
         datePicker.setDateFormat("yyyy-MM-dd");
         datePicker.setDateSelectionAble(localDate -> !localDate.isAfter(localDate.now()));
         datePicker.setEditor(txtNgaySinh);
+    }
+    
+    private void initalUI() {
+        txtMa.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Họ tên");
+        txtHoTen.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Họ tên");
+        txtDienThoai.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Điện Thoại");
+        txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Email");
     }
     
     @SuppressWarnings("unchecked")
@@ -158,6 +166,11 @@ public class EmployeeUpdateDialog extends javax.swing.JFrame {
         });
 
         jButton2.setText("Huỷ");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -214,6 +227,10 @@ public class EmployeeUpdateDialog extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbbGioiTinh;
