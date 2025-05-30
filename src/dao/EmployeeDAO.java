@@ -121,11 +121,11 @@ public interface EmployeeDAO {
 
     default List<Employee> searchEmployeesProc(String keyword) {
         List<Employee> list = new ArrayList<>();
-        String sql = "{ CALL sp_search_employees(?) }";
+        String sql = "{CALL sp_search_employees(?)}";
 
         try (Connection cn = ConnectionHelper.getConnection(); CallableStatement cs = cn.prepareCall(sql)) {
 
-            cs.setString(1, keyword);                 // gán 1 tham số duy nhất
+            cs.setString(1, keyword);
             try (ResultSet rs = cs.executeQuery()) {
                 while (rs.next()) {
                     Employee e = new Employee();
@@ -140,7 +140,7 @@ public interface EmployeeDAO {
                 }
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();   // hoặc Notifications như bạn vẫn dùng
+            ex.printStackTrace();
         }
         return list;
     }

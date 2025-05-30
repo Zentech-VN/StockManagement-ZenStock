@@ -4,8 +4,10 @@ import com.formdev.flatlaf.FlatClientProperties;
 import entity.Employee;
 import entity.EmployeeAccout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.RowSorter;
@@ -13,6 +15,7 @@ import javax.swing.SortOrder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableRowSorter;
 import raven.toast.Notifications;
 import service.EmployeeService;
@@ -26,15 +29,23 @@ public class EmployeeForm extends javax.swing.JPanel {
     private List<Employee> employeeList = new ArrayList<>();
     private TableRowSorter<DefaultTableModel> sorter;
 
+    private final int[] SIZE_MAP = {12, 14, 18};
+    private final String[] FONT_MAP = {"Segoe UI", "Arial", "Serif"};
+
     public EmployeeForm() {
         initComponents();
-        customFont();
+//        customFont();
         loadEmployeeData();
         initalUI();
         initSearchListener();
+        initExtraCombos();
+        applyTableFont();
+        initComboBoxListeners();
     }
 
     private void initalUI() {
+        tblNhanVien.setRowHeight(30);
+        
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tìm kiếm");
 
         txtMa.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Mã");
@@ -54,11 +65,11 @@ public class EmployeeForm extends javax.swing.JPanel {
         c.setMaximumSize(size);
     }
 
-    private void customFont() {
-        tblNhanVien.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
-        tblNhanVien.setRowHeight(30);
-        tblNhanVien.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
-    }
+//    private void customFont() {
+//        tblNhanVien.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
+//        tblNhanVien.setRowHeight(30);
+//        tblNhanVien.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
+//    }
 
     public void loadEmployeeData() {
         this.employeeService = new EmployeeService();
@@ -156,6 +167,45 @@ public class EmployeeForm extends javax.swing.JPanel {
         });
     }
 
+    private void initExtraCombos() {
+        // jComboBox2 – Font Size
+        jComboBox2.setModel(new DefaultComboBoxModel<>(new String[]{
+            "Nhỏ", "Mặc định", "Lớn"
+        }));
+        jComboBox2.setSelectedIndex(1); // Mặc định
+
+        // jComboBox3 – Font Family
+        jComboBox3.setModel(new DefaultComboBoxModel<>(FONT_MAP));
+        jComboBox3.setSelectedIndex(0); // Segoe UI
+    }
+
+    private void applyTableFont() {
+        // Lấy size & font người dùng chọn
+        int sizeIndex = jComboBox2.getSelectedIndex();
+        int fontIndex = jComboBox3.getSelectedIndex();
+
+        int fontSize = SIZE_MAP[sizeIndex];
+        String fontFam = FONT_MAP[fontIndex];
+
+        Font tableFont = new Font(fontFam, Font.PLAIN, fontSize);
+
+        // Đổi font cho bảng dữ liệu
+        tblNhanVien.setFont(tableFont);
+        tblNhanVien.setRowHeight(fontSize + 6); // tăng/giảm chiều cao hàng cho cân đối
+
+        // Header: làm đậm hơn một chút cho dễ nhìn
+        JTableHeader header = tblNhanVien.getTableHeader();
+        header.setFont(tableFont.deriveFont(Font.BOLD));
+    }
+
+    private void initComboBoxListeners() {
+        // Người dùng chọn size
+        jComboBox2.addActionListener(evt -> applyTableFont());
+
+        // Người dùng chọn font
+        jComboBox3.addActionListener(evt -> applyTableFont());
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -223,17 +273,17 @@ public class EmployeeForm extends javax.swing.JPanel {
             tblNhanVien.getColumnModel().getColumn(0).setResizable(false);
             tblNhanVien.getColumnModel().getColumn(0).setPreferredWidth(20);
             tblNhanVien.getColumnModel().getColumn(1).setResizable(false);
-            tblNhanVien.getColumnModel().getColumn(1).setPreferredWidth(150);
+            tblNhanVien.getColumnModel().getColumn(1).setPreferredWidth(100);
             tblNhanVien.getColumnModel().getColumn(2).setResizable(false);
             tblNhanVien.getColumnModel().getColumn(2).setPreferredWidth(50);
             tblNhanVien.getColumnModel().getColumn(3).setResizable(false);
-            tblNhanVien.getColumnModel().getColumn(3).setPreferredWidth(100);
+            tblNhanVien.getColumnModel().getColumn(3).setPreferredWidth(70);
             tblNhanVien.getColumnModel().getColumn(4).setResizable(false);
             tblNhanVien.getColumnModel().getColumn(4).setPreferredWidth(80);
             tblNhanVien.getColumnModel().getColumn(5).setResizable(false);
-            tblNhanVien.getColumnModel().getColumn(5).setPreferredWidth(150);
+            tblNhanVien.getColumnModel().getColumn(5).setPreferredWidth(170);
             tblNhanVien.getColumnModel().getColumn(6).setResizable(false);
-            tblNhanVien.getColumnModel().getColumn(6).setPreferredWidth(80);
+            tblNhanVien.getColumnModel().getColumn(6).setPreferredWidth(70);
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
