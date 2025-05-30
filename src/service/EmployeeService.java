@@ -2,6 +2,7 @@ package service;
 
 import dao.EmployeeDAO;
 import entity.Employee;
+import entity.EmployeeAccout;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,6 +18,14 @@ public class EmployeeService implements EmployeeDAO {
 
     public List<Employee> getAllEmployeeService() {
         return employeeList = getAllEmployee();
+    }
+
+    public EmployeeAccout fetchAccountInfo(int manv) {
+        return EmployeeDAO.super.getAccountInfoByEmployeeId(manv);
+    }
+
+    public List<Employee> searchEmployees(String keyword) {
+        return searchEmployeesProc(keyword);
     }
 
     public boolean addCheck(String hoTen, int gioiTinh, String ngaySinh, String dienThoai, String email) {
@@ -70,10 +79,10 @@ public class EmployeeService implements EmployeeDAO {
         if (addEmployee(hoTen, gioiTinh, ngaySinhDate, dienThoaiInt, email)) {
             return true;
         }
-        
+
         return false;
     }
-    
+
     public boolean updateCheck(int ma, String hoTen, int gioiTinh, String ngaySinh, String dienThoai, String email, int trangThai) {
         if (hoTen.length() <= 0 || hoTen.isEmpty()) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Tên không được trống");
@@ -125,12 +134,12 @@ public class EmployeeService implements EmployeeDAO {
         if (updateEmployee(ma, hoTen, gioiTinh, ngaySinhDate, dienThoaiInt, email, trangThai)) {
             return true;
         }
-        
+
         return false;
     }
 
     public boolean deleteEmployeeById(int ma) {
-        if(deleteEmployee(ma)) {
+        if (deleteEmployee(ma)) {
             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Xoá thành công");
             return true;
         } else {
@@ -138,5 +147,5 @@ public class EmployeeService implements EmployeeDAO {
             return false;
         }
     }
-    
+
 }

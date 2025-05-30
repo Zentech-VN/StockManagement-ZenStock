@@ -1,6 +1,7 @@
 package dao;
 
 import entity.Employee;
+import entity.EmployeeAccout;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
@@ -39,6 +40,29 @@ public interface EmployeeDAO {
         return list;
     }
 
+    default EmployeeAccout getAccountInfoByEmployeeId(int manv) {
+        String sql = "SELECT tendangnhap, manhomquyen FROM vw_nhanvien_taikhoan WHERE manv =  ? ";
+
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, manv);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String username = rs.getString("tendangnhap");
+                    Integer roleId = (Integer) rs.getObject("manhomquyen");
+                    boolean hasAcc = username != null;
+
+                    return new EmployeeAccout(username, roleId, hasAcc);
+                }
+            }
+        } catch (SQLException ex) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi khi lấy dữ liệu tài khoản");
+            ex.printStackTrace();
+        }
+        return new EmployeeAccout(null, null, false);
+    }
+
     default boolean addEmployee(String hoTen, int gioiTinh, Date ngaySinh, int dienThoai, String email) {
         String sql = "{CALL sp_nhanvien_add(?, ?, ?, ?, ?, ?)}";
 
@@ -53,7 +77,7 @@ public interface EmployeeDAO {
 
             return cs.executeUpdate() > 0;
         } catch (SQLException ex) {
-            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Error while adding employee.");
+            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi khi thêm nhân viên");
             ex.printStackTrace();
             return false;
         }
@@ -74,7 +98,7 @@ public interface EmployeeDAO {
 
             return cs.executeUpdate() > 0;
         } catch (SQLException ex) {
-            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Error while updating employee.");
+            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi khi sửa nhân viên");
             ex.printStackTrace();
             return false;
         }
@@ -89,9 +113,36 @@ public interface EmployeeDAO {
 
             return cs.executeUpdate() > 0;
         } catch (SQLException ex) {
-            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Error while deleting employee.");
+            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi khi xoá nhân viên");
             ex.printStackTrace();
             return false;
         }
     }
+
+    default List<Employee> searchEmployeesProc(String keyword) {
+        List<Employee> list = new ArrayList<>();
+        String sql = "{ CALL sp_search_employees(?) }";
+
+        try (Connection cn = ConnectionHelper.getConnection(); CallableStatement cs = cn.prepareCall(sql)) {
+
+            cs.setString(1, keyword);                 // gán 1 tham số duy nhất
+            try (ResultSet rs = cs.executeQuery()) {
+                while (rs.next()) {
+                    Employee e = new Employee();
+                    e.setManv(rs.getInt("manv"));
+                    e.setHoten(rs.getString("hoten"));
+                    e.setGioitinh(rs.getInt("gioitinh"));
+                    e.setNgaysinh(rs.getDate("ngaysinh"));
+                    e.setSdt(rs.getInt("sdt"));
+                    e.setEmail(rs.getString("email"));
+                    e.setTrangthai(rs.getInt("trangthai"));
+                    list.add(e);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();   // hoặc Notifications như bạn vẫn dùng
+        }
+        return list;
+    }
+
 }
