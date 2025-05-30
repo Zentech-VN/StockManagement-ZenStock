@@ -27,7 +27,7 @@ public interface EmployeeDAO {
                 e.setHoten(rs.getString("hoten"));
                 e.setGioitinh(rs.getInt("gioitinh"));
                 e.setNgaysinh(rs.getDate("ngaysinh"));
-                e.setSdt(rs.getInt("sdt"));
+                e.setSdt(rs.getString("sdt"));
                 e.setEmail(rs.getString("email"));
                 e.setTrangthai(rs.getInt("trangthai"));
                 list.add(e);
@@ -63,7 +63,7 @@ public interface EmployeeDAO {
         return new EmployeeAccout(null, null, false);
     }
 
-    default boolean addEmployee(String hoTen, int gioiTinh, Date ngaySinh, int dienThoai, String email) {
+    default boolean addEmployee(String hoTen, int gioiTinh, Date ngaySinh, String dienThoai, String email) {
         String sql = "{CALL sp_nhanvien_add(?, ?, ?, ?, ?, ?)}";
 
         try (
@@ -71,7 +71,7 @@ public interface EmployeeDAO {
             cs.setString(1, hoTen);
             cs.setInt(2, gioiTinh);
             cs.setDate(3, ngaySinh);
-            cs.setInt(4, dienThoai);
+            cs.setString(4, dienThoai);
             cs.setString(5, email);
             cs.setInt(6, 1);
 
@@ -83,7 +83,7 @@ public interface EmployeeDAO {
         }
     }
 
-    default boolean updateEmployee(int ma, String hoTen, int gioiTinh, Date ngaySinh, int dienThoai, String email, int trangThai) {
+    default boolean updateEmployee(int ma, String hoTen, int gioiTinh, Date ngaySinh, String dienThoai, String email, int trangThai) {
         String sql = "{CALL sp_nhanvien_update(?, ?, ?, ?, ?, ?, ?)}";
 
         try (
@@ -92,7 +92,7 @@ public interface EmployeeDAO {
             cs.setString(2, hoTen);
             cs.setInt(3, gioiTinh);
             cs.setDate(4, ngaySinh);
-            cs.setInt(5, dienThoai);
+            cs.setString(5, dienThoai);
             cs.setString(6, email);
             cs.setInt(7, trangThai);
 
@@ -133,7 +133,7 @@ public interface EmployeeDAO {
                     e.setHoten(rs.getString("hoten"));
                     e.setGioitinh(rs.getInt("gioitinh"));
                     e.setNgaysinh(rs.getDate("ngaysinh"));
-                    e.setSdt(rs.getInt("sdt"));
+                    e.setSdt(rs.getString("sdt"));
                     e.setEmail(rs.getString("email"));
                     e.setTrangthai(rs.getInt("trangthai"));
                     list.add(e);

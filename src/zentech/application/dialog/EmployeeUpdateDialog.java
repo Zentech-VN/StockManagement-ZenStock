@@ -1,31 +1,35 @@
 package zentech.application.dialog;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import java.awt.Window;
+import javax.swing.JDialog;
+import java.awt.Dialog;
 import raven.datetime.DatePicker;
 import raven.toast.Notifications;
 import service.EmployeeService;
 import zentech.application.form.other.EmployeeForm;
 
-public class EmployeeUpdateDialog extends javax.swing.JFrame {
+public class EmployeeUpdateDialog extends JDialog {
 
     private EmployeeForm employeeForm;
     EmployeeService employeeService;
-    
-    public EmployeeUpdateDialog(EmployeeForm employeeForm, String ma, String hoTen, String gioiTinh, String ngaySinh, String dienThoai, String email, String trangThai) {
+
+    public EmployeeUpdateDialog(Window parent, EmployeeForm employeeForm, String ma, String hoTen, String gioiTinh, String ngaySinh, String dienThoai, String email, String trangThai) {
+        super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         this.employeeForm = employeeForm;
         initComponents();
         setTimePiker();
-        
+
         txtMa.setText(ma);
         txtHoTen.setText(hoTen);
-        cbbGioiTinh.setSelectedItem(gioiTinh == "Nam" ? "Nam" : "Nữ");
+        cbbGioiTinh.setSelectedItem("Nam".equals(gioiTinh) ? "Nam" : "Nữ");
         txtNgaySinh.setText(ngaySinh);
         txtDienThoai.setText(dienThoai);
         txtEmail.setText(email);
-        cbbTrangThai.setSelectedItem(trangThai == "Đang làm" ? "Đang làm" : "Đã nghỉ");
+        cbbTrangThai.setSelectedItem("Đang làm".equals(trangThai) ? "Đang làm" : "Đã nghỉ");
 
     }
-    
+
     private void setTimePiker() {
         DatePicker datePicker = new DatePicker();
         datePicker.setDateSelectionMode(DatePicker.DateSelectionMode.SINGLE_DATE_SELECTED);
@@ -34,14 +38,14 @@ public class EmployeeUpdateDialog extends javax.swing.JFrame {
         datePicker.setDateSelectionAble(localDate -> !localDate.isAfter(localDate.now()));
         datePicker.setEditor(txtNgaySinh);
     }
-    
+
     private void initalUI() {
         txtMa.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Họ tên");
         txtHoTen.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Họ tên");
         txtDienThoai.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Điện Thoại");
         txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Email");
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -66,7 +70,7 @@ public class EmployeeUpdateDialog extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thêm Nhân Viên", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sửa nhân viên", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
         jPanel3.setMaximumSize(new java.awt.Dimension(100, 100));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -158,7 +162,7 @@ public class EmployeeUpdateDialog extends javax.swing.JFrame {
 
         jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtDienThoai, txtEmail, txtHoTen, txtNgaySinh});
 
-        jButton1.setText("Thêm");
+        jButton1.setText("Sửa");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -206,22 +210,22 @@ public class EmployeeUpdateDialog extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String ma = txtMa.getText().trim();
         int maInt = Integer.parseInt(ma);
-        
+
         String ten = txtHoTen.getText().trim();
-        
+
         String temp1 = String.valueOf(cbbGioiTinh.getSelectedItem());
         int gioiTinh = temp1.equals("Nam") ? 1 : 0;
-        
+
         String ngaySinh = txtNgaySinh.getText().trim();
         String dienThoai = txtDienThoai.getText().trim();
         String email = txtEmail.getText().trim();
-        
-        String temp2 = String.valueOf(cbbGioiTinh.getSelectedItem());
-        int trangThai = temp1.equals("Đang làm") ? 1 : 0;
-        
+
+        String temp2 = String.valueOf(cbbTrangThai.getSelectedItem());
+        int trangThai = temp2.equals("Đang làm") ? 1 : 0;
+
         employeeService = new EmployeeService();
         boolean x = employeeService.updateCheck(maInt, ten, gioiTinh, ngaySinh, dienThoai, email, trangThai);
-        if(x) {
+        if (x) {
             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Sửa thành công nhân viên");
             employeeForm.loadEmployeeData();
             this.dispose();
