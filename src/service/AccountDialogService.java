@@ -41,7 +41,6 @@ public class AccountDialogService {
             int manhom = listPg.get(permGroupIndex).getManhomquyen();
             //Tạo đối tượng tài khoản mới
             Account acc = new Account(manv, username, hashedPassword, manhom, statusIndex);
-            // Thêm vào database
             AccountDAO.getInstance().insert(acc);
             
             listAc.add(acc);

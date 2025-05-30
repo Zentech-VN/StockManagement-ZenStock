@@ -75,7 +75,6 @@ public class EditAccountDialogService {
     
     //Cấm sửa code chỗ này
     private void updateUI(Object taiKhoan, Account acc, String action) {
-        //Sử dụng reflection để gọi các method của UI
         
         try {
             Class<?> clazz = taiKhoan.getClass();
