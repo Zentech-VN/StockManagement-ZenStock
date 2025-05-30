@@ -55,3 +55,26 @@ BEGIN
 END $$
 
 DELIMITER ;
+/* ===============================================
+   4. Tìm nhân viên
+   =============================================== */
+DROP PROCEDURE IF EXISTS sp_search_employees;
+DELIMITER $$
+CREATE PROCEDURE sp_search_employees(IN p_keyword VARCHAR(255))
+BEGIN
+    DECLARE kw VARCHAR(260) COLLATE utf8mb4_general_ci;
+    SET kw = CONCAT('%', p_keyword, '%');
+
+    SELECT *
+    FROM   nhanvien
+    WHERE  CONCAT_WS(' ',
+              CAST(manv AS CHAR)      COLLATE utf8mb4_general_ci,
+              hoten                   COLLATE utf8mb4_general_ci,
+              CAST(gioitinh AS CHAR)  COLLATE utf8mb4_general_ci,
+              DATE_FORMAT(ngaysinh,'%Y-%m-%d') COLLATE utf8mb4_general_ci,
+              sdt                     COLLATE utf8mb4_general_ci,
+              email                   COLLATE utf8mb4_general_ci
+           ) LIKE kw;
+END$$
+DELIMITER ;
+

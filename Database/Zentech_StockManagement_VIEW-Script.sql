@@ -2,11 +2,23 @@ USE zentechStockManagement;
 
 CREATE VIEW vw_nhanvien_toan_bo AS
 SELECT
-    manv         AS employee_id,  -- mã nhân viên
-    hoten        AS full_name,    -- họ tên
-    gioitinh     AS gender,       -- giới tính
-    ngaysinh     AS date_of_birth,
-    sdt          AS phone_number,
+    manv,
+    hoten,
+    gioitinh,
+    ngaysinh,
+    sdt,
     email,
-    trangthai    AS status        -- trạng thái làm việc
+    trangthai
 FROM nhanvien;
+
+CREATE VIEW vw_nhanvien_taikhoan AS
+SELECT  nv.manv,
+        nv.hoten,
+        tk.tendangnhap,
+        tk.manhomquyen,
+        CASE 
+            WHEN tk.tendangnhap IS NULL THEN 0
+            ELSE 1
+        END AS has_account
+FROM    nhanvien nv
+LEFT JOIN taikhoan tk ON tk.manv = nv.manv;
