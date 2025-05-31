@@ -8,14 +8,14 @@ public class Employee {
     private String hoten;
     private int gioitinh;
     private Date ngaysinh;
-    private int sdt;
+    private String sdt;
     private String email;
     private int trangthai;
 
     public Employee() {
     }
 
-    public Employee(int manv, String hoten, int gioitinh, Date ngaysinh, int sdt, String email, int trangthai) {
+    public Employee(int manv, String hoten, int gioitinh, Date ngaysinh, String sdt, String email, int trangthai) {
         this.manv = manv;
         this.hoten = hoten;
         this.gioitinh = gioitinh;
@@ -57,11 +57,11 @@ public class Employee {
         this.ngaysinh = ngaysinh;
     }
 
-    public int getSdt() {
+    public String getSdt() {
         return sdt;
     }
 
-    public void setSdt(int sdt) {
+    public void setSdt(String sdt) {
         this.sdt = sdt;
     }
 

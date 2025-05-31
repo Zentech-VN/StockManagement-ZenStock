@@ -1,23 +1,27 @@
 package zentech.application.dialog;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import java.awt.Dialog;
+import java.awt.Window;
+import javax.swing.JDialog;
 import raven.datetime.DatePicker;
 import raven.toast.Notifications;
 import service.EmployeeService;
 import zentech.application.form.other.EmployeeForm;
 
-public class EmployeeAddDialog extends javax.swing.JFrame {
+public class EmployeeAddDialog extends JDialog {
 
     private EmployeeForm employeeForm;
     EmployeeService employeeService;
-    
-    public EmployeeAddDialog(EmployeeForm employeeForm) {
+
+    public EmployeeAddDialog(Window parent, EmployeeForm employeeForm) {
+        super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         this.employeeForm = employeeForm;
         initComponents();
         setTimePiker();
         initalUI();
     }
-    
+
     private void setTimePiker() {
         DatePicker datePicker = new DatePicker();
         datePicker.setDateSelectionMode(DatePicker.DateSelectionMode.SINGLE_DATE_SELECTED);
@@ -26,13 +30,13 @@ public class EmployeeAddDialog extends javax.swing.JFrame {
         datePicker.setDateSelectionAble(localDate -> !localDate.isAfter(localDate.now()));
         datePicker.setEditor(txtNgaySinh);
     }
-    
+
     private void initalUI() {
         txtHoTen.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Họ tên");
         txtDienThoai.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Điện Thoại");
         txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Email");
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -170,17 +174,17 @@ public class EmployeeAddDialog extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String ten = txtHoTen.getText().trim();
-        
+
         String temp = String.valueOf(cbbGioiTinh.getSelectedItem());
         int gioiTinh = temp.equals("Nam") ? 1 : 0;
-        
+
         String ngaySinh = txtNgaySinh.getText().trim();
         String dienThoai = txtDienThoai.getText().trim();
         String email = txtEmail.getText().trim();
-        
+
         employeeService = new EmployeeService();
         boolean x = employeeService.addCheck(ten, gioiTinh, ngaySinh, dienThoai, email);
-        if(x) {
+        if (x) {
             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Thêm thành công nhân viên");
             employeeForm.loadEmployeeData();
             this.dispose();

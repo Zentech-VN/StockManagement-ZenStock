@@ -4,18 +4,17 @@ import com.formdev.flatlaf.FlatClientProperties;
 import entity.Employee;
 import entity.EmployeeAccout;
 import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.Window;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 import javax.swing.table.TableRowSorter;
 import raven.toast.Notifications;
 import service.EmployeeService;
@@ -28,6 +27,7 @@ public class EmployeeForm extends javax.swing.JPanel {
     private EmployeeService employeeService;
     private List<Employee> employeeList = new ArrayList<>();
     private TableRowSorter<DefaultTableModel> sorter;
+    private EmployeeUpdateDialog updateDialog;
 
     private final int[] SIZE_MAP = {12, 14, 18};
     private final String[] FONT_MAP = {"Segoe UI", "Arial", "Serif"};
@@ -151,15 +151,26 @@ public class EmployeeForm extends javax.swing.JPanel {
 
                 DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
                 model.setRowCount(0);
+
                 list.forEach(emp -> model.addRow(new Object[]{
                     emp.getManv(),
                     emp.getHoten(),
-                    emp.getGioitinh(),
+                    emp.getGioiTinhText(),
                     emp.getNgaysinh(),
                     emp.getSdt(),
-                    emp.getEmail(),}));
+                    emp.getEmail(),
+                    emp.getTrangThaiText()
+                }));
+
+                sorter.sort();
             }
+
         });
+    }
+
+    private int getSelectedModelRow() {
+        int viewIndex = tblNhanVien.getSelectedRow();
+        return viewIndex == -1 ? -1 : tblNhanVien.convertRowIndexToModel(viewIndex);
     }
 
     @SuppressWarnings("unchecked")
@@ -489,21 +500,20 @@ public class EmployeeForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        EmployeeAddDialog employeeAddDialog = new EmployeeAddDialog(this);
+        Window parent = SwingUtilities.getWindowAncestor(this);
+        EmployeeAddDialog employeeAddDialog = new EmployeeAddDialog(parent, this);
         employeeAddDialog.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
-        int index = tblNhanVien.getSelectedRow();
-
-        if (index == -1) {
+        int modelRow = getSelectedModelRow();
+        if (modelRow == -1) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Hãy chọn nhân viên muốn xoá");
             return;
         }
 
-        String ma = model.getValueAt(index, 0).toString();
-        int maInt = Integer.parseInt(ma);
+        DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
+        int maInt = Integer.parseInt(model.getValueAt(modelRow, 0).toString());
 
         int ret = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xoá nhân viên có mã: " + maInt, "Xoá", JOptionPane.YES_NO_OPTION);
         if (ret == JOptionPane.YES_OPTION) {
@@ -517,24 +527,25 @@ public class EmployeeForm extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
-        int index = tblNhanVien.getSelectedRow();
-
-        if (index == -1) {
+        Window parent = SwingUtilities.getWindowAncestor(this);
+        int modelRow = getSelectedModelRow();
+        if (modelRow == -1) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Hãy chọn nhân viên muốn chỉnh sửa");
             return;
         }
 
-        String ma = model.getValueAt(index, 0).toString();
-        String hoTen = model.getValueAt(index, 1).toString();
-        String gioiTinh = model.getValueAt(index, 2).toString();
-        String ngaySinh = model.getValueAt(index, 3).toString();
-        String dienThoai = model.getValueAt(index, 4).toString();
-        String email = model.getValueAt(index, 5).toString();
-        String trangThai = model.getValueAt(index, 6).toString();
+        DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
+        String ma = model.getValueAt(modelRow, 0).toString();
+        String hoTen = model.getValueAt(modelRow, 1).toString();
+        String gioiTinh = model.getValueAt(modelRow, 2).toString();
+        String ngaySinh = model.getValueAt(modelRow, 3).toString();
+        String dienThoai = model.getValueAt(modelRow, 4).toString();
+        String email = model.getValueAt(modelRow, 5).toString();
+        String trangThai = model.getValueAt(modelRow, 6).toString();
 
-        EmployeeUpdateDialog employeeUpdateDialog = new EmployeeUpdateDialog(this, ma, hoTen, gioiTinh, ngaySinh, dienThoai, email, trangThai);
-        employeeUpdateDialog.setVisible(true);
+        EmployeeUpdateDialog dlg = new EmployeeUpdateDialog(parent, this, ma, hoTen, gioiTinh, ngaySinh, dienThoai, email, trangThai);
+        dlg.setLocationRelativeTo(parent);
+        dlg.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed

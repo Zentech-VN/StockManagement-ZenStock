@@ -8,8 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import raven.toast.Notifications;
 
 public class EmployeeService implements EmployeeDAO {
@@ -53,20 +51,10 @@ public class EmployeeService implements EmployeeDAO {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Số điện thoại không được trống");
             return false;
         }
-        
-        String phoneRegex = "^(0|\\\\+84)[0-9]{9}$";
 
-        Pattern pattern = Pattern.compile(phoneRegex);
-        Matcher matcher = pattern.matcher(dienThoai);
-        if (!matcher.matches()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Điện thoại không hợp lệ");
-            return false;
-        }
-        
-        int dienThoaiInt;
-        try {
-            dienThoaiInt = Integer.parseInt(dienThoai);
-        } catch (Exception ex) {
+        String phoneRegex = "^(0|\\+84)(3[2-9]|5[6|8|9]|7[0|6-9]|8[1-5]|9[0-9])[0-9]{7}$";
+
+        if (!dienThoai.matches(phoneRegex)) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Số điện thoại không hợp lệ");
             return false;
         }
@@ -76,16 +64,14 @@ public class EmployeeService implements EmployeeDAO {
             return false;
         }
 
-        String emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Za-z]{2,6}$";
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
 
-        Pattern.compile(emailRegex);
-        pattern.matcher(email);
-        if (!matcher.matches()) {
+        if (!email.matches(emailRegex)) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Email không hợp lệ");
             return false;
         }
 
-        if (addEmployee(hoTen, gioiTinh, ngaySinhDate, dienThoaiInt, email)) {
+        if (addEmployee(hoTen, gioiTinh, ngaySinhDate, dienThoai, email)) {
             return true;
         }
 
@@ -118,10 +104,9 @@ public class EmployeeService implements EmployeeDAO {
             return false;
         }
 
-        int dienThoaiInt;
-        try {
-            dienThoaiInt = Integer.parseInt(dienThoai);
-        } catch (Exception ex) {
+        String phoneRegex = "^(0|\\+84)(3[2-9]|5[6|8|9]|7[0|6-9]|8[1-5]|9[0-9])[0-9]{7}$";
+
+        if (!dienThoai.matches(phoneRegex)) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Số điện thoại không hợp lệ");
             return false;
         }
@@ -131,16 +116,14 @@ public class EmployeeService implements EmployeeDAO {
             return false;
         }
 
-        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
 
-        Pattern pattern = Pattern.compile(emailRegex);
-        Matcher matcher = pattern.matcher(email);
-        if (!matcher.matches()) {
+        if (!email.matches(emailRegex)) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Email không hợp lệ");
             return false;
         }
-
-        if (updateEmployee(ma, hoTen, gioiTinh, ngaySinhDate, dienThoaiInt, email, trangThai)) {
+        
+        if (updateEmployee(ma, hoTen, gioiTinh, ngaySinhDate, dienThoai, email, trangThai)) {
             return true;
         }
 
