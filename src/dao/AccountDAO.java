@@ -11,13 +11,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AccountDAO {
-    
-    public static AccountDAO getInstance(){
+
+    public static AccountDAO getInstance() {
         return new AccountDAO();
     }
-    
+
     public int insert(Account a) {
-        int result = 0 ;
+        int result = 0;
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
             String sql = "INSERT INTO `taikhoan`(`manv`,`tendangnhap`,`matkhau`,`manhomquyen`,`trangthai`) VALUES (?,?,?,?,?)";
@@ -34,9 +34,9 @@ public class AccountDAO {
         }
         return result;
     }
-    
+
     public int delete(String t) {
-         int result = 0 ;
+        int result = 0;
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
             String sql = "DELETE FROM `taikhoan` WHERE manv = ?";
@@ -49,7 +49,7 @@ public class AccountDAO {
         }
         return result;
     }
-    
+
     public ArrayList<Account> selectAll() {
         ArrayList<Account> result = new ArrayList<Account>();
         try {
@@ -57,7 +57,7 @@ public class AccountDAO {
             String sql = "SELECT * FROM taikhoan WHERE trangthai = '0' OR trangthai = '1'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int manv = rs.getInt("manv");
                 String username = rs.getString("tendangnhap");
                 String matkhau = rs.getString("matkhau");
@@ -71,7 +71,7 @@ public class AccountDAO {
         }
         return result;
     }
-    
+
     public Account selectByUser(String t) {
         Account result = null;
         try {
@@ -80,7 +80,7 @@ public class AccountDAO {
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int manv = rs.getInt("manv");
                 String tendangnhap = rs.getString("tendangnhap");
                 String matkhau = rs.getString("matkhau");
@@ -94,9 +94,9 @@ public class AccountDAO {
         }
         return result;
     }
-    
+
     public int update(Account t) {
-          int result = 0 ;
+        int result = 0;
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
             String sql = "UPDATE `taikhoan` SET `tendangnhap`=?, `manhomquyen`=?, `trangthai`=? WHERE manv=?";
@@ -112,8 +112,8 @@ public class AccountDAO {
         }
         return result;
     }
-    
-    public void updatePass(String email, String password){
+
+    public void updatePass(String email, String password) {
         int result;
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
@@ -127,8 +127,8 @@ public class AccountDAO {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void sendOpt(String email, String opt){
+
+    public void sendOpt(String email, String opt) {
         int result;
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
@@ -142,14 +142,14 @@ public class AccountDAO {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public Account selectByEmail(String t) {
         Account tk = null;
         try {
             Connection con = ConnectionHelper.getConnection();
             String sql = "SELECT * FROM taikhoan tk join nhanvien nv on tk.manv=nv.manv where nv.email = ?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1,t);
+            pst.setString(1, t);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 int manv = rs.getInt("manv");
@@ -162,12 +162,12 @@ public class AccountDAO {
             }
             ConnectionHelper.closeConnection(con);
         } catch (Exception e) {
-                 
+
         }
         return tk;
     }
-    
-    public boolean checkOtp(String email, String otp){
+
+    public boolean checkOtp(String email, String otp) {
         boolean check = false;
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
@@ -176,7 +176,7 @@ public class AccountDAO {
             pst.setString(1, email);
             pst.setString(2, otp);
             ResultSet rs = (ResultSet) pst.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 check = true;
                 return check;
             }
@@ -185,7 +185,7 @@ public class AccountDAO {
         }
         return check;
     }
-    
+
     public Account selectById(String t) {
         Account result = null;
         try {
@@ -194,7 +194,7 @@ public class AccountDAO {
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int manv = rs.getInt("manv");
                 String tendangnhap = rs.getString("tendangnhap");
                 String matkhau = rs.getString("matkhau");
@@ -207,5 +207,22 @@ public class AccountDAO {
         } catch (Exception e) {
         }
         return result;
+    }
+
+    public static int getAccountCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM taikhoan";
+
+        try (Connection con = (Connection) ConnectionHelper.getConnection(); PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql); ResultSet rs = (ResultSet) pst.executeQuery();) {
+
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return count;
     }
 }
