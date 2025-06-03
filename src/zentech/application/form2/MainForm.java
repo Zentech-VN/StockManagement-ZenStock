@@ -21,6 +21,7 @@ import zentech.application.form.other.EmployeeForm;
 import zentech.application.form.other.FormHomePage;
 import zentech.application.form.other.FormInbox;
 import zentech.application.form.other.FormRead;
+import zentech.application.form.other.FormRole;
 import zentech.menu2.Menu;
 import zentech.menu2.MenuAction;
 
@@ -75,6 +76,8 @@ public class MainForm extends JLayeredPane {
             } else if (index == 2) {
                 Application.showForm(new EmployeeForm());
             } else if (index == 3) {
+                Application.showForm(new FormRole());
+            } else if (index == 4) {
                 Application.logout();
             } else {
                 action.cancel();
