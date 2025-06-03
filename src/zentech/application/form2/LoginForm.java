@@ -4,11 +4,15 @@ import zentech.application.changepassword.ForgotPassword;
 import dao.AccountDAO;
 import entity.Account;
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.ActivityDAO;
+import entity.Activity;
 import helper.BCrypt;
+import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import net.miginfocom.swing.MigLayout;
+import raven.toast.Notifications;
 import zentech.application.Application;
 
 public class LoginForm extends javax.swing.JPanel {
@@ -112,6 +116,8 @@ public class LoginForm extends javax.swing.JPanel {
                     if (BCrypt.checkpw(passwordCheck, tk.getMatkhau())) {
                         try {
                             Application.login();
+                            Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Đăng nhập thành công!");
+                            ActivityDAO.insert(new Activity(usernameCheck, "LOGIN", LocalDateTime.now()));
                         } catch (Exception e) {
                             Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, e);
                         }
