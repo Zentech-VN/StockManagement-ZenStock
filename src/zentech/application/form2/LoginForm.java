@@ -118,6 +118,7 @@ public class LoginForm extends javax.swing.JPanel {
                             Application.login();
                             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Đăng nhập thành công!");
                             ActivityDAO.insert(new Activity(usernameCheck, "LOGIN", LocalDateTime.now()));
+                            Application.getAppInstance().setCurrentUser(usernameCheck);
                         } catch (Exception e) {
                             Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, e);
                         }
