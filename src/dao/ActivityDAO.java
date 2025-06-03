@@ -42,9 +42,9 @@ public class ActivityDAO {
              ResultSet rs = ps.executeQuery()) {
 
             DefaultTableModel model = new DefaultTableModel();
-            model.addColumn("Username");
-            model.addColumn("Action");
-            model.addColumn("Timestamp");
+            model.addColumn("Tên tài khoản");
+            model.addColumn("Hành động");
+            model.addColumn("Mốc thời gian");
 
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
