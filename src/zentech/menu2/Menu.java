@@ -32,6 +32,7 @@ public class Menu extends JPanel {
         {"Quyền hạn"},
         {"Nhật ký hoạt động"},
         {"Khách hàng"},
+        {"Trang nhà cung cấp"},
         {"Logout"}
     };
 
