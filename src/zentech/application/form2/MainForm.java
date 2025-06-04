@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import zentech.application.Application;
 import zentech.application.form.other.AccountForm;
+import zentech.application.form.other.CustomerManagement;
 import zentech.application.form.other.ActivityLogForm;
 import zentech.application.form.other.EmployeeForm;
 import zentech.application.form.other.FormHomePage;
@@ -80,6 +81,8 @@ public class MainForm extends JLayeredPane {
                 Application.showForm(new ActivityLogForm());
             } else if (index == 5) {
                 Application.logout();
+            } else if (index == 4) {
+                Application.showForm(new CustomerManagement());
             } else {
                 action.cancel();
             }
