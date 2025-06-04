@@ -18,10 +18,10 @@ import javax.swing.border.EmptyBorder;
 import zentech.application.Application;
 import zentech.application.form.other.AccountForm;
 import zentech.application.form.other.CustomerManagement;
+import zentech.application.form.other.ActivityLogForm;
 import zentech.application.form.other.EmployeeForm;
 import zentech.application.form.other.FormHomePage;
-import zentech.application.form.other.FormInbox;
-import zentech.application.form.other.FormRead;
+import zentech.application.form.other.FormRole;
 import zentech.menu2.Menu;
 import zentech.menu2.MenuAction;
 
@@ -76,6 +76,10 @@ public class MainForm extends JLayeredPane {
             } else if (index == 2) {
                 Application.showForm(new EmployeeForm());
             } else if (index == 3) {
+                Application.showForm(new FormRole());
+            }else if (index == 4) {
+                Application.showForm(new ActivityLogForm());
+            } else if (index == 5) {
                 Application.logout();
             } else if (index == 4) {
                 Application.showForm(new CustomerManagement());

@@ -28,9 +28,11 @@ public class Menu extends JPanel {
         {"Trang chủ"},
         {"~Quản Lý~"},
         {"Tài Khoản"},
-        {"Nhân Viên"},
         {"Logout"},
         {"Khách hàng"}
+        {"Quyền hạn"},
+        {"Nhật ký hoạt động"},
+        {"Logout"}
     };
 
     public boolean isMenuFull() {
