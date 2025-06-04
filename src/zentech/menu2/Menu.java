@@ -28,7 +28,9 @@ public class Menu extends JPanel {
         {"Trang chủ"},
         {"~Quản Lý~"},
         {"Tài Khoản"},
-        {"Nhân Viên"},
+        {"Nhân viên"},
+        {"Quyền hạn"},
+        {"Nhật ký hoạt động"},
         {"Khách hàng"},
         {"Trang nhà cung cấp"},
         {"Logout"}
