@@ -28,10 +28,10 @@ public class Menu extends JPanel {
         {"Trang chủ"},
         {"~Quản Lý~"},
         {"Tài Khoản"},
-        {"Logout"},
-        {"Khách hàng"}
+        {"Nhân viên"},
         {"Quyền hạn"},
         {"Nhật ký hoạt động"},
+        {"Khách hàng"},
         {"Logout"}
     };
 

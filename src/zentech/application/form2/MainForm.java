@@ -80,9 +80,9 @@ public class MainForm extends JLayeredPane {
             }else if (index == 4) {
                 Application.showForm(new ActivityLogForm());
             } else if (index == 5) {
-                Application.logout();
-            } else if (index == 4) {
                 Application.showForm(new CustomerManagement());
+            } else if (index == 6) {
+                Application.logout();
             } else {
                 action.cancel();
             }
