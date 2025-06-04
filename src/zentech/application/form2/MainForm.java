@@ -3,7 +3,6 @@ package zentech.application.form2;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.util.UIScale;
-import entity.Supplier;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
@@ -12,20 +11,23 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import zentech.application.Application;
 import zentech.application.form.other.AccountForm;
-import zentech.application.form.other.CustomerManagement;
-import zentech.application.form.other.ActivityLogForm;
 import zentech.application.form.other.EmployeeForm;
 import zentech.application.form.other.FormHomePage;
+import zentech.application.form.other.FormInbox;
+import zentech.application.form.other.FormRead;
 import zentech.application.form.other.FormRole;
-import zentech.application.form.other.SupplierForm;
 import zentech.menu2.Menu;
 import zentech.menu2.MenuAction;
+import zentech.application.form.other.WarehouseManagementForm;
 
 public class MainForm extends JLayeredPane {
 
@@ -79,13 +81,14 @@ public class MainForm extends JLayeredPane {
                 Application.showForm(new EmployeeForm());
             } else if (index == 3) {
                 Application.showForm(new FormRole());
-            }else if (index == 4) {
-                Application.showForm(new ActivityLogForm());
+            } else if (index == 4) {
+                try {
+                    Application.showForm(new WarehouseManagementForm());
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            
             } else if (index == 5) {
-                Application.showForm(new CustomerManagement());
-            } else if (index == 6) {
-                Application.showForm(new SupplierForm());
-            } else if (index == 7) {
                 Application.logout();
             } else {
                 action.cancel();

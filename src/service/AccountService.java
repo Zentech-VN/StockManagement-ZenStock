@@ -137,8 +137,4 @@ public class AccountService {
                 return "Không xác định";
         }
     }
-    
-    public int getAccountCountService() {
-        return AccountDAO.getAccountCount();
-    }
 }

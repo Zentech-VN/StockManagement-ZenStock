@@ -566,7 +566,6 @@ public class EmployeeForm extends javax.swing.JPanel {
             txtNgaySinh.setText(ngaySinh);
             txtDienThoai.setText(dienThoai);
             txtEmail.setText(email);
-            
         }
     }//GEN-LAST:event_tblNhanVienMouseClicked
 
