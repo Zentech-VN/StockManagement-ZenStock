@@ -1,7 +1,6 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import dao.SupplierDAO;
 import entity.Supplier;
 import java.awt.Dimension;
 import java.util.List;

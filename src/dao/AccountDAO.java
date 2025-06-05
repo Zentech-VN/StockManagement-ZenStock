@@ -1,6 +1,7 @@
 package dao;
 
 import entity.Account;
+import entity.Employee;
 import jdbc.ConnectionHelper;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -224,5 +225,42 @@ public class AccountDAO {
         }
 
         return count;
+    }
+
+    public Employee GetFullNameByuserName(int id) throws SQLException {
+        Employee e = null;
+        String sql = "select nhanvien.hoten, taikhoan.manhomquyen from nhanvien join taikhoan on nhanvien.manv = taikhoan.manv\n"
+                + "where taikhoan.manv = ?;";
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                e = new Employee();
+                e.setHoten(rs.getString("nhanvien.hoten"));
+                Account account = new Account();
+                account.setManhomquyen(rs.getInt("taikhoan.manhomquyen"));
+                e.setAcc(account);
+            }
+            return e;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public int getId(String username) throws SQLException {
+        int id = 0;
+        String sql = "select manv from taikhoan where tendangnhap = ?";
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, username);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt("manv");
+            }
+            return id;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 }

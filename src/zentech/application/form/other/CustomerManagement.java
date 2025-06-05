@@ -1,15 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package zentech.application.form.other;
 
 import service.CilentService;
 
-/**
- *
- * @author duong
- */
 public class CustomerManagement extends javax.swing.JPanel {
     
     CilentService cls = new CilentService();
@@ -229,24 +221,20 @@ public class CustomerManagement extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblDanhSachMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDanhSachMouseClicked
-        // TODO add your handling code here:
         cls.showDetail(tblDanhSach, txtMaKH, txtTenKH, txtSDt, txtDiachi);
     }//GEN-LAST:event_tblDanhSachMouseClicked
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
         cls.delete(txtMaKH);
         cls.LoadDataTable(tblDanhSach);
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
         cls.add(txtTenKH, txtSDt, txtDiachi);
         cls.LoadDataTable(tblDanhSach);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        // TODO add your handling code here:
         txtDiachi.setText("");
         txtMaKH.setText("");
         txtSDt.setText("");
@@ -254,18 +242,15 @@ public class CustomerManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
-        // TODO add your handling code here:
         cls.search(tblDanhSach, txtSearch);
     }//GEN-LAST:event_txtSearchKeyReleased
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
         cls.update(txtMaKH, txtTenKH, txtSDt, txtDiachi);
         cls.LoadDataTable(tblDanhSach);
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnXuatExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatExcelActionPerformed
-        // TODO add your handling code here:
         cls.xuatexcel(tblDanhSach);
     }//GEN-LAST:event_btnXuatExcelActionPerformed
 

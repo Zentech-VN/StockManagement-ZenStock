@@ -4,6 +4,7 @@ import zentech.menu.mode.LightDarkMode;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.ui.FlatUIUtils;
 import com.formdev.flatlaf.util.UIScale;
+import entity.Employee;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -69,12 +70,52 @@ public class Menu extends JPanel {
     protected final int menuMaxWidth = 250;
     protected final int menuMinWidth = 60;
     protected final int headerFullHgap = 5;
+    String ten;
+    String tenquyen;
 
-    public Menu() {
+    public Menu(Employee acc) {
+
+        checklogin(acc);
         init();
+
+    }
+
+    public void checklogin(Employee acc) {
+        String username = acc.getHoten();
+        int ma = acc.getAcc().getManhomquyen();
+        String tenquyen = "";
+        switch (ma) {
+            case 1:
+                tenquyen = "Quản lý kho";
+                break;
+            case 2:
+                tenquyen = "Nhân viên nhập hàng";
+                break;
+            case 3:
+                tenquyen = "Nhân viên xuất hàng";
+                break;
+            case 4:
+                tenquyen = "Thủ kho";
+                break;
+            case 5:
+                tenquyen = "Nhân viên kiểm kho";
+                break;
+            case 6:
+                tenquyen = "Demo";
+                break;
+            case 7:
+                tenquyen = "Test";
+                break;
+            default:
+                tenquyen = "Chưa có quyền";
+                break;
+        }
+        this.ten = username;
+        this.tenquyen = tenquyen;
     }
 
     private void init() {
+
         setLayout(new MenuLayout());
         putClientProperty(FlatClientProperties.STYLE, ""
                 + "border:20,2,2,2;"
@@ -99,12 +140,12 @@ public class Menu extends JPanel {
         lbAvatar.setIcon(new ImageIcon(getClass()
                 .getResource("/zentech/icon/png/user.png")));
 
-        lbUserName = new JLabel("User");
+        lbUserName = new JLabel(this.ten);
         lbUserName.putClientProperty(FlatClientProperties.STYLE,
                 "font:$Menu.header.font;"
                 + "foreground:$Menu.foreground;");
 
-        lbUserRole = new JLabel("(Role)");
+        lbUserRole = new JLabel("(" + this.tenquyen + ")");
         lbUserRole.putClientProperty(FlatClientProperties.STYLE,
                 "font:$Menu.label.font;"
                 + "foreground:$Menu.foreground;");

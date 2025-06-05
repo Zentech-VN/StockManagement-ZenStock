@@ -144,7 +144,7 @@ public interface EmployeeDAO {
         }
         return list;
     }
-    
+
     default int getEmployeeCount() {
         int count = 0;
         String sql = "SELECT COUNT(*) FROM nhanvien";

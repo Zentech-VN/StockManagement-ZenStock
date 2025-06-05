@@ -3,6 +3,7 @@ package jdbc;
 import java.sql.Connection;
 
 public class TestConnection {
+
     public static void main(String[] args) {
         try (Connection conn = ConnectionHelper.getConnection()) {
             if (conn != null && !conn.isClosed()) {

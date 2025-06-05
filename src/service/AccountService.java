@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package service;
 
 import dao.AccountDAO;
@@ -13,32 +9,29 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import entity.PermGroup;
 
-/**
- *
- * @author Duc Pham Ngoc
- */
 public class AccountService {
+
     private AccountDAO acc = new AccountDAO();
     static ArrayList<Account> lista;
     private ArrayList<PermGroup> listnq;
     private PermGroupDAO permGroupDAO = PermGroupDAO.getInstance();
-    
-    public AccountService(){
-        this.lista  = AccountDAO.getInstance().selectAll();
+
+    public AccountService() {
+        this.lista = AccountDAO.getInstance().selectAll();
         this.listnq = PermGroupDAO.getInstance().selectAll();
     }
-    
+
     public void updateAcc(int rowIndex, Account updatedAccount) {
         if (rowIndex >= 0 && rowIndex < lista.size()) {
-        lista.set(rowIndex, updatedAccount);
+            lista.set(rowIndex, updatedAccount);
         }
     }
-    
-     public void LoadTable(List<Account> listc, JTable jTable1) {
+
+    public void LoadTable(List<Account> listc, JTable jTable1) {
         lista = acc.selectAll();
         String[] title = {"MaNV", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"};
         DefaultTableModel model = new DefaultTableModel(title, 0);
-        
+
         for (Account account : lista) {
             int tt = account.getTrangthai();
             String trangthaiString = "";
@@ -59,22 +52,22 @@ public class AccountService {
         }
         jTable1.setModel(model);
     }
-     
-    public PermGroup getPermGroup(int manhom){
-        return permGroupDAO.selectById(manhom+"");
+
+    public PermGroup getPermGroup(int manhom) {
+        return permGroupDAO.selectById(manhom + "");
     }
-    
-    public ArrayList<Account> getTaiKhoanAll(){
+
+    public ArrayList<Account> getTaiKhoanAll() {
         //luôn lấy dữ liệu mới từ DB
         lista = AccountDAO.getInstance().selectAll();
         return lista;
     }
-    
+
     public void LoadTableWithSearch(String searchText, JTable jTable1) {
         lista = acc.selectAll();
         String[] title = {"MaNV", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"};
         DefaultTableModel model = new DefaultTableModel(title, 0);
-    
+
         // Nếu không có từ khóa tìm kiếm, hiển thị tất cả
         if (searchText == null || searchText.trim().isEmpty()) {
             for (Account account : lista) {
@@ -89,18 +82,18 @@ public class AccountService {
                 if (String.valueOf(account.getManv()).contains(searchLower)) {
                     match = true;
                 }
-                if (account.getUsername() != null && 
-                    account.getUsername().toLowerCase().contains(searchLower)) {
+                if (account.getUsername() != null
+                        && account.getUsername().toLowerCase().contains(searchLower)) {
                     match = true;
                 }
                 try {
                     PermGroup permGroup = getPermGroup(account.getManhomquyen());
-                    if (permGroup != null && permGroup.getTennhomquyen() != null &&
-                        permGroup.getTennhomquyen().toLowerCase().contains(searchLower)) {
+                    if (permGroup != null && permGroup.getTennhomquyen() != null
+                            && permGroup.getTennhomquyen().toLowerCase().contains(searchLower)) {
                         match = true;
                     }
                 } catch (Exception e) {
-                    
+
                 }
                 String trangthaiString = getTrangThaiString(account.getTrangthai());
                 if (trangthaiString.toLowerCase().contains(searchLower)) {
@@ -111,7 +104,7 @@ public class AccountService {
                 }
             }
         }
-    
+
         jTable1.setModel(model);
     }
 
@@ -119,13 +112,12 @@ public class AccountService {
         String trangthaiString = getTrangThaiString(account.getTrangthai());
 
         model.addRow(new Object[]{
-            account.getManv(), 
-            account.getUsername(), 
-            getPermGroup(account.getManhomquyen()).getTennhomquyen(), 
+            account.getManv(),
+            account.getUsername(),
+            getPermGroup(account.getManhomquyen()).getTennhomquyen(),
             trangthaiString
         });
     }
-
 
     private String getTrangThaiString(int tt) {
         switch (tt) {
@@ -137,7 +129,7 @@ public class AccountService {
                 return "Không xác định";
         }
     }
-    
+
     public int getAccountCountService() {
         return AccountDAO.getAccountCount();
     }

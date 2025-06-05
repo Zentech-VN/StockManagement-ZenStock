@@ -1,43 +1,37 @@
-package zentech.application.form2;
+package zentech.application;
 
+import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import java.awt.Font;
+import javax.swing.UIManager;
 import zentech.application.changepassword.ForgotPassword;
 import dao.AccountDAO;
 import entity.Account;
-import com.formdev.flatlaf.FlatClientProperties;
 import dao.ActivityDAO;
 import entity.Activity;
+import entity.Employee;
 import helper.BCrypt;
+import java.awt.Dimension;
 import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import net.miginfocom.swing.MigLayout;
 import raven.toast.Notifications;
-import zentech.application.Application;
 
-public class LoginForm extends javax.swing.JPanel {
+public class Login extends javax.swing.JFrame {
 
-    public LoginForm() {
+    public Login() {
         initComponents();
-        init();
-        txtUser.setText("admin");
-        txtPass.setText("1234567");
-    }
-
-    private void init() {
+        setSize(new Dimension(1366, 768));
+        this.setLocationRelativeTo(null);
         setLayout(new MigLayout("al center center"));
-
-        lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
-                + "font:$h1.font");
-        
-        txtPass.putClientProperty(FlatClientProperties.STYLE, ""
-                + "showRevealButton:true;"
-                + "showCapsLock:true");
-        cmdLogin.putClientProperty(FlatClientProperties.STYLE, ""
-                + "borderWidth:0;"
-                + "focusWidth:0");
-        txtUser.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "User Name");
+        txtUser.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Username");
         txtPass.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Password");
+        txtPass.setText("1234567");
+        txtUser.setText("admin");
     }
 
     @SuppressWarnings("unchecked")
@@ -52,6 +46,8 @@ public class LoginForm extends javax.swing.JPanel {
         txtPass = new javax.swing.JPasswordField();
         jLabel1 = new javax.swing.JLabel();
         cmdLogin = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         lbTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbTitle.setText("Login");
@@ -81,26 +77,33 @@ public class LoginForm extends javax.swing.JPanel {
         });
         panelLogin1.add(cmdLogin);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(218, Short.MAX_VALUE)
+                .addContainerGap(357, Short.MAX_VALUE)
                 .addComponent(panelLogin1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(197, 197, 197))
+                .addGap(342, 342, 342))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(68, 68, 68)
+                .addGap(110, 110, 110)
                 .addComponent(panelLogin1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(116, Short.MAX_VALUE))
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        ForgotPassword fg = new ForgotPassword();
+        fg.setVisible(true);
+    }//GEN-LAST:event_jLabel1MouseClicked
+
     private void cmdLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLoginActionPerformed
-    
+
         String usernameCheck = txtUser.getText();
         String passwordCheck = txtPass.getText();
         if (usernameCheck.equals("") || passwordCheck.equals("")) {
@@ -115,12 +118,15 @@ public class LoginForm extends javax.swing.JPanel {
                 } else {
                     if (BCrypt.checkpw(passwordCheck, tk.getMatkhau())) {
                         try {
-                            Application.login();
+                            int id = AccountDAO.getInstance().getId(usernameCheck);
+                            Employee e = AccountDAO.getInstance().GetFullNameByuserName(id);
+                            Application app = new Application(e);
+                            this.setVisible(false);
+                            app.setVisible(true);
                             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Đăng nhập thành công!");
                             ActivityDAO.insert(new Activity(usernameCheck, "LOGIN", LocalDateTime.now()));
-                            Application.getAppInstance().setCurrentUser(usernameCheck);
                         } catch (Exception e) {
-                            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, e);
+                            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, e);
                         }
                     } else {
                         JOptionPane.showMessageDialog(this, "Mật khẩu không khớp", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
@@ -131,11 +137,17 @@ public class LoginForm extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_cmdLoginActionPerformed
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        // TODO add your handling code here:
-        ForgotPassword fg = new ForgotPassword();
-        fg.setVisible(true);
-    }//GEN-LAST:event_jLabel1MouseClicked
+    public static void main(String args[]) {
+        FlatRobotoFont.install();
+        FlatLaf.registerCustomDefaultsSource("zentech.theme");
+        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
+        FlatMacDarkLaf.setup();
+        java.awt.EventQueue.invokeLater(() -> {
+            Login login = new Login();
+            //  app.applyComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+            login.setVisible(true);
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cmdLogin;
