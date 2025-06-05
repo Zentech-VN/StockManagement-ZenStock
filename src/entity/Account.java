@@ -3,16 +3,17 @@ package entity;
 import java.util.Objects;
 
 public class Account {
+
     private int manv;
     private String username;
     private String matkhau;
     private int manhomquyen;
     private int trangthai;
-    
+
     public Account() {
-        
+
     }
-    
+
     public Account(int manv, String username, String matkhau, int manhomquyen, int trangthai) {
         this.manv = manv;
         this.username = username;
@@ -20,7 +21,7 @@ public class Account {
         this.manhomquyen = manhomquyen;
         this.trangthai = trangthai;
     }
-    
+
     public Account(int manv, String username, int manhomquyen, int trangthai) {
         this.manv = manv;
         this.username = username;

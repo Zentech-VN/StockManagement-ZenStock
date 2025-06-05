@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import java.sql.Connection;
@@ -17,15 +13,11 @@ import javax.swing.table.DefaultTableModel;
 import jdbc.ConnectionHelper;
 import entity.Activity;
 
-/**
- *
- * @author Duc Pham Ngoc
- */
 public class ActivityDAO {
+
     public static void insert(Activity activity) throws SQLException {
         String sql = "INSERT INTO activity_log (user_id, action, timestamp) VALUES (?, ?, ?)";
-        try (Connection conn = ConnectionHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, activity.getUserId());
             ps.setString(2, activity.getAction());
@@ -33,12 +25,10 @@ public class ActivityDAO {
             ps.executeUpdate();
         }
     }
-    
+
     public void loadActivityLogs(JTable tblActivity) {
         String sql = "SELECT user_id, action, timestamp FROM activity_log ORDER BY timestamp DESC";
-        try (Connection conn = ConnectionHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("Tên tài khoản");

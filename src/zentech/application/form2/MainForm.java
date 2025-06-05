@@ -3,7 +3,7 @@ package zentech.application.form2;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.util.UIScale;
-import entity.Supplier;
+import entity.Employee;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
@@ -29,14 +29,19 @@ import zentech.menu2.MenuAction;
 
 public class MainForm extends JLayeredPane {
 
-    public MainForm() {
-        init();
+    private Menu menu;
+    Employee acc;
+
+    public MainForm(Employee acc) {
+        this.acc = acc;
+
+        init(acc);
     }
 
-    private void init() {
+    private void init(Employee acc) {
         setBorder(new EmptyBorder(5, 5, 5, 5));
         setLayout(new MainFormLayout());
-        menu = new Menu();
+        menu = new Menu(acc);
         panelBody = new JPanel(new BorderLayout());
         initMenuArrowIcon();
         menuButton.putClientProperty(FlatClientProperties.STYLE, ""
@@ -79,7 +84,7 @@ public class MainForm extends JLayeredPane {
                 Application.showForm(new EmployeeForm());
             } else if (index == 3) {
                 Application.showForm(new FormRole());
-            }else if (index == 4) {
+            } else if (index == 4) {
                 Application.showForm(new ActivityLogForm());
             } else if (index == 5) {
                 Application.showForm(new CustomerManagement());
@@ -120,7 +125,6 @@ public class MainForm extends JLayeredPane {
         menu.setSelectedMenu(index, subIndex);
     }
 
-    private Menu menu;
     private JPanel panelBody;
     private JButton menuButton;
 
