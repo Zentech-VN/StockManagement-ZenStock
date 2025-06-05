@@ -3,6 +3,7 @@ package zentech.application.form2;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.util.UIScale;
+import entity.Employee;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
@@ -20,25 +21,31 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import zentech.application.Application;
 import zentech.application.form.other.AccountForm;
+import zentech.application.form.other.CustomerManagement;
+import zentech.application.form.other.ActivityLogForm;
 import zentech.application.form.other.EmployeeForm;
 import zentech.application.form.other.FormHomePage;
-import zentech.application.form.other.FormInbox;
-import zentech.application.form.other.FormRead;
 import zentech.application.form.other.FormRole;
+import zentech.application.form.other.SupplierForm;
+import zentech.application.form.other.WarehouseManagementForm;
 import zentech.menu2.Menu;
 import zentech.menu2.MenuAction;
-import zentech.application.form.other.WarehouseManagementForm;
 
 public class MainForm extends JLayeredPane {
 
-    public MainForm() {
-        init();
+    private Menu menu;
+    Employee acc;
+
+    public MainForm(Employee acc) {
+        this.acc = acc;
+
+        init(acc);
     }
 
-    private void init() {
+    private void init(Employee acc) {
         setBorder(new EmptyBorder(5, 5, 5, 5));
         setLayout(new MainFormLayout());
-        menu = new Menu();
+        menu = new Menu(acc);
         panelBody = new JPanel(new BorderLayout());
         initMenuArrowIcon();
         menuButton.putClientProperty(FlatClientProperties.STYLE, ""
@@ -82,13 +89,18 @@ public class MainForm extends JLayeredPane {
             } else if (index == 3) {
                 Application.showForm(new FormRole());
             } else if (index == 4) {
+                Application.showForm(new ActivityLogForm());
+            } else if (index == 5) {
+                Application.showForm(new CustomerManagement());
+            } else if (index == 6) {
+                Application.showForm(new SupplierForm());
+            } else if (index == 7) {
                 try {
                     Application.showForm(new WarehouseManagementForm());
                 } catch (SQLException ex) {
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            
-            } else if (index == 5) {
+            } else if (index == 8) {
                 Application.logout();
             } else {
                 action.cancel();
@@ -123,7 +135,6 @@ public class MainForm extends JLayeredPane {
         menu.setSelectedMenu(index, subIndex);
     }
 
-    private Menu menu;
     private JPanel panelBody;
     private JButton menuButton;
 

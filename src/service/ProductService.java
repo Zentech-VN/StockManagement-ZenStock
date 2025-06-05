@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package service;
+    package service;
 
-import dao.ProductDAO;
+    import dao.ProductDAO;
+import dao.ProductDAOImpl;
 import entity.Product;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -12,9 +9,11 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-
-public class ProductService {
-  private Connection conn;
+    public class ProductService implements ProductDAO {
+        private Connection conn;
+        public int getProductCountService() {
+            return getProductCount();
+        }
 
     public ProductService(Connection conn) {
         this.conn = conn;
@@ -22,7 +21,7 @@ public class ProductService {
 
     public List<Product> getProductsByWarehouse(String warehouseId) {
         try {
-            ProductDAO dao = new ProductDAO(conn);
+            ProductDAOImpl dao = new ProductDAOImpl(conn);
             return dao.getProductsByWarehouse(warehouseId);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,4 +53,4 @@ public class ProductService {
         }
     }
 
-}
+    }

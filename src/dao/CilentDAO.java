@@ -1,7 +1,6 @@
 package dao;
 
 import entity.Cilent;
-import java.sql.CallableStatement;
 import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

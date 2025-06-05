@@ -5,6 +5,7 @@ import java.sql.Date;
 public class Employee {
 
     private int manv;
+    private Account acc;
     private String hoten;
     private int gioitinh;
     private Date ngaysinh;
@@ -13,10 +14,12 @@ public class Employee {
     private int trangthai;
 
     public Employee() {
+        acc = new Account(); // Khởi tạo để tránh null
     }
 
-    public Employee(int manv, String hoten, int gioitinh, Date ngaysinh, String sdt, String email, int trangthai) {
+    public Employee(int manv, Account acc, String hoten, int gioitinh, Date ngaysinh, String sdt, String email, int trangthai) {
         this.manv = manv;
+        this.acc = acc;
         this.hoten = hoten;
         this.gioitinh = gioitinh;
         this.ngaysinh = ngaysinh;
@@ -87,6 +90,14 @@ public class Employee {
 
     public String getTrangThaiText() {
         return trangthai == 1 ? "Đang làm" : "Đã nghỉ";
+    }
+
+    public Account getAcc() {
+        return acc;
+    }
+
+    public void setAcc(Account acc) {
+        this.acc = acc;
     }
 
 }

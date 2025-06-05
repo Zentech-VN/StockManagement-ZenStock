@@ -3,7 +3,8 @@ package zentech.application.changepassword;
 import dao.AccountDAO;
 import helper.BCrypt;
 import javax.swing.JOptionPane;
-import zentech.application.form2.LoginForm;
+import zentech.application.Login;
+
 
 public class ChangePassword extends javax.swing.JFrame {
 
@@ -109,7 +110,7 @@ public class ChangePassword extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String pass = pwdPass.getText().trim();
-        LoginForm lg = new LoginForm();
+        Login lg = new Login();
         String passCheck = pass;
         if (pass.equals("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập mật khẩu");

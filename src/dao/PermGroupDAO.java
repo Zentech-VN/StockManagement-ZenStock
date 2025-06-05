@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import java.sql.Connection;
@@ -14,12 +10,9 @@ import java.util.logging.Logger;
 import jdbc.ConnectionHelper;
 import entity.PermGroup;
 
-/**
- *
- * @author Duc Pham Ngoc
- */
 public class PermGroupDAO {
-    public static PermGroupDAO getInstance(){
+
+    public static PermGroupDAO getInstance() {
         return new PermGroupDAO();
     }
 

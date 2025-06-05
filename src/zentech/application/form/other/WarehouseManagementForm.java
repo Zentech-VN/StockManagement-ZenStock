@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import service.WarehouseManagementService;
 import service.ProductService;
 import jdbc.ConnectionHelper;

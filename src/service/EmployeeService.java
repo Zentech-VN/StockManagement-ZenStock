@@ -122,7 +122,7 @@ public class EmployeeService implements EmployeeDAO {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Email không hợp lệ");
             return false;
         }
-        
+
         if (updateEmployee(ma, hoTen, gioiTinh, ngaySinhDate, dienThoai, email, trangThai)) {
             return true;
         }
@@ -140,4 +140,7 @@ public class EmployeeService implements EmployeeDAO {
         }
     }
 
+    public int getEmployeeCountService() {
+        return getEmployeeCount();
+    }
 }
