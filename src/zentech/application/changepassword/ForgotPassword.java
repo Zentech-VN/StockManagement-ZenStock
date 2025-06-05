@@ -16,6 +16,7 @@ public class ForgotPassword extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         this.setResizable(false);
+        initalUI();
     }
 
     private void initalUI() {
