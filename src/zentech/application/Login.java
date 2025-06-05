@@ -37,6 +37,9 @@ public class Login extends javax.swing.JFrame {
 
         txtUser.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tên đăng nhập");
         txtPass.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Mật khẩu");
+        
+        txtPass.putClientProperty(FlatClientProperties.STYLE, "" +                        
+                        "showRevealButton:true;");
 
         txtUser.addActionListener(e -> {
             txtPass.requestFocus();
@@ -49,7 +52,7 @@ public class Login extends javax.swing.JFrame {
             if (username.isEmpty()) {
                 txtUser.requestFocus();
             } else if (password.isEmpty()) {
-
+                //Không làm gì cả
             } else {
                 btnLogin.doClick();
             }
