@@ -26,12 +26,12 @@ public class ChangePassword extends javax.swing.JFrame {
     private void initalUI() {
         pwdPass.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Nhập mật khẩu");
         pwdPass1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Xác nhận mật khẩu");
-        
-        pwdPass.putClientProperty(FlatClientProperties.STYLE, "" +                        
-                        "showRevealButton:true;");
-        
-        pwdPass1.putClientProperty(FlatClientProperties.STYLE, "" +                        
-                        "showRevealButton:true;");
+
+        pwdPass.putClientProperty(FlatClientProperties.STYLE, ""
+                + "showRevealButton:true;");
+
+        pwdPass1.putClientProperty(FlatClientProperties.STYLE, ""
+                + "showRevealButton:true;");
     }
 
     @SuppressWarnings("unchecked")
@@ -93,23 +93,32 @@ public class ChangePassword extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String pass = pwdPass.getText().trim();
-        String pass1 = pwdPass.getText().trim();
+        String pass1 = pwdPass1.getText().trim();
 
-        if (pass.equals("") || pass1.equals("") || pass.length() <= 0 || pass1.length() <= 0) {
+        if (pass.isEmpty() || pass1.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin");
+            return;
         }
 
-        if (pass.equals(pass1)) {
-            Login lg = new Login();
-            String password = BCrypt.hashpw(pass, BCrypt.gensalt(12));
-            AccountDAO.getInstance().updatePass(this.email, password);
-            AccountDAO.getInstance().sendOpt(pass, "null");
-            JOptionPane.showMessageDialog(this, "Thay đổi mật khẩu thành công!");
-            this.dispose();
-            lg.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(this, "Mật khẩu không khớp");
+        if (pass.length() < 6) {
+            JOptionPane.showMessageDialog(this, "Mật khẩu phải có ít nhất 6 kí tự");
+            return;
         }
+
+        if (!pass.equals(pass1)) {
+            JOptionPane.showMessageDialog(this, "Mật khẩu không khớp");
+            return;
+        }
+
+        String password = BCrypt.hashpw(pass, BCrypt.gensalt(12));
+        AccountDAO.getInstance().updatePass(this.email, password);
+        AccountDAO.getInstance().sendOpt(pass, "null");
+        JOptionPane.showMessageDialog(this, "Thay đổi mật khẩu thành công!");
+        this.dispose();
+
+        Login lg = new Login();
+        lg.setVisible(true);
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
