@@ -1,64 +1,34 @@
 package zentech.application;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
-import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import dao.ActivityDAO;
-import entity.Activity;
+import entity.Employee;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import zentech.application.form2.LoginForm;
+
 import zentech.application.form2.MainForm;
 import raven.toast.Notifications;
 
 public class Application extends javax.swing.JFrame {
 
     private static Application app;
-    private final MainForm mainForm;
-    private final LoginForm loginForm;
-    private String currentUser;
-    
-    public static Application getAppInstance(){
-        return app;
-    }
-    
-    public void setCurrentUser(String user){
-        this.currentUser = user;
-    }
-    
-    public String getCurrentUser(){
-        return this.currentUser;
-    }
+    private MainForm mainForm;
 
-    public Application() {
+    private static Login l;
+    private static Employee acccurent;
+
+    public Application(Employee acc) {
+        this.acccurent = acc;
+        app = this;
         initComponents();
         setSize(new Dimension(1366, 768));
         setLocationRelativeTo(null);
-        mainForm = new MainForm();
-        loginForm = new LoginForm();
-        setContentPane(loginForm);
+        mainForm = new MainForm(this.acccurent);
+        setContentPane(mainForm);
         getRootPane().putClientProperty(FlatClientProperties.FULL_WINDOW_CONTENT, true);
         Notifications.getInstance().setJFrame(this);
-        
-        this.addWindowListener(new java.awt.event.WindowAdapter(){
-            public void windowClosing(java.awt.event.WindowEvent e){
-                String user = getCurrentUser();
-                if(user != null && !user.isEmpty()){
-                    try{
-                        ActivityDAO.insert(new Activity(user, "LOGOUT", LocalDateTime.now()));
-                    }catch(SQLException ex){
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        });
+
     }
 
     public static void showForm(Component component) {
@@ -77,20 +47,15 @@ public class Application extends javax.swing.JFrame {
     }
 
     public static void logout() {
-        FlatAnimatedLafChange.showSnapshot();
-        app.setContentPane(app.loginForm);
-        app.loginForm.applyComponentOrientation(app.getComponentOrientation());
-        SwingUtilities.updateComponentTreeUI(app.loginForm);
-        FlatAnimatedLafChange.hideSnapshotWithAnimation();
-        
-        String user = app.getCurrentUser();
-        if(user != null && !user.isEmpty()){
-            try{
-                ActivityDAO.insert(new Activity(user, "LOGOUT", LocalDateTime.now()));
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }
+        SwingUtilities.invokeLater(() -> {
+            // Đóng cửa sổ chính
+            app.dispose();
+
+            // Mở lại cửa sổ login
+            l = new Login();
+            l.setLocationRelativeTo(null);
+            l.setVisible(true);
+        });
     }
 
     public static void setSelectedMenu(int index, int subIndex) {
@@ -117,17 +82,16 @@ public class Application extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public static void main(String args[]) {
-        FlatRobotoFont.install();
-        FlatLaf.registerCustomDefaultsSource("zentech.theme");
-        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
-        FlatMacDarkLaf.setup();
-        java.awt.EventQueue.invokeLater(() -> {
-            app = new Application();
-            //  app.applyComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-            app.setVisible(true);
-        });
-    }
+//    public static void main(String args[]) {
+//        FlatRobotoFont.install();
+//        FlatLaf.registerCustomDefaultsSource("zentech.theme");
+//        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
+//        FlatMacDarkLaf.setup();
+//        java.awt.EventQueue.invokeLater(() -> {
+//            Login l = new Login();
+//            l.setVisible(true);
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

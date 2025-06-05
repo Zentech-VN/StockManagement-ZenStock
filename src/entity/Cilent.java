@@ -1,4 +1,3 @@
-
 package entity;
 
 import java.sql.Date;

@@ -7,6 +7,7 @@ import java.io.InputStream;
 import javax.sql.DataSource;
 
 public class ConnectionHelper {
+
     private static DataSource dataSource;
 
     static {
@@ -24,7 +25,7 @@ public class ConnectionHelper {
     public static Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
-    
+
     public static void closeConnection(Connection c) {
         try {
             if (c != null) {
@@ -36,4 +37,3 @@ public class ConnectionHelper {
         }
     }
 }
-
