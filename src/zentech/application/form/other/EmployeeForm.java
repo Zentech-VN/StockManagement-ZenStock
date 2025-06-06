@@ -29,9 +29,6 @@ public class EmployeeForm extends javax.swing.JPanel {
     private TableRowSorter<DefaultTableModel> sorter;
     private EmployeeUpdateDialog updateDialog;
 
-    private final int[] SIZE_MAP = {12, 14, 18};
-    private final String[] FONT_MAP = {"Segoe UI", "Arial", "Serif"};
-
     public EmployeeForm() {
         initComponents();
         loadEmployeeData();
