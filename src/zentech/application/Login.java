@@ -214,16 +214,6 @@ public class Login extends javax.swing.JFrame {
                             int id = AccountDAO.getInstance().getId(usernameCheck);
                             Employee e = AccountDAO.getInstance().GetFullNameByuserName(id);
 
-                            // Debug: In thông tin Employee
-                            System.out.println("Debug - Login - Employee e: " + e);
-                            if (e != null) {
-                                System.out.println("Debug - Login - e.getAcc(): " + e.getAcc());
-                                if (e.getAcc() != null) {
-                                    System.out.println("Debug - Login - e.getAcc().getUsername(): " + e.getAcc().getUsername());
-                                }
-                            }
-
-                            // Set username vào Employee.getAcc() để đảm bảo có username
                             if (e != null && e.getAcc() != null) {
                                 e.getAcc().setUsername(usernameCheck);
                                 System.out.println("Debug - Set username to Employee.getAcc(): " + usernameCheck);
