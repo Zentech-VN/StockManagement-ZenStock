@@ -1,11 +1,37 @@
 package zentech.application.form.other;
 
+import entity.ProductView;
+import javax.swing.table.DefaultTableModel;
+import service.ProductService;
+
 public class ProductForm extends javax.swing.JPanel {
 
+    private ProductService productService;
+    
     public ProductForm() {
         initComponents();
+        loadProductViewData();
     }
 
+    public void loadProductViewData() {
+        this.productService = new ProductService();
+        DefaultTableModel model = (DefaultTableModel) tblProduct.getModel();
+        model.setRowCount(0);
+
+        for (ProductView x : productService.getAllProductViewService()) {
+            model.addRow(new Object[]{
+                x.getMaSanPham(),
+                x.getTenSanPham(),
+                x.getTenXuatXu(),
+                x.getTenThuongHieu(),
+                x.getTenKhuVuc(),
+                x.getSoLuongTon(),
+                x.getTrangThaiText()
+            });
+        }
+        this.tblProduct.setModel(model);
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -17,10 +43,10 @@ public class ProductForm extends javax.swing.JPanel {
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblNhanVien = new javax.swing.JTable();
+        tblProduct = new javax.swing.JTable();
         crazyPanel3 = new raven.crazypanel.CrazyPanel();
-        btnAdd1 = new javax.swing.JButton();
-        btnUpdate1 = new javax.swing.JButton();
+        btnDetails = new javax.swing.JButton();
+        btnReload = new javax.swing.JButton();
 
         crazyPanel1.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
             "background:$Table.background;[light]border:0,0,0,0,shade(@background,5%),,20;[dark]border:0,0,0,0,tint(@background,5%),,20",
@@ -71,7 +97,7 @@ public class ProductForm extends javax.swing.JPanel {
 
         crazyPanel1.add(crazyPanel2);
 
-        tblNhanVien.setModel(new javax.swing.table.DefaultTableModel(
+        tblProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -87,8 +113,8 @@ public class ProductForm extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tblNhanVien.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(tblNhanVien);
+        tblProduct.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tblProduct);
 
         crazyPanel1.add(jScrollPane1);
 
@@ -106,13 +132,13 @@ public class ProductForm extends javax.swing.JPanel {
             null
         ));
 
-        btnAdd1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnAdd1.setText("Chi tiết");
-        crazyPanel3.add(btnAdd1);
+        btnDetails.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDetails.setText("Chi tiết");
+        crazyPanel3.add(btnDetails);
 
-        btnUpdate1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnUpdate1.setText("Làm mới");
-        crazyPanel3.add(btnUpdate1);
+        btnReload.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnReload.setText("Làm mới");
+        crazyPanel3.add(btnReload);
 
         crazyPanel1.add(crazyPanel3);
 
@@ -141,15 +167,15 @@ public class ProductForm extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnAdd1;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDetails;
+    private javax.swing.JButton btnReload;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JButton btnUpdate1;
     private raven.crazypanel.CrazyPanel crazyPanel1;
     private raven.crazypanel.CrazyPanel crazyPanel2;
     private raven.crazypanel.CrazyPanel crazyPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblNhanVien;
+    private javax.swing.JTable tblProduct;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
