@@ -23,6 +23,7 @@ import zentech.application.form.other.ActivityLogForm;
 import zentech.application.form.other.EmployeeForm;
 import zentech.application.form.other.FormHomePage;
 import zentech.application.form.other.FormRole;
+import zentech.application.form.other.ProductForm;
 import zentech.application.form.other.SupplierForm;
 import zentech.menu2.Menu;
 import zentech.menu2.MenuAction;
@@ -91,6 +92,8 @@ public class MainForm extends JLayeredPane {
             } else if (index == 6) {
                 Application.showForm(new SupplierForm());
             } else if (index == 7) {
+                Application.showForm(new ProductForm());
+            } else if (index == 8) {
                 Application.logout();
             } else {
                 action.cancel();
