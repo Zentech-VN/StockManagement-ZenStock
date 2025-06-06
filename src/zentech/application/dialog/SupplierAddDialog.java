@@ -1,6 +1,7 @@
 package zentech.application.dialog;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.ActivityDAO;
 import java.awt.Dialog;
 import java.awt.Window;
 import javax.swing.JDialog;
@@ -176,6 +177,7 @@ public class SupplierAddDialog extends JDialog {
         String email = txtEmail.getText().trim();
         String sdt = txtSoDienThoai.getText().trim();
         int trangThai = cmoTrangThai.getSelectedIndex(); // 0: Hoạt động, 1: Không hoạt động
+        String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
 
         // Kiểm tra trống
         if (tenNCC.isEmpty() || diaChi.isEmpty() || email.isEmpty() || sdt.isEmpty()) {
@@ -207,6 +209,7 @@ public class SupplierAddDialog extends JDialog {
 
         if (inserted) {
             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Thêm nhà cung cấp thành công");
+            ActivityDAO.logActivity(appCurrentUser, "Thêm nhà cung cấp: " + tenNCC);
             supplierForm.loadTable(); // cập nhật lại bảng trong SupplierForm
             dispose(); // đóng dialog
         } else {

@@ -1,7 +1,11 @@
 package zentech.application.dialog;
 
+import dao.ActivityDAO;
 import entity.Account;
+import entity.Activity;
+import entity.Employee;
 import entity.PermGroup;
+import java.time.LocalDateTime;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import service.AccountDialogService;
@@ -12,11 +16,13 @@ public class AccountDialog extends javax.swing.JFrame {
     private Object taiKhoan;
     private int manv;
     private boolean isEditMode = false;
-
-    //edit
-    public AccountDialog(Object taiKhoan, int manv) {
+    private Employee currentUser; 
+            
+    //add - constructor cho thêm tài khoản
+    public AccountDialog(Object taiKhoan, int manv, Employee currentUser) {
         this.taiKhoan = taiKhoan;
         this.manv = manv;
+        this.currentUser = currentUser;
         this.isEditMode = false;
 
         initComponents();
@@ -26,9 +32,10 @@ public class AccountDialog extends javax.swing.JFrame {
     }
 
     //add
-    public AccountDialog(Object taiKhoan, int manv, Account account) {
+    public AccountDialog(Object taiKhoan, int manv, Account account, Employee currentUser) {
         this.taiKhoan = taiKhoan;
         this.manv = manv;
+        this.currentUser = currentUser;
         this.isEditMode = false;
 
         initComponents();
@@ -236,6 +243,19 @@ public class AccountDialog extends javax.swing.JFrame {
         String password = txtPass.getText().trim();
         int permGroupIndex = jComboBox1.getSelectedIndex();
         int statusIndex = jComboBox2.getSelectedIndex();
+        String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
+
+        String user;
+        if (appCurrentUser != null && !appCurrentUser.trim().isEmpty()) {
+            user = appCurrentUser;
+//            System.out.println("Using Application.getCurrentUser(): " + user);
+        } else if (currentUser != null && currentUser.getAcc() != null && currentUser.getAcc().getUsername() != null) {
+            user = currentUser.getAcc().getUsername();
+//            System.out.println("Using currentUser.getAcc().getUsername(): " + user);
+        } else {
+            user = "Unknown";
+//            System.out.println("Using fallback: " + user);
+        }
 
         try {
             boolean success;
@@ -255,6 +275,7 @@ public class AccountDialog extends javax.swing.JFrame {
                 if (success) {
                     JOptionPane.showMessageDialog(this, "Thêm tài khoản thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
                     dispose();
+                    ActivityDAO.logActivity(user, "Thêm tài khoản: " + username);
                 } else {
                     if (accountService.isUsernameExists(username)) {
                         JOptionPane.showMessageDialog(this, "Tên đăng nhập đã tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);

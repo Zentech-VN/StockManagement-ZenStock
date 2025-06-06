@@ -1,6 +1,7 @@
 package zentech.application.dialog;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.ActivityDAO;
 import entity.Supplier;
 import java.awt.Dialog;
 import java.awt.Window;
@@ -205,7 +206,8 @@ public class SupplierUpdateDialog extends JDialog {
         String email = txtEmail.getText().trim();
         String sdt = txtSoDienThoai.getText().trim();
         int trangThai = cmoTrangThai.getSelectedIndex(); // 0: Hoạt động, 1: Không hoạt động
-
+        String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
+        
         // Kiểm tra mã nhà cung cấp hợp lệ (phải là số và không để trống)
         if (maNhaCungCapStr.isEmpty()) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Mã nhà cung cấp không được để trống!, Thiếu thông tin");
@@ -250,6 +252,7 @@ public class SupplierUpdateDialog extends JDialog {
 
         if (updated) {
             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Cập nhật nhà cung cấp thành công!, Thành công");
+            ActivityDAO.logActivity(appCurrentUser, "Cập nhật nhà cung cấp: " + tenNCC);
             supplierForm.loadTable(); // cập nhật lại bảng trong SupplierForm
             dispose(); // đóng dialog
         } else {

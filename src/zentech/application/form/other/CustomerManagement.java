@@ -225,7 +225,7 @@ public class CustomerManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_tblDanhSachMouseClicked
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        cls.delete(txtMaKH);
+        cls.delete(txtMaKH, txtTenKH);
         cls.LoadDataTable(tblDanhSach);
     }//GEN-LAST:event_btnDeleteActionPerformed
 

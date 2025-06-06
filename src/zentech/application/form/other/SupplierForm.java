@@ -1,6 +1,7 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.ActivityDAO;
 import entity.Supplier;
 import java.awt.Dimension;
 import java.util.List;
@@ -424,6 +425,7 @@ public class SupplierForm extends javax.swing.JPanel {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int selectedRow = tblNhaCungCap.getSelectedRow();
+        String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
         if (selectedRow == -1) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Hãy chọn Nhà cung cấp muốn xóa");
             return;
@@ -435,6 +437,7 @@ public class SupplierForm extends javax.swing.JPanel {
 
         // Lấy mã nhà cung cấp tại dòng đã chọn
         int maNhaCungCap = (int) model.getValueAt(modelIndex, 0);
+        String tenNhaCungCap = (String) model.getValueAt(modelIndex, 1);
 
         // Hiển thị hộp thoại xác nhận
         int confirm = JOptionPane.showConfirmDialog(this,
@@ -447,6 +450,7 @@ public class SupplierForm extends javax.swing.JPanel {
             boolean success = service.deleteSupplier(maNhaCungCap);
             if (success) {
                 Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Xoá thành công");
+                ActivityDAO.logActivity(appCurrentUser, "Xóa nhà cung cấp: " + tenNhaCungCap);
                 loadTable(); // Tải lại dữ liệu lên bảng
                 txtMa.setText(null);
                 txtDiaChi.setText(null);

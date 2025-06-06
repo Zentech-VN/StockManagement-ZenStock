@@ -1,6 +1,7 @@
 package service;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.ActivityDAO;
 import dao.CilentDAO;
 import entity.Cilent;
 import java.io.FileWriter;
@@ -86,12 +87,14 @@ public class CilentService {
             return true;
         }
     }
-
+    
     public void add(
             JTextField tenkh,
             JTextField sdt,
             JTextField diachi
     ) {
+        String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
+        String ten = tenkh.getText();
         if (checkvalidate(tenkh, sdt, diachi)) {
             int confrim = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thêm khách hàng", "Add", JOptionPane.YES_OPTION);
             if (confrim == JOptionPane.YES_OPTION) {
@@ -102,23 +105,27 @@ public class CilentService {
                 int rs = cld.addkhachhang(cl);
                 if (rs > 0) {
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Thêm thành công");
+                    ActivityDAO.logActivity(appCurrentUser, "Thêm khách hàng: " + ten);
                 }
             }
         }
     }
 
-    public void delete(JTextField makh) {
+    public void delete(JTextField makh, JTextField tenkh) {
+        String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
         if (makh.getText().isEmpty()) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập mã khách hàng muốn xóa");
             return;
         } else {
             try {
                 int id = Integer.parseInt(makh.getText());
+                String ten = tenkh.getText();
                 int confrim = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa khách hàng có mã " + id, "Add", JOptionPane.YES_OPTION);
                 if (confrim == JOptionPane.YES_OPTION) {
                     int rs = cld.delete(id);
                     if (rs > 0) {
                         Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Xóa thành công khách hàng có mã " + id);
+                        ActivityDAO.logActivity(appCurrentUser, "Xóa khách hàng: " + ten);
                     }
                 }
             } catch (Exception e) {
@@ -137,6 +144,8 @@ public class CilentService {
     }
 
     public void update(JTextField makh, JTextField tenkh, JTextField sdt, JTextField diachi) {
+        String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
+        String ten = tenkh.getText();
         if (makh.getText().trim().isEmpty()) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập mã khách hàng muốn cập nhập");
             return;
@@ -154,6 +163,7 @@ public class CilentService {
                         int rs = cld.Update(cl);
                         if (rs > 0) {
                             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Cập nhập thành công cho khách hàng có mã " + id);
+                            ActivityDAO.logActivity(appCurrentUser, "Cập nhật khách hàng: " + ten);
                         }
                     }
                 } catch (Exception e) {

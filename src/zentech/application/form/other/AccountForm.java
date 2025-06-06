@@ -1,6 +1,7 @@
 package zentech.application.form.other;
 
 import dao.AccountDAO;
+import dao.ActivityDAO;
 import java.util.ArrayList;
 import entity.Account;
 import javax.swing.JOptionPane;
@@ -12,6 +13,7 @@ public class AccountForm extends javax.swing.JPanel {
 
     private AccountService asv = new AccountService();
     private ArrayList<Account> lista = asv.getTaiKhoanAll();
+    String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
 
     public AccountForm() {
         initComponents();
@@ -176,6 +178,9 @@ public class AccountForm extends javax.swing.JPanel {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         int index = getRowSelected();
+        String user = appCurrentUser;
+        String hoTen = tblList.getValueAt(index, 1).toString();
+       
         if (index != -1) {
             int input = JOptionPane.showConfirmDialog(null,
                     "Bạn có chắc chắn muốn xóa tài khoản!", "Xóa tài khoản",
@@ -193,6 +198,7 @@ public class AccountForm extends javax.swing.JPanel {
 
                     JOptionPane.showMessageDialog(this, "Xóa tài khoản thành công!",
                             "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    ActivityDAO.logActivity(user, "Xóa tài khoản: " + hoTen);
                 } else {
                     JOptionPane.showMessageDialog(this, "Xóa tài khoản thất bại!",
                             "Lỗi", JOptionPane.ERROR_MESSAGE);

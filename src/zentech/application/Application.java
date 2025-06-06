@@ -6,6 +6,9 @@ import entity.Employee;
 import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.SwingUtilities;
+import dao.ActivityDAO;
+import entity.Activity;
+import java.time.LocalDateTime;
 
 import zentech.application.form2.MainForm;
 import raven.toast.Notifications;
@@ -17,6 +20,19 @@ public class Application extends javax.swing.JFrame {
 
     private static Login l;
     private static Employee acccurent;
+    private String currentUser;
+
+    public static Application getAppInstance(){
+        return app;
+    }
+
+    public void setCurrentUser(String user){
+        this.currentUser = user;
+    }
+
+    public String getCurrentUser(){
+        return this.currentUser;
+    }
 
     public Application(Employee acc) {
         this.acccurent = acc;
@@ -28,6 +44,19 @@ public class Application extends javax.swing.JFrame {
         setContentPane(mainForm);
         getRootPane().putClientProperty(FlatClientProperties.FULL_WINDOW_CONTENT, true);
         Notifications.getInstance().setJFrame(this);
+        
+         this.addWindowListener(new java.awt.event.WindowAdapter(){
+            public void windowClosing(java.awt.event.WindowEvent e){
+                String user = getCurrentUser();
+                if(user != null && !user.isEmpty()){
+                    try{
+                        ActivityDAO.insert(new Activity(user, "LOGOUT", LocalDateTime.now()));
+                    }catch(Exception ex){
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
 
     }
 
@@ -48,10 +77,15 @@ public class Application extends javax.swing.JFrame {
 
     public static void logout() {
         SwingUtilities.invokeLater(() -> {
-            // Đóng cửa sổ chính
+            String user = app.getCurrentUser();
+            if(user != null && !user.isEmpty()){
+                try{
+                    ActivityDAO.insert(new Activity(user, "LOGOUT", LocalDateTime.now()));
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
             app.dispose();
-
-            // Mở lại cửa sổ login
             l = new Login();
             l.setLocationRelativeTo(null);
             l.setVisible(true);
@@ -60,6 +94,11 @@ public class Application extends javax.swing.JFrame {
 
     public static void setSelectedMenu(int index, int subIndex) {
         app.mainForm.setSelectedMenu(index, subIndex);
+    }
+
+    // Method để lấy thông tin user hiện tại
+    public static Employee getCurrentUserLog() {
+        return acccurent;
     }
 
     @SuppressWarnings("unchecked")
