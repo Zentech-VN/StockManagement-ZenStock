@@ -213,11 +213,28 @@ public class Login extends javax.swing.JFrame {
                         try {
                             int id = AccountDAO.getInstance().getId(usernameCheck);
                             Employee e = AccountDAO.getInstance().GetFullNameByuserName(id);
+
+                            // Debug: In thông tin Employee
+                            System.out.println("Debug - Login - Employee e: " + e);
+                            if (e != null) {
+                                System.out.println("Debug - Login - e.getAcc(): " + e.getAcc());
+                                if (e.getAcc() != null) {
+                                    System.out.println("Debug - Login - e.getAcc().getUsername(): " + e.getAcc().getUsername());
+                                }
+                            }
+
+                            // Set username vào Employee.getAcc() để đảm bảo có username
+                            if (e != null && e.getAcc() != null) {
+                                e.getAcc().setUsername(usernameCheck);
+                                System.out.println("Debug - Set username to Employee.getAcc(): " + usernameCheck);
+                            }
+
                             Application app = new Application(e);
                             this.setVisible(false);
                             app.setVisible(true);
                             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Đăng nhập thành công!");
-                            ActivityDAO.insert(new Activity(usernameCheck, "LOGIN", LocalDateTime.now()));
+                            ActivityDAO.logActivity(usernameCheck, "LOGIN");
+                            Application.getAppInstance().setCurrentUser(usernameCheck);
                         } catch (Exception e) {
                             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, e);
                         }

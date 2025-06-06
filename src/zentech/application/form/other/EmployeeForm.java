@@ -1,6 +1,7 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.ActivityDAO;
 import entity.Employee;
 import entity.EmployeeAccout;
 import java.awt.Dimension;
@@ -516,19 +517,21 @@ public class EmployeeForm extends javax.swing.JPanel {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int modelRow = getSelectedModelRow();
+        String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
+        DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
+        String hoTen = model.getValueAt(modelRow, 1).toString();
         if (modelRow == -1) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Hãy chọn nhân viên muốn xoá");
             return;
         }
 
-        DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
         int maInt = Integer.parseInt(model.getValueAt(modelRow, 0).toString());
 
         int ret = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xoá nhân viên có mã: " + maInt, "Xoá", JOptionPane.YES_NO_OPTION);
         if (ret == JOptionPane.YES_OPTION) {
-
+            ActivityDAO.logActivity(appCurrentUser, "Xóa nhân viên: " + hoTen);
             this.employeeService = new EmployeeService();
-
+            
             if (employeeService.deleteEmployeeById(maInt)) {
                 loadEmployeeData();
             }

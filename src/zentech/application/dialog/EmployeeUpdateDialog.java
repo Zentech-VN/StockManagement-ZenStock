@@ -1,6 +1,7 @@
 package zentech.application.dialog;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.ActivityDAO;
 import java.awt.Window;
 import javax.swing.JDialog;
 import java.awt.Dialog;
@@ -210,7 +211,8 @@ public class EmployeeUpdateDialog extends JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String ma = txtMa.getText().trim();
         int maInt = Integer.parseInt(ma);
-
+        String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
+        
         String ten = txtHoTen.getText().trim();
 
         String temp1 = String.valueOf(cbbGioiTinh.getSelectedItem());
@@ -228,6 +230,7 @@ public class EmployeeUpdateDialog extends JDialog {
         if (x) {
             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Sửa thành công nhân viên");
             employeeForm.loadEmployeeData();
+            ActivityDAO.logActivity(appCurrentUser, "Thêm tài khoản: " + ten);
             this.dispose();
         }
     }//GEN-LAST:event_jButton1ActionPerformed

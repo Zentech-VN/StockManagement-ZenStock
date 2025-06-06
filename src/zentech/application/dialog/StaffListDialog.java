@@ -111,7 +111,7 @@ public class StaffListDialog extends javax.swing.JFrame {
             JOptionPane.showConfirmDialog(null,
                     "Vui lòng chọn nhân viên!", "Thông báo", JOptionPane.DEFAULT_OPTION);
         } else {
-            AccountDialog acd = new AccountDialog(this, lists.get(getRow()).getManv());
+            AccountDialog acd = new AccountDialog(this, lists.get(getRow()).getManv(), zentech.application.Application.getCurrentUserLog());
             acd.setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
