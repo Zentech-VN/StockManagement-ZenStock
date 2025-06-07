@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -28,6 +29,10 @@ public class OpenAIService {
     private static String MODEL;
     private static int MAX_TOKENS;
     private static double TEMPERATURE; // độ sáng tạo
+    
+    static{
+        loadConfiguration();
+    }
     
     private static void loadConfiguration(){
         Properties props = new Properties(); //object này để đọc file config
