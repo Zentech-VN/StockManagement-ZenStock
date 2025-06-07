@@ -2,12 +2,12 @@ package zentech.application.form.other;
 
 import service.AccountService;
 import service.EmployeeService;
-import service.ProductService;
+import service.ProductServiceMain;
 
 public class FormHomePage extends javax.swing.JPanel {
 
     private EmployeeService employeeService = new EmployeeService();
-    private ProductService productService = new ProductService();
+    private ProductServiceMain productService = new ProductServiceMain();
     private AccountService accountService = new AccountService();
 
     public FormHomePage() {

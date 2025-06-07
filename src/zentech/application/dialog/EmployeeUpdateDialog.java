@@ -5,6 +5,7 @@ import dao.ActivityDAO;
 import java.awt.Window;
 import javax.swing.JDialog;
 import java.awt.Dialog;
+import javax.swing.JFormattedTextField;
 import raven.datetime.DatePicker;
 import raven.toast.Notifications;
 import service.EmployeeService;
@@ -15,7 +16,7 @@ public class EmployeeUpdateDialog extends JDialog {
     private EmployeeForm employeeForm;
     EmployeeService employeeService;
 
-    public EmployeeUpdateDialog(Window parent, EmployeeForm employeeForm, String ma, String hoTen, String gioiTinh, String ngaySinh, String dienThoai, String email, String trangThai) {
+public EmployeeUpdateDialog(Window parent, EmployeeForm employeeForm, String ma, String hoTen, String gioiTinh, String ngaySinh, String dienThoai, String email, String trangThai) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         this.employeeForm = employeeForm;
         initComponents();
@@ -29,7 +30,7 @@ public class EmployeeUpdateDialog extends JDialog {
         txtEmail.setText(email);
         cbbTrangThai.setSelectedItem("Đang làm".equals(trangThai) ? "Đang làm" : "Đã nghỉ");
 
-    }
+}
 
     private void setTimePiker() {
         DatePicker datePicker = new DatePicker();
@@ -37,7 +38,7 @@ public class EmployeeUpdateDialog extends JDialog {
         datePicker.setUsePanelOption(true);
         datePicker.setDateFormat("yyyy-MM-dd");
         datePicker.setDateSelectionAble(localDate -> !localDate.isAfter(localDate.now()));
-        datePicker.setEditor(txtNgaySinh);
+        datePicker.setEditor((JFormattedTextField) txtNgaySinh);
     }
 
     private void initalUI() {
@@ -74,6 +75,12 @@ public class EmployeeUpdateDialog extends JDialog {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sửa nhân viên", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
         jPanel3.setMaximumSize(new java.awt.Dimension(100, 100));
 
+        txtHoTen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtHoTenActionPerformed(evt);
+            }
+        });
+
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Họ tên");
 
@@ -97,6 +104,11 @@ public class EmployeeUpdateDialog extends JDialog {
         cbbTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đang làm", "Đã nghỉ" }));
 
         txtMa.setEditable(false);
+        txtMa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMaActionPerformed(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setText("Mã");
@@ -239,6 +251,14 @@ public class EmployeeUpdateDialog extends JDialog {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void txtMaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMaActionPerformed
+
+    private void txtHoTenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHoTenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHoTenActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbbGioiTinh;
     private javax.swing.JComboBox<String> cbbTrangThai;
@@ -256,6 +276,6 @@ public class EmployeeUpdateDialog extends JDialog {
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtHoTen;
     private javax.swing.JTextField txtMa;
-    private javax.swing.JFormattedTextField txtNgaySinh;
+    private javax.swing.JTextField txtNgaySinh;
     // End of variables declaration//GEN-END:variables
 }

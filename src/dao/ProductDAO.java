@@ -1,29 +1,40 @@
 package dao;
 
-import entity.ProductView;
+import entity.Product;
+import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import jdbc.ConnectionHelper;
+import raven.toast.Notifications;
 
 public interface ProductDAO {
 
-    default List<ProductView> getAllProduct() {
-        List<ProductView> list = new ArrayList<>();
-        String sql = "SELECT * FROM vw_sanpham;";
+    default List<Product> getAllProduct() {
+        List<Product> list = new ArrayList<>();
+        String sql = "SELECT * FROM sanpham;";
 
         try (
                 Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                ProductView p = new ProductView();
+                Product p = new Product();
                 p.setMaSanPham(rs.getInt("masp"));
                 p.setTenSanPham(rs.getString("tensp"));
-                p.setTenXuatXu(rs.getString("tenxuatxu"));
-                p.setTenThuongHieu(rs.getString("tenthuonghieu"));
-                p.setTenKhuVuc(rs.getString("tenkhuvuc"));
+                p.setHinhAnh(rs.getString("hinhanh"));
+                p.setTenXuatXu(rs.getString("xuatxu"));
+                p.setChipXuLy(rs.getString("chipxuly"));
+                p.setKichThuocManHinh(rs.getDouble("kichthuocman"));
+                p.setTenHeDieuHanh(rs.getString("hedieuhanh"));
+                p.setPhienBanHeDieuHanh(rs.getInt("phienbanhdh"));
+                p.setCameraSau(rs.getString("camerasau"));
+                p.setCameraTruoc(rs.getString("cameratruoc"));
+                p.setThoiGianBaoHanh(rs.getInt("thoigianbaohanh"));      
+                p.setTenThuongHieu(rs.getString("thuonghieu"));
+                p.setTenKhuVuc(rs.getString("khuvuckho"));
                 p.setSoLuongTon(rs.getInt("soluongton"));
                 p.setTrangThai(rs.getInt("trangthai"));
 
@@ -34,6 +45,81 @@ public interface ProductDAO {
         }
 
         return list;
+    }
+
+    default boolean addProduct(int maSanPham, String tenSanPham, String hinhAnh, String chipXuLy, int dungLuongPin, double kichThuocManHinh, String cameraSau, String cameraTruoc, int thoiGianBaoHanh, int soLuongTon, int phienBanHeDieuHanh, int trangThai, String tenXuatXu, String tenHeDieuHanh, String tenThuongHieu, String tenKhuVuc) {
+        String sql = "INSERT INTO sanpham (masp, tensp, hinhanh, xuatxu, chipxuly, dungluongpin, kichthuocman, hedieuhanh, phienbanhdh, camerasau, cameratruoc, thoigianbaohanh, thuonghieu, khuvuckho, soluongton, trangthai) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, maSanPham);
+            ps.setString(2, tenSanPham);
+            ps.setString(3, hinhAnh);
+            ps.setString(4, tenXuatXu);
+            ps.setString(5, chipXuLy);
+            ps.setInt(6, dungLuongPin);
+            ps.setDouble(7, kichThuocManHinh);
+            ps.setString(8, tenHeDieuHanh);
+            ps.setInt(9, phienBanHeDieuHanh);
+            ps.setString(10, cameraSau);
+            ps.setString(11, cameraTruoc);
+            ps.setInt(12, thoiGianBaoHanh);
+            ps.setString(13, tenThuongHieu);
+            ps.setString(14, tenKhuVuc);
+            ps.setInt(15, soLuongTon);
+            ps.setInt(16, trangThai);
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi khi thêm sản phẩm");
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    default boolean updateProduct(int maSanPham, String tenSanPham, String hinhAnh, String chipXuLy, int dungLuongPin, double kichThuocManHinh, String cameraSau, String cameraTruoc, int thoiGianBaoHanh, int soLuongTon, int phienBanHeDieuHanh, int trangThai, String tenXuatXu, String tenHeDieuHanh, String tenThuongHieu, String tenKhuVuc) {
+        String sql = "UPDATE sanpham SET tensp = ?, hinhanh = ?, xuatxu = ?, chipxuly = ?, dungluongpin = ?, "
+                + "kichthuocman = ?, hedieuhanh = ?, phienbanhdh = ?, camerasau = ?, cameratruoc = ?, thoigianbaohanh = ?, "
+                + "thuonghieu = ?, khuvuckho = ?, soluongton = ?, trangthai = ? WHERE masp = ?";
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, tenSanPham);
+            ps.setString(2, hinhAnh);
+            ps.setString(3, tenXuatXu);
+            ps.setString(4, chipXuLy);
+            ps.setInt(5, dungLuongPin);
+            ps.setDouble(6, kichThuocManHinh);
+            ps.setString(7, tenHeDieuHanh);
+            ps.setInt(8, phienBanHeDieuHanh);
+            ps.setString(9, cameraSau);
+            ps.setString(10, cameraTruoc);
+            ps.setInt(11, thoiGianBaoHanh);
+            ps.setString(12, tenThuongHieu);
+            ps.setString(13, tenKhuVuc);
+            ps.setInt(14, soLuongTon);
+            ps.setInt(15, trangThai);
+            ps.setInt(16, maSanPham);
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi khi sửa sản phẩm");
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    default boolean deleteProduct(int maSanPham) {
+        String sql = "DELETE FROM sanpham WHERE masp = ?";
+
+        try (
+                Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, maSanPham);
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi khi xoá nhân viên");
+            ex.printStackTrace();
+            return false;
+        }
     }
 
     default int getProductCount() {

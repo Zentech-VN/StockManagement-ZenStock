@@ -1,22 +1,56 @@
-package service;
+    package service;
 
-import dao.ProductDAO;
-import entity.Employee;
-import entity.ProductView;
-import java.util.ArrayList;
+    import dao.ProductDAO;
+import dao.ProductDAOImpl;
+import entity.Product;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
-public class ProductService implements ProductDAO {
-    private List<ProductView> productViewList = new ArrayList<>();
-    
-    public List<ProductView> getAllProductViewService() {
-        return productViewList = getAllProduct();
-    }
-    
-    public int getProductCountService() {
-        return getProductCount();
+    public class ProductService implements ProductDAO {
+        private Connection conn;
+        public int getProductCountService() {
+            return getProductCount();
+        }
+
+    public ProductService(Connection conn) {
+        this.conn = conn;
     }
 
-    
-    
-}
+    public List<Product> getProductsByWarehouse(String warehouseId) {
+        try {
+            ProductDAOImpl dao = new ProductDAOImpl(conn);
+            return dao.getProductsByWarehouse(warehouseId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public void loadProductToTable(JTable table, List<Product> list) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+        for (Product p : list) {
+            model.addRow(new Object[]{
+                p.getMaSanPham(),
+                p.getTenSanPham(),
+             //   p.getHinhAnh(),
+                p.getTenXuatXu(),
+                p.getChipXuLy(),
+                p.getDungLuongPin(),
+//                p.getKichThuocMan(),
+//                p.getHeDieuHanh(),
+//                p.getPhienBanDH(),
+//                p.getCameraSau(),
+//                p.getCameraTruoc(),
+//                p.getThoiGianBaoHanh(),
+//                p.getThuongHieu(),
+                p.getTenKhuVuc(),
+                p.getSoLuongTon(),
+                p.getTrangThai()
+            });
+        }
+    }
+
+    }

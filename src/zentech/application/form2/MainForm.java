@@ -12,6 +12,9 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -25,6 +28,7 @@ import zentech.application.form.other.FormHomePage;
 import zentech.application.form.other.FormRole;
 import zentech.application.form.other.ProductForm;
 import zentech.application.form.other.SupplierForm;
+import zentech.application.form.other.WarehouseManagementForm;
 import zentech.menu2.Menu;
 import zentech.menu2.MenuAction;
 
@@ -94,6 +98,12 @@ public class MainForm extends JLayeredPane {
             } else if (index == 7) {
                 Application.showForm(new ProductForm());
             } else if (index == 8) {
+                try {
+                    Application.showForm(new WarehouseManagementForm());
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else if (index == 9) {
                 Application.logout();
             } else {
                 action.cancel();
