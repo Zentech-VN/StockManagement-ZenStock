@@ -10,11 +10,9 @@ import zentech.application.changepassword.ForgotPassword;
 import dao.AccountDAO;
 import entity.Account;
 import dao.ActivityDAO;
-import entity.Activity;
 import entity.Employee;
 import helper.BCrypt;
 import java.awt.Dimension;
-import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.miginfocom.swing.MigLayout;
@@ -196,7 +194,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-
+        long startTime = System.currentTimeMillis();
         String usernameCheck = txtUser.getText();
         String passwordCheck = txtPass.getText();
         if (usernameCheck.equals("") || passwordCheck.equals("")) {
@@ -219,7 +217,7 @@ public class Login extends javax.swing.JFrame {
                                 System.out.println("Debug - Set username to Employee.getAcc(): " + usernameCheck);
                             }
 
-                            Application app = new Application(e);
+                            Application app = new Application(e, startTime);
                             this.setVisible(false);
                             app.setVisible(true);
                             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Đăng nhập thành công!");
