@@ -34,7 +34,7 @@ public class Application extends javax.swing.JFrame {
         return this.currentUser;
     }
 
-    public Application(Employee acc) {
+    public Application(Employee acc, long startTime) {
         this.acccurent = acc;
         app = this;
         initComponents();
@@ -57,6 +57,8 @@ public class Application extends javax.swing.JFrame {
                 }
             }
         });
+         
+        System.out.println("Loading time: " + (System.currentTimeMillis() - startTime) + " ms");
 
     }
 

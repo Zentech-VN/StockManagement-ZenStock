@@ -61,6 +61,7 @@ public class Menu extends JPanel {
         toolBarAccentColor.setMenuFull(menuFull);
     }
 
+    private ChatBot chatBot;
     private final List<MenuEvent> events = new ArrayList<>();
     private boolean menuFull = true;
     private final String headerName = "Zentech";
@@ -186,12 +187,14 @@ public class Menu extends JPanel {
                 + "background:$Menu.ScrollBar.background;"
                 + "thumb:$Menu.ScrollBar.thumb");
         createMenu();
+        chatBot = new ChatBot();
         lightDarkMode = new LightDarkMode();
         toolBarAccentColor = new ToolBarAccentColor(this);
         toolBarAccentColor.setVisible(FlatUIUtils.getUIBoolean("AccentControl.show", false));
         add(header);
         add(userHeader);
         add(scroll);
+        add(chatBot);
         add(lightDarkMode);
         add(toolBarAccentColor);
     }
@@ -338,16 +341,37 @@ public class Menu extends JPanel {
                 int ldgap = UIScale.scale(10);
                 int ldWidth = width - ldgap * 2;
                 int ldHeight = lightDarkMode.getPreferredSize().height;
-                int ldx = x + ldgap;
-                int ldy = y + height - ldHeight - ldgap - accentColorHeight;
+                int cbGap = UIScale.scale(10);
+                int cbHeight = chatBot.getPreferredSize().height;
+                int cbWidth;
+                int cbX;
+
+                if (menuFull) {
+                    cbWidth = width - cbGap * 2;
+                    cbX = x + cbGap;
+                    chatBot.setCollapsed(false);
+                } else {
+                    cbWidth = cbHeight;
+                    cbX = x + (width - cbWidth) / 2;
+                    chatBot.setCollapsed(true);
+                }
 
                 int menux = x;
                 int menuy = userY + userHeaderHeight + gap;
                 int menuWidth = width;
                 int menuHeight = height - (iconHeight + userHeaderHeight + gap * 2)
-                        - (ldHeight + ldgap * 2) - accentColorHeight;
+                        - (cbHeight + cbGap)
+                        - (ldHeight + ldgap * 2)
+                        - accentColorHeight;
                 scroll.setBounds(menux, menuy, menuWidth, menuHeight);
 
+                int cbx = x + cbGap;
+                int cby = y + height - cbHeight - cbGap - accentColorHeight;
+                int cbW = width - cbGap * 2;
+                chatBot.setBounds(cbx, cby, cbW, cbHeight);
+
+                int ldx = x + ldgap;
+                int ldy = cby - ldgap - ldHeight;
                 lightDarkMode.setBounds(ldx, ldy, ldWidth, ldHeight);
 
                 if (toolBarAccentColor.isVisible()) {
@@ -359,5 +383,13 @@ public class Menu extends JPanel {
                 }
             }
         }
+    }
+
+    public void toggleMenu() {
+        menuFull = !menuFull;
+        chatBot.setCollapsed(!menuFull);
+
+        revalidate();
+        repaint();
     }
 }
