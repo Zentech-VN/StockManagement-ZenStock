@@ -35,6 +35,7 @@ public class Menu extends JPanel {
         {"Khách hàng"},
         {"Nhà cung cấp"},
         {"Sản phẩm"},
+        {"Quản lý kho"},
         {"Logout"}
     };
 

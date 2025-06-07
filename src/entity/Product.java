@@ -20,6 +20,7 @@ public class Product {
     private String tenHeDieuHanh;
     private String tenThuongHieu;
     private String tenKhuVuc;
+    public int getmaSanPham;
 
     public Product() {
     }
@@ -136,9 +137,15 @@ public class Product {
     }
 
     public String getTrangThaiText() {
-        return this.trangThai == 1 ? "Hoạt động" : "Khoá";
+        if (this.trangThai == 1) {
+            return "Hoạt động";
+        } else if (this.trangThai == 0) {
+            return "Khoá";
+        } else if (this.trangThai == 2) {
+            return "Ngừng bán";
+        }
+        return "Không xác định";
     }
-
     public void setTrangThai(int trangThai) {
         this.trangThai = trangThai;
     }
@@ -174,5 +181,6 @@ public class Product {
     public void setTenKhuVuc(String tenKhuVuc) {
         this.tenKhuVuc = tenKhuVuc;
     }
+
 
 }
