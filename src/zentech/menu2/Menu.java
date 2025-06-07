@@ -345,13 +345,13 @@ public class Menu extends JPanel {
                 int cbWidth;
                 int cbX;
 
-                if (menuFull) {                     // sidebar rộng
-                    cbWidth = width - cbGap * 2;    // pill dài
+                if (menuFull) {
+                    cbWidth = width - cbGap * 2;
                     cbX = x + cbGap;
                     chatBot.setCollapsed(false);
-                } else {                            // sidebar thu gọn
-                    cbWidth = cbHeight;             // 40 × 40
-                    cbX = x + (width - cbWidth) / 2;   // căn giữa
+                } else {
+                    cbWidth = cbHeight;
+                    cbX = x + (width - cbWidth) / 2;
                     chatBot.setCollapsed(true);
                 }
 

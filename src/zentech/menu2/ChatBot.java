@@ -11,13 +11,11 @@ import javax.swing.SwingConstants;
 import zentech.application.Application;
 import zentech.application.form.other.ChatBotForm;
 
-
-
-
 public class ChatBot extends JPanel {
 
     private final JButton btn;
     private boolean collapsed = false;
+
     public ChatBot() {
         setOpaque(false);
         setLayout(new BorderLayout());
@@ -31,19 +29,21 @@ public class ChatBot extends JPanel {
         btn.addActionListener(e -> openChatbotScreen());
 
         btn.putClientProperty(FlatClientProperties.STYLE,
-              "font:$Menu.font;"
-            + "borderWidth:0;"
-            + "focusWidth:0;"
-            + "foreground:$Menu.foreground;"
-            + "background:$Menu.button.background;"
-            + "hoverBackground:$Menu.button.hoverBackground;");
+                "font:$Menu.font;"
+                + "borderWidth:0;"
+                + "focusWidth:0;"
+                + "foreground:$Menu.foreground;"
+                + "background:$Menu.button.background;"
+                + "hoverBackground:$Menu.button.hoverBackground;");
 
         add(btn, BorderLayout.CENTER);
         updateLook();
     }
 
     public void setCollapsed(boolean value) {
-        if (collapsed == value) return;
+        if (collapsed == value) {
+            return;
+        }
         collapsed = value;
         updateLook();
     }
@@ -53,12 +53,12 @@ public class ChatBot extends JPanel {
             btn.setText("");
             btn.setPreferredSize(new Dimension(40, 40));
             btn.putClientProperty(FlatClientProperties.STYLE,
-                "arc:20; borderWidth:0; background:$Menu.button.background;");
+                    "arc:20; borderWidth:0; background:$Menu.button.background;");
         } else {
             btn.setText("Chatbot");
             btn.setPreferredSize(new Dimension(200, 40));
             btn.putClientProperty(FlatClientProperties.STYLE,
-                "arc:999; borderWidth:0; background:$Menu.button.background;");
+                    "arc:999; borderWidth:0; background:$Menu.button.background;");
         }
         revalidate();
         repaint();
