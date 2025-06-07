@@ -4,18 +4,26 @@ import com.formdev.flatlaf.FlatClientProperties;
 import dao.ActivityDAO;
 import entity.Employee;
 import entity.EmployeeAccout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Window;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 import raven.toast.Notifications;
 import service.EmployeeService;
@@ -33,15 +41,28 @@ public class EmployeeForm extends javax.swing.JPanel {
     public EmployeeForm() {
         initComponents();
         loadEmployeeData();
-        initalUI();
+        initalUI(tblNhanVien);
         initSearchListener();
     }
 
-    private void initalUI() {
+    private void initalUI(JTable table) {
         tblNhanVien.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
         tblNhanVien.setRowHeight(30);
         tblNhanVien.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
 
+        JScrollPane scroll = (JScrollPane) table.getParent().getParent();
+        scroll.setBorder(BorderFactory.createEmptyBorder());
+        scroll.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, ""
+                + "background:$Table.background;"
+                + "track:$Table.background;"
+                + "trackArc:999");
+
+        table.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
+        table.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
+
+        table.getTableHeader().setDefaultRenderer(getAlignmentCellRender(table.getTableHeader().getDefaultRenderer(), true));
+        table.setDefaultRenderer(Object.class, getAlignmentCellRender(table.getDefaultRenderer(Object.class), false));
+        
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tìm kiếm");
 
         txtMa.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Mã");
@@ -55,6 +76,28 @@ public class EmployeeForm extends javax.swing.JPanel {
         txtQuyenHan.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Quyền hạn");
 
         cbbSapXep.addActionListener(evt -> applySort());
+    }
+    
+    private TableCellRenderer getAlignmentCellRender(TableCellRenderer oldRender, boolean header) {
+        return new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component com = oldRender.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (com instanceof JLabel) {
+                    JLabel label = (JLabel) com;
+                    if (column == 2 || column == 3 || column == 4) {
+                        label.setHorizontalAlignment(SwingConstants.CENTER); //Căn giữa
+                    } else if (column == 0 || column == 1 || column == 5) {
+                        label.setHorizontalAlignment(SwingConstants.LEFT); //Căn trái
+                    } else if (column == 6) {
+                        label.setHorizontalAlignment(SwingConstants.RIGHT); //Căn phải
+                    } else {
+                        label.setHorizontalAlignment(SwingConstants.CENTER); 
+                    }
+                }
+                return com;
+            }
+        };
     }
 
     private void lockWidth(JComponent c) {
