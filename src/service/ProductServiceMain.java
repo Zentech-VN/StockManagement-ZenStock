@@ -78,7 +78,7 @@ public class ProductServiceMain implements ProductDAO {
             return false;
         }
 
-        if (p.getPhienBanHeDieuHanh() <= 0) {
+        if (p.getPhienBanHeDieuHanh()== null || p.getPhienBanHeDieuHanh().trim().isEmpty()) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Phiên bản hệ điều hành không hợp lệ");
             return false;
         }
@@ -122,7 +122,7 @@ public class ProductServiceMain implements ProductDAO {
             ps.setInt(5, p.getDungLuongPin());
             ps.setDouble(6, p.getKichThuocManHinh());
             ps.setString(7, p.getTenHeDieuHanh());
-            ps.setInt(8, p.getPhienBanHeDieuHanh());
+            ps.setString(8, p.getPhienBanHeDieuHanh());
             ps.setString(9, p.getCameraSau());
             ps.setString(10, p.getCameraTruoc());
             ps.setInt(11, p.getThoiGianBaoHanh());
@@ -146,7 +146,7 @@ public class ProductServiceMain implements ProductDAO {
             return false;
         }
 
-        if (p.getPhienBanHeDieuHanh() != 0 && p.getPhienBanHeDieuHanh() != 1) {
+        if (p.getPhienBanHeDieuHanh()== null || p.getPhienBanHeDieuHanh().trim().isEmpty()) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Phiên bản hệ điều hành không hợp lệ");
             return false;
         }

@@ -21,6 +21,7 @@ public class ProductForm extends javax.swing.JPanel {
     public ProductForm() {
         initComponents();
         loadProductViewData();
+        tblProduct.setDefaultEditor(Object.class, null);
     }
 
     public void loadProductViewData() {

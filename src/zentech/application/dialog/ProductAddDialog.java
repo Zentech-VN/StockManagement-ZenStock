@@ -360,7 +360,7 @@ public class ProductAddDialog extends JDialog {
             int dungLuongPin = Integer.parseInt(txtdungluongpin.getText().trim());
             double kichThuocMan = Double.parseDouble(txtkichthuocman.getText().trim());
             String heDieuHanh = txthedieuhanh.getText().trim();
-            int phienBanHDH = Integer.parseInt(txtphienbanhdh.getText().trim());
+            String phienbanhdh = txtphienbanhdh.getText().trim();
             String cameraSau = txtcamerasau.getText().trim();
             String cameraTruoc = txtcameratruoc.getText().trim();
             int thoiGianBaoHanh = Integer.parseInt(txtthoigianbanhanh.getText().trim());
@@ -377,7 +377,7 @@ public class ProductAddDialog extends JDialog {
             product.setDungLuongPin(dungLuongPin);
             product.setKichThuocManHinh(kichThuocMan);
             product.setTenHeDieuHanh(heDieuHanh);
-            product.setPhienBanHeDieuHanh(phienBanHDH);
+            product.setPhienBanHeDieuHanh(phienbanhdh);
             product.setCameraSau(cameraSau);
             product.setCameraTruoc(cameraTruoc);
             product.setThoiGianBaoHanh(thoiGianBaoHanh);
