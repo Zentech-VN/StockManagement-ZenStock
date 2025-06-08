@@ -254,12 +254,15 @@ public class OpenAIService {
         StringBuilder enriched = new StringBuilder();
         enriched.append("Câu hỏi người dùng: ").append(rawUserInput).append("\n");
 
+        
+        //nhân viên
         if (lowerInput.contains("nhân viên") || lowerInput.contains("công nhân") || lowerInput.contains("người làm") && containsQuantityKeyword(lowerInput)) {
             employeeService = new EmployeeService();
             int count = employeeService.getEmployeeCountService();
             enriched.append("Số lượng nhân viên hiện tại là ").append(count).append(".\n");
         }
 
+        //sản phẩm
         if ((lowerInput.contains("sản phẩm") || lowerInput.contains("hàng hóa") || lowerInput.contains("hàng hoá"))
                 && containsQuantityKeyword(lowerInput)) {
             productServiceMain = new ProductServiceMain();
@@ -267,6 +270,7 @@ public class OpenAIService {
             enriched.append("Hiện có ").append(count).append(" sản phẩm trong hệ thống.\n");
         }
         
+        //tài khoản
         if ((lowerInput.contains("tài khoản") || lowerInput.contains("account") || lowerInput.contains("người dùng"))
                 && containsQuantityKeyword(lowerInput)) {
             accountService = new AccountService();
@@ -274,20 +278,7 @@ public class OpenAIService {
             enriched.append("Hiện có ").append(count).append(" tài khoản trong hệ thống.\n");
         }
         
-        if ((lowerInput.contains("tài khoản") || lowerInput.contains("account") || lowerInput.contains("người dùng"))
-                && containsQuantityKeyword(lowerInput)) {
-            accountService = new AccountService();
-            int count = accountService.getAccountCountService();
-            enriched.append("Hiện có ").append(count).append(" tài khoản trong hệ thống.\n");
-        }
-        
-        if ((lowerInput.contains("tài khoản") || lowerInput.contains("account") || lowerInput.contains("người dùng"))
-                && containsQuantityKeyword(lowerInput)) {
-            accountService = new AccountService();
-            int count = accountService.getAccountCountService();
-            enriched.append("Hiện có ").append(count).append(" tài khoản trong hệ thống.\n");
-        }
-        
+        //khách hàng
         if ((lowerInput.contains("khách hàng"))
                 && containsQuantityKeyword(lowerInput)) {
             clientService = new ClientService();
@@ -295,6 +286,7 @@ public class OpenAIService {
             enriched.append("Hiện có ").append(count).append(" khách hàng trong hệ thống.\n");
         }
         
+        //nhà cung cấp
         if ((lowerInput.contains("nhà cung cấp") || lowerInput.contains("cung cấp"))
                 && containsQuantityKeyword(lowerInput)) {
             supplierService = new SupplierService();
@@ -302,6 +294,7 @@ public class OpenAIService {
             enriched.append("Hiện có ").append(count).append(" nhà cung cấp trong hệ thống.\n");
         }
         
+        //khu vực kho
         if ((lowerInput.contains("kho") || lowerInput.contains("khu vực kho"))
                 && containsQuantityKeyword(lowerInput)) {
             warehouseManagementService = new WarehouseManagementService();
