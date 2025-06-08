@@ -115,4 +115,21 @@ public interface WarehouseManagementDAO {
             return false;
         }
     }
+ 
+    default int getWareHouseCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM khuvuckho";
+
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
 }

@@ -50,46 +50,49 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
     public void Show(JTable table,
             JTextField fieldmakho,
             JTextField fieldtenkho,
-            JTextField fielghichu) {
+            JTextField fielghichu
+    ) {
 
         int selectedRow = table.getSelectedRow();
 
         if (selectedRow != -1) {
-            if (fieldmakho != null) {
-                fieldmakho.setText(String.valueOf(table.getValueAt(selectedRow, 0)));
-            }
-            if (fieldtenkho != null) {
-                fieldtenkho.setText(String.valueOf(table.getValueAt(selectedRow, 1)));
-            }
-            if (fielghichu != null) {
-                fielghichu.setText(String.valueOf(table.getValueAt(selectedRow, 2)));
-            }
+
+            fieldmakho.setText(String.valueOf(table.getValueAt(selectedRow, 0)));
+
+            fieldtenkho.setText(String.valueOf(table.getValueAt(selectedRow, 1)));
+            fielghichu.setText(String.valueOf(table.getValueAt(selectedRow, 2)));
+
         }
     }
 
-    public boolean updateWarehouseWithValidation(WarehouseManagement wh) {
+    public void updateWarehouse(JTextField txtmakho, JTextField txttenkho, JTextField txtghichu) {
         try {
+            WarehouseManagement wh = new WarehouseManagement();
 
-            if (wh.getTenKhuVuc() == null || wh.getTenKhuVuc().trim().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Tên khu vực không được để trống.");
-                return false;
+            int maKhuVuc;
+            try {
+                maKhuVuc = Integer.parseInt(txtmakho.getText().trim());
+                wh.setMaKhuVuc(maKhuVuc);
+            } catch (NumberFormatException e) {
+                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Mã khu vực không hợp lệ");
+                return;
             }
 
-
-            String sql = "UPDATE Warehouse SET TenKhuVuc = ?, GhiChu = ? WHERE MaKhuVuc = ?";
-            java.sql.Connection conn = ConnectionHelper.getConnection();
-            java.sql.PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, wh.getTenKhuVuc());
-            ps.setString(2, wh.getGhiChu());
-            ps.setInt(3, wh.getMaKhuVuc());
-
-            int rows = ps.executeUpdate();
-            return rows > 0;
+            wh.setTenKhuVuc(txttenkho.getText().trim());
+            wh.setGhiChu(txtghichu.getText().trim());
+            int ret = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn cập nhật thông tin khu vực này?", "Xác nhận cập nhật", JOptionPane.YES_NO_OPTION);
+            if (ret == JOptionPane.YES_OPTION) {
+                boolean result = updateWarehouse(wh); // Gọi hàm DAO
+                if (result) {
+                    Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Cập nhật thành công!");
+                } else {
+                    Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Cập nhật thất bại!");
+                }
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
-            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi khi cập nhật kho.");
-            return false;
+            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi trong quá trình cập nhật");
         }
     }
 
@@ -103,5 +106,9 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
         } else {
             sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText));
         }
+    }
+    
+    public int getWareHouseCountService() {
+        return getWareHouseCount();
     }
 }

@@ -1,20 +1,30 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import java.awt.Color;
+import service.ChatBotService;
 import service.ProductService;
 
 public class ChatBotForm extends javax.swing.JPanel {
 
     private ProductService productService;
-
+    private ChatBotService chatBotService;
+    
     public ChatBotForm() {
         initComponents();
         initalUI();
-
+        chatBotService = new ChatBotService();
     }
 
     private void initalUI() {
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Hỗ trợ AI");
+        jTextArea1.setEditable(false);
+    }
+    
+    private void appendMessage(String message, Color color) {
+        jTextArea1.setForeground(color);
+        jTextArea1.append(message + "\n\n");
+        jTextArea1.setCaretPosition(jTextArea1.getDocument().getLength());
     }
 
     @SuppressWarnings("unchecked")
@@ -98,7 +108,13 @@ public class ChatBotForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
-        
+        String userMessage = txtSearch.getText().trim();
+        if (!userMessage.isEmpty()) {
+            appendMessage("Bạn: " + userMessage, Color.BLUE);
+            String response = chatBotService.sendMessage(userMessage);
+            appendMessage("AI: " + response, new Color(34, 139, 34));
+            txtSearch.setText(null);
+        }
     }//GEN-LAST:event_btnSendActionPerformed
 
 

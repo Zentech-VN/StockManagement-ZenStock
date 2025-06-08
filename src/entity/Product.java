@@ -181,6 +181,6 @@ public class Product {
     public void setTenKhuVuc(String tenKhuVuc) {
         this.tenKhuVuc = tenKhuVuc;
     }
-
-
+    
+    
 }
