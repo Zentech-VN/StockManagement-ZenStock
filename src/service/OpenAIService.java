@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import entity.ChatMessage;
+import entity.Employee;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,6 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import zentech.menu2.Menu;
 
 //MỌI CONFIGURATION ĐỀU DỰA TRÊN DOCS CỦA OPENAI API
 public class OpenAIService {
@@ -26,6 +28,7 @@ public class OpenAIService {
     private static String MODEL;
     private static int MAX_TOKENS;
     private static double TEMPERATURE; // độ sáng tạo
+    String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
 
     static {
         loadConfiguration();
@@ -198,7 +201,14 @@ public class OpenAIService {
                 .append("\"max_tokens\":").append(MAX_TOKENS).append(',')
                 .append("\"temperature\":").append(TEMPERATURE).append(',')
                 .append("\"messages\":[");
-
+        json.append("{\"role\": \"system\", \"content\": \"");
+        json.append("Bạn là trợ lý AI tên Zen của phần mềm quản lý kho ZenTech. ");
+        json.append("Đây là người dùng tên: " + appCurrentUser );
+        json.append("Chỉ trả lời các câu hỏi liên quan đến phần mềm quản lý kho, nhân viên, sản phẩm, tài khoản và các chức năng của hệ thống. ");
+        json.append("Nếu câu hỏi không liên quan, hãy từ chối trả lời một cách lịch sự. ");
+        json.append("Trả lời ngắn gọn, rõ ràng và bằng tiếng Việt. ");
+        json.append("Phần mềm ZenTech là phần mềm quản lý kho hàng, có các chức năng: quản lý nhân viên, quản lý sản phẩm, quản lý tài khoản, quản lý nhập xuất kho, quản lý nhà cung cấp.");
+        json.append("\"},");
         //lịch sử (nếu có)
         for (ChatMessage msg : history) {
             json.append("{\"role\":\"").append(msg.getRole())
