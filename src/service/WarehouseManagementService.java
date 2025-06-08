@@ -43,53 +43,52 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
             JTextField fieldmakho,
             JTextField fieldtenkho,
             JTextField fielghichu
-            ) {
+    ) {
 
         int selectedRow = table.getSelectedRow();
 
         if (selectedRow != -1) {
-            
+
             fieldmakho.setText(String.valueOf(table.getValueAt(selectedRow, 0)));
 
-            
             fieldtenkho.setText(String.valueOf(table.getValueAt(selectedRow, 1)));
             fielghichu.setText(String.valueOf(table.getValueAt(selectedRow, 2)));
 
-
         }
     }
-public void updateWarehouse(JTextField txtmakho, JTextField txttenkho, JTextField txtghichu) {
-    try {
-        WarehouseManagement wh = new WarehouseManagement();
 
-        int maKhuVuc;
+    public void updateWarehouse(JTextField txtmakho, JTextField txttenkho, JTextField txtghichu) {
         try {
-            maKhuVuc = Integer.parseInt(txtmakho.getText().trim());
-            wh.setMaKhuVuc(maKhuVuc);
-        } catch (NumberFormatException e) {
-            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Mã khu vực không hợp lệ");
-            return;
-        }
+            WarehouseManagement wh = new WarehouseManagement();
 
-        wh.setTenKhuVuc(txttenkho.getText().trim());
-        wh.setGhiChu(txtghichu.getText().trim());
-        int ret = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn cập nhật thông tin khu vực này?", "Xác nhận cập nhật", JOptionPane.YES_NO_OPTION);
-        if (ret == JOptionPane.YES_OPTION) {
-            boolean result = updateWarehouse(wh); // Gọi hàm DAO
-            if (result) {
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Cập nhật thành công!");
-            } else {
-                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Cập nhật thất bại!");
+            int maKhuVuc;
+            try {
+                maKhuVuc = Integer.parseInt(txtmakho.getText().trim());
+                wh.setMaKhuVuc(maKhuVuc);
+            } catch (NumberFormatException e) {
+                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Mã khu vực không hợp lệ");
+                return;
             }
+
+            wh.setTenKhuVuc(txttenkho.getText().trim());
+            wh.setGhiChu(txtghichu.getText().trim());
+            int ret = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn cập nhật thông tin khu vực này?", "Xác nhận cập nhật", JOptionPane.YES_NO_OPTION);
+            if (ret == JOptionPane.YES_OPTION) {
+                boolean result = updateWarehouse(wh); // Gọi hàm DAO
+                if (result) {
+                    Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Cập nhật thành công!");
+                } else {
+                    Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Cập nhật thất bại!");
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi trong quá trình cập nhật");
         }
-
-    } catch (Exception e) {
-        e.printStackTrace();
-        Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi trong quá trình cập nhật");
     }
-}
 
- public void Find(JTable table, JTextField search) {
+    public void Find(JTable table, JTextField search) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
         table.setRowSorter(sorter);
@@ -99,5 +98,9 @@ public void updateWarehouse(JTextField txtmakho, JTextField txttenkho, JTextFiel
         } else {
             sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText));
         }
- }
+    }
+    
+    public int getWareHouseCountService() {
+        return getWareHouseCount();
+    }
 }

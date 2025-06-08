@@ -2,7 +2,7 @@ package service;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import dao.ActivityDAO;
-import dao.CilentDAO;
+import dao.ClientDAO;
 import entity.Cilent;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,9 +15,9 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import raven.toast.Notifications;
 
-public class CilentService {
+public class ClientService {
 
-    CilentDAO cld = new CilentDAO();
+    ClientDAO cld = new ClientDAO();
 
     public void editPlaceHolder(
             JTextField makh,
@@ -204,5 +204,9 @@ public class CilentService {
 
             Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, " Lỗi khi xuất file: " + e.getMessage());
         }
+    }
+    
+    public int getClientCountService() {
+        return cld.getClientCount();
     }
 }

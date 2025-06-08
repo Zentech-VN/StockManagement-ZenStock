@@ -5,8 +5,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import dao.EmployeeDAO;
 import entity.ChatMessage;
 import entity.Employee;
+import entity.Product;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -115,7 +117,7 @@ public class OpenAIService {
     private String parseResponse(String json) {
 
         //Bật để xem log DEV
-        final boolean DEBUG = false;
+        final boolean DEBUG = true;
 
         try {
             //JSON phải là object
@@ -196,6 +198,8 @@ public class OpenAIService {
 
     private String buildRequestBody(String userMessage, List<ChatMessage> history) {
         StringBuilder json = new StringBuilder();
+        String contextData = enrichUserMessage(userMessage);
+        contextData = contextData.replaceAll("[\\r\\n]+", " ");
         json.append("{")
                 .append("\"model\":\"").append(MODEL).append("\",")
                 .append("\"max_tokens\":").append(MAX_TOKENS).append(',')
@@ -203,7 +207,10 @@ public class OpenAIService {
                 .append("\"messages\":[");
         json.append("{\"role\": \"system\", \"content\": \"");
         json.append("Bạn là trợ lý AI tên Zen của phần mềm quản lý kho ZenTech. ");
-        json.append("Đây là người dùng tên: " + appCurrentUser );
+        json.append("Đây là người dùng tên: " + appCurrentUser);
+        if (!contextData.isEmpty()) {
+            json.append("Dữ liệu nội bộ: ").append(contextData);
+        }
         json.append("Chỉ trả lời các câu hỏi liên quan đến phần mềm quản lý kho, nhân viên, sản phẩm, tài khoản và các chức năng của hệ thống. ");
         json.append("Nếu câu hỏi không liên quan, hãy từ chối trả lời một cách lịch sự. ");
         json.append("Trả lời ngắn gọn, rõ ràng và bằng tiếng Việt. ");
@@ -220,9 +227,100 @@ public class OpenAIService {
         return json.toString();
     }
 
+    private String listToString(List<?> list) {
+        StringBuilder result = new StringBuilder();
+        int index = 1;
+        for (Object item : list) {
+            result.append(index++).append(". ");
+            result.append(item.toString()).append("\n");
+        }
+        return result.toString();
+    }
+
+    EmployeeService employeeService;
+    ProductServiceMain productServiceMain;
+    AccountService accountService;
+    ClientService clientService;
+    SupplierService supplierService;
+    WarehouseManagementService warehouseManagementService;
+    
+    //Các input số lượng
+    private boolean containsQuantityKeyword(String input) {
+        return input.contains("bao nhiêu") || input.contains("số lượng") || input.contains("tổng số");
+    }
+
+    public String enrichUserMessage(String rawUserInput) {
+        String lowerInput = rawUserInput.toLowerCase();
+        StringBuilder enriched = new StringBuilder();
+        enriched.append("Câu hỏi người dùng: ").append(rawUserInput).append("\n");
+
+        if (lowerInput.contains("nhân viên") || lowerInput.contains("công nhân") || lowerInput.contains("người làm") && containsQuantityKeyword(lowerInput)) {
+            employeeService = new EmployeeService();
+            int count = employeeService.getEmployeeCountService();
+            enriched.append("Số lượng nhân viên hiện tại là ").append(count).append(".\n");
+        }
+
+        if ((lowerInput.contains("sản phẩm") || lowerInput.contains("hàng hóa") || lowerInput.contains("hàng hoá"))
+                && containsQuantityKeyword(lowerInput)) {
+            productServiceMain = new ProductServiceMain();
+            int count = productServiceMain.getProductCountService();
+            enriched.append("Hiện có ").append(count).append(" sản phẩm trong hệ thống.\n");
+        }
+        
+        if ((lowerInput.contains("tài khoản") || lowerInput.contains("account") || lowerInput.contains("người dùng"))
+                && containsQuantityKeyword(lowerInput)) {
+            accountService = new AccountService();
+            int count = accountService.getAccountCountService();
+            enriched.append("Hiện có ").append(count).append(" tài khoản trong hệ thống.\n");
+        }
+        
+        if ((lowerInput.contains("tài khoản") || lowerInput.contains("account") || lowerInput.contains("người dùng"))
+                && containsQuantityKeyword(lowerInput)) {
+            accountService = new AccountService();
+            int count = accountService.getAccountCountService();
+            enriched.append("Hiện có ").append(count).append(" tài khoản trong hệ thống.\n");
+        }
+        
+        if ((lowerInput.contains("tài khoản") || lowerInput.contains("account") || lowerInput.contains("người dùng"))
+                && containsQuantityKeyword(lowerInput)) {
+            accountService = new AccountService();
+            int count = accountService.getAccountCountService();
+            enriched.append("Hiện có ").append(count).append(" tài khoản trong hệ thống.\n");
+        }
+        
+        if ((lowerInput.contains("khách hàng"))
+                && containsQuantityKeyword(lowerInput)) {
+            clientService = new ClientService();
+            int count = clientService.getClientCountService();
+            enriched.append("Hiện có ").append(count).append(" khách hàng trong hệ thống.\n");
+        }
+        
+        if ((lowerInput.contains("nhà cung cấp") || lowerInput.contains("cung cấp"))
+                && containsQuantityKeyword(lowerInput)) {
+            supplierService = new SupplierService();
+            int count = supplierService.getSupplierCountService();
+            enriched.append("Hiện có ").append(count).append(" nhà cung cấp trong hệ thống.\n");
+        }
+        
+        if ((lowerInput.contains("kho") || lowerInput.contains("khu vực kho"))
+                && containsQuantityKeyword(lowerInput)) {
+            warehouseManagementService = new WarehouseManagementService();
+            int count = warehouseManagementService.getWareHouseCountService();
+            enriched.append("Hiện có ").append(count).append(" khu vực kho trong hệ thống.\n");
+        }
+
+        return enriched.toString();
+    }
+
     //thoát kí tự đặc biệt JSON
     private String escape(String s) {
-        return s.replace("\\", "\\\\").replace("\"", "\\\"");
+        if (s == null) {
+            return "";
+        }
+        return s
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n");
     }
 
     private String getErrorMessage(int responseCode) {

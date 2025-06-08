@@ -25,5 +25,9 @@ public class SupplierService implements SupplierDAO {
     public boolean updateTrangThai(int maNCC, int trangThai) {
         return updateTrangThai(maNCC, trangThai);
     }
+    
+    public int getSupplierCountService() {
+        return getSupplierCount();
+    }
 
 }
