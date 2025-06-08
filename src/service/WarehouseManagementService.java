@@ -13,26 +13,34 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import jdbc.ConnectionHelper;
 import raven.toast.Notifications;
 
 public class WarehouseManagementService implements WarehouseManagementDAO {
 
     public void loadWarehouseManagementToTable(JTable table, List<WarehouseManagement> list) {
-        list = getAllWarehouses();
         DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0); 
         for (WarehouseManagement wh : list) {
             model.addRow(new Object[]{
                 wh.getMaKhuVuc(),
                 wh.getTenKhuVuc(),
                 wh.getGhiChu(),});
-
         }
+    }
+
+    public boolean addCheck(WarehouseManagement wh) {
+        List<WarehouseManagement> list = getAllWarehouses();
+        for (WarehouseManagement w : list) {
+            if (w.getTenKhuVuc().equalsIgnoreCase(wh.getTenKhuVuc())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void Refresh(JTable warehouseTable, JTable productTable) {
         List<WarehouseManagement> list = getAllWarehouses();
-        DefaultTableModel warehouseModel = (DefaultTableModel) warehouseTable.getModel();
-        warehouseModel.setRowCount(0);
         loadWarehouseManagementToTable(warehouseTable, list);
 
         DefaultTableModel productModel = (DefaultTableModel) productTable.getModel();

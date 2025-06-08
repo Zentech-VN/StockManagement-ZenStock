@@ -129,7 +129,7 @@ public class ProductUpdateDialog extends JDialog {
             }
         });
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thêm Nhân Viên", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sửa sản phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
         jPanel4.setMaximumSize(new java.awt.Dimension(100, 100));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -350,7 +350,7 @@ public class ProductUpdateDialog extends JDialog {
             int dungLuongPin = Integer.parseInt(txtdungluongpin.getText().trim());
             double kichThuocMan = Double.parseDouble(txtkichthuocman.getText().trim());
             String heDieuHanh = txthedieuhanh.getText().trim();
-            int phienBanHDH = Integer.parseInt(txtphienbanhdh.getText().trim());
+            String phienbanhdh = txtphienbanhdh.getText().trim();
             String cameraSau = txtcamerasau.getText().trim();
             String cameraTruoc = txtcameratruoc.getText().trim();
             int thoiGianBaoHanh = Integer.parseInt(txtthoigianbanhanh.getText().trim());
@@ -369,7 +369,7 @@ public class ProductUpdateDialog extends JDialog {
             product.setDungLuongPin(dungLuongPin);
             product.setKichThuocManHinh(kichThuocMan);
             product.setTenHeDieuHanh(heDieuHanh);
-            product.setPhienBanHeDieuHanh(phienBanHDH);
+            product.setPhienBanHeDieuHanh(phienbanhdh);
             product.setCameraSau(cameraSau);
             product.setCameraTruoc(cameraTruoc);
             product.setThoiGianBaoHanh(thoiGianBaoHanh);

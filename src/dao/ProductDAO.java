@@ -16,7 +16,35 @@ public interface ProductDAO {
 
     default List<Product> getAllProduct() {
         List<Product> list = new ArrayList<>();
-        String sql = "SELECT * FROM sanpham;";
+        String sql = "SELECT\n"
+                + "    sp.masp,\n"
+                + "    sp.tensp,\n"
+                + "    sp.hinhanh,\n"
+                + "    xx.tenxuatxu AS xuatxu,         \n"
+                + "    sp.chipxuly,\n"
+                + "    sp.dungluongpin,\n"
+                + "    sp.kichthuocman,\n"
+                + "    hdh.tenhedieuhanh AS hedieuhanh, \n"
+                + "    pbhdhd.tenphienbanhdh as phienbanhdh,\n"
+                + "    sp.camerasau,\n"
+                + "    sp.cameratruoc,\n"
+                + "    sp.thoigianbaohanh,\n"
+                + "    th.tenthuonghieu AS thuonghieu,   \n"
+                + "    kk.tenkhuvuc AS khuvuckho,     \n"
+                + "    sp.soluongton,\n"
+                + "    sp.trangthai\n"
+                + "FROM\n"
+                + "    sanpham sp\n"
+                + "LEFT JOIN\n"
+                + "    xuatxu xx ON sp.xuatxu = xx.maxuatxu\n"
+                + "LEFT JOIN\n"
+                + "    hedieuhanh hdh ON sp.hedieuhanh = hdh.mahedieuhanh\n"
+                + "LEFT JOIN\n"
+                + "    thuonghieu th ON sp.thuonghieu = th.mathuonghieu\n"
+                + "LEFT JOIN\n"
+                + "    khuvuckho kk ON sp.khuvuckho = kk.makhuVuc\n"
+                + "LEFT JOIN\n"
+                + "    phienbanhedieuhanh pbhdhd ON sp.phienbanhdh = pbhdhd.maphienbanhdh;";
 
         try (
                 Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
@@ -24,15 +52,16 @@ public interface ProductDAO {
                 Product p = new Product();
                 p.setMaSanPham(rs.getInt("masp"));
                 p.setTenSanPham(rs.getString("tensp"));
-                p.setHinhAnh(rs.getString("hinhanh"));
+                // p.setHinhAnh(rs.getString("hinhanh"));
                 p.setTenXuatXu(rs.getString("xuatxu"));
+                p.setDungLuongPin(rs.getInt("dungluongpin"));
                 p.setChipXuLy(rs.getString("chipxuly"));
                 p.setKichThuocManHinh(rs.getDouble("kichthuocman"));
                 p.setTenHeDieuHanh(rs.getString("hedieuhanh"));
-                p.setPhienBanHeDieuHanh(rs.getInt("phienbanhdh"));
+                p.setPhienBanHeDieuHanh(rs.getString("phienbanhdh"));
                 p.setCameraSau(rs.getString("camerasau"));
                 p.setCameraTruoc(rs.getString("cameratruoc"));
-                p.setThoiGianBaoHanh(rs.getInt("thoigianbaohanh"));      
+                p.setThoiGianBaoHanh(rs.getInt("thoigianbaohanh"));
                 p.setTenThuongHieu(rs.getString("thuonghieu"));
                 p.setTenKhuVuc(rs.getString("khuvuckho"));
                 p.setSoLuongTon(rs.getInt("soluongton"));
@@ -76,7 +105,7 @@ public interface ProductDAO {
         }
     }
 
-    default boolean updateProduct(int maSanPham, String tenSanPham, String hinhAnh, String chipXuLy, int dungLuongPin, double kichThuocManHinh, String cameraSau, String cameraTruoc, int thoiGianBaoHanh, int soLuongTon, int phienBanHeDieuHanh, int trangThai, String tenXuatXu, String tenHeDieuHanh, String tenThuongHieu, String tenKhuVuc) {
+    default boolean updateProduct(int maSanPham, String tenSanPham, String hinhAnh, String chipXuLy, int dungLuongPin, double kichThuocManHinh, String cameraSau, String cameraTruoc, int thoiGianBaoHanh, int soLuongTon, String phienBanHeDieuHanh, int trangThai, String tenXuatXu, String tenHeDieuHanh, String tenThuongHieu, String tenKhuVuc) {
         String sql = "UPDATE sanpham SET tensp = ?, hinhanh = ?, xuatxu = ?, chipxuly = ?, dungluongpin = ?, "
                 + "kichthuocman = ?, hedieuhanh = ?, phienbanhdh = ?, camerasau = ?, cameratruoc = ?, thoigianbaohanh = ?, "
                 + "thuonghieu = ?, khuvuckho = ?, soluongton = ?, trangthai = ? WHERE masp = ?";
@@ -89,7 +118,7 @@ public interface ProductDAO {
             ps.setInt(5, dungLuongPin);
             ps.setDouble(6, kichThuocManHinh);
             ps.setString(7, tenHeDieuHanh);
-            ps.setInt(8, phienBanHeDieuHanh);
+            ps.setString(8, phienBanHeDieuHanh);
             ps.setString(9, cameraSau);
             ps.setString(10, cameraTruoc);
             ps.setInt(11, thoiGianBaoHanh);
