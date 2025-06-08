@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import jdbc.ConnectionHelper;
 
-public class CilentDAO {
+public class ClientDAO {
 
     public List<Cilent> getAllCilent() {
         List<Cilent> listc = new ArrayList<>();
@@ -97,6 +97,23 @@ public class CilentDAO {
             e.printStackTrace();
             return 0;
         }
+    }
+
+    public int getClientCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM khachhang";
+
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return count;
     }
 
 }
