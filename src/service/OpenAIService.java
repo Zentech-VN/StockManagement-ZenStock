@@ -246,7 +246,7 @@ public class OpenAIService {
     
     //Các input số lượng
     private boolean containsQuantityKeyword(String input) {
-        return input.contains("bao nhiêu") || input.contains("số lượng") || input.contains("tổng số");
+        return input.contains("bao nhiêu") || input.contains("số lượng") || input.contains("tổng số") || input.contains("mấy");
     }
 
     public String enrichUserMessage(String rawUserInput) {
@@ -263,7 +263,7 @@ public class OpenAIService {
         }
 
         //sản phẩm
-        if ((lowerInput.contains("sản phẩm") || lowerInput.contains("hàng hóa") || lowerInput.contains("hàng hoá"))
+        if ((lowerInput.contains("sản phẩm") || lowerInput.contains("hàng hóa") || lowerInput.contains("hàng hoá") || lowerInput.contains("hàng hóa"))
                 && containsQuantityKeyword(lowerInput)) {
             productServiceMain = new ProductServiceMain();
             int count = productServiceMain.getProductCountService();
