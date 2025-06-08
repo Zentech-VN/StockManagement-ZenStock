@@ -1,17 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package service;
 
 import entity.ChatMessage;
 import entity.ChatSession;
 import java.util.List;
 
-/**
- *
- * @author Duc Pham Ngoc
- */
 public class ChatBotService {
     private OpenAIService openAIService;
     private ChatSession currentSession;
