@@ -12,7 +12,7 @@ public class Product {
     private String cameraTruoc;
     private int thoiGianBaoHanh;
     private int soLuongTon;
-    private int phienBanHeDieuHanh;
+    private String phienBanHeDieuHanh;
     private int trangThai;
 
     //Các bảng liên kết
@@ -25,7 +25,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(int maSanPham, String tenSanPham, String hinhAnh, String chipXuLy, int dungLuongPin, double kichThuocManHinh, String cameraSau, String cameraTruoc, int thoiGianBaoHanh, int soLuongTon, int phienBanHeDieuHanh, int trangThai, String tenXuatXu, String tenHeDieuHanh, String tenThuongHieu, String tenKhuVuc) {
+    public Product(int maSanPham, String tenSanPham, String hinhAnh, String chipXuLy, int dungLuongPin, double kichThuocManHinh, String cameraSau, String cameraTruoc, int thoiGianBaoHanh, int soLuongTon, String phienBanHeDieuHanh, int trangThai, String tenXuatXu, String tenHeDieuHanh, String tenThuongHieu, String tenKhuVuc) {
         this.maSanPham = maSanPham;
         this.tenSanPham = tenSanPham;
         this.hinhAnh = hinhAnh;
@@ -124,11 +124,11 @@ public class Product {
         this.soLuongTon = soLuongTon;
     }
 
-    public int getPhienBanHeDieuHanh() {
+    public String getPhienBanHeDieuHanh() {
         return phienBanHeDieuHanh;
     }
 
-    public void setPhienBanHeDieuHanh(int phienBanHeDieuHanh) {
+    public void setPhienBanHeDieuHanh(String phienBanHeDieuHanh) {
         this.phienBanHeDieuHanh = phienBanHeDieuHanh;
     }
 

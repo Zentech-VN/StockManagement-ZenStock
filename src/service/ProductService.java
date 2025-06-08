@@ -30,7 +30,7 @@ import javax.swing.table.DefaultTableModel;
     }
     public void loadProductToTable(JTable table, List<Product> list) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
-
+        model.setRowCount(0);
         for (Product p : list) {
             model.addRow(new Object[]{
                 p.getMaSanPham(),
