@@ -16,7 +16,32 @@ public interface ProductDAO {
 
     default List<Product> getAllProduct() {
         List<Product> list = new ArrayList<>();
-        String sql = "SELECT * FROM sanpham;";
+        String sql = "SELECT\n" +
+"    sp.masp,\n" +
+"    sp.tensp,\n" +
+"    xx.tenxuatxu AS xuatxu,         \n" +
+"    sp.chipxuly,\n" +
+"    sp.dungluongpin,\n" +
+"    sp.kichthuocman,\n" +
+"    hdh.tenhedieuhanh AS hedieuhanh, \n" +
+"    sp.phienbanhdh,\n" +
+"    sp.camerasau,\n" +
+"    sp.cameratruoc,\n" +
+"    sp.thoigianbaohanh,\n" +
+"    th.tenthuonghieu AS thuonghieu,   \n" +
+"    kk.tenkhuvuc AS khuvuckho,     \n" +
+"    sp.soluongton,\n" +
+"    sp.trangthai\n" +
+"FROM\n" +
+"    sanpham sp\n" +
+"LEFT JOIN\n" +
+"    xuatxu xx ON sp.xuatxu = xx.maxuatxu\n" +
+"LEFT JOIN\n" +
+"    hedieuhanh hdh ON sp.hedieuhanh = hdh.mahedieuhanh\n" +
+"LEFT JOIN\n" +
+"    thuonghieu th ON sp.thuonghieu = th.mathuonghieu\n" +
+"LEFT JOIN\n" +
+"    khuvuckho kk ON sp.khuvuckho = kk.makhuVuc;";
 
         try (
                 Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
@@ -24,8 +49,9 @@ public interface ProductDAO {
                 Product p = new Product();
                 p.setMaSanPham(rs.getInt("masp"));
                 p.setTenSanPham(rs.getString("tensp"));
-                p.setHinhAnh(rs.getString("hinhanh"));
+               // p.setHinhAnh(rs.getString("hinhanh"));
                 p.setTenXuatXu(rs.getString("xuatxu"));
+                p.setDungLuongPin(rs.getInt("dungluongpin"));
                 p.setChipXuLy(rs.getString("chipxuly"));
                 p.setKichThuocManHinh(rs.getDouble("kichthuocman"));
                 p.setTenHeDieuHanh(rs.getString("hedieuhanh"));

@@ -249,7 +249,6 @@ public class ProductForm extends javax.swing.JPanel {
             int soLuongTon = Integer.parseInt(model.getValueAt(modelRow, 14).toString());
             String trangThaiText = model.getValueAt(modelRow, 15).toString();
 
-            System.out.println("DEBUG: Trang thai doc tu bang (sau tat ca cac buoc fix): '" + trangThaiText + "'");
 
             int trangThaiInt;
             if (trangThaiText.equalsIgnoreCase("Khoá")) { 

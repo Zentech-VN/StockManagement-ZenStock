@@ -9,7 +9,8 @@ import service.ProductServiceMain;
 import zentech.application.form.other.ProductForm;
 
 public class ProductAddDialog extends JDialog {
-private ProductServiceMain productService = new ProductServiceMain();
+
+    private ProductServiceMain productService = new ProductServiceMain();
     private ProductForm productForm;
 
     public ProductAddDialog(Window parent, ProductForm productForm) {
@@ -104,7 +105,7 @@ private ProductServiceMain productService = new ProductServiceMain();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thêm Nhân Viên", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thêm sản phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
         jPanel3.setMaximumSize(new java.awt.Dimension(100, 100));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -331,66 +332,82 @@ private ProductServiceMain productService = new ProductServiceMain();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      try {
-    String tenSanPham = txtten.getText().trim();
-    String hinhAnh = txthinhanh.getText().trim();
-    String xuatXu = txtxuatxu.getText().trim();
-    String chipXuLy = txtchipxuly.getText().trim();
-    int dungLuongPin = Integer.parseInt(txtdungluongpin.getText().trim());
-    double kichThuocMan = Double.parseDouble(txtkichthuocman.getText().trim());
-    String heDieuHanh = txthedieuhanh.getText().trim();
-    int phienBanHDH = Integer.parseInt(txtphienbanhdh.getText().trim()); 
-    String cameraSau = txtcamerasau.getText().trim();
-    String cameraTruoc = txtcameratruoc.getText().trim();
-    int thoiGianBaoHanh = Integer.parseInt(txtthoigianbanhanh.getText().trim());
-    String thuongHieu = txtthuonghieu.getText().trim();
-    String khuVucKho = txtkhuvuckho.getText().trim();
-    int soLuongTon = Integer.parseInt(txtsoluongton.getText().trim());
-    int trangThaiValue = Integer.parseInt(txttrangthai.getText().trim());
+        try {
+            if (txtten.getText().trim().isEmpty()
+                    || txthinhanh.getText().trim().isEmpty()
+                    || txtxuatxu.getText().trim().isEmpty()
+                    || txtchipxuly.getText().trim().isEmpty()
+                    || txtdungluongpin.getText().trim().isEmpty()
+                    || txtkichthuocman.getText().trim().isEmpty()
+                    || txthedieuhanh.getText().trim().isEmpty()
+                    || txtphienbanhdh.getText().trim().isEmpty()
+                    || txtcamerasau.getText().trim().isEmpty()
+                    || txtcameratruoc.getText().trim().isEmpty()
+                    || txtthoigianbanhanh.getText().trim().isEmpty()
+                    || txtthuonghieu.getText().trim().isEmpty()
+                    || txtkhuvuckho.getText().trim().isEmpty()
+                    || txtsoluongton.getText().trim().isEmpty()
+                    || txttrangthai.getText().trim().isEmpty()) {
 
-    entity.Product product = new entity.Product();
-    product.setTenSanPham(tenSanPham);
-    product.setHinhAnh(hinhAnh);
-    product.setTenXuatXu(xuatXu);
-    product.setChipXuLy(chipXuLy);
-    product.setDungLuongPin(dungLuongPin);
-    product.setKichThuocManHinh(kichThuocMan);
-    product.setTenHeDieuHanh(heDieuHanh);
-    product.setPhienBanHeDieuHanh(phienBanHDH);
-    product.setCameraSau(cameraSau);
-    product.setCameraTruoc(cameraTruoc);
-    product.setThoiGianBaoHanh(thoiGianBaoHanh);
-    product.setTenThuongHieu(thuongHieu);
-    product.setTenKhuVuc(khuVucKho);
-    product.setSoLuongTon(soLuongTon);
-    product.setTrangThai(trangThaiValue);
+                Notifications.getInstance().show(Notifications.Type.WARNING, "Vui lòng nhập đầy đủ thông tin trước khi thêm sản phẩm.");
+                return;
+            }
 
-    System.out.println("Thêm sản phẩm: " + product.getTenSanPham());
- if (!productService.addCheck(product)) {
-        return; 
-    }
+            String tenSanPham = txtten.getText().trim();
+            String hinhAnh = txthinhanh.getText().trim();
+            String xuatXu = txtxuatxu.getText().trim();
+            String chipXuLy = txtchipxuly.getText().trim();
+            int dungLuongPin = Integer.parseInt(txtdungluongpin.getText().trim());
+            double kichThuocMan = Double.parseDouble(txtkichthuocman.getText().trim());
+            String heDieuHanh = txthedieuhanh.getText().trim();
+            int phienBanHDH = Integer.parseInt(txtphienbanhdh.getText().trim());
+            String cameraSau = txtcamerasau.getText().trim();
+            String cameraTruoc = txtcameratruoc.getText().trim();
+            int thoiGianBaoHanh = Integer.parseInt(txtthoigianbanhanh.getText().trim());
+            String thuongHieu = txtthuonghieu.getText().trim();
+            String khuVucKho = txtkhuvuckho.getText().trim();
+            int soLuongTon = Integer.parseInt(txtsoluongton.getText().trim());
+            int trangThaiValue = Integer.parseInt(txttrangthai.getText().trim());
 
-    boolean success = productService.addProduct(product);
-    if (!success) {
-        Notifications.getInstance().show(Notifications.Type.ERROR, "Thêm sản phẩm thất bại!");
-        return;
-    }
+            entity.Product product = new entity.Product();
+            product.setTenSanPham(tenSanPham);
+            product.setHinhAnh(hinhAnh);
+            product.setTenXuatXu(xuatXu);
+            product.setChipXuLy(chipXuLy);
+            product.setDungLuongPin(dungLuongPin);
+            product.setKichThuocManHinh(kichThuocMan);
+            product.setTenHeDieuHanh(heDieuHanh);
+            product.setPhienBanHeDieuHanh(phienBanHDH);
+            product.setCameraSau(cameraSau);
+            product.setCameraTruoc(cameraTruoc);
+            product.setThoiGianBaoHanh(thoiGianBaoHanh);
+            product.setTenThuongHieu(thuongHieu);
+            product.setTenKhuVuc(khuVucKho);
+            product.setSoLuongTon(soLuongTon);
+            product.setTrangThai(trangThaiValue);
 
-    Notifications.getInstance().show(Notifications.Type.SUCCESS, "Thêm sản phẩm thành công!");
-    dispose();
+            if (!productService.addCheck(product)) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, "Sản phẩm đã tồn tại!");
+                return;
+            }
 
-    productService.addCheck(product);
+            boolean success = productService.addProduct(product);
+            if (!success) {
+                Notifications.getInstance().show(Notifications.Type.ERROR, "Thêm sản phẩm thất bại!");
+                return;
+            }
 
-    Notifications.getInstance().show(Notifications.Type.SUCCESS, "Thêm sản phẩm thành công!");
-    dispose();
+            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Thêm sản phẩm thành công!");
+            dispose();
 
-} catch (NumberFormatException ex) {
-    ex.printStackTrace();
-    Notifications.getInstance().show(Notifications.Type.WARNING, "Một số trường số không đúng định dạng. Vui lòng kiểm tra lại.");
-} catch (Exception ex) {
-    ex.printStackTrace();
-    Notifications.getInstance().show(Notifications.Type.ERROR, "Đã xảy ra lỗi khi thêm sản phẩm.");
-}
+        } catch (NumberFormatException ex) {
+            ex.printStackTrace();
+            Notifications.getInstance().show(Notifications.Type.WARNING, "Một số trường số không đúng định dạng. Vui lòng kiểm tra lại.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Đã xảy ra lỗi khi thêm sản phẩm.");
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

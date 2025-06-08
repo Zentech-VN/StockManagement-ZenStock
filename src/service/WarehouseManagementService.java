@@ -13,26 +13,34 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import jdbc.ConnectionHelper;
 import raven.toast.Notifications;
 
 public class WarehouseManagementService implements WarehouseManagementDAO {
 
     public void loadWarehouseManagementToTable(JTable table, List<WarehouseManagement> list) {
-        list = getAllWarehouses();
         DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0); 
         for (WarehouseManagement wh : list) {
             model.addRow(new Object[]{
                 wh.getMaKhuVuc(),
                 wh.getTenKhuVuc(),
                 wh.getGhiChu(),});
-
         }
+    }
+
+    public boolean addCheck(WarehouseManagement wh) {
+        List<WarehouseManagement> list = getAllWarehouses();
+        for (WarehouseManagement w : list) {
+            if (w.getTenKhuVuc().equalsIgnoreCase(wh.getTenKhuVuc())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void Refresh(JTable warehouseTable, JTable productTable) {
         List<WarehouseManagement> list = getAllWarehouses();
-        DefaultTableModel warehouseModel = (DefaultTableModel) warehouseTable.getModel();
-        warehouseModel.setRowCount(0);
         loadWarehouseManagementToTable(warehouseTable, list);
 
         DefaultTableModel productModel = (DefaultTableModel) productTable.getModel();
@@ -42,54 +50,50 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
     public void Show(JTable table,
             JTextField fieldmakho,
             JTextField fieldtenkho,
-            JTextField fielghichu
-            ) {
+            JTextField fielghichu) {
 
         int selectedRow = table.getSelectedRow();
 
         if (selectedRow != -1) {
-            
-            fieldmakho.setText(String.valueOf(table.getValueAt(selectedRow, 0)));
-
-            
-            fieldtenkho.setText(String.valueOf(table.getValueAt(selectedRow, 1)));
-            fielghichu.setText(String.valueOf(table.getValueAt(selectedRow, 2)));
-
-
-        }
-    }
-public void updateWarehouse(JTextField txtmakho, JTextField txttenkho, JTextField txtghichu) {
-    try {
-        WarehouseManagement wh = new WarehouseManagement();
-
-        int maKhuVuc;
-        try {
-            maKhuVuc = Integer.parseInt(txtmakho.getText().trim());
-            wh.setMaKhuVuc(maKhuVuc);
-        } catch (NumberFormatException e) {
-            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Mã khu vực không hợp lệ");
-            return;
-        }
-
-        wh.setTenKhuVuc(txttenkho.getText().trim());
-        wh.setGhiChu(txtghichu.getText().trim());
-        int ret = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn cập nhật thông tin khu vực này?", "Xác nhận cập nhật", JOptionPane.YES_NO_OPTION);
-        if (ret == JOptionPane.YES_OPTION) {
-            boolean result = updateWarehouse(wh); // Gọi hàm DAO
-            if (result) {
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Cập nhật thành công!");
-            } else {
-                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Cập nhật thất bại!");
+            if (fieldmakho != null) {
+                fieldmakho.setText(String.valueOf(table.getValueAt(selectedRow, 0)));
+            }
+            if (fieldtenkho != null) {
+                fieldtenkho.setText(String.valueOf(table.getValueAt(selectedRow, 1)));
+            }
+            if (fielghichu != null) {
+                fielghichu.setText(String.valueOf(table.getValueAt(selectedRow, 2)));
             }
         }
-
-    } catch (Exception e) {
-        e.printStackTrace();
-        Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi trong quá trình cập nhật");
     }
-}
 
- public void Find(JTable table, JTextField search) {
+    public boolean updateWarehouseWithValidation(WarehouseManagement wh) {
+        try {
+
+            if (wh.getTenKhuVuc() == null || wh.getTenKhuVuc().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Tên khu vực không được để trống.");
+                return false;
+            }
+
+
+            String sql = "UPDATE Warehouse SET TenKhuVuc = ?, GhiChu = ? WHERE MaKhuVuc = ?";
+            java.sql.Connection conn = ConnectionHelper.getConnection();
+            java.sql.PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, wh.getTenKhuVuc());
+            ps.setString(2, wh.getGhiChu());
+            ps.setInt(3, wh.getMaKhuVuc());
+
+            int rows = ps.executeUpdate();
+            return rows > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi khi cập nhật kho.");
+            return false;
+        }
+    }
+
+    public void Find(JTable table, JTextField search) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
         table.setRowSorter(sorter);
@@ -99,5 +103,5 @@ public void updateWarehouse(JTextField txtmakho, JTextField txttenkho, JTextFiel
         } else {
             sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText));
         }
- }
+    }
 }

@@ -138,36 +138,6 @@ public class ProductServiceMain implements ProductDAO {
         }
     }
 
-    public boolean updateProduct(int maSanPham, String tenSanPham, String hinhAnh, String chipXuLy, int dungLuongPin, double kichThuocManHinh, String cameraSau, String cameraTruoc, int thoiGianBaoHanh, int soLuongTon, int phienBanHeDieuHanh, int trangThai, String tenXuatXu, String tenHeDieuHanh, String tenThuongHieu, String tenKhuVuc) {
-        String sql = "UPDATE sanpham SET tensp = ?, hinhanh = ?, xuatxu = ?, chipxuly = ?, dungluongpin = ?, "
-                + "kichthuocman = ?, hedieuhanh = ?, phienbanhdh = ?, camerasau = ?, cameratruoc = ?, thoigianbaohanh = ?, "
-                + "thuonghieu = ?, khuvuckho = ?, soluongton = ?, trangthai = ? WHERE masp = ?";
-        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, tenSanPham);
-            ps.setString(2, hinhAnh);
-            ps.setString(3, tenXuatXu);
-            ps.setString(4, chipXuLy);
-            ps.setInt(5, dungLuongPin);
-            ps.setDouble(6, kichThuocManHinh);
-            ps.setString(7, tenHeDieuHanh);
-            ps.setInt(8, phienBanHeDieuHanh);
-            ps.setString(9, cameraSau);
-            ps.setString(10, cameraTruoc);
-            ps.setInt(11, thoiGianBaoHanh);
-            ps.setString(12, tenThuongHieu);
-            ps.setString(13, tenKhuVuc);
-            ps.setInt(14, soLuongTon);
-            ps.setInt(15, trangThai);
-            ps.setInt(16, maSanPham);
-
-            return ps.executeUpdate() > 0;
-        } catch (SQLException ex) {
-            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi khi sửa sản phẩm");
-            ex.printStackTrace();
-            return false;
-        }
-    }
 
     public boolean updateProduct(Product p) {
 
