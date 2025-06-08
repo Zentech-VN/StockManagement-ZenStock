@@ -1,10 +1,10 @@
 package zentech.application.form.other;
 
-import service.CilentService;
+import service.ClientService;
 
 public class CustomerManagement extends javax.swing.JPanel {
     
-    CilentService cls = new CilentService();
+    ClientService cls = new ClientService();
     
     public CustomerManagement() {
         initComponents();
