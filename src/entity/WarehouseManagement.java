@@ -1,20 +1,55 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package entity;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.FieldDefaults;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
+/**
+ *
+ * @author ASUS
+ */
 public class WarehouseManagement {
 
-    int maKhuVuc;
-    String tenKhuVuc;
-    String ghiChu;
+    private int maKhuVuc;
+    private String tenKhuVuc;
+    private String ghiChu;
+
+    public WarehouseManagement() {
+    }
+
+    public WarehouseManagement(int maKhuVuc, String tenKhuVuc, String ghiChu) {
+        this.maKhuVuc = maKhuVuc;
+        this.tenKhuVuc = tenKhuVuc;
+        this.ghiChu = ghiChu;
+    }
+
+    public WarehouseManagement(String tenKhuVuc, String ghiChu) {
+        this.tenKhuVuc = tenKhuVuc;
+        this.ghiChu = ghiChu;
+    }
+
+    public int getMaKhuVuc() {
+        return maKhuVuc;
+    }
+
+    public void setMaKhuVuc(int maKhuVuc) {
+        this.maKhuVuc = maKhuVuc;
+    }
+
+    public String getTenKhuVuc() {
+        return tenKhuVuc;
+    }
+
+    public void setTenKhuVuc(String tenKhuVuc) {
+        this.tenKhuVuc = tenKhuVuc;
+    }
+
+    public String getGhiChu() {
+        return ghiChu;
+    }
+
+    public void setGhiChu(String ghiChu) {
+        this.ghiChu = ghiChu;
+    }
+
 }

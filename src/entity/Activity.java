@@ -1,27 +1,52 @@
 package entity;
 
 import java.time.LocalDateTime;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.FieldDefaults;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Activity {
 
-    int id;
-    String userId;
-    String action;
-    LocalDateTime timestamp;
-    
+    private int id;
+    private String userId;
+    private String action;
+    private LocalDateTime timestamp;
+
+    public Activity() {
+    }
+
     public Activity(String userId, String action, LocalDateTime timestamp) {
         this.userId = userId;
         this.action = action;
+        this.timestamp = timestamp;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 }

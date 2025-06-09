@@ -212,7 +212,6 @@ public class OpenAIService {
             json.append("Dữ liệu nội bộ: ").append(contextData);
         }
         json.append("Chỉ trả lời các câu hỏi liên quan đến phần mềm quản lý kho, nhân viên, sản phẩm, tài khoản và các chức năng của hệ thống. ");
-        json.append("Người dùng có thể hỏi các câu hỏi như: Có bao nhiêu nhân viên? Có bao nhiêu sản phẩm? Có bao nhiêu Kho? Có bao nhiêu tài khoản? Có bao nhiêu nhà cung cấp? Có bao nhiêu khách hàng? ");
         json.append("Nếu câu hỏi không liên quan, hãy từ chối trả lời một cách lịch sự. ");
         json.append("Trả lời ngắn gọn, rõ ràng và bằng tiếng Việt. ");
         json.append("Phần mềm ZenTech là phần mềm quản lý kho hàng, có các chức năng: quản lý nhân viên, quản lý sản phẩm, quản lý tài khoản, quản lý nhập xuất kho, quản lý nhà cung cấp.");

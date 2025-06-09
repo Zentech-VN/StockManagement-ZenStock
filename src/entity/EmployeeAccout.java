@@ -1,21 +1,25 @@
 package entity;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.FieldDefaults;
-
-@Getter
-@Setter
-@AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class EmployeeAccout {
 
-    String username;
-    Integer roleId;
-    boolean hasAccount;
-    
+    private final String username;
+    private final Integer roleId;
+    private final boolean hasAccount;
+
+    public EmployeeAccout(String username, Integer roleId, boolean hasAccount) {
+        this.username = username;
+        this.roleId = roleId;
+        this.hasAccount = hasAccount;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
     public boolean hasAccount() {
         return hasAccount;
     }
