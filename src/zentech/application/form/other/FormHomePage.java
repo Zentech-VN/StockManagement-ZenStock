@@ -1,5 +1,8 @@
 package zentech.application.form.other;
 
+import dao.ProductDAO;
+import entity.Product;
+import javax.swing.table.DefaultTableModel;
 import service.AccountService;
 import service.EmployeeService;
 import service.ProductServiceMain;
@@ -13,6 +16,19 @@ public class FormHomePage extends javax.swing.JPanel {
     public FormHomePage() {
         initComponents();
         initalUI();
+        loadDataTable();
+    }
+
+    public void loadDataTable() {
+        ProductDAO pd = new ProductDAO() {
+        };
+        String[] title = {"Tên sản phẩm", "Số lượng"};
+        DefaultTableModel model = new DefaultTableModel(title, 0);
+        for (Product p : pd.getAllProduct()) {
+            model.addRow(new Object[]{p.getTenSanPham(), p.getSoLuongTon()});
+        }
+        tblSanPham.setModel(model);
+        tblSanPham.setDefaultEditor(Object.class, null);
     }
 
     private void initalUI() {
@@ -235,7 +251,6 @@ public class FormHomePage extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tblSanPham.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblSanPham);
 
         crazyPanel1.add(jScrollPane1);
