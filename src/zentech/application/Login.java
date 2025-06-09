@@ -25,9 +25,6 @@ public class Login extends javax.swing.JFrame {
         setSize(new Dimension(1366, 768));
         this.setLocationRelativeTo(null);
         initalUI();
-
-        txtPass.setText("1234567");
-        txtUser.setText("admin");
     }
 
     private void initalUI() {
