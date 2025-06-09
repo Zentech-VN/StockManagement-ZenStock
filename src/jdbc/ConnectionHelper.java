@@ -11,14 +11,13 @@ public class ConnectionHelper {
     private static DataSource dataSource;
 
     static {
-        try (InputStream input = ConnectionHelper.class.getResourceAsStream("/config/db.properties")) {
+        try (InputStream in = ConnectionHelper.class.getResourceAsStream("/config/db.properties")) {
             Properties props = new Properties();
-            props.load(input);
-            // Initialize DataSource
+            props.load(in);
+
             dataSource = DataSourceFactory.createDataSource(props);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error loading DB configuration", e);
+            throw new ExceptionInInitializerError("Không đọc được cấu hình DB: " + e.getMessage());
         }
     }
 
@@ -32,8 +31,17 @@ public class ConnectionHelper {
                 c.close();
             }
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
+        }
+    }
+    
+    public static void shutdown() {
+        if (dataSource instanceof AutoCloseable) {
+            try {
+                ((AutoCloseable) dataSource).close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
