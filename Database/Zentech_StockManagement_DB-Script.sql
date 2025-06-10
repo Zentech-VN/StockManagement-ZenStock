@@ -19,8 +19,8 @@ CREATE TABLE nhomquyen (
 CREATE TABLE ctquyen (
   manhomquyen INT NOT NULL,
   machucnang VARCHAR(50) NOT NULL,
-  hanhdong INT NOT NULL,
-  PRIMARY KEY (manhomquyen, machucnang),
+  hanhdong VARCHAR(255) NOT NULL,
+  PRIMARY KEY (manhomquyen, machucnang, hanhdong),
   FOREIGN KEY (manhomquyen) REFERENCES nhomquyen(manhomquyen),
   FOREIGN KEY (machucnang) REFERENCES danhmucchucnang(machucnang)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -110,11 +110,10 @@ CREATE TABLE taikhoan (
   manv INT AUTO_INCREMENT PRIMARY KEY,
   tendangnhap VARCHAR(100) NOT NULL,
   matkhau VARCHAR(255) NOT NULL,
-  manhanvien INT NOT NULL,
   manhomquyen INT NOT NULL,
   trangthai VARCHAR(50) NOT NULL,
   otp VARCHAR(255),
-  FOREIGN KEY (manhanvien) REFERENCES nhanvien(manv),
+  FOREIGN KEY (manv) REFERENCES nhanvien(manv),
   FOREIGN KEY (manhomquyen) REFERENCES nhomquyen(manhomquyen)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
