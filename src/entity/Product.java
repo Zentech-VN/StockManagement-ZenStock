@@ -1,18 +1,21 @@
 package entity;
 
+import java.math.BigDecimal;
+
 public class Product {
 
     private int maSanPham;
     private String tenSanPham;
     private String hinhAnh;
     private String chipXuLy;
-    private int dungLuongPin;
-    private double kichThuocManHinh;
+    private String dungLuongPin;
+    private String kichThuocManHinh;
     private String cameraSau;
     private String cameraTruoc;
-    private int thoiGianBaoHanh;
+    private String thoiGianBaoHanh;
     private int soLuongTon;
-    private String phienBanHeDieuHanh;
+    private int thongSo;
+    private BigDecimal gia;
     private int trangThai;
 
     //Các bảng liên kết
@@ -20,12 +23,11 @@ public class Product {
     private String tenHeDieuHanh;
     private String tenThuongHieu;
     private String tenKhuVuc;
-    public int getmaSanPham;
 
     public Product() {
     }
 
-    public Product(int maSanPham, String tenSanPham, String hinhAnh, String chipXuLy, int dungLuongPin, double kichThuocManHinh, String cameraSau, String cameraTruoc, int thoiGianBaoHanh, int soLuongTon, String phienBanHeDieuHanh, int trangThai, String tenXuatXu, String tenHeDieuHanh, String tenThuongHieu, String tenKhuVuc) {
+    public Product(int maSanPham, String tenSanPham, String hinhAnh, String chipXuLy, String dungLuongPin, String kichThuocManHinh, String cameraSau, String cameraTruoc, String thoiGianBaoHanh, int thongSo, BigDecimal gia, int trangThai, String tenXuatXu, String tenHeDieuHanh, String tenThuongHieu, String tenKhuVuc) {
         this.maSanPham = maSanPham;
         this.tenSanPham = tenSanPham;
         this.hinhAnh = hinhAnh;
@@ -35,8 +37,8 @@ public class Product {
         this.cameraSau = cameraSau;
         this.cameraTruoc = cameraTruoc;
         this.thoiGianBaoHanh = thoiGianBaoHanh;
-        this.soLuongTon = soLuongTon;
-        this.phienBanHeDieuHanh = phienBanHeDieuHanh;
+        this.thongSo = thongSo;
+        this.gia = gia;
         this.trangThai = trangThai;
         this.tenXuatXu = tenXuatXu;
         this.tenHeDieuHanh = tenHeDieuHanh;
@@ -75,20 +77,28 @@ public class Product {
     public void setChipXuLy(String chipXuLy) {
         this.chipXuLy = chipXuLy;
     }
+    
+    public int getSoLuongTon() {
+        return soLuongTon;
+    }
 
-    public int getDungLuongPin() {
+    public void setSoLuongTon(int soLuongTon) {
+        this.soLuongTon = soLuongTon;
+    }
+
+    public String getDungLuongPin() {
         return dungLuongPin;
     }
 
-    public void setDungLuongPin(int dungLuongPin) {
+    public void setDungLuongPin(String dungLuongPin) {
         this.dungLuongPin = dungLuongPin;
     }
 
-    public double getKichThuocManHinh() {
+    public String getKichThuocManHinh() {
         return kichThuocManHinh;
     }
 
-    public void setKichThuocManHinh(double kichThuocManHinh) {
+    public void setKichThuocManHinh(String kichThuocManHinh) {
         this.kichThuocManHinh = kichThuocManHinh;
     }
 
@@ -108,28 +118,28 @@ public class Product {
         this.cameraTruoc = cameraTruoc;
     }
 
-    public int getThoiGianBaoHanh() {
+    public String getThoiGianBaoHanh() {
         return thoiGianBaoHanh;
     }
 
-    public void setThoiGianBaoHanh(int thoiGianBaoHanh) {
+    public void setThoiGianBaoHanh(String thoiGianBaoHanh) {
         this.thoiGianBaoHanh = thoiGianBaoHanh;
     }
 
-    public int getSoLuongTon() {
-        return soLuongTon;
+    public int getThongSo() {
+        return thongSo;
     }
 
-    public void setSoLuongTon(int soLuongTon) {
-        this.soLuongTon = soLuongTon;
+    public void setThongSo(int thongSo) {
+        this.thongSo = thongSo;
     }
 
-    public String getPhienBanHeDieuHanh() {
-        return phienBanHeDieuHanh;
+    public BigDecimal getGia() {
+        return gia;
     }
 
-    public void setPhienBanHeDieuHanh(String phienBanHeDieuHanh) {
-        this.phienBanHeDieuHanh = phienBanHeDieuHanh;
+    public void setGia(BigDecimal gia) {
+        this.gia = gia;
     }
 
     public int getTrangThai() {

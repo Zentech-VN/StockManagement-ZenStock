@@ -45,13 +45,13 @@ public class ProductForm extends javax.swing.JPanel {
                     x.getDungLuongPin(),
                     x.getKichThuocManHinh(),
                     x.getTenHeDieuHanh(),
-                    x.getPhienBanHeDieuHanh(),
                     x.getCameraSau(),
                     x.getCameraTruoc(),
                     x.getThoiGianBaoHanh(),
+                    x.getThongSo(),
+                    x.getGia(),
                     x.getTenThuongHieu(),
                     x.getTenKhuVuc(),
-                    x.getSoLuongTon(),
                     x.getTrangThaiText()
                 });
             }
@@ -238,16 +238,16 @@ public class ProductForm extends javax.swing.JPanel {
             String hinhAnh = model.getValueAt(modelRow, 2).toString();
             String xuatXu = model.getValueAt(modelRow, 3).toString();
             String chipXuLy = model.getValueAt(modelRow, 4).toString();
-            int dungLuongPin = Integer.parseInt(model.getValueAt(modelRow, 5).toString());
-            double kichThuocManHinh = Double.parseDouble(model.getValueAt(modelRow, 6).toString());
+            String dungLuongPin = model.getValueAt(modelRow, 5).toString();
+            String kichThuocManHinh = model.getValueAt(modelRow, 6).toString();
             String tenHeDieuHanh = model.getValueAt(modelRow, 7).toString();
-            int phienBanHeDieuHanh = Integer.parseInt(model.getValueAt(modelRow, 8).toString());
-            String cameraSau = model.getValueAt(modelRow, 9).toString();
-            String cameraTruoc = model.getValueAt(modelRow, 10).toString();
-            int thoiGianBaoHanh = Integer.parseInt(model.getValueAt(modelRow, 11).toString());
-            String thuongHieu = model.getValueAt(modelRow, 12).toString();
-            String tenKhuVuc = model.getValueAt(modelRow, 13).toString();
-            int soLuongTon = Integer.parseInt(model.getValueAt(modelRow, 14).toString());
+            String cameraSau = model.getValueAt(modelRow, 8).toString();
+            String cameraTruoc = model.getValueAt(modelRow, 9).toString();
+            String thoiGianBaoHanh = model.getValueAt(modelRow, 10).toString();
+            int thongSo = Integer.parseInt(model.getValueAt(modelRow, 11).toString());
+            java.math.BigDecimal gia = new java.math.BigDecimal(model.getValueAt(modelRow, 12).toString());
+            String thuongHieu = model.getValueAt(modelRow, 13).toString();
+            String tenKhuVuc = model.getValueAt(modelRow, 14).toString();
             String trangThaiText = model.getValueAt(modelRow, 15).toString();
 
 
@@ -274,8 +274,8 @@ public class ProductForm extends javax.swing.JPanel {
                     cameraSau,
                     cameraTruoc,
                     thoiGianBaoHanh,
-                    soLuongTon,
-                    phienBanHeDieuHanh,
+                    thongSo,
+                    gia,
                     trangThaiInt,
                     xuatXu,
                     tenHeDieuHanh,

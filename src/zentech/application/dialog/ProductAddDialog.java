@@ -340,13 +340,11 @@ public class ProductAddDialog extends JDialog {
                     || txtdungluongpin.getText().trim().isEmpty()
                     || txtkichthuocman.getText().trim().isEmpty()
                     || txthedieuhanh.getText().trim().isEmpty()
-                    || txtphienbanhdh.getText().trim().isEmpty()
                     || txtcamerasau.getText().trim().isEmpty()
                     || txtcameratruoc.getText().trim().isEmpty()
                     || txtthoigianbanhanh.getText().trim().isEmpty()
                     || txtthuonghieu.getText().trim().isEmpty()
                     || txtkhuvuckho.getText().trim().isEmpty()
-                    || txtsoluongton.getText().trim().isEmpty()
                     || txttrangthai.getText().trim().isEmpty()) {
 
                 Notifications.getInstance().show(Notifications.Type.WARNING, "Vui lòng nhập đầy đủ thông tin trước khi thêm sản phẩm.");
@@ -357,16 +355,16 @@ public class ProductAddDialog extends JDialog {
             String hinhAnh = txthinhanh.getText().trim();
             String xuatXu = txtxuatxu.getText().trim();
             String chipXuLy = txtchipxuly.getText().trim();
-            int dungLuongPin = Integer.parseInt(txtdungluongpin.getText().trim());
-            double kichThuocMan = Double.parseDouble(txtkichthuocman.getText().trim());
+            String dungLuongPin = txtdungluongpin.getText().trim();
+            String kichThuocMan = txtkichthuocman.getText().trim();
             String heDieuHanh = txthedieuhanh.getText().trim();
-            String phienbanhdh = txtphienbanhdh.getText().trim();
             String cameraSau = txtcamerasau.getText().trim();
             String cameraTruoc = txtcameratruoc.getText().trim();
-            int thoiGianBaoHanh = Integer.parseInt(txtthoigianbanhanh.getText().trim());
+            String thoiGianBaoHanh = txtthoigianbanhanh.getText().trim();
             String thuongHieu = txtthuonghieu.getText().trim();
             String khuVucKho = txtkhuvuckho.getText().trim();
-            int soLuongTon = Integer.parseInt(txtsoluongton.getText().trim());
+            int thongSo = 1; // Default value, có thể thêm field cho thongso
+            java.math.BigDecimal gia = new java.math.BigDecimal("0"); // Default value, có thể thêm field cho gia
             int trangThaiValue = Integer.parseInt(txttrangthai.getText().trim());
 
             entity.Product product = new entity.Product();
@@ -377,13 +375,13 @@ public class ProductAddDialog extends JDialog {
             product.setDungLuongPin(dungLuongPin);
             product.setKichThuocManHinh(kichThuocMan);
             product.setTenHeDieuHanh(heDieuHanh);
-            product.setPhienBanHeDieuHanh(phienbanhdh);
             product.setCameraSau(cameraSau);
             product.setCameraTruoc(cameraTruoc);
             product.setThoiGianBaoHanh(thoiGianBaoHanh);
+            product.setThongSo(thongSo);
+            product.setGia(gia);
             product.setTenThuongHieu(thuongHieu);
             product.setTenKhuVuc(khuVucKho);
-            product.setSoLuongTon(soLuongTon);
             product.setTrangThai(trangThaiValue);
 
             if (!productService.addCheck(product)) {

@@ -18,7 +18,7 @@ public interface WarehouseManagementDAO {
     boolean updateWarehouseWithValidation(WarehouseManagement wh); 
     default List<WarehouseManagement> getAllWarehouses() {
         List<WarehouseManagement> list = new ArrayList<>();
-        String sql = "SELECT * FROM khuvuckho";
+        String sql = "SELECT * FROM khuvuc";
 
         try (Connection conn = ConnectionHelper.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -28,7 +28,7 @@ public interface WarehouseManagementDAO {
                 WarehouseManagement w = new WarehouseManagement(
                         rs.getInt("makhuvuc"),
                         rs.getString("tenkhuvuc"),
-                        rs.getString("ghichu")
+                        "" // ghichu field doesn't exist in new schema
                 );
                 list.add(w);
             }
@@ -39,13 +39,12 @@ public interface WarehouseManagementDAO {
     }
 
     default boolean addWarehouse(WarehouseManagement warehouse) {
-        String sql = "INSERT INTO khuvuckho (TenKhuVuc, GhiChu) VALUES (?, ?)";
+        String sql = "INSERT INTO khuvuc (tenkhuvuc) VALUES (?)";
 
         try (Connection conn = ConnectionHelper.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, warehouse.getTenKhuVuc());
-            stmt.setString(2, warehouse.getGhiChu());
 
             int rows = stmt.executeUpdate();
             return rows > 0;
@@ -58,14 +57,13 @@ public interface WarehouseManagementDAO {
 
     // Cập nhật kho
     default boolean updateWarehouse(WarehouseManagement warehouse) {
-        String sql = "UPDATE khuvuckho SET TenKhuVuc = ?, GhiChu = ? WHERE MaKhuVuc = ?";
+        String sql = "UPDATE khuvuc SET tenkhuvuc = ? WHERE makhuvuc = ?";
 
         try (Connection conn = ConnectionHelper.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, warehouse.getTenKhuVuc());
-            stmt.setString(2, warehouse.getGhiChu());
-            stmt.setInt(3, warehouse.getMaKhuVuc());
+            stmt.setInt(2, warehouse.getMaKhuVuc());
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected == 0) {
@@ -84,7 +82,7 @@ public interface WarehouseManagementDAO {
 
     // Xoá kho theo ID
     default boolean deleteWarehouseById(int id) {
-        String sql = "DELETE FROM khuvuckho WHERE makhuvuc = ?";
+        String sql = "DELETE FROM khuvuc WHERE makhuvuc = ?";
 
         try (Connection conn = ConnectionHelper.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -101,7 +99,7 @@ public interface WarehouseManagementDAO {
 
     // Kiểm tra mã khu vực có tồn tại
     default boolean maKhuVucTonTai(int maKhuVuc) {
-        String sql = "SELECT 1 FROM khuvuckho WHERE MaKhuVuc = ?";
+        String sql = "SELECT 1 FROM khuvuc WHERE makhuvuc = ?";
 
         try (Connection conn = ConnectionHelper.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -118,7 +116,7 @@ public interface WarehouseManagementDAO {
  
     default int getWareHouseCount() {
         int count = 0;
-        String sql = "SELECT COUNT(*) FROM khuvuckho";
+        String sql = "SELECT COUNT(*) FROM khuvuc";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 

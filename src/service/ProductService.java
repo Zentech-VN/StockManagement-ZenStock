@@ -22,12 +22,14 @@ import javax.swing.table.DefaultTableModel;
     public List<Product> getProductsByWarehouse(String warehouseId) {
         try {
             ProductDAOImpl dao = new ProductDAOImpl(conn);
-            return dao.getProductsByWarehouse(warehouseId);
-        } catch (SQLException e) {
+            return dao.getProductsByWarehouse(Integer.parseInt(warehouseId));
+        } catch (SQLException | NumberFormatException e) {
             e.printStackTrace();
-            return null;
+            return new java.util.ArrayList<>();
         }
     }
+
+    
     public void loadProductToTable(JTable table, List<Product> list) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);

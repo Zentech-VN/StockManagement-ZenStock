@@ -171,11 +171,11 @@ public class WarehouseManagementAddDialog extends JDialog {
         }
 
         String tenkhuvuc = txtten.getText().trim();
-        String ghichu = txtghichu.getText().trim();
+        // Không sử dụng ghichu nữa vì không có trong schema mới
 
         entity.WarehouseManagement warehousemanagement = new entity.WarehouseManagement();
         warehousemanagement.setTenKhuVuc(tenkhuvuc);
-        warehousemanagement.setGhiChu(ghichu);
+        warehousemanagement.setGhiChu(""); // Set empty string
 
         // Kiểm tra trùng lặp
         if (!warehousemanagementService.addCheck(warehousemanagement)) {

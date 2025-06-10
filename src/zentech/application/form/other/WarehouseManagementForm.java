@@ -258,12 +258,12 @@ public class WarehouseManagementForm extends javax.swing.JPanel implements Wareh
     }
     String maKho = tbl1.getValueAt(selectedRow, 0).toString();
     String tenKho = tbl1.getValueAt(selectedRow, 1).toString();
-    String ghiChu = tbl1.getValueAt(selectedRow, 2).toString();
+    String ghiChu = ""; 
 
     WarehouseManagementUpdateDialog dialog = new WarehouseManagementUpdateDialog(
             SwingUtilities.getWindowAncestor(this),
-            this, 
-            tbl1, 
+            this,
+            tbl1,
             list,
             maKho,
             tenKho,

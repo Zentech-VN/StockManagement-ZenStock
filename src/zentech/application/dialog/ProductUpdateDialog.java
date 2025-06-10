@@ -16,7 +16,7 @@ public class ProductUpdateDialog extends JDialog {
     ProductServiceMain productService;
 
     public ProductUpdateDialog(Window parent, ProductForm productForm,
-            int maSanPham, String tenSanPham, String hinhAnh, String chipXuLy, int dungLuongPin, double kichThuocManHinh, String cameraSau, String cameraTruoc, int thoiGianBaoHanh, int soLuongTon, int phienBanHeDieuHanh, int trangThai, String tenXuatXu, String tenHeDieuHanh, String tenThuongHieu, String tenKhuVuc) {
+            int maSanPham, String tenSanPham, String hinhAnh, String chipXuLy, String dungLuongPin, String kichThuocManHinh, String cameraSau, String cameraTruoc, String thoiGianBaoHanh, int thongSo, java.math.BigDecimal gia, int trangThai, String tenXuatXu, String tenHeDieuHanh, String tenThuongHieu, String tenKhuVuc) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         this.productForm = productForm;
         this.maSanPham = maSanPham;
@@ -29,14 +29,16 @@ public class ProductUpdateDialog extends JDialog {
         txtcameratruoc.setText(cameraTruoc);
         txtxuatxu1.setText(tenXuatXu);
         txtthuonghieu1.setText(tenThuongHieu);
-        txtdungluongpin.setText(String.valueOf(dungLuongPin));
-        txtkichthuocman.setText(String.valueOf(kichThuocManHinh));
+        txtdungluongpin.setText(dungLuongPin);
+        txtkichthuocman.setText(kichThuocManHinh);
         txtchipxuly.setText(chipXuLy);
         txthinhanh.setText(hinhAnh);
         txthedieuhanh.setText(tenHeDieuHanh);
-        txtphienbanhdh.setText(String.valueOf(phienBanHeDieuHanh));
-        txtthoigianbanhanh.setText(String.valueOf(thoiGianBaoHanh));
-        txtsoluongton1.setText(String.valueOf(soLuongTon));
+        // Không sử dụng phienbanhdh nữa
+        txtphienbanhdh.setText("");
+        txtthoigianbanhanh.setText(thoiGianBaoHanh);
+        // Không sử dụng soluongton nữa
+        txtsoluongton1.setText("0");
         txtkhuvuckho.setText(tenKhuVuc);
 
 
@@ -347,16 +349,16 @@ public class ProductUpdateDialog extends JDialog {
             String hinhAnh = txthinhanh.getText().trim();
             String xuatXu = txtxuatxu1.getText().trim();
             String chipXuLy = txtchipxuly.getText().trim();
-            int dungLuongPin = Integer.parseInt(txtdungluongpin.getText().trim());
-            double kichThuocMan = Double.parseDouble(txtkichthuocman.getText().trim());
+            String dungLuongPin = txtdungluongpin.getText().trim();
+            String kichThuocMan = txtkichthuocman.getText().trim();
             String heDieuHanh = txthedieuhanh.getText().trim();
-            String phienbanhdh = txtphienbanhdh.getText().trim();
             String cameraSau = txtcamerasau.getText().trim();
             String cameraTruoc = txtcameratruoc.getText().trim();
-            int thoiGianBaoHanh = Integer.parseInt(txtthoigianbanhanh.getText().trim());
+            String thoiGianBaoHanh = txtthoigianbanhanh.getText().trim();
             String thuongHieu = txtthuonghieu1.getText().trim();
             String khuVucKho = txtkhuvuckho.getText().trim();
-            int soLuongTon = Integer.parseInt(txtsoluongton1.getText().trim());
+            int thongSo = 1; // Default value
+            java.math.BigDecimal gia = new java.math.BigDecimal("0"); // Default value
             String temp2 = String.valueOf(cbotrangThai.getSelectedItem());
             int trangThai = temp2.equals("Hoạt động") ? 1 : 0;
 
@@ -369,13 +371,13 @@ public class ProductUpdateDialog extends JDialog {
             product.setDungLuongPin(dungLuongPin);
             product.setKichThuocManHinh(kichThuocMan);
             product.setTenHeDieuHanh(heDieuHanh);
-            product.setPhienBanHeDieuHanh(phienbanhdh);
             product.setCameraSau(cameraSau);
             product.setCameraTruoc(cameraTruoc);
             product.setThoiGianBaoHanh(thoiGianBaoHanh);
+            product.setThongSo(thongSo);
+            product.setGia(gia);
             product.setTenThuongHieu(thuongHieu);
             product.setTenKhuVuc(khuVucKho);
-            product.setSoLuongTon(soLuongTon);
             product.setTrangThai(trangThai);
 
             System.out.println("Cập nhật sản phẩm: " + product.getTenSanPham());

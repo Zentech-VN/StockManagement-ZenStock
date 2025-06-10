@@ -20,30 +20,38 @@ public class ProductDAOImpl implements ProductDAO {
         this.conn = conn;
     }
 
-    public List<Product> getProductsByWarehouse(String maKho) throws SQLException {
+    public List<Product> getProductsByWarehouse(int maKho) throws SQLException {
         List<Product> list = new ArrayList<>();
-        String sql = "SELECT * FROM sanpham WHERE khuvuckho = ?";
+        String sql = "SELECT sp.masanpham, sp.tensp, sp.hinhanh, xx.tenxuatxu AS xuatxu, "
+                + "sp.chipxuly, sp.dungluongpin, sp.kichthuocmanhinh, hdh.tenhedieuchanh AS hedieuhanh, "
+                + "sp.camerasau, sp.cameratruoc, sp.thoigianbaohanh, sp.thongso, sp.gia, "
+                + "th.tenthuonghieu AS thuonghieu, sp.trangthai "
+                + "FROM sanpham sp "
+                + "LEFT JOIN xuatxu xx ON sp.maxuatxu = xx.maxuatxu "
+                + "LEFT JOIN hedieuchanh hdh ON sp.mahedieuchanh = hdh.mahedieuchanh "
+                + "LEFT JOIN thuonghieu th ON sp.mathuonghieu = th.mathuonghieu "
+                + "INNER JOIN khuvuc_sanpham kvsp ON sp.masanpham = kvsp.masanpham "
+                + "WHERE kvsp.makhuvuc = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, maKho);
+            ps.setInt(1, maKho);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 Product p = new Product();
-                p.setMaSanPham(rs.getInt("masp"));
+                p.setMaSanPham(rs.getInt("masanpham"));
                 p.setTenSanPham(rs.getString("tensp"));
-               // p.setHinhAnh(rs.getString("hinhanh"));
+                p.setHinhAnh(rs.getString("hinhanh"));
                 p.setTenXuatXu(rs.getString("xuatxu"));
                 p.setChipXuLy(rs.getString("chipxuly"));
-                p.setDungLuongPin(rs. getInt("dungluongpin"));
-               // p.setKichThuocMan(rs.getString("kichthuocman"));
-               // p.setHeDieuHanh(rs.getString("hedieuhanh"));
-//                p.setPhienBanDH(rs.getString("phienbanhdh"));
-//                p.setCameraSau(rs.getString("camerasau"));
-//                p.setCameraTruoc(rs.getString("cameratruoc"));
-//                p.setThoiGianBaoHanh(rs.getString("thoigianbaohanh"));
-  //              p.setThuongHieu(rs.getString("thuonghieu"));
-                p.setTenKhuVuc(rs.getString("khuvuckho"));
-                p.setSoLuongTon(rs.getInt("soluongton"));
+                p.setDungLuongPin(rs.getString("dungluongpin"));
+                p.setKichThuocManHinh(rs.getString("kichthuocmanhinh"));
+                p.setTenHeDieuHanh(rs.getString("hedieuhanh"));
+                p.setCameraSau(rs.getString("camerasau"));
+                p.setCameraTruoc(rs.getString("cameratruoc"));
+                p.setThoiGianBaoHanh(rs.getString("thoigianbaohanh"));
+                p.setThongSo(rs.getInt("thongso"));
+                p.setGia(rs.getBigDecimal("gia"));
+                p.setTenThuongHieu(rs.getString("thuonghieu"));
                 p.setTrangThai(rs.getInt("trangthai"));
                 list.add(p);
             }

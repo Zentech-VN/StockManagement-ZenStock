@@ -48,13 +48,13 @@ public class ProductServiceMain implements ProductDAO {
             return false;
         }
 
-        if (p.getDungLuongPin() <= 0) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Dung lượng pin phải lớn hơn 0");
+        if (p.getDungLuongPin() == null || p.getDungLuongPin().trim().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Dung lượng pin không được để trống");
             return false;
         }
 
-        if (p.getKichThuocManHinh() <= 0) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Kích thước màn hình phải lớn hơn 0");
+        if (p.getKichThuocManHinh() == null || p.getKichThuocManHinh().trim().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Kích thước màn hình không được để trống");
             return false;
         }
 
@@ -68,18 +68,18 @@ public class ProductServiceMain implements ProductDAO {
             return false;
         }
 
-        if (p.getThoiGianBaoHanh() < 0) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thời gian bảo hành không hợp lệ");
+        if (p.getThoiGianBaoHanh() == null || p.getThoiGianBaoHanh().trim().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thời gian bảo hành không được để trống");
             return false;
         }
 
-        if (p.getSoLuongTon() < 0) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Số lượng tồn kho không được âm");
+        if (p.getThongSo() <= 0) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thông số phải lớn hơn 0");
             return false;
         }
 
-        if (p.getPhienBanHeDieuHanh()== null || p.getPhienBanHeDieuHanh().trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Phiên bản hệ điều hành không hợp lệ");
+        if (p.getGia() == null || p.getGia().compareTo(java.math.BigDecimal.ZERO) <= 0) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Giá sản phẩm phải lớn hơn 0");
             return false;
         }
 
@@ -110,44 +110,35 @@ public class ProductServiceMain implements ProductDAO {
     }
 
     public boolean addProduct(Product p) {
-        String sql = "INSERT INTO sanpham (tensp, hinhanh, xuatxu, chipxuly, dungluongpin, kichthuocman, hedieuhanh, phienbanhdh, camerasau, cameratruoc, thoigianbaohanh, thuonghieu, khuvuckho, soluongton, trangthai) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, p.getTenSanPham());
-            ps.setString(2, p.getHinhAnh());
-            ps.setString(3, p.getTenXuatXu());
-            ps.setString(4, p.getChipXuLy());
-            ps.setInt(5, p.getDungLuongPin());
-            ps.setDouble(6, p.getKichThuocManHinh());
-            ps.setString(7, p.getTenHeDieuHanh());
-            ps.setString(8, p.getPhienBanHeDieuHanh());
-            ps.setString(9, p.getCameraSau());
-            ps.setString(10, p.getCameraTruoc());
-            ps.setInt(11, p.getThoiGianBaoHanh());
-            ps.setString(12, p.getTenThuongHieu());
-            ps.setString(13, p.getTenKhuVuc());
-            ps.setInt(14, p.getSoLuongTon());
-            ps.setInt(15, p.getTrangThai());
-
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+        // Sử dụng method từ ProductDAO interface
+        return addProduct(
+                p.getTenSanPham(),
+                p.getHinhAnh(),
+                p.getChipXuLy(),
+                p.getDungLuongPin(),
+                p.getKichThuocManHinh(),
+                p.getCameraSau(),
+                p.getCameraTruoc(),
+                p.getThoiGianBaoHanh(),
+                p.getThongSo(),
+                p.getGia(),
+                p.getTrangThai(),
+                1, // maxuatxu - cần mapping từ tên
+                1, // mahedieuchanh - cần mapping từ tên
+                1  // mathuonghieu - cần mapping từ tên
+        );
     }
 
 
     public boolean updateProduct(Product p) {
 
-        if (p.getSoLuongTon() < 0) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Số lượng tồn kho không được âm");
+        if (p.getThongSo() <= 0) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thông số phải lớn hơn 0");
             return false;
         }
 
-        if (p.getPhienBanHeDieuHanh()== null || p.getPhienBanHeDieuHanh().trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Phiên bản hệ điều hành không hợp lệ");
+        if (p.getGia() == null || p.getGia().compareTo(java.math.BigDecimal.ZERO) <= 0) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Giá sản phẩm phải lớn hơn 0");
             return false;
         }
 
@@ -181,13 +172,12 @@ public class ProductServiceMain implements ProductDAO {
                 p.getCameraSau(),
                 p.getCameraTruoc(),
                 p.getThoiGianBaoHanh(),
-                p.getSoLuongTon(),
-                p.getPhienBanHeDieuHanh(),
+                p.getThongSo(),
+                p.getGia(),
                 p.getTrangThai(),
-                p.getTenXuatXu(),
-                p.getTenHeDieuHanh(),
-                p.getTenThuongHieu(),
-                p.getTenKhuVuc()
+                1, // maxuatxu - cần mapping từ tên
+                1, // mahedieuchanh - cần mapping từ tên
+                1  // mathuonghieu - cần mapping từ tên
         );
     }
 
