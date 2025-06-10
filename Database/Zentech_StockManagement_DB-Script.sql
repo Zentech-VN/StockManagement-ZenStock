@@ -57,6 +57,9 @@ CREATE TABLE sanpham (
   gia DECIMAL(15,2),
   trangthai TINYINT,
   mathuonghieu INT NOT NULL,
+  dungluongpin VARCHAR(50),
+  kichthuocmanhinh VARCHAR(50),
+  thoigianbaohanh VARCHAR(50),
   FOREIGN KEY (maxuatxu) REFERENCES xuatxu(maxuatxu),
   FOREIGN KEY (mahedieuchanh) REFERENCES hedieuchanh(mahedieuchanh),
   FOREIGN KEY (mathuonghieu) REFERENCES thuonghieu(mathuonghieu)
