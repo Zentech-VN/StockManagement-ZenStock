@@ -262,6 +262,7 @@ public class ProductForm extends javax.swing.JPanel {
                 "background:lighten(@background,8%);borderWidth:1",
                 "background:lighten(@background,8%);borderWidth:1",
                 "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
                 ""
             }
         ));
