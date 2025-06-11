@@ -1,6 +1,6 @@
-    package service;
+package service;
 
-    import dao.ProductDAO;
+import dao.ProductDAO;
 import dao.ProductDAOImpl;
 import entity.Product;
 import java.sql.Connection;
@@ -9,11 +9,13 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-    public class ProductService implements ProductDAO {
-        private Connection conn;
-        public int getProductCountService() {
-            return getProductCount();
-        }
+public class ProductService implements ProductDAO {
+
+    private Connection conn;
+
+    public int getProductCountService() {
+        return getProductCount();
+    }
 
     public ProductService(Connection conn) {
         this.conn = conn;
@@ -29,7 +31,6 @@ import javax.swing.table.DefaultTableModel;
         }
     }
 
-    
     public void loadProductToTable(JTable table, List<Product> list) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
@@ -37,17 +38,9 @@ import javax.swing.table.DefaultTableModel;
             model.addRow(new Object[]{
                 p.getMaSanPham(),
                 p.getTenSanPham(),
-             //   p.getHinhAnh(),
                 p.getTenXuatXu(),
                 p.getChipXuLy(),
                 p.getDungLuongPin(),
-//                p.getKichThuocMan(),
-//                p.getHeDieuHanh(),
-//                p.getPhienBanDH(),
-//                p.getCameraSau(),
-//                p.getCameraTruoc(),
-//                p.getThoiGianBaoHanh(),
-//                p.getThuongHieu(),
                 p.getTenKhuVuc(),
                 p.getSoLuongTon(),
                 p.getTrangThai()
@@ -55,4 +48,4 @@ import javax.swing.table.DefaultTableModel;
         }
     }
 
-    }
+}
