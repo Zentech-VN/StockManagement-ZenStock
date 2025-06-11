@@ -540,11 +540,12 @@ public class EmployeeForm extends javax.swing.JPanel {
         Window parent = SwingUtilities.getWindowAncestor(this);
         int modelRow = getSelectedModelRow();
         if (modelRow == -1) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Hãy chọn nhân viên muốn chỉnh sửa");
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Hãy chọn sản phẩm muốn chỉnh sửa");
             return;
         }
-
+        
         DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
+        
         String ma = model.getValueAt(modelRow, 0).toString();
         String hoTen = model.getValueAt(modelRow, 1).toString();
         String gioiTinh = model.getValueAt(modelRow, 2).toString();

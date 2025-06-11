@@ -20,12 +20,11 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
 
     public void loadWarehouseManagementToTable(JTable table, List<WarehouseManagement> list) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setRowCount(0); 
+        model.setRowCount(0);
         for (WarehouseManagement wh : list) {
             model.addRow(new Object[]{
                 wh.getMaKhuVuc(),
-                wh.getTenKhuVuc(),
-                wh.getGhiChu(),});
+                wh.getTenKhuVuc()});
         }
     }
 
@@ -62,7 +61,7 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
                 fieldtenkho.setText(String.valueOf(table.getValueAt(selectedRow, 1)));
             }
             if (fielghichu != null) {
-                fielghichu.setText(String.valueOf(table.getValueAt(selectedRow, 2)));
+                fielghichu.setText(""); // Không có cột ghichu trong schema mới
             }
         }
     }
@@ -76,12 +75,11 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
             }
 
 
-            String sql = "UPDATE Warehouse SET TenKhuVuc = ?, GhiChu = ? WHERE MaKhuVuc = ?";
+            String sql = "UPDATE khuvuc SET tenkhuvuc = ? WHERE makhuvuc = ?";
             java.sql.Connection conn = ConnectionHelper.getConnection();
             java.sql.PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, wh.getTenKhuVuc());
-            ps.setString(2, wh.getGhiChu());
-            ps.setInt(3, wh.getMaKhuVuc());
+            ps.setInt(2, wh.getMaKhuVuc());
 
             int rows = ps.executeUpdate();
             return rows > 0;

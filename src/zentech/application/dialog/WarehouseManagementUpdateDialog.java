@@ -149,7 +149,6 @@ public class WarehouseManagementUpdateDialog extends JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String tenKho = txtten.getText().trim();
-        String ghiChu = txtghichu.getText().trim();
 
         if (tenKho.isEmpty()) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập tên kho.");
@@ -164,7 +163,7 @@ public class WarehouseManagementUpdateDialog extends JDialog {
             return;
         }
         wh.setTenKhuVuc(tenKho);
-        wh.setGhiChu(ghiChu);
+        wh.setGhiChu(""); 
 
     boolean success = service.updateWarehouse(wh);
     if (success) {

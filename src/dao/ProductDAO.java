@@ -1,71 +1,60 @@
 package dao;
 
 import entity.Product;
+import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import jdbc.ConnectionHelper;
-import raven.toast.Notifications;
 
 public interface ProductDAO {
 
     default List<Product> getAllProduct() {
         List<Product> list = new ArrayList<>();
-        String sql = "SELECT\n"
-                + "    sp.masp,\n"
-                + "    sp.tensp,\n"
-                + "    sp.hinhanh,\n"
-                + "    xx.tenxuatxu AS xuatxu,         \n"
-                + "    sp.chipxuly,\n"
-                + "    sp.dungluongpin,\n"
-                + "    sp.kichthuocman,\n"
-                + "    hdh.tenhedieuhanh AS hedieuhanh, \n"
-                + "    pbhdhd.tenphienbanhdh as phienbanhdh,\n"
-                + "    sp.camerasau,\n"
-                + "    sp.cameratruoc,\n"
-                + "    sp.thoigianbaohanh,\n"
-                + "    th.tenthuonghieu AS thuonghieu,   \n"
-                + "    kk.tenkhuvuc AS khuvuckho,     \n"
-                + "    sp.soluongton,\n"
-                + "    sp.trangthai\n"
-                + "FROM\n"
-                + "    sanpham sp\n"
-                + "LEFT JOIN\n"
-                + "    xuatxu xx ON sp.xuatxu = xx.maxuatxu\n"
-                + "LEFT JOIN\n"
-                + "    hedieuhanh hdh ON sp.hedieuhanh = hdh.mahedieuhanh\n"
-                + "LEFT JOIN\n"
-                + "    thuonghieu th ON sp.thuonghieu = th.mathuonghieu\n"
-                + "LEFT JOIN\n"
-                + "    khuvuckho kk ON sp.khuvuckho = kk.makhuVuc\n"
-                + "LEFT JOIN\n"
-                + "    phienbanhedieuhanh pbhdhd ON sp.phienbanhdh = pbhdhd.maphienbanhdh;";
+        String sql = "SELECT "
+                + "sp.masanpham, "
+                + "sp.tensp, "
+                + "sp.hinhanh, "
+                + "sp.chipxuly, "
+                + "sp.cameratruoc, "
+                + "sp.camerasau, "
+                + "sp.thongso, "
+                + "sp.gia, "
+                + "sp.trangthai, "
+                + "sp.dungluongpin, "
+                + "sp.kichthuocmanhinh, "
+                + "sp.thoigianbaohanh, "
+                + "xx.tenxuatxu, "
+                + "hdh.tenhedieuhanh, "
+                + "th.tenthuonghieu "
+                + "FROM sanpham sp "
+                + "JOIN xuatxu xx ON sp.maxuatxu = xx.maxuatxu "
+                + "JOIN hedieuhanh hdh ON sp.mahedieuhanh = hdh.mahedieuhanh "
+                + "JOIN thuonghieu th ON sp.mathuonghieu = th.mathuonghieu";
 
         try (
                 Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Product p = new Product();
-                p.setMaSanPham(rs.getInt("masp"));
+                p.setMaSanPham(rs.getInt("masanpham"));
                 p.setTenSanPham(rs.getString("tensp"));
-                // p.setHinhAnh(rs.getString("hinhanh"));
-                p.setTenXuatXu(rs.getString("xuatxu"));
-                p.setDungLuongPin(rs.getInt("dungluongpin"));
+                p.setHinhAnh(rs.getString("hinhanh"));
                 p.setChipXuLy(rs.getString("chipxuly"));
-                p.setKichThuocManHinh(rs.getDouble("kichthuocman"));
-                p.setTenHeDieuHanh(rs.getString("hedieuhanh"));
-                p.setPhienBanHeDieuHanh(rs.getString("phienbanhdh"));
-                p.setCameraSau(rs.getString("camerasau"));
                 p.setCameraTruoc(rs.getString("cameratruoc"));
-                p.setThoiGianBaoHanh(rs.getInt("thoigianbaohanh"));
-                p.setTenThuongHieu(rs.getString("thuonghieu"));
-                p.setTenKhuVuc(rs.getString("khuvuckho"));
-                p.setSoLuongTon(rs.getInt("soluongton"));
+                p.setCameraSau(rs.getString("camerasau"));
+                p.setThongSo(rs.getInt("thongso"));
+                p.setGia(rs.getBigDecimal("gia"));
                 p.setTrangThai(rs.getInt("trangthai"));
+                p.setDungLuongPin(rs.getString("dungluongpin"));
+                p.setKichThuocManHinh(rs.getString("kichthuocmanhinh"));
+                p.setThoiGianBaoHanh(rs.getString("thoigianbaohanh"));
+                p.setTenXuatXu(rs.getString("tenxuatxu"));
+                p.setTenHeDieuHanh(rs.getString("tenhedieuhanh"));
+                p.setTenThuongHieu(rs.getString("tenthuonghieu"));
 
                 list.add(p);
             }
@@ -76,79 +65,179 @@ public interface ProductDAO {
         return list;
     }
 
-    default boolean addProduct(int maSanPham, String tenSanPham, String hinhAnh, String chipXuLy, int dungLuongPin, double kichThuocManHinh, String cameraSau, String cameraTruoc, int thoiGianBaoHanh, int soLuongTon, int phienBanHeDieuHanh, int trangThai, String tenXuatXu, String tenHeDieuHanh, String tenThuongHieu, String tenKhuVuc) {
-        String sql = "INSERT INTO sanpham (masp, tensp, hinhanh, xuatxu, chipxuly, dungluongpin, kichthuocman, hedieuhanh, phienbanhdh, camerasau, cameratruoc, thoigianbaohanh, thuonghieu, khuvuckho, soluongton, trangthai) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+    default List<Product> getBasicProduct() {
+        List<Product> list = new ArrayList<>();
 
-            ps.setInt(1, maSanPham);
-            ps.setString(2, tenSanPham);
-            ps.setString(3, hinhAnh);
-            ps.setString(4, tenXuatXu);
-            ps.setString(5, chipXuLy);
-            ps.setInt(6, dungLuongPin);
-            ps.setDouble(7, kichThuocManHinh);
-            ps.setString(8, tenHeDieuHanh);
-            ps.setInt(9, phienBanHeDieuHanh);
-            ps.setString(10, cameraSau);
-            ps.setString(11, cameraTruoc);
-            ps.setInt(12, thoiGianBaoHanh);
-            ps.setString(13, tenThuongHieu);
-            ps.setString(14, tenKhuVuc);
-            ps.setInt(15, soLuongTon);
-            ps.setInt(16, trangThai);
+        String sql = "SELECT "
+                + "sp.masanpham, "
+                + "sp.tensp, "
+                + "sp.gia, "
+                + "sp.trangthai, "
+                + "th.tenthuonghieu, "
+                + "hdh.tenhedieuhanh, "
+                + "xx.tenxuatxu "
+                + "FROM sanpham sp "
+                + "JOIN thuonghieu th ON sp.mathuonghieu = th.mathuonghieu "
+                + "JOIN hedieuhanh hdh ON sp.mahedieuhanh = hdh.mahedieuhanh "
+                + "JOIN xuatxu xx ON sp.maxuatxu = xx.maxuatxu";
 
-            return ps.executeUpdate() > 0;
+        try (
+                Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Product p = new Product();
+                p.setMaSanPham(rs.getInt("masanpham"));
+                p.setTenSanPham(rs.getString("tensp"));
+                p.setGia(rs.getBigDecimal("gia"));
+                p.setTrangThai(rs.getInt("trangthai"));
+                p.setTenThuongHieu(rs.getString("tenthuonghieu"));
+                p.setTenHeDieuHanh(rs.getString("tenhedieuhanh"));
+                p.setTenXuatXu(rs.getString("tenxuatxu"));
+
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    default boolean addProduct(String tenSanPham, BigDecimal gia, int thongSo, String hinhAnh, String cameraTruoc, String cameraSau, String chip, String pin, String manHinh, String baoHanh, int maThuongHieu, int maHeDieuHanh, int maXuatXu, int trangThai) {
+        String sql = "{CALL sp_sanpham_add(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+
+        try (
+                Connection conn = ConnectionHelper.getConnection(); CallableStatement cs = conn.prepareCall(sql)) {
+            cs.setString(1, tenSanPham);
+            cs.setString(2, hinhAnh);
+            cs.setInt(3, maXuatXu);
+            cs.setString(4, chip);
+            cs.setInt(5, maHeDieuHanh);
+            cs.setString(6, cameraTruoc);
+            cs.setString(7, cameraSau);
+            cs.setInt(8, thongSo);
+            cs.setBigDecimal(9, gia);
+            cs.setInt(10, trangThai);
+            cs.setInt(11, maThuongHieu);
+            cs.setString(12, pin);
+            cs.setString(13, manHinh);
+            cs.setString(14, baoHanh);
+
+            return cs.executeUpdate() > 0;
         } catch (SQLException ex) {
-            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi khi thêm sản phẩm");
             ex.printStackTrace();
             return false;
         }
     }
 
-    default boolean updateProduct(int maSanPham, String tenSanPham, String hinhAnh, String chipXuLy, int dungLuongPin, double kichThuocManHinh, String cameraSau, String cameraTruoc, int thoiGianBaoHanh, int soLuongTon, String phienBanHeDieuHanh, int trangThai, String tenXuatXu, String tenHeDieuHanh, String tenThuongHieu, String tenKhuVuc) {
-        String sql = "UPDATE sanpham SET tensp = ?, hinhanh = ?, xuatxu = ?, chipxuly = ?, dungluongpin = ?, "
-                + "kichthuocman = ?, hedieuhanh = ?, phienbanhdh = ?, camerasau = ?, cameratruoc = ?, thoigianbaohanh = ?, "
-                + "thuonghieu = ?, khuvuckho = ?, soluongton = ?, trangthai = ? WHERE masp = ?";
-        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+    default boolean updateProduct(int maSanPham, String tenSanPham, BigDecimal gia, int thongSo, String hinhAnh, String cameraTruoc, String cameraSau, String chip, String pin, String manHinh, String baoHanh, int maThuongHieu, int maHeDieuHanh, int maXuatXu, int trangThai) {
+        String sql = "{CALL sp_sanpham_update(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
 
-            ps.setString(1, tenSanPham);
-            ps.setString(2, hinhAnh);
-            ps.setString(3, tenXuatXu);
-            ps.setString(4, chipXuLy);
-            ps.setInt(5, dungLuongPin);
-            ps.setDouble(6, kichThuocManHinh);
-            ps.setString(7, tenHeDieuHanh);
-            ps.setString(8, phienBanHeDieuHanh);
-            ps.setString(9, cameraSau);
-            ps.setString(10, cameraTruoc);
-            ps.setInt(11, thoiGianBaoHanh);
-            ps.setString(12, tenThuongHieu);
-            ps.setString(13, tenKhuVuc);
-            ps.setInt(14, soLuongTon);
-            ps.setInt(15, trangThai);
-            ps.setInt(16, maSanPham);
+        try (
+                Connection conn = ConnectionHelper.getConnection(); CallableStatement cs = conn.prepareCall(sql)) {
+            cs.setInt(1, maSanPham);
+            cs.setString(2, tenSanPham);
+            cs.setString(3, hinhAnh);
+            cs.setInt(4, maXuatXu);
+            cs.setString(5, chip);
+            cs.setInt(6, maHeDieuHanh);
+            cs.setString(7, cameraTruoc);
+            cs.setString(8, cameraSau);
+            cs.setInt(9, thongSo);
+            cs.setBigDecimal(10, gia);
+            cs.setInt(11, trangThai);
+            cs.setInt(12, maThuongHieu);
+            cs.setString(13, pin);
+            cs.setString(14, manHinh);
+            cs.setString(15, baoHanh);
 
-            return ps.executeUpdate() > 0;
-        } catch (SQLException ex) {
-            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi khi sửa sản phẩm");
-            ex.printStackTrace();
+            return cs.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
             return false;
         }
     }
 
-    default boolean deleteProduct(int maSanPham) {
-        String sql = "DELETE FROM sanpham WHERE masp = ?";
+    default Product getProductById(int id) {
+        String sql = "SELECT * FROM sanpham sp "
+                + "JOIN xuatxu xx ON sp.maxuatxu = xx.maxuatxu "
+                + "JOIN hedieuhanh hdh ON sp.mahedieuhanh = hdh.mahedieuhanh "
+                + "JOIN thuonghieu th ON sp.mathuonghieu = th.mathuonghieu "
+                + "WHERE sp.masanpham = ?";
 
         try (
                 Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, maSanPham);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
 
-            return ps.executeUpdate() > 0;
+            if (rs.next()) {
+                Product p = new Product();
+                p.setMaSanPham(rs.getInt("masanpham"));
+                p.setTenSanPham(rs.getString("tensp"));
+                p.setHinhAnh(rs.getString("hinhanh"));
+                p.setChipXuLy(rs.getString("chipxuly"));
+                p.setCameraTruoc(rs.getString("cameratruoc"));
+                p.setCameraSau(rs.getString("camerasau"));
+                p.setThongSo(rs.getInt("thongso"));
+                p.setGia(rs.getBigDecimal("gia"));
+                p.setTrangThai(rs.getInt("trangthai"));
+                p.setDungLuongPin(rs.getString("dungluongpin"));
+                p.setKichThuocManHinh(rs.getString("kichthuocmanhinh"));
+                p.setThoiGianBaoHanh(rs.getString("thoigianbaohanh"));
+
+                p.setMaXuatXu(rs.getInt("maxuatxu"));
+                p.setTenXuatXu(rs.getString("tenxuatxu"));
+                p.setMaHeDieuHanh(rs.getInt("mahedieuhanh"));
+                p.setTenHeDieuHanh(rs.getString("tenhedieuhanh"));
+                p.setMaThuongHieu(rs.getInt("mathuonghieu"));
+                p.setTenThuongHieu(rs.getString("tenthuonghieu"));
+
+                return p;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    default boolean deleteProduct(int maSanPham) {
+        String sql = "{CALL sp_sanpham_delete(?)}";
+
+        try (
+                Connection conn = ConnectionHelper.getConnection(); CallableStatement cs = conn.prepareCall(sql)) {
+            cs.setInt(1, maSanPham);
+            return cs.executeUpdate() > 0;
         } catch (SQLException ex) {
-            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi khi xoá nhân viên");
             ex.printStackTrace();
             return false;
         }
+    }
+
+    default List<Product> searchProductsProc(String keyword) {
+        List<Product> list = new ArrayList<>();
+        String sql = "{CALL sp_search_products(?)}";
+
+        try (Connection cn = ConnectionHelper.getConnection(); CallableStatement cs = cn.prepareCall(sql)) {
+
+            cs.setString(1, "%" + keyword + "%");
+
+            try (ResultSet rs = cs.executeQuery()) {
+                while (rs.next()) {
+                    Product p = new Product();
+                    p.setMaSanPham(rs.getInt("masanpham"));
+                    p.setTenSanPham(rs.getString("tensp"));
+                    p.setGia(rs.getBigDecimal("gia"));
+                    p.setTenThuongHieu(rs.getString("tenthuonghieu"));
+                    p.setTenXuatXu(rs.getString("tenxuatxu"));
+                    p.setTenHeDieuHanh(rs.getString("tenhedieuhanh"));
+                    p.setTrangThai(rs.getInt("trangthai"));
+                    list.add(p);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
     }
 
     default int getProductCount() {

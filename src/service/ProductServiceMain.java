@@ -2,196 +2,177 @@ package service;
 
 import dao.ProductDAO;
 import entity.Product;
-import entity.ProductView;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.RowFilter;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
-import jdbc.ConnectionHelper;
 import raven.toast.Notifications;
 
 public class ProductServiceMain implements ProductDAO {
 
-    private List<ProductView> productViewList = new ArrayList<>();
     private List<Product> product = new ArrayList<>();
 
     public List<Product> getAllProductViewService() {
         return product = getAllProduct();
     }
 
+    public List<Product> getBasicProductService() {
+        return product = getBasicProduct();
+    }
+
     public int getProductCountService() {
         return getProductCount();
     }
 
-    public boolean addCheck(Product p) {
+    public boolean addCheck(String tenSanPham, String hinhAnh, String cameraTruoc, String cameraSau, String thongSoText, String giaText, String chip, String pin, String manHinh, String baoHanh, int maThuongHieu, int maHeDieuHanh, int maXuatXu, int trangThai) {
 
-        if (p.getTenSanPham() == null || p.getTenSanPham().trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Tên sản phẩm không được để trống");
-            return false;
-        }
-
-        if (p.getHinhAnh() == null || p.getHinhAnh().trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Hình ảnh sản phẩm không được để trống");
+        if (tenSanPham.length() <= 0 || tenSanPham.isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Tên sản phẩm không được trống");
             return false;
         }
 
-        if (p.getChipXuLy() == null || p.getChipXuLy().trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Chip xử lý không được để trống");
+        if (maThuongHieu <= 0) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thương hiệu không được trống");
             return false;
         }
 
-        if (p.getDungLuongPin() <= 0) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Dung lượng pin phải lớn hơn 0");
+        if (maXuatXu <= 0) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Xuất xứ không được trống");
             return false;
         }
 
-        if (p.getKichThuocManHinh() <= 0) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Kích thước màn hình phải lớn hơn 0");
+        if (maHeDieuHanh <= 0) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Hệ điều hành không được trống");
             return false;
         }
 
-        if (p.getCameraSau() == null || p.getCameraSau().trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thông tin camera sau không được để trống");
+        if (thongSoText == null || thongSoText.trim().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thông số không được trống");
             return false;
         }
 
-        if (p.getCameraTruoc() == null || p.getCameraTruoc().trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thông tin camera trước không được để trống");
+        int thongSo;
+        try {
+            thongSo = Integer.parseInt(thongSoText.trim());
+        } catch (NumberFormatException e) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thông số phải là số nguyên");
             return false;
         }
 
-        if (p.getThoiGianBaoHanh() < 0) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thời gian bảo hành không hợp lệ");
+        if (thongSo <= 0) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thông số phải lớn hơn 0");
             return false;
         }
 
-        if (p.getSoLuongTon() < 0) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Số lượng tồn kho không được âm");
+        BigDecimal gia;
+        try {
+            gia = new BigDecimal(giaText);
+            if (gia.compareTo(BigDecimal.ZERO) <= 0) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Giá không hợp lệ");
             return false;
         }
 
-        if (p.getPhienBanHeDieuHanh()== null || p.getPhienBanHeDieuHanh().trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Phiên bản hệ điều hành không hợp lệ");
+        if (giaText.length() <= 0 || giaText.isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Giá không được trống");
             return false;
         }
 
-        if (p.getTrangThai() != 1 && p.getTrangThai() != 2 && p.getTrangThai() != 3) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Trạng thái không hợp lệ");
-            return false;
-        }
-        if (p.getTenXuatXu() == null || p.getTenXuatXu().trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Xuất xứ không được để trống");
+        if (baoHanh.length() <= 0 || baoHanh.isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Bảo hành không được trống");
             return false;
         }
 
-        if (p.getTenHeDieuHanh() == null || p.getTenHeDieuHanh().trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Hệ điều hành không được để trống");
-            return false;
+        if (addProduct(tenSanPham, gia, thongSo, hinhAnh, cameraTruoc, cameraSau, chip, pin, manHinh, baoHanh, maThuongHieu, maHeDieuHanh, maXuatXu, trangThai)) {
+            return true;
         }
 
-        if (p.getTenThuongHieu() == null || p.getTenThuongHieu().trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thương hiệu không được để trống");
-            return false;
-        }
-
-        if (p.getTenKhuVuc() == null || p.getTenKhuVuc().trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Khu vực kho không được để trống");
-            return false;
-        }
-        return true;
+        return false;
     }
 
-    public boolean addProduct(Product p) {
-        String sql = "INSERT INTO sanpham (tensp, hinhanh, xuatxu, chipxuly, dungluongpin, kichthuocman, hedieuhanh, phienbanhdh, camerasau, cameratruoc, thoigianbaohanh, thuonghieu, khuvuckho, soluongton, trangthai) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public boolean updateCheck(String maSanPhamText, String tenSanPham, String hinhAnh, String cameraTruoc, String cameraSau, String thongSoText, String giaText, String chip, String pin, String manHinh, String baoHanh, int maThuongHieu, int maHeDieuHanh, int maXuatXu, int trangThai) {
 
-        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, p.getTenSanPham());
-            ps.setString(2, p.getHinhAnh());
-            ps.setString(3, p.getTenXuatXu());
-            ps.setString(4, p.getChipXuLy());
-            ps.setInt(5, p.getDungLuongPin());
-            ps.setDouble(6, p.getKichThuocManHinh());
-            ps.setString(7, p.getTenHeDieuHanh());
-            ps.setString(8, p.getPhienBanHeDieuHanh());
-            ps.setString(9, p.getCameraSau());
-            ps.setString(10, p.getCameraTruoc());
-            ps.setInt(11, p.getThoiGianBaoHanh());
-            ps.setString(12, p.getTenThuongHieu());
-            ps.setString(13, p.getTenKhuVuc());
-            ps.setInt(14, p.getSoLuongTon());
-            ps.setInt(15, p.getTrangThai());
-
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        int maSanPham;
+        try {
+            maSanPham = Integer.parseInt(maSanPhamText.trim());
+        } catch (NumberFormatException e) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Mã sản phẩm phải là số nguyên");
             return false;
         }
+
+        if (maSanPham <= 0) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Mã sản phẩm phải lớn hơn 0");
+            return false;
+        }
+
+        if (tenSanPham == null || tenSanPham.trim().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Tên sản phẩm không được trống");
+            return false;
+        }
+
+        if (maThuongHieu <= 0) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thương hiệu không được trống");
+            return false;
+        }
+
+        if (maXuatXu <= 0) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Xuất xứ không được trống");
+            return false;
+        }
+
+        if (maHeDieuHanh <= 0) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Hệ điều hành không được trống");
+            return false;
+        }
+
+        if (thongSoText == null || thongSoText.trim().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thông số không được trống");
+            return false;
+        }
+
+        int thongSo;
+        try {
+            thongSo = Integer.parseInt(thongSoText.trim());
+        } catch (NumberFormatException e) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thông số phải là số nguyên");
+            return false;
+        }
+
+        if (thongSo <= 0) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thông số phải lớn hơn 0");
+            return false;
+        }
+
+        if (giaText == null || giaText.trim().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Giá không được trống");
+            return false;
+        }
+
+        BigDecimal gia;
+        try {
+            gia = new BigDecimal(giaText.trim());
+            if (gia.compareTo(BigDecimal.ZERO) <= 0) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Giá không hợp lệ");
+            return false;
+        }
+
+        if (baoHanh == null || baoHanh.trim().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Bảo hành không được trống");
+            return false;
+        }
+
+        if (updateProduct(maSanPham, tenSanPham, gia, thongSo, hinhAnh, cameraTruoc, cameraSau, chip, pin, manHinh, baoHanh, maThuongHieu, maHeDieuHanh, maXuatXu, trangThai)) {
+            return true;
+        }
+
+        return false;
     }
 
-
-    public boolean updateProduct(Product p) {
-
-        if (p.getSoLuongTon() < 0) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Số lượng tồn kho không được âm");
-            return false;
-        }
-
-        if (p.getPhienBanHeDieuHanh()== null || p.getPhienBanHeDieuHanh().trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Phiên bản hệ điều hành không hợp lệ");
-            return false;
-        }
-
-        if (p.getTrangThai() != 0 && p.getTrangThai() != 1) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Trạng thái không hợp lệ");
-            return false;
-        }
-
-        if (p.getTenXuatXu() == null || p.getTenXuatXu().trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Xuất xứ không được để trống");
-            return false;
-        }
-
-        if (p.getTenThuongHieu() == null || p.getTenThuongHieu().trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thương hiệu không được để trống");
-            return false;
-        }
-
-        if (p.getTenKhuVuc() == null || p.getTenKhuVuc().trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Khu vực kho không được để trống");
-            return false;
-        }
-
-        return updateProduct(
-                p.getMaSanPham(),
-                p.getTenSanPham(),
-                p.getHinhAnh(),
-                p.getChipXuLy(),
-                p.getDungLuongPin(),
-                p.getKichThuocManHinh(),
-                p.getCameraSau(),
-                p.getCameraTruoc(),
-                p.getThoiGianBaoHanh(),
-                p.getSoLuongTon(),
-                p.getPhienBanHeDieuHanh(),
-                p.getTrangThai(),
-                p.getTenXuatXu(),
-                p.getTenHeDieuHanh(),
-                p.getTenThuongHieu(),
-                p.getTenKhuVuc()
-        );
-    }
-
-    public boolean deleteProductById(int maSanPham) {
+    public boolean deleteProductService(int maSanPham) {
         if (deleteProduct(maSanPham)) {
             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Xoá sản phẩm thành công");
             return true;
@@ -201,14 +182,8 @@ public class ProductServiceMain implements ProductDAO {
         }
     }
 
-    public int getproductCountService() {
-        return getProductCount();
+    public List<Product> searchProducts(String keyword) {
+        return searchProductsProc(keyword);
     }
-    
-     public void Find(JTable table, JTextField search) {
-        DefaultTableModel ob = (DefaultTableModel) table.getModel();
-        TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(ob);
-        table.setRowSorter(obj);
-        obj.setRowFilter(RowFilter.regexFilter(search.getText()));
-    }
+
 }
