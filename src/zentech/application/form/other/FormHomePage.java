@@ -25,7 +25,7 @@ public class FormHomePage extends javax.swing.JPanel {
         String[] title = {"Tên sản phẩm", "Số lượng"};
         DefaultTableModel model = new DefaultTableModel(title, 0);
         for (Product p : pd.getAllProduct()) {
-            model.addRow(new Object[]{p.getTenSanPham(), p.getSoLuongTon()});
+            model.addRow(new Object[]{p.getTenSanPham()});
         }
         tblSanPham.setModel(model);
         tblSanPham.setDefaultEditor(Object.class, null);
