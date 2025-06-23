@@ -42,7 +42,6 @@ public class ProductService implements ProductDAO {
                 p.getChipXuLy(),
                 p.getDungLuongPin(),
                 p.getTenKhuVuc(),
-                p.getSoLuongTon(),
                 p.getTrangThai()
             });
         }

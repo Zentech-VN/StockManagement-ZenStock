@@ -16,7 +16,6 @@ public class Product {
     private String dungLuongPin;
     private String kichThuocManHinh;
     private String thoiGianBaoHanh;
-    private int soLuongTon;
     //Các bảng liên kết
     private String tenXuatXu;
     private String tenHeDieuHanh;
@@ -30,7 +29,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(int maSanPham, String tenSanPham, String hinhAnh, String chipXuLy, String cameraTruoc, String cameraSau, int thongSo, BigDecimal gia, int trangThai, String dungLuongPin, String kichThuocManHinh, String thoiGianBaoHanh, int soLuongTon, String tenXuatXu, String tenHeDieuHanh, String tenThuongHieu, String tenKhuVuc) {
+    public Product(int maSanPham, String tenSanPham, String hinhAnh, String chipXuLy, String cameraTruoc, String cameraSau, int thongSo, BigDecimal gia, int trangThai, String dungLuongPin, String kichThuocManHinh, String thoiGianBaoHanh, String tenXuatXu, String tenHeDieuHanh, String tenThuongHieu, String tenKhuVuc) {
         this.maSanPham = maSanPham;
         this.tenSanPham = tenSanPham;
         this.hinhAnh = hinhAnh;
@@ -43,7 +42,6 @@ public class Product {
         this.dungLuongPin = dungLuongPin;
         this.kichThuocManHinh = kichThuocManHinh;
         this.thoiGianBaoHanh = thoiGianBaoHanh;
-        this.soLuongTon = soLuongTon;
         this.tenXuatXu = tenXuatXu;
         this.tenHeDieuHanh = tenHeDieuHanh;
         this.tenThuongHieu = tenThuongHieu;
@@ -144,14 +142,6 @@ public class Product {
 
     public void setThoiGianBaoHanh(String thoiGianBaoHanh) {
         this.thoiGianBaoHanh = thoiGianBaoHanh;
-    }
-
-    public int getSoLuongTon() {
-        return soLuongTon;
-    }
-
-    public void setSoLuongTon(int soLuongTon) {
-        this.soLuongTon = soLuongTon;
     }
 
     public String getTenXuatXu() {
