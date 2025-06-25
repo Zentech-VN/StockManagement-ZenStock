@@ -5,7 +5,7 @@
 package dao;
 
 import jdbc.ConnectionHelper;
-import entity.WarehouseManagement;
+import entity.Warehouse;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,17 +15,17 @@ import java.util.List;
 
 public interface WarehouseManagementDAO {
 
-    boolean updateWarehouseWithValidation(WarehouseManagement wh);
+    boolean updateWarehouseWithValidation(Warehouse wh);
 
-    default List<WarehouseManagement> getAllWarehouses() {
-        List<WarehouseManagement> list = new ArrayList<>();
+    default List<Warehouse> getAllWarehouses() {
+        List<Warehouse> list = new ArrayList<>();
         String sql = "SELECT * FROM khuvuc";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                WarehouseManagement w = new WarehouseManagement(
+                Warehouse w = new Warehouse(
                         rs.getInt("makhuvuc"),
                         rs.getString("tenkhuvuc")
                 );
@@ -37,7 +37,7 @@ public interface WarehouseManagementDAO {
         return list;
     }
 
-    default boolean addWarehouse(WarehouseManagement warehouse) {
+    default boolean addWarehouse(Warehouse warehouse) {
         String sql = "INSERT INTO khuvuc (tenkhuvuc) VALUES (?)";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -54,7 +54,7 @@ public interface WarehouseManagementDAO {
     }
 
     // Cập nhật kho
-    default int updateWarehouse(WarehouseManagement warehouse) {
+    default int updateWarehouse(Warehouse warehouse) {
         String sql = "UPDATE khuvuc SET tenkhuvuc = ? WHERE makhuvuc = ?";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {

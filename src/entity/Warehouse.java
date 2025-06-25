@@ -1,30 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package entity;
 
-/**
- *
- * @author ASUS
- */
-public class WarehouseManagement {
+public class Warehouse {
 
     private int maKhuVuc;
     private String tenKhuVuc;
 
-    public WarehouseManagement() {
+    public Warehouse() {
     }
 
-    public WarehouseManagement(int maKhuVuc, String tenKhuVuc) {
+    public Warehouse(int maKhuVuc, String tenKhuVuc) {
         this.maKhuVuc = maKhuVuc;
         this.tenKhuVuc = tenKhuVuc;
 
     }
 
-    public WarehouseManagement(String tenKhuVuc) {
+    public Warehouse(String tenKhuVuc) {
         this.tenKhuVuc = tenKhuVuc;
-
     }
 
     public int getMaKhuVuc() {

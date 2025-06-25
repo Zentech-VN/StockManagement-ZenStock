@@ -5,7 +5,7 @@ public class ProductArea {
     private int makhuvuc;
     private int masanpham;
     private int soluong;
-    private WarehouseManagement w = new WarehouseManagement();
+    private Warehouse w = new Warehouse();
     private Product p = new Product();
 
     public ProductArea() {
@@ -41,11 +41,11 @@ public class ProductArea {
         this.soluong = soluong;
     }
 
-    public WarehouseManagement getW() {
+    public Warehouse getW() {
         return w;
     }
 
-    public void setW(WarehouseManagement p) {
+    public void setW(Warehouse p) {
         this.w = p;
     }
 

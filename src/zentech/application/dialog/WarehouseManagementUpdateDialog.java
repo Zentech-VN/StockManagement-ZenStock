@@ -1,7 +1,7 @@
 package zentech.application.dialog;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import entity.WarehouseManagement;
+import entity.Warehouse;
 import java.awt.Window;
 import javax.swing.JDialog;
 import java.awt.Dialog;

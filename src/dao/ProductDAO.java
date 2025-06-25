@@ -1,7 +1,7 @@
 package dao;
 
 import entity.Product;
-import entity.WarehouseManagement;
+import entity.Warehouse;
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;

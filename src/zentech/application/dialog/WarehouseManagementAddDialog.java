@@ -173,7 +173,7 @@ public class WarehouseManagementAddDialog extends JDialog {
         String tenkhuvuc = txtten.getText().trim();
         // Không sử dụng ghichu nữa vì không có trong schema mới
 
-        entity.WarehouseManagement warehousemanagement = new entity.WarehouseManagement();
+        entity.Warehouse warehousemanagement = new entity.Warehouse();
         warehousemanagement.setTenKhuVuc(tenkhuvuc);
  
 
