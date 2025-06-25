@@ -6,7 +6,6 @@ package service;
 
 import dao.ProductAreaDAO;
 import dao.ProductDAOImpl;
-import dao.WarehouseManagementDAO;
 import entity.Product;
 import entity.ProductArea;
 import entity.Warehouse;
@@ -23,8 +22,9 @@ import javax.swing.table.TableRowSorter;
 import jdbc.ConnectionHelper;
 import raven.toast.Notifications;
 import zentech.application.form.other.WarehouseManagementForm;
+import dao.WarehouseDAO;
 
-public class WarehouseService implements WarehouseManagementDAO {
+public class WarehouseService implements WarehouseDAO {
 
     public void loadWarehouseManagementToTable(JTable table, List<Warehouse> list) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -103,7 +103,7 @@ public class WarehouseService implements WarehouseManagementDAO {
         return getWareHouseCount();
     }
 
-    WarehouseManagementDAO wd = new WarehouseManagementDAO() {
+    WarehouseDAO wd = new WarehouseDAO() {
         @Override
         public boolean updateWarehouseWithValidation(Warehouse wh) {
             throw new UnsupportedOperationException("Not supported yet.");

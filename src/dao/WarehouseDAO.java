@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface WarehouseManagementDAO {
+public interface WarehouseDAO {
 
     boolean updateWarehouseWithValidation(Warehouse wh);
 
