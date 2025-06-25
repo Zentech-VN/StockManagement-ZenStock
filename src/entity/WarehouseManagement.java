@@ -12,20 +12,19 @@ public class WarehouseManagement {
 
     private int maKhuVuc;
     private String tenKhuVuc;
-    private String ghiChu;
 
     public WarehouseManagement() {
     }
 
-    public WarehouseManagement(int maKhuVuc, String tenKhuVuc, String ghiChu) {
+    public WarehouseManagement(int maKhuVuc, String tenKhuVuc) {
         this.maKhuVuc = maKhuVuc;
         this.tenKhuVuc = tenKhuVuc;
-        this.ghiChu = ghiChu;
+
     }
 
-    public WarehouseManagement(String tenKhuVuc, String ghiChu) {
+    public WarehouseManagement(String tenKhuVuc) {
         this.tenKhuVuc = tenKhuVuc;
-        this.ghiChu = ghiChu;
+
     }
 
     public int getMaKhuVuc() {
@@ -42,14 +41,6 @@ public class WarehouseManagement {
 
     public void setTenKhuVuc(String tenKhuVuc) {
         this.tenKhuVuc = tenKhuVuc;
-    }
-
-    public String getGhiChu() {
-        return ghiChu;
-    }
-
-    public void setGhiChu(String ghiChu) {
-        this.ghiChu = ghiChu;
     }
 
 }

@@ -175,7 +175,7 @@ public class WarehouseManagementAddDialog extends JDialog {
 
         entity.WarehouseManagement warehousemanagement = new entity.WarehouseManagement();
         warehousemanagement.setTenKhuVuc(tenkhuvuc);
-        warehousemanagement.setGhiChu(""); // Set empty string
+ 
 
         // Kiểm tra trùng lặp
         if (!warehousemanagementService.addCheck(warehousemanagement)) {

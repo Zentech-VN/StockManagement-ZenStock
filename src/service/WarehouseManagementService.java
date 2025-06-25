@@ -4,9 +4,16 @@
  */
 package service;
 
+import dao.ProductAreaDAO;
+import dao.ProductDAOImpl;
 import dao.WarehouseManagementDAO;
+import entity.Product;
+import entity.ProductArea;
 import entity.WarehouseManagement;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -15,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import jdbc.ConnectionHelper;
 import raven.toast.Notifications;
+import zentech.application.form.other.WarehouseManagementForm;
 
 public class WarehouseManagementService implements WarehouseManagementDAO {
 
@@ -66,28 +74,15 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
         }
     }
 
-    public boolean updateWarehouseWithValidation(WarehouseManagement wh) {
-        try {
-
-            if (wh.getTenKhuVuc() == null || wh.getTenKhuVuc().trim().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Tên khu vực không được để trống.");
-                return false;
-            }
-
-
-            String sql = "UPDATE khuvuc SET tenkhuvuc = ? WHERE makhuvuc = ?";
-            java.sql.Connection conn = ConnectionHelper.getConnection();
-            java.sql.PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, wh.getTenKhuVuc());
-            ps.setInt(2, wh.getMaKhuVuc());
-
-            int rows = ps.executeUpdate();
-            return rows > 0;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi khi cập nhật kho.");
-            return false;
+    public void updateWarehouseWithValidation(String tenkho, int id) {
+        WarehouseManagement w = new WarehouseManagement();
+        w.setMaKhuVuc(id);
+        w.setTenKhuVuc(tenkho);
+        int rs = wd.updateWarehouse(w);
+        if (rs > 0) {
+            Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Cập nhập thành công kho " + id + ".");
+        } else {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Cập nhập không thành công.");
         }
     }
 
@@ -101,9 +96,63 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
         } else {
             sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText));
         }
+
     }
-    
+
     public int getWareHouseCountService() {
         return getWareHouseCount();
+    }
+
+    WarehouseManagementDAO wd = new WarehouseManagementDAO() {
+        @Override
+        public boolean updateWarehouseWithValidation(WarehouseManagement wh) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+    };
+
+    ProductDAOImpl pd = new ProductDAOImpl() {
+    };
+
+    public void LoadDataKho(JTable tbl10) {
+        DefaultTableModel model = (DefaultTableModel) tbl10.getModel();
+        model.setRowCount(0);
+        for (WarehouseManagement w : wd.getAllWarehouses()) {
+            model.addRow(new Object[]{w.getMaKhuVuc(), w.getTenKhuVuc()});
+        }
+    }
+
+    ProductAreaDAO p = new ProductAreaDAO();
+
+    public void ShowProductBySelectKho(JTable tbl10, JTable tbl11) {
+        int select = tbl10.getSelectedRow();
+        if (select == -1) {
+            return;
+        }
+        DefaultTableModel model = (DefaultTableModel) tbl11.getModel();
+        model.setRowCount(0);
+        int id = (int) tbl10.getValueAt(select, 0);
+        String tenkho = (String) tbl10.getValueAt(select, 1);
+
+        try {
+            for (ProductArea pa : p.getProductsByWarehouse(id)) {
+                model.addRow(new Object[]{
+                    pa.getP().getMaSanPham(),
+                    pa.getP().getTenSanPham(),
+                    pa.getP().getTenXuatXu(),
+                    pa.getP().getChipXuLy(),
+                    pa.getP().getDungLuongPin(),
+                    pa.getW().getTenKhuVuc(),
+                    pa.getSoluong(),
+                    pa.getP().getTrangThai()
+                });
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(WarehouseManagementForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public boolean updateWarehouseWithValidation(WarehouseManagement wh) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

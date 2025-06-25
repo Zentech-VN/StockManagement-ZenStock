@@ -15,20 +15,19 @@ import java.util.List;
 
 public interface WarehouseManagementDAO {
 
-    boolean updateWarehouseWithValidation(WarehouseManagement wh); 
+    boolean updateWarehouseWithValidation(WarehouseManagement wh);
+
     default List<WarehouseManagement> getAllWarehouses() {
         List<WarehouseManagement> list = new ArrayList<>();
         String sql = "SELECT * FROM khuvuc";
 
-        try (Connection conn = ConnectionHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 WarehouseManagement w = new WarehouseManagement(
                         rs.getInt("makhuvuc"),
-                        rs.getString("tenkhuvuc"),
-                        "" // ghichu field doesn't exist in new schema
+                        rs.getString("tenkhuvuc")
                 );
                 list.add(w);
             }
@@ -41,8 +40,7 @@ public interface WarehouseManagementDAO {
     default boolean addWarehouse(WarehouseManagement warehouse) {
         String sql = "INSERT INTO khuvuc (tenkhuvuc) VALUES (?)";
 
-        try (Connection conn = ConnectionHelper.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, warehouse.getTenKhuVuc());
 
@@ -56,36 +54,26 @@ public interface WarehouseManagementDAO {
     }
 
     // Cập nhật kho
-    default boolean updateWarehouse(WarehouseManagement warehouse) {
+    default int updateWarehouse(WarehouseManagement warehouse) {
         String sql = "UPDATE khuvuc SET tenkhuvuc = ? WHERE makhuvuc = ?";
 
-        try (Connection conn = ConnectionHelper.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, warehouse.getTenKhuVuc());
             stmt.setInt(2, warehouse.getMaKhuVuc());
-
-            int rowsAffected = stmt.executeUpdate();
-            if (rowsAffected == 0) {
-                System.out.println("Không có dòng nào được cập nhật. Kiểm tra lại Mã Kho: " + warehouse.getMaKhuVuc());
-                return false;
-            } else {
-                System.out.println("Cập nhật thành công: " + rowsAffected + " dòng.");
-                return true;
-            }
-
+            return stmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Lỗi khi cập nhật kho: " + e.getMessage());
-            return false;
+            return 0;
         }
+
     }
 
     // Xoá kho theo ID
     default boolean deleteWarehouseById(int id) {
         String sql = "DELETE FROM khuvuc WHERE makhuvuc = ?";
 
-        try (Connection conn = ConnectionHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, id);
             int affectedRows = ps.executeUpdate();
@@ -101,8 +89,7 @@ public interface WarehouseManagementDAO {
     default boolean maKhuVucTonTai(int maKhuVuc) {
         String sql = "SELECT 1 FROM khuvuc WHERE makhuvuc = ?";
 
-        try (Connection conn = ConnectionHelper.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, maKhuVuc);
             ResultSet rs = stmt.executeQuery();
@@ -113,7 +100,7 @@ public interface WarehouseManagementDAO {
             return false;
         }
     }
- 
+
     default int getWareHouseCount() {
         int count = 0;
         String sql = "SELECT COUNT(*) FROM khuvuc";

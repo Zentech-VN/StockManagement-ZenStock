@@ -98,11 +98,13 @@ public class MainForm extends JLayeredPane {
             } else if (index == 7) {
                 Application.showForm(new ProductForm());
             } else if (index == 8) {
+
                 try {
                     Application.showForm(new WarehouseManagementForm());
                 } catch (SQLException ex) {
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
             } else if (index == 9) {
                 Application.logout();
             } else {

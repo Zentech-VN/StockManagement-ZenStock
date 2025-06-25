@@ -1,6 +1,7 @@
 package dao;
 
 import entity.Product;
+import entity.WarehouseManagement;
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -55,15 +56,17 @@ public interface ProductDAO {
                 p.setTenXuatXu(rs.getString("tenxuatxu"));
                 p.setTenHeDieuHanh(rs.getString("tenhedieuhanh"));
                 p.setTenThuongHieu(rs.getString("tenthuonghieu"));
-
                 list.add(p);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
+            return null;
         }
 
         return list;
     }
+
+   
 
     default List<Product> getBasicProduct() {
         List<Product> list = new ArrayList<>();
