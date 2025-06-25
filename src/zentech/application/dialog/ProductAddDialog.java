@@ -5,6 +5,7 @@ import dao.ActivityDAO;
 import entity.Brand;
 import entity.MadeIn;
 import entity.OS;
+import entity.Warehouse;
 import java.awt.Dialog;
 import java.awt.Window;
 import java.util.ArrayList;
@@ -15,17 +16,19 @@ import service.BrandService;
 import service.MadeInService;
 import service.OSService;
 import service.ProductServiceMain;
+import service.WarehouseService;
 import zentech.application.form.other.ProductForm;
 
 public class ProductAddDialog extends JDialog {
-
+    
     private ProductForm productForm;
     ProductServiceMain productServiceMain;
-
+    
     private List<Brand> brandList = new ArrayList<>();
     private List<OS> osList = new ArrayList<>();
     private List<MadeIn> madeInList = new ArrayList<>();
-
+    private List<Warehouse> warehouseList = new ArrayList<>();
+    
     public ProductAddDialog(Window parent, ProductForm productForm) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         this.productForm = productForm;
@@ -33,7 +36,7 @@ public class ProductAddDialog extends JDialog {
         initalUI();
         loadAllCombos();
     }
-
+    
     private void initalUI() {
         txtTenSanPham.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Iphone 16 Pro");
         txtHinhAnh.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Hình ảnh");
@@ -46,7 +49,7 @@ public class ProductAddDialog extends JDialog {
         txtManHinh.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "6.7 inch");
         txtBaoHanh.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "24 tháng");
     }
-
+    
     private void loadAllCombos() {
         MadeInService madeInService = new MadeInService();
         madeInList = madeInService.getAllMadeInService();
@@ -54,22 +57,29 @@ public class ProductAddDialog extends JDialog {
         for (MadeIn mi : madeInList) {
             cbbXuatXu.addItem(mi.getTen());
         }
-
+        
         OSService osService = new OSService();
         osList = osService.getAllOSService();
         cbbHeDieuHanh.removeAllItems();
         for (OS os : osList) {
             cbbHeDieuHanh.addItem(os.getTen());
         }
-
+        
         BrandService brandService = new BrandService();
         brandList = brandService.getAllBrandsService();
         cbbThuongHieu.removeAllItems();
         for (Brand b : brandList) {
             cbbThuongHieu.addItem(b.getTen());
         }
+        
+        WarehouseService warehouseService = new WarehouseService();
+        warehouseList = warehouseService.getAllWarehouses();
+        cbbKhuVucKho.removeAllItems();
+        for (Warehouse warehouse : warehouseList) {
+            cbbKhuVucKho.addItem(warehouse.getTenKhuVuc());
+        }
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -473,12 +483,13 @@ public class ProductAddDialog extends JDialog {
         String pin = txtPin.getText().trim();
         String manHinh = txtManHinh.getText().trim();
         String baoHanh = txtBaoHanh.getText().trim();
-
+        String soLuong = txtSoLuong.getText().trim();
+        
         int idThuongHieu = brandList.get(cbbThuongHieu.getSelectedIndex()).getId();
         int idXuatXu = madeInList.get(cbbXuatXu.getSelectedIndex()).getId();
         int idHeDieuHanh = osList.get(cbbHeDieuHanh.getSelectedIndex()).getId();
-
-        String trangThaiText = String.valueOf(cbbTrangThai.getSelectedItem());
+        int idKhuVucKho = warehouseList.get(cbbKhuVucKho.getSelectedIndex()).getMaKhuVuc();
+        
         String statusText = String.valueOf(cbbTrangThai.getSelectedItem());
         int trangThai;
         switch (statusText) {
@@ -497,7 +508,7 @@ public class ProductAddDialog extends JDialog {
         }
         
         productServiceMain = new ProductServiceMain();
-        boolean x = productServiceMain.addCheck(tenSanPham, hinhAnh, camTruoc, camSau, thongSo, giaText, chipXuLy, pin, manHinh, baoHanh, idThuongHieu, idHeDieuHanh, idXuatXu, trangThai);
+        boolean x = productServiceMain.addCheck(tenSanPham, hinhAnh, camTruoc, camSau, thongSo, giaText, chipXuLy, pin, manHinh, baoHanh, idThuongHieu, idHeDieuHanh, idXuatXu, trangThai, idKhuVucKho, soLuong);
         if (x) {
             String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Thêm thành công sản phẩm");

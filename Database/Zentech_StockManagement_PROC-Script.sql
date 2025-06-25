@@ -16,9 +16,13 @@ CREATE PROCEDURE sp_sanpham_add (
     IN p_maThuongHieu INT,
     IN p_dungLuongPin VARCHAR(50),
     IN p_kichThuocManHinh VARCHAR(50),
-    IN p_thoiGianBaoHanh VARCHAR(50)
+    IN p_thoiGianBaoHanh VARCHAR(50),
+    IN p_maKhuVuc INT,
+    IN p_soLuong INT
 )
 BEGIN
+    DECLARE v_maSanPham INT;
+
     INSERT INTO sanpham (
         tensp, hinhanh, maxuatxu, chipxuly,
         mahedieuhanh, cameratruoc, camerasau,
@@ -30,6 +34,11 @@ BEGIN
         p_thongSo, p_gia, p_trangThai,
         p_maThuongHieu, p_dungLuongPin, p_kichThuocManHinh, p_thoiGianBaoHanh
     );
+
+    SET v_maSanPham = LAST_INSERT_ID();
+
+    INSERT INTO khuvuc_sanpham (makhuvuc, masanpham, soluong)
+    VALUES (p_maKhuVuc, v_maSanPham, p_soLuong);
 END$$
 
 DELIMITER ;

@@ -66,8 +66,6 @@ public interface ProductDAO {
         return list;
     }
 
-   
-
     default List<Product> getBasicProduct() {
         List<Product> list = new ArrayList<>();
 
@@ -105,8 +103,9 @@ public interface ProductDAO {
         return list;
     }
 
-    default boolean addProduct(String tenSanPham, BigDecimal gia, int thongSo, String hinhAnh, String cameraTruoc, String cameraSau, String chip, String pin, String manHinh, String baoHanh, int maThuongHieu, int maHeDieuHanh, int maXuatXu, int trangThai) {
-        String sql = "{CALL sp_sanpham_add(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+    default boolean addProduct(String tenSanPham, BigDecimal gia, int thongSo, String hinhAnh, String cameraTruoc, String cameraSau, String chip, String pin, String manHinh, String baoHanh, int maThuongHieu, int maHeDieuHanh, int maXuatXu, int trangThai, int maKhuVuc, int soLuong
+    ) {
+        String sql = "{CALL sp_sanpham_add(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
 
         try (
                 Connection conn = ConnectionHelper.getConnection(); CallableStatement cs = conn.prepareCall(sql)) {
@@ -124,6 +123,8 @@ public interface ProductDAO {
             cs.setString(12, pin);
             cs.setString(13, manHinh);
             cs.setString(14, baoHanh);
+            cs.setInt(15, maKhuVuc);
+            cs.setInt(16, soLuong);
 
             return cs.executeUpdate() > 0;
         } catch (SQLException ex) {
