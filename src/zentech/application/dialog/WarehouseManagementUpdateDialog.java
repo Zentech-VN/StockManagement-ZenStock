@@ -15,23 +15,15 @@ public class WarehouseManagementUpdateDialog extends JDialog {
 
     private WarehouseManagementForm warehouseManagementForm;
     private WarehouseManagementService service;
-    private JTable table;
-    private List<WarehouseManagement> list;
-    private String maKho;
-    
 
-    public WarehouseManagementUpdateDialog(Window parent,WarehouseManagementForm form,JTable tableParam,List<WarehouseManagement> listParam,String maKho,String tenKho,String ghiChu) {
+    private int maKho;
+
+    public WarehouseManagementUpdateDialog(Window parent, WarehouseManagementForm form, int id) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         this.warehouseManagementForm = form;
-        this.service = new WarehouseManagementService();
-        this.maKho = maKho;
-        
-        this.table = tableParam;
-        this.list = listParam;
         initComponents();
+        this.maKho = id;
         initialUI();
-        txtten.setText(tenKho);
-        txtghichu.setText(ghiChu);
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sửa kho", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
     }
 
@@ -148,31 +140,9 @@ public class WarehouseManagementUpdateDialog extends JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String tenKho = txtten.getText().trim();
-
-        if (tenKho.isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập tên kho.");
-            return;
-        }
-
-        WarehouseManagement wh = new WarehouseManagement();
-        try {
-            wh.setMaKhuVuc(Integer.parseInt(maKho));
-        } catch (NumberFormatException e) {
-            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Mã kho không hợp lệ.");
-            return;
-        }
-        wh.setTenKhuVuc(tenKho);
-        wh.setGhiChu(""); 
-
-    boolean success = service.updateWarehouse(wh);
-    if (success) {
-        Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Cập nhật kho thành công.");
-        service.loadWarehouseManagementToTable(table, list);
-        this.dispose();
-        } else {
-            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Cập nhật kho thất bại.");
-        }
+        service = new WarehouseManagementService();
+        
+        service.updateWarehouseWithValidation(txtten.getText(), maKho);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
