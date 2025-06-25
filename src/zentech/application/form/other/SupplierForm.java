@@ -3,14 +3,22 @@ package zentech.application.form.other;
 import com.formdev.flatlaf.FlatClientProperties;
 import dao.ActivityDAO;
 import entity.Supplier;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 import raven.toast.Notifications;
 import service.SupplierService;
@@ -25,15 +33,28 @@ public class SupplierForm extends javax.swing.JPanel {
 
     public SupplierForm() {
         initComponents();
-        initalUI();
+        initalUI(tblNhaCungCap);
         loadTable();
     }
 
-    private void initalUI() {
+    private void initalUI(JTable table) {
         tblNhaCungCap.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
         tblNhaCungCap.setRowHeight(30);
         tblNhaCungCap.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
 
+        JScrollPane scroll = (JScrollPane) table.getParent().getParent();
+        scroll.setBorder(BorderFactory.createEmptyBorder());
+        scroll.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, ""
+                + "background:$Table.background;"
+                + "track:$Table.background;"
+                + "trackArc:999");
+
+        table.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
+        table.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
+
+        table.getTableHeader().setDefaultRenderer(getAlignmentCellRender(table.getTableHeader().getDefaultRenderer(), true));
+        table.setDefaultRenderer(Object.class, getAlignmentCellRender(table.getDefaultRenderer(Object.class), false));
+        
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tìm kiếm");
 
         txtMa.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Mã");
@@ -75,6 +96,26 @@ public class SupplierForm extends javax.swing.JPanel {
 
         //Sắp xếp cmo
         cmoSapXep.addActionListener(e -> sortTable());
+    }
+    
+    private TableCellRenderer getAlignmentCellRender(TableCellRenderer oldRender, boolean header) {
+        return new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component com = oldRender.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (com instanceof JLabel) {
+                    JLabel label = (JLabel) com;
+                    if (column == 1) {
+                        label.setHorizontalAlignment(SwingConstants.CENTER); //Căn giữa
+                    } else if (column == 0 || column == 2 || column == 3 || column == 4 || column == 5) {
+                        label.setHorizontalAlignment(SwingConstants.LEFT); //Căn trái
+                    } else {
+                        label.setHorizontalAlignment(SwingConstants.CENTER);
+                    }
+                }
+                return com;
+            }
+        };
     }
 
     private void sortTable() {
@@ -254,12 +295,19 @@ public class SupplierForm extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã ", "Tên nhà cung cấp", "Địa chỉ", "Email", "Số điện thoại", "Trạng thái", "Object"
+                "Mã ", "Tên", "Địa chỉ", "Email", "Số điện thoại", "Trạng thái", "Object"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -274,12 +322,12 @@ public class SupplierForm extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tblNhaCungCap);
         if (tblNhaCungCap.getColumnModel().getColumnCount() > 0) {
-            tblNhaCungCap.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tblNhaCungCap.getColumnModel().getColumn(0).setPreferredWidth(100);
             tblNhaCungCap.getColumnModel().getColumn(1).setPreferredWidth(100);
             tblNhaCungCap.getColumnModel().getColumn(2).setPreferredWidth(30);
             tblNhaCungCap.getColumnModel().getColumn(3).setPreferredWidth(70);
             tblNhaCungCap.getColumnModel().getColumn(4).setPreferredWidth(70);
-            tblNhaCungCap.getColumnModel().getColumn(5).setPreferredWidth(140);
+            tblNhaCungCap.getColumnModel().getColumn(5).setPreferredWidth(70);
             tblNhaCungCap.getColumnModel().getColumn(6).setPreferredWidth(50);
         }
 
@@ -351,18 +399,19 @@ public class SupplierForm extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(crazyPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 938, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addContainerGap(631, Short.MAX_VALUE)
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmoSapXep, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(txtLamMoi)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(crazyPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtLamMoi)
+                        .addGap(26, 26, 26))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(crazyPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addComponent(crazyPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -371,7 +420,9 @@ public class SupplierForm extends javax.swing.JPanel {
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(crazyPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
-                    .addComponent(crazyPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(crazyPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtLamMoi)
