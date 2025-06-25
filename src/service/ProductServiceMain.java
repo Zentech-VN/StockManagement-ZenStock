@@ -23,7 +23,7 @@ public class ProductServiceMain implements ProductDAO {
         return getProductCount();
     }
 
-    public boolean addCheck(String tenSanPham, String hinhAnh, String cameraTruoc, String cameraSau, String thongSoText, String giaText, String chip, String pin, String manHinh, String baoHanh, int maThuongHieu, int maHeDieuHanh, int maXuatXu, int trangThai) {
+    public boolean addCheck(String tenSanPham, String hinhAnh, String cameraTruoc, String cameraSau, String thongSoText, String giaText, String chip, String pin, String manHinh, String baoHanh, int maThuongHieu, int maHeDieuHanh, int maXuatXu, int trangThai, int maKhuVucKho, String soLuongText) {
 
         if (tenSanPham.length() <= 0 || tenSanPham.isEmpty()) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Tên sản phẩm không được trống");
@@ -83,8 +83,21 @@ public class ProductServiceMain implements ProductDAO {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Bảo hành không được trống");
             return false;
         }
+        
+        int soLuong;
+        try {
+            soLuong = Integer.parseInt(soLuongText.trim());
+        } catch (NumberFormatException e) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Số lượng phải là số nguyên");
+            return false;
+        }
 
-        if (addProduct(tenSanPham, gia, thongSo, hinhAnh, cameraTruoc, cameraSau, chip, pin, manHinh, baoHanh, maThuongHieu, maHeDieuHanh, maXuatXu, trangThai)) {
+        if (soLuong <= 0) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thông số phải lớn hơn 0");
+            return false;
+        }
+
+        if (addProduct(tenSanPham, gia, thongSo, hinhAnh, cameraTruoc, cameraSau, chip, pin, manHinh, baoHanh, maThuongHieu, maHeDieuHanh, maXuatXu, trangThai, maKhuVucKho, soLuong)) {
             return true;
         }
 

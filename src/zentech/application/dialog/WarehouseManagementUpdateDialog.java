@@ -1,20 +1,20 @@
 package zentech.application.dialog;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import entity.WarehouseManagement;
+import entity.Warehouse;
 import java.awt.Window;
 import javax.swing.JDialog;
 import java.awt.Dialog;
 import java.util.List;
 import javax.swing.JTable;
 import raven.toast.Notifications;
-import service.WarehouseManagementService;
+import service.WarehouseService;
 import zentech.application.form.other.WarehouseManagementForm;
 
 public class WarehouseManagementUpdateDialog extends JDialog {
 
     private WarehouseManagementForm warehouseManagementForm;
-    private WarehouseManagementService service;
+    private WarehouseService service;
 
     private int maKho;
 
@@ -140,7 +140,7 @@ public class WarehouseManagementUpdateDialog extends JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        service = new WarehouseManagementService();
+        service = new WarehouseService();
         
         service.updateWarehouseWithValidation(txtten.getText(), maKho);
     }//GEN-LAST:event_jButton1ActionPerformed

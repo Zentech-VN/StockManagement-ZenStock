@@ -6,10 +6,9 @@ package service;
 
 import dao.ProductAreaDAO;
 import dao.ProductDAOImpl;
-import dao.WarehouseManagementDAO;
 import entity.Product;
 import entity.ProductArea;
-import entity.WarehouseManagement;
+import entity.Warehouse;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -23,22 +22,23 @@ import javax.swing.table.TableRowSorter;
 import jdbc.ConnectionHelper;
 import raven.toast.Notifications;
 import zentech.application.form.other.WarehouseManagementForm;
+import dao.WarehouseDAO;
 
-public class WarehouseManagementService implements WarehouseManagementDAO {
+public class WarehouseService implements WarehouseDAO {
 
-    public void loadWarehouseManagementToTable(JTable table, List<WarehouseManagement> list) {
+    public void loadWarehouseManagementToTable(JTable table, List<Warehouse> list) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
-        for (WarehouseManagement wh : list) {
+        for (Warehouse wh : list) {
             model.addRow(new Object[]{
                 wh.getMaKhuVuc(),
                 wh.getTenKhuVuc()});
         }
     }
 
-    public boolean addCheck(WarehouseManagement wh) {
-        List<WarehouseManagement> list = getAllWarehouses();
-        for (WarehouseManagement w : list) {
+    public boolean addCheck(Warehouse wh) {
+        List<Warehouse> list = getAllWarehouses();
+        for (Warehouse w : list) {
             if (w.getTenKhuVuc().equalsIgnoreCase(wh.getTenKhuVuc())) {
                 return false;
             }
@@ -47,7 +47,7 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
     }
 
     public void Refresh(JTable warehouseTable, JTable productTable) {
-        List<WarehouseManagement> list = getAllWarehouses();
+        List<Warehouse> list = getAllWarehouses();
         loadWarehouseManagementToTable(warehouseTable, list);
 
         DefaultTableModel productModel = (DefaultTableModel) productTable.getModel();
@@ -75,7 +75,7 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
     }
 
     public void updateWarehouseWithValidation(String tenkho, int id) {
-        WarehouseManagement w = new WarehouseManagement();
+        Warehouse w = new Warehouse();
         w.setMaKhuVuc(id);
         w.setTenKhuVuc(tenkho);
         int rs = wd.updateWarehouse(w);
@@ -103,9 +103,9 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
         return getWareHouseCount();
     }
 
-    WarehouseManagementDAO wd = new WarehouseManagementDAO() {
+    WarehouseDAO wd = new WarehouseDAO() {
         @Override
-        public boolean updateWarehouseWithValidation(WarehouseManagement wh) {
+        public boolean updateWarehouseWithValidation(Warehouse wh) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
     };
@@ -116,7 +116,7 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
     public void LoadDataKho(JTable tbl10) {
         DefaultTableModel model = (DefaultTableModel) tbl10.getModel();
         model.setRowCount(0);
-        for (WarehouseManagement w : wd.getAllWarehouses()) {
+        for (Warehouse w : wd.getAllWarehouses()) {
             model.addRow(new Object[]{w.getMaKhuVuc(), w.getTenKhuVuc()});
         }
     }
@@ -152,7 +152,7 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
     }
 
     @Override
-    public boolean updateWarehouseWithValidation(WarehouseManagement wh) {
+    public boolean updateWarehouseWithValidation(Warehouse wh) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

@@ -3,25 +3,25 @@ package zentech.application.form.other;
 import com.formdev.flatlaf.FlatClientProperties;
 
 import dao.ProductDAOImpl;
-import dao.WarehouseManagementDAO;
 import entity.Product;
-import entity.WarehouseManagement;
+import entity.Warehouse;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import raven.toast.Notifications;
-import service.WarehouseManagementService;
+import service.WarehouseService;
 import zentech.application.dialog.WarehouseManagementAddDialog;
 import zentech.application.dialog.WarehouseManagementUpdateDialog;
+import dao.WarehouseDAO;
 
 public class WarehouseManagementForm extends javax.swing.JPanel {
 
-    WarehouseManagementService ws = new WarehouseManagementService();
-    WarehouseManagementDAO wd = new WarehouseManagementDAO() {
+    WarehouseService ws = new WarehouseService();
+    WarehouseDAO wd = new WarehouseDAO() {
         @Override
-        public boolean updateWarehouseWithValidation(WarehouseManagement wh) {
+        public boolean updateWarehouseWithValidation(Warehouse wh) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
     };
