@@ -242,7 +242,7 @@ public class OpenAIService {
     AccountService accountService;
     ClientService clientService;
     SupplierService supplierService;
-    WarehouseManagementService warehouseManagementService;
+    WarehouseService warehouseManagementService;
     
     //Các input số lượng
     private boolean containsQuantityKeyword(String input) {
@@ -297,7 +297,7 @@ public class OpenAIService {
         //khu vực kho
         if ((lowerInput.contains("kho") || lowerInput.contains("khu vực kho"))
                 && containsQuantityKeyword(lowerInput)) {
-            warehouseManagementService = new WarehouseManagementService();
+            warehouseManagementService = new WarehouseService();
             int count = warehouseManagementService.getWareHouseCountService();
             enriched.append("Hiện có ").append(count).append(" khu vực kho trong hệ thống.\n");
         }

@@ -547,7 +547,7 @@
                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="cbbXuatXu1" linkSize="5" min="-2" pref="170" max="-2" attributes="0"/>
+                          <Component id="cbbKhuVucKho" linkSize="5" min="-2" pref="170" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel39" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -560,7 +560,7 @@
                           <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="txtChip1" linkSize="5" min="-2" pref="200" max="-2" attributes="0"/>
+                          <Component id="txtSoLuong" linkSize="5" min="-2" pref="200" max="-2" attributes="0"/>
                           <EmptySpace pref="8" max="32767" attributes="0"/>
                           <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
                           <EmptySpace pref="14" max="32767" attributes="0"/>
@@ -579,14 +579,14 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel39" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="cbbXuatXu1" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbbKhuVucKho" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="txtChip1" linkSize="6" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                              <Component id="txtSoLuong" linkSize="6" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                               <Component id="jLabel23" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -613,7 +613,7 @@
             <Property name="text" type="java.lang.String" value="S&#x1ed1; l&#x1b0;&#x1ee3;ng"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtChip1">
+        <Component class="javax.swing.JTextField" name="txtSoLuong">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel39">
           <Properties>
@@ -626,7 +626,7 @@
             <Property name="text" type="java.lang.String" value="*"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="cbbXuatXu1">
+        <Component class="javax.swing.JComboBox" name="cbbKhuVucKho">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="0"/>

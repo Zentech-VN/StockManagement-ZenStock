@@ -12,13 +12,13 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import raven.toast.Notifications;
-import service.WarehouseManagementService;
+import service.WarehouseService;
 import zentech.application.dialog.WarehouseManagementAddDialog;
 import zentech.application.dialog.WarehouseManagementUpdateDialog;
 
 public class WarehouseManagementForm extends javax.swing.JPanel {
 
-    WarehouseManagementService ws = new WarehouseManagementService();
+    WarehouseService ws = new WarehouseService();
     WarehouseManagementDAO wd = new WarehouseManagementDAO() {
         @Override
         public boolean updateWarehouseWithValidation(Warehouse wh) {

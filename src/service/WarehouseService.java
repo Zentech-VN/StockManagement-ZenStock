@@ -24,7 +24,7 @@ import jdbc.ConnectionHelper;
 import raven.toast.Notifications;
 import zentech.application.form.other.WarehouseManagementForm;
 
-public class WarehouseManagementService implements WarehouseManagementDAO {
+public class WarehouseService implements WarehouseManagementDAO {
 
     public void loadWarehouseManagementToTable(JTable table, List<Warehouse> list) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();

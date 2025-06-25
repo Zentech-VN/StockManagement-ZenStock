@@ -5,12 +5,12 @@ import java.awt.Dialog;
 import java.awt.Window;
 import javax.swing.JDialog;
 import raven.toast.Notifications;
-import service.WarehouseManagementService;
+import service.WarehouseService;
 import zentech.application.form.other.WarehouseManagementForm;
 
 public class WarehouseManagementAddDialog extends JDialog {
 
-    private WarehouseManagementService warehousemanagementService = new WarehouseManagementService();
+    private WarehouseService warehousemanagementService = new WarehouseService();
     private WarehouseManagementForm warehousemanagementForm;
 
     public WarehouseManagementAddDialog(Window parent, WarehouseManagementForm ưarehousemanagementForm) {
