@@ -10,7 +10,7 @@ import java.util.List;
 import jdbc.ConnectionHelper;
 
 public interface BrandDAO {
-
+    
     default List<Brand> getAllBrands() {
         List<Brand> list = new ArrayList<>();
         String sql = "SELECT mathuonghieu, tenthuonghieu FROM thuonghieu";
