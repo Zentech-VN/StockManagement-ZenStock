@@ -3,10 +3,6 @@ package zentech.application.tabbed;
 import java.awt.Color;
 import javax.swing.JTabbedPane;
 
-/**
- *
- * @author RAVEN
- */
 public class TabbedPaneCustom extends JTabbedPane {
 
     public Color getSelectedColor() {
