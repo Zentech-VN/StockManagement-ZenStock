@@ -38,6 +38,7 @@ public class Menu extends JPanel {
         {"Quản lý kho"},
         {"Xuất Hàng"},
         {"Nhập Hàng"},
+        {"Thuộc tính"},
         {"Logout"}
     };
 
