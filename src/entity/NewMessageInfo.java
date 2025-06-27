@@ -3,12 +3,7 @@ package entity;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Helper class to store information about new messages
- * Used for calculating total unread messages, last message, and last message time
- * 
- * @author ZenStock Team
- */
+
 public class NewMessageInfo {
     
     public String message = null;

@@ -3,12 +3,6 @@ package entity;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Entity class representing an internal chat message
- * Maps to 'nhantin' table in database
- * 
- * @author ZenStock Team
- */
 public class InternalChatMessage {
     
     private int maTin;         
