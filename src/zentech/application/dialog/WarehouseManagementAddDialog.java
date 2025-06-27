@@ -5,15 +5,15 @@ import java.awt.Dialog;
 import java.awt.Window;
 import javax.swing.JDialog;
 import raven.toast.Notifications;
-import service.WarehouseManagementService;
-import zentech.application.form.other.WarehouseManagementForm;
+import service.WarehouseService;
+import zentech.application.form.other.WarehouseManagementForm1;
 
 public class WarehouseManagementAddDialog extends JDialog {
 
-    private WarehouseManagementService warehousemanagementService = new WarehouseManagementService();
-    private WarehouseManagementForm warehousemanagementForm;
+    private WarehouseService warehousemanagementService = new WarehouseService();
+    private WarehouseManagementForm1 warehousemanagementForm;
 
-    public WarehouseManagementAddDialog(Window parent, WarehouseManagementForm ưarehousemanagementForm) {
+    public WarehouseManagementAddDialog(Window parent, WarehouseManagementForm1 ưarehousemanagementForm) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         this.warehousemanagementForm = warehousemanagementForm;
         initComponents();
@@ -173,7 +173,7 @@ public class WarehouseManagementAddDialog extends JDialog {
         String tenkhuvuc = txtten.getText().trim();
         // Không sử dụng ghichu nữa vì không có trong schema mới
 
-        entity.WarehouseManagement warehousemanagement = new entity.WarehouseManagement();
+        entity.Warehouse warehousemanagement = new entity.Warehouse();
         warehousemanagement.setTenKhuVuc(tenkhuvuc);
  
 

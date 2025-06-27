@@ -5,6 +5,7 @@ import dao.ActivityDAO;
 import entity.Brand;
 import entity.MadeIn;
 import entity.OS;
+import entity.Warehouse;
 import java.awt.Dialog;
 import java.awt.Window;
 import java.util.ArrayList;
@@ -15,17 +16,19 @@ import service.BrandService;
 import service.MadeInService;
 import service.OSService;
 import service.ProductServiceMain;
+import service.WarehouseService;
 import zentech.application.form.other.ProductForm;
 
 public class ProductAddDialog extends JDialog {
-
+    
     private ProductForm productForm;
     ProductServiceMain productServiceMain;
-
+    
     private List<Brand> brandList = new ArrayList<>();
     private List<OS> osList = new ArrayList<>();
     private List<MadeIn> madeInList = new ArrayList<>();
-
+    private List<Warehouse> warehouseList = new ArrayList<>();
+    
     public ProductAddDialog(Window parent, ProductForm productForm) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         this.productForm = productForm;
@@ -33,7 +36,7 @@ public class ProductAddDialog extends JDialog {
         initalUI();
         loadAllCombos();
     }
-
+    
     private void initalUI() {
         txtTenSanPham.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Iphone 16 Pro");
         txtHinhAnh.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Hình ảnh");
@@ -46,7 +49,7 @@ public class ProductAddDialog extends JDialog {
         txtManHinh.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "6.7 inch");
         txtBaoHanh.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "24 tháng");
     }
-
+    
     private void loadAllCombos() {
         MadeInService madeInService = new MadeInService();
         madeInList = madeInService.getAllMadeInService();
@@ -54,22 +57,29 @@ public class ProductAddDialog extends JDialog {
         for (MadeIn mi : madeInList) {
             cbbXuatXu.addItem(mi.getTen());
         }
-
+        
         OSService osService = new OSService();
         osList = osService.getAllOSService();
         cbbHeDieuHanh.removeAllItems();
         for (OS os : osList) {
             cbbHeDieuHanh.addItem(os.getTen());
         }
-
+        
         BrandService brandService = new BrandService();
         brandList = brandService.getAllBrandsService();
         cbbThuongHieu.removeAllItems();
         for (Brand b : brandList) {
             cbbThuongHieu.addItem(b.getTen());
         }
+        
+        WarehouseService warehouseService = new WarehouseService();
+        warehouseList = warehouseService.getAllWarehouses();
+        cbbKhuVucKho.removeAllItems();
+        for (Warehouse warehouse : warehouseList) {
+            cbbKhuVucKho.addItem(warehouse.getTenKhuVuc());
+        }
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -112,6 +122,13 @@ public class ProductAddDialog extends JDialog {
         cbbTrangThai = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        txtSoLuong = new javax.swing.JTextField();
+        jLabel39 = new javax.swing.JLabel();
+        cbbKhuVucKho = new javax.swing.JComboBox<>();
+        jLabel23 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -334,7 +351,7 @@ public class ProductAddDialog extends JDialog {
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtCamSau, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(15, 15, 15))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbbHeDieuHanh, cbbThuongHieu, cbbTrangThai, cbbXuatXu, txtHinhAnh});
@@ -353,26 +370,98 @@ public class ProductAddDialog extends JDialog {
             }
         });
 
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Kho Lưu Trữ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
+        jPanel4.setMaximumSize(new java.awt.Dimension(100, 100));
+
+        jLabel25.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel25.setText("Kho");
+
+        jLabel26.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel26.setText("Số lượng");
+
+        jLabel39.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel39.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel39.setText("*");
+
+        jLabel23.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel23.setText("*");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(cbbKhuVucKho, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel39))
+                    .addComponent(jLabel25))
+                .addGap(15, 15, 15)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel26)
+                        .addGap(15, 15, 15))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(txtSoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                        .addComponent(jLabel23)
+                        .addContainerGap(14, Short.MAX_VALUE))))
+        );
+
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cbbKhuVucKho, txtSoLuong});
+
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel25)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel39)
+                            .addComponent(cbbKhuVucKho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel26)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtSoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel23))))
+                .addGap(15, 15, 15))
+        );
+
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbbKhuVucKho, txtSoLuong});
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15))
+                        .addContainerGap()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton1))
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(8, 8, 8)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(20, 20, 20)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -394,12 +483,13 @@ public class ProductAddDialog extends JDialog {
         String pin = txtPin.getText().trim();
         String manHinh = txtManHinh.getText().trim();
         String baoHanh = txtBaoHanh.getText().trim();
-
+        String soLuong = txtSoLuong.getText().trim();
+        
         int idThuongHieu = brandList.get(cbbThuongHieu.getSelectedIndex()).getId();
         int idXuatXu = madeInList.get(cbbXuatXu.getSelectedIndex()).getId();
         int idHeDieuHanh = osList.get(cbbHeDieuHanh.getSelectedIndex()).getId();
-
-        String trangThaiText = String.valueOf(cbbTrangThai.getSelectedItem());
+        int idKhuVucKho = warehouseList.get(cbbKhuVucKho.getSelectedIndex()).getMaKhuVuc();
+        
         String statusText = String.valueOf(cbbTrangThai.getSelectedItem());
         int trangThai;
         switch (statusText) {
@@ -418,7 +508,7 @@ public class ProductAddDialog extends JDialog {
         }
         
         productServiceMain = new ProductServiceMain();
-        boolean x = productServiceMain.addCheck(tenSanPham, hinhAnh, camTruoc, camSau, thongSo, giaText, chipXuLy, pin, manHinh, baoHanh, idThuongHieu, idHeDieuHanh, idXuatXu, trangThai);
+        boolean x = productServiceMain.addCheck(tenSanPham, hinhAnh, camTruoc, camSau, thongSo, giaText, chipXuLy, pin, manHinh, baoHanh, idThuongHieu, idHeDieuHanh, idXuatXu, trangThai, idKhuVucKho, soLuong);
         if (x) {
             String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Thêm thành công sản phẩm");
@@ -434,6 +524,7 @@ public class ProductAddDialog extends JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbbHeDieuHanh;
+    private javax.swing.JComboBox<String> cbbKhuVucKho;
     private javax.swing.JComboBox<String> cbbThuongHieu;
     private javax.swing.JComboBox<String> cbbTrangThai;
     private javax.swing.JComboBox<String> cbbXuatXu;
@@ -453,7 +544,11 @@ public class ProductAddDialog extends JDialog {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -461,6 +556,7 @@ public class ProductAddDialog extends JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JTextField txtBaoHanh;
     private javax.swing.JTextField txtCamSau;
     private javax.swing.JTextField txtCamTruoc;
@@ -469,6 +565,7 @@ public class ProductAddDialog extends JDialog {
     private javax.swing.JTextField txtHinhAnh;
     private javax.swing.JTextField txtManHinh;
     private javax.swing.JTextField txtPin;
+    private javax.swing.JTextField txtSoLuong;
     private javax.swing.JTextField txtTenSanPham;
     private javax.swing.JTextField txtThongSo;
     // End of variables declaration//GEN-END:variables
