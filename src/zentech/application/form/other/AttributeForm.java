@@ -4,7 +4,11 @@
  */
 package zentech.application.form.other;
 
-
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import service.BrandService;
+import service.MadeInService;
+import service.OSService;
 
 /**
  *
@@ -15,11 +19,42 @@ public class AttributeForm extends javax.swing.JPanel {
     /**
      * Creates new form AttributeForm
      */
-    
+    private BrandService brandService = new BrandService();
+    private MadeInService madeInService = new MadeInService();
+    private OSService oSService = new OSService();
+
     public AttributeForm() {
         initComponents();
+        loadDataBrand();
+        customer();
+        loadDataMadeIn();
+        loadDataOS();
+    }
+
+    private void loadDataBrand() {
+        brandService.loadToTable(tblDanhSach);
     }
     
+    private void loadDataMadeIn(){
+        madeInService.loadToTable(tblDanhSach1);
+    }
+    
+    private void loadDataOS(){
+        oSService.loadToTable(tblDanhSach2);
+    }
+
+    private void customer() {
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+// Áp dụng căn giữa cho từng cột (ví dụ 2 cột)
+        tblDanhSach.getColumnModel().getColumn(0).setCellRenderer(centerRenderer); // Cột Mã Thương Hiệu
+        tblDanhSach.getColumnModel().getColumn(1).setCellRenderer(centerRenderer); // Cột Tên Thương Hiệu
+        tblDanhSach1.getColumnModel().getColumn(0).setCellRenderer(centerRenderer); // Cột Mã Thương Hiệu
+        tblDanhSach1.getColumnModel().getColumn(1).setCellRenderer(centerRenderer); // Cột Tên Thương Hiệu
+        tblDanhSach2.getColumnModel().getColumn(0).setCellRenderer(centerRenderer); // Cột Mã Thương Hiệu
+        tblDanhSach2.getColumnModel().getColumn(1).setCellRenderer(centerRenderer); // Cột Tên Thương Hiệu
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -173,7 +208,6 @@ public class AttributeForm extends javax.swing.JPanel {
             }
         });
 
-        txtMaKH1.setText("Cái này auto_increment");
         txtMaKH1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMaKH1ActionPerformed(evt);
@@ -344,7 +378,6 @@ public class AttributeForm extends javax.swing.JPanel {
             }
         });
 
-        txtMaKH2.setText("Cái này auto_increment");
         txtMaKH2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMaKH2ActionPerformed(evt);
@@ -448,6 +481,11 @@ public class AttributeForm extends javax.swing.JPanel {
                 tblDanhSach2MouseClicked(evt);
             }
         });
+        tblDanhSach2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tblDanhSach2KeyReleased(evt);
+            }
+        });
         jScrollPane5.setViewportView(tblDanhSach2);
 
         btnXuatExcel2.setText("Xuất excel");
@@ -515,7 +553,6 @@ public class AttributeForm extends javax.swing.JPanel {
             }
         });
 
-        txtMaKH3.setText("Cái này auto_increment");
         txtMaKH3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMaKH3ActionPerformed(evt);
@@ -614,18 +651,26 @@ public class AttributeForm extends javax.swing.JPanel {
 
     private void btnClear3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClear3ActionPerformed
         // TODO add your handling code here:
+        clearFormOS();
     }//GEN-LAST:event_btnClear3ActionPerformed
 
+    private void clearFormOS(){
+        oSService.clearForm(txtMaKH3, txtTenKH3, tblDanhSach2);
+    }
+    
     private void btnSave3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave3ActionPerformed
         // TODO add your handling code here:
+        oSService.saveOS(txtTenKH3, tblDanhSach2, txtMaKH3);
     }//GEN-LAST:event_btnSave3ActionPerformed
 
     private void btnDelete3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelete3ActionPerformed
         // TODO add your handling code here:
+        oSService.deleteOS(txtMaKH3, tblDanhSach2, txtTenKH3);
     }//GEN-LAST:event_btnDelete3ActionPerformed
 
     private void btnUpdate3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdate3ActionPerformed
         // TODO add your handling code here:
+        oSService.updateOS(txtMaKH3, txtTenKH3, tblDanhSach2);
     }//GEN-LAST:event_btnUpdate3ActionPerformed
 
     private void btnXuatExcel2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatExcel2ActionPerformed
@@ -634,30 +679,40 @@ public class AttributeForm extends javax.swing.JPanel {
 
     private void tblDanhSach2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDanhSach2MouseClicked
         // TODO add your handling code here:
+        oSService.showSelectedOS(tblDanhSach2, txtMaKH3, txtTenKH3);
     }//GEN-LAST:event_tblDanhSach2MouseClicked
 
     private void txtSearch9KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearch9KeyReleased
         // TODO add your handling code here:
+        oSService.Find(tblDanhSach2, txtSearch9);
     }//GEN-LAST:event_txtSearch9KeyReleased
 
     private void txtMaKH2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaKH2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMaKH2ActionPerformed
 
+    private void clearFormMadeIn(){
+        madeInService.clearForm(txtMaKH2, txtTenKH2, tblDanhSach1);
+    }
+    
     private void btnClear2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClear2ActionPerformed
         // TODO add your handling code here:
+        clearFormMadeIn();
     }//GEN-LAST:event_btnClear2ActionPerformed
 
     private void btnSave2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave2ActionPerformed
         // TODO add your handling code here:
+        madeInService.saveMadeIn(txtTenKH2, tblDanhSach1, txtMaKH2);
     }//GEN-LAST:event_btnSave2ActionPerformed
 
     private void btnDelete2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelete2ActionPerformed
         // TODO add your handling code here:
+        madeInService.deleteMadeIn(txtMaKH2, tblDanhSach1, txtTenKH2);
     }//GEN-LAST:event_btnDelete2ActionPerformed
 
     private void btnUpdate2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdate2ActionPerformed
         // TODO add your handling code here:
+        madeInService.updateMadeIn(txtMaKH2, txtTenKH2, tblDanhSach1);
     }//GEN-LAST:event_btnUpdate2ActionPerformed
 
     private void btnXuatExcel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatExcel1ActionPerformed
@@ -666,10 +721,12 @@ public class AttributeForm extends javax.swing.JPanel {
 
     private void tblDanhSach1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDanhSach1MouseClicked
         // TODO add your handling code here:
+        madeInService.showSelectedMadeIn(tblDanhSach1, txtMaKH2, txtTenKH2);
     }//GEN-LAST:event_tblDanhSach1MouseClicked
 
     private void txtSearch8KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearch8KeyReleased
         // TODO add your handling code here:
+        madeInService.Find(tblDanhSach1, txtSearch8);
     }//GEN-LAST:event_txtSearch8KeyReleased
 
     private void txtMaKH1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaKH1ActionPerformed
@@ -677,19 +734,19 @@ public class AttributeForm extends javax.swing.JPanel {
     }//GEN-LAST:event_txtMaKH1ActionPerformed
 
     private void btnClear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClear1ActionPerformed
-
+        brandService.clearForm(txtMaKH1, txtTenKH1, tblDanhSach);
     }//GEN-LAST:event_btnClear1ActionPerformed
 
     private void btnSave1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave1ActionPerformed
-
+        brandService.saveBrand(txtTenKH1, tblDanhSach, txtMaKH1);
     }//GEN-LAST:event_btnSave1ActionPerformed
 
     private void btnDelete1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelete1ActionPerformed
-
+        brandService.deleteBrand(txtMaKH1, tblDanhSach, txtTenKH1);
     }//GEN-LAST:event_btnDelete1ActionPerformed
 
     private void btnUpdate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdate1ActionPerformed
-
+        brandService.updateBrand(txtMaKH1, txtTenKH1, tblDanhSach);
     }//GEN-LAST:event_btnUpdate1ActionPerformed
 
     private void btnXuatExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatExcelActionPerformed
@@ -697,28 +754,28 @@ public class AttributeForm extends javax.swing.JPanel {
     }//GEN-LAST:event_btnXuatExcelActionPerformed
 
     private void tblDanhSachMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDanhSachMouseClicked
-
+        brandService.showSelectedBrand(tblDanhSach, txtMaKH1, txtTenKH1);
     }//GEN-LAST:event_tblDanhSachMouseClicked
 
     private void txtSearch7KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearch7KeyReleased
-
+        brandService.Find(tblDanhSach, txtSearch7);
     }//GEN-LAST:event_txtSearch7KeyReleased
+
+    private void tblDanhSach2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblDanhSach2KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblDanhSach2KeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnClear;
     private javax.swing.JButton btnClear1;
     private javax.swing.JButton btnClear2;
     private javax.swing.JButton btnClear3;
-    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDelete1;
     private javax.swing.JButton btnDelete2;
     private javax.swing.JButton btnDelete3;
-    private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSave1;
     private javax.swing.JButton btnSave2;
     private javax.swing.JButton btnSave3;
-    private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btnUpdate1;
     private javax.swing.JButton btnUpdate2;
     private javax.swing.JButton btnUpdate3;
@@ -728,16 +785,11 @@ public class AttributeForm extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
@@ -745,11 +797,6 @@ public class AttributeForm extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
@@ -757,21 +804,12 @@ public class AttributeForm extends javax.swing.JPanel {
     private javax.swing.JTable tblDanhSach;
     private javax.swing.JTable tblDanhSach1;
     private javax.swing.JTable tblDanhSach2;
-    private javax.swing.JTextField txtDiachi;
-    private javax.swing.JTextField txtMaKH;
     private javax.swing.JTextField txtMaKH1;
     private javax.swing.JTextField txtMaKH2;
     private javax.swing.JTextField txtMaKH3;
-    private javax.swing.JTextField txtSDt;
-    private javax.swing.JTextField txtSearch;
-    private javax.swing.JTextField txtSearch3;
-    private javax.swing.JTextField txtSearch4;
-    private javax.swing.JTextField txtSearch5;
-    private javax.swing.JTextField txtSearch6;
     private javax.swing.JTextField txtSearch7;
     private javax.swing.JTextField txtSearch8;
     private javax.swing.JTextField txtSearch9;
-    private javax.swing.JTextField txtTenKH;
     private javax.swing.JTextField txtTenKH1;
     private javax.swing.JTextField txtTenKH2;
     private javax.swing.JTextField txtTenKH3;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -279,9 +279,6 @@
                   </Events>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtMaKH1">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="C&#xe1;i n&#xe0;y auto_increment"/>
-                  </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtMaKH1ActionPerformed"/>
                   </Events>
@@ -533,9 +530,6 @@
                   </Events>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtMaKH2">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="C&#xe1;i n&#xe0;y auto_increment"/>
-                  </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtMaKH2ActionPerformed"/>
                   </Events>
@@ -659,6 +653,7 @@
                       </Properties>
                       <Events>
                         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblDanhSach2MouseClicked"/>
+                        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tblDanhSach2KeyReleased"/>
                       </Events>
                     </Component>
                   </SubComponents>
@@ -787,9 +782,6 @@
                   </Events>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtMaKH3">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="C&#xe1;i n&#xe0;y auto_increment"/>
-                  </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtMaKH3ActionPerformed"/>
                   </Events>

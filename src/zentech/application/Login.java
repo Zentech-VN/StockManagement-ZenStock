@@ -83,6 +83,7 @@ public class Login extends javax.swing.JFrame {
 
         lbUser.setText("Tài khoản");
 
+        txtUser.setText("khoi");
         txtUser.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         txtUser.setMinimumSize(new java.awt.Dimension(68, 40));
 
@@ -90,6 +91,11 @@ public class Login extends javax.swing.JFrame {
 
         txtPass.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         txtPass.setMinimumSize(new java.awt.Dimension(68, 40));
+        txtPass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPassActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Quên mật khẩu");
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -133,9 +139,7 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(panelLogin1Layout.createSequentialGroup()
                         .addGap(58, 58, 58)
                         .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelLogin1Layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
@@ -231,6 +235,10 @@ public class Login extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void txtPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPassActionPerformed
 
     public static void main(String args[]) {
         FlatRobotoFont.install();
