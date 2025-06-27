@@ -248,6 +248,21 @@ CREATE TABLE `khuvuc_sanpham` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `nhantin`
+--
+CREATE TABLE `nhantin` (
+  `matin` int(11) NOT NULL,
+  `nguoiguiid` varchar(70) DEFAULT NULL,
+  `nguoiguiten` varchar(50) DEFAULT NULL,
+  `nguoinhanid` varchar(70) DEFAULT NULL,
+  `noidung` longtext DEFAULT NULL,
+  `giogui` varchar(20) DEFAULT NULL,
+  `ngaygui` varchar(40) DEFAULT NULL,
+  `daxemboi` longtext DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `khuvuc_sanpham`
 --
 
@@ -544,6 +559,19 @@ INSERT INTO `xuatxu` VALUES (1,'Việt Nam'),(2,'Trung Quốc'),(3,'Hàn Quốc'
 /*!40000 ALTER TABLE `xuatxu` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+--
+-- Indexes for table `chat`
+--
+ALTER TABLE `nhantin`
+  ADD PRIMARY KEY (`matin`);
+
+--
+-- AUTO_INCREMENT for table `chat`
+--
+ALTER TABLE `nhantin`
+  MODIFY `matin` int(11) NOT NULL AUTO_INCREMENT;
+
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
