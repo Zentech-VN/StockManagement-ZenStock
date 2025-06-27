@@ -560,6 +560,19 @@ INSERT INTO `xuatxu` VALUES (1,'Việt Nam'),(2,'Trung Quốc'),(3,'Hàn Quốc'
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
+--
+-- Indexes for table `chat`
+--
+ALTER TABLE `nhantin`
+  ADD PRIMARY KEY (`matin`);
+
+--
+-- AUTO_INCREMENT for table `chat`
+--
+ALTER TABLE `nhantin`
+  MODIFY `matin` int(11) NOT NULL AUTO_INCREMENT;
+
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
