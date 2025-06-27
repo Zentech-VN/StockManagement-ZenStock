@@ -248,6 +248,21 @@ CREATE TABLE `khuvuc_sanpham` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `nhantin`
+--
+CREATE TABLE `nhantin` (
+  `matin` int(11) NOT NULL,
+  `nguoiguiid` varchar(70) DEFAULT NULL,
+  `nguoiguiten` varchar(50) DEFAULT NULL,
+  `nguoinhanid` varchar(70) DEFAULT NULL,
+  `noidung` longtext DEFAULT NULL,
+  `giogui` varchar(20) DEFAULT NULL,
+  `ngaygui` varchar(40) DEFAULT NULL,
+  `daxemboi` longtext DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `khuvuc_sanpham`
 --
 
