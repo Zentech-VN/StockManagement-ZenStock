@@ -1,5 +1,6 @@
 package dao;
 
+import entity.Brand;
 import entity.MadeIn;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,5 +26,62 @@ public interface MadeInDAO {
         }
 
         return list;
+    }
+    
+    default boolean insertMadeIn(MadeIn madeIn) {
+        try (Connection conn = ConnectionHelper.getConnection()) {
+            String sql = "INSERT INTO xuatxu (tenxuatxu) VALUES (?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, madeIn.getTen());
+
+            int rows = ps.executeUpdate();
+            return rows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    default boolean deleteMadeInById(int id) {
+        try (Connection conn = ConnectionHelper.getConnection()) {
+            String sql = "DELETE FROM xuatxu WHERE maxuatxu = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+
+            int rows = ps.executeUpdate();
+            return rows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    default boolean updateMadeInById(int id, String newName) {
+        try (Connection conn = ConnectionHelper.getConnection()) {
+            String sql = "UPDATE xuatxu SET tenxuatxu = ? WHERE maxuatxu = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, newName);
+            ps.setInt(2, id);
+
+            int rows = ps.executeUpdate();
+            return rows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    default boolean isMadeInNameExists(String ten) {
+        String sql = "SELECT COUNT(*) FROM xuatxu WHERE LOWER(tenxuatxu) = ?";
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, ten.toLowerCase());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
