@@ -124,6 +124,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtUser">
           <Properties>
+            <Property name="text" type="java.lang.String" value="khoi"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Text Cursor"/>
             </Property>
@@ -146,6 +147,9 @@
               <Dimension value="[68, 40]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPassActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
