@@ -34,12 +34,13 @@ public class ClientDAO {
 
     public int addkhachhang(Cilent cl) {
         int rs = 0;
-        String sql = "insert into khachhang(tenkhachhang,diachi,sdt, trangthai) values(?,?,?,?)";
+        String sql = "insert into khachhang(tenkhachhang,diachi,email,sdt, trangthai) values(?,?,?,?,?)";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement cs = conn.prepareStatement(sql)) {
             cs.setString(1, cl.getTenKhacHang());
             cs.setString(2, cl.getDiaChi());
-            cs.setString(3, cl.getSoDienThoai());
-            cs.setInt(4, 1);
+            cs.setString(3, cl.getEmail());
+            cs.setString(4, cl.getSoDienThoai());
+            cs.setInt(5, 1);
             rs = cs.executeUpdate();
             return rs;
         } catch (Exception e) {
@@ -73,6 +74,7 @@ public class ClientDAO {
                 cl.setTenKhacHang(rs.getString("tenkhachhang"));
                 cl.setDiaChi(rs.getString("diachi"));
                 cl.setSoDienThoai(rs.getString("sdt"));
+                cl.setEmail(rs.getString("email"));
                 cl.setTrangThai(rs.getInt("trangthai"));
                 cl.setNgayThamGia(rs.getDate("ngaythamgia"));
             }
@@ -85,12 +87,13 @@ public class ClientDAO {
 
     public int Update(Cilent cl) {
         int rs = 0;
-        String sql = "update khachhang set tenkhachhang = ?, diachi = ?, sdt = ? where makh = ?";
+        String sql = "update khachhang set tenkhachhang = ?, diachi = ?, email = ?, sdt = ? where makh = ?";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setString(1, cl.getTenKhacHang());
             pst.setString(2, cl.getDiaChi());
-            pst.setString(3, cl.getSoDienThoai());
-            pst.setInt(4, cl.getMaKhacHang());
+            pst.setString(3, cl.getEmail());
+            pst.setString(4, cl.getSoDienThoai());
+            pst.setInt(5, cl.getMaKhacHang());
             rs = pst.executeUpdate();
             return rs;
         } catch (Exception e) {

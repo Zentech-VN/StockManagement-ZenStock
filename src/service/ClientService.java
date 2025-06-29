@@ -35,12 +35,12 @@ public class ClientService {
     }
 
     public void LoadDataTable(JTable danhsach) {
-        String[] title = {"Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Số điện thoại", "Ngày tham gia"};
+        String[] title = {"Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Email", "Số điện thoại", "Ngày tham gia"};
         DefaultTableModel model = new DefaultTableModel(title, 0);
         model.setRowCount(0);
         for (Cilent c : cld.getAllCilent()) {
             if (c.getTrangThai() == 1) {
-                model.addRow(new Object[]{c.getMaKhacHang(), c.getTenKhacHang(), c.getDiaChi(), c.getSoDienThoai(), c.getNgayThamGia()});
+                model.addRow(new Object[]{c.getMaKhacHang(), c.getTenKhacHang(), c.getDiaChi(), c.getEmail(), c.getSoDienThoai(), c.getNgayThamGia()});
             }
         }
         danhsach.setModel(model);
@@ -65,8 +65,11 @@ public class ClientService {
     public boolean checkvalidate(
             JTextField tenkh,
             JTextField sdt,
-            JTextField diachi) {
+            JTextField diachi,
+            JTextField Email
+    ) {
         String regexsdt = "^(0|\\+84)(3[2-9]|5[6|8|9]|7[0|6-9]|8[1-5]|9[0-9])[0-9]{7}$";
+        String regexemail = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
         if (tenkh.getText().trim().isEmpty()) {
 
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập tên khách hàng");
@@ -74,6 +77,14 @@ public class ClientService {
         }
         if (diachi.getText().trim().isEmpty()) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập địa chỉ");
+            return false;
+        }
+        if (Email.getText().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập Email.");
+            return false;
+        }
+        if (!Email.getText().matches(regexemail)) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Email không đúng định dạng..");
             return false;
         }
         if (sdt.getText().trim().isEmpty()) {
@@ -87,20 +98,22 @@ public class ClientService {
             return true;
         }
     }
-    
+
     public void add(
             JTextField tenkh,
             JTextField sdt,
-            JTextField diachi
+            JTextField diachi,
+            JTextField Email
     ) {
         String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
         String ten = tenkh.getText();
-        if (checkvalidate(tenkh, sdt, diachi)) {
+        if (checkvalidate(tenkh, sdt, diachi, Email)) {
             int confrim = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thêm khách hàng", "Add", JOptionPane.YES_OPTION);
             if (confrim == JOptionPane.YES_OPTION) {
                 Cilent cl = new Cilent();
                 cl.setTenKhacHang(tenkh.getText());
                 cl.setDiaChi(diachi.getText());
+                cl.setEmail(Email.getText());
                 cl.setSoDienThoai(sdt.getText());
                 int rs = cld.addkhachhang(cl);
                 if (rs > 0) {
@@ -143,14 +156,14 @@ public class ClientService {
         obj.setRowFilter(RowFilter.regexFilter(search.getText()));
     }
 
-    public void update(JTextField makh, JTextField tenkh, JTextField sdt, JTextField diachi) {
+    public void update(JTextField makh, JTextField tenkh, JTextField sdt, JTextField diachi, JTextField Email) {
         String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
         String ten = tenkh.getText();
         if (makh.getText().trim().isEmpty()) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập mã khách hàng muốn cập nhập");
             return;
         } else {
-            if (checkvalidate(tenkh, sdt, diachi)) {
+            if (checkvalidate(tenkh, sdt, diachi, Email)) {
                 try {
                     int id = Integer.parseInt(makh.getText());
                     int confrim = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn cập nhập khách hàng có mã " + id, "Update", JOptionPane.YES_OPTION);
@@ -159,6 +172,7 @@ public class ClientService {
                         cl.setMaKhacHang(id);
                         cl.setTenKhacHang(tenkh.getText());
                         cl.setDiaChi(diachi.getText());
+                        cl.setEmail(Email.getText());
                         cl.setSoDienThoai(sdt.getText());
                         int rs = cld.Update(cl);
                         if (rs > 0) {
@@ -205,7 +219,7 @@ public class ClientService {
             Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, " Lỗi khi xuất file: " + e.getMessage());
         }
     }
-    
+
     public int getClientCountService() {
         return cld.getClientCount();
     }
