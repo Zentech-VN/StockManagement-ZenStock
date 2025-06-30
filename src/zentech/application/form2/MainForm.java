@@ -30,6 +30,8 @@ import zentech.application.form.other.EmployeeForm;
 import zentech.application.form.other.FormHomePage;
 import zentech.application.form.other.FormRole;
 import zentech.application.form.other.ImportForm;
+import zentech.application.form.other.InternalWarehouseIn;
+import zentech.application.form.other.InternalWarehouseOut;
 import zentech.application.form.other.ProductForm;
 import zentech.application.form.other.SupplierForm;
 import zentech.application.form.other.WarehouseManagementForm;
@@ -111,8 +113,15 @@ public class MainForm extends JLayeredPane {
                 Application.showForm(new AttributeForm());
             } else if (index == 12) {
                 Application.showForm(new ChatForm());
-            }
-            else if (index == 13) {
+            } else if (index == 13){
+                if (subIndex == 1) {
+                    Application.showForm(new InternalWarehouseOut());
+                } else if (subIndex == 2) {
+                    Application.showForm(new InternalWarehouseIn());
+                } else {
+                    action.cancel();
+                }
+            } else if (index == 14) {
                 Application.logout();
             } else {
                 action.cancel();
