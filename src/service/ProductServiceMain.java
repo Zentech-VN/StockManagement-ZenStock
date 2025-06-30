@@ -23,7 +23,7 @@ public class ProductServiceMain implements ProductDAO {
         return getProductCount();
     }
 
-    public boolean addCheck(String tenSanPham, String hinhAnh, String cameraTruoc, String cameraSau, String thongSoText, String giaText, String chip, String pin, String manHinh, String baoHanh, int maThuongHieu, int maHeDieuHanh, int maXuatXu, int trangThai, int maKhuVucKho, String soLuongText) {
+    public boolean addCheck(String tenSanPham, String hinhAnh, String cameraTruoc, String cameraSau, String giaText, String chip, String pin, String manHinh, int baoHanh, int maThuongHieu, int maHeDieuHanh, int maXuatXu, String trangThai, int maKhuVucKho, String soLuongText) {
 
         if (tenSanPham.length() <= 0 || tenSanPham.isEmpty()) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Tên sản phẩm không được trống");
@@ -45,24 +45,6 @@ public class ProductServiceMain implements ProductDAO {
             return false;
         }
 
-        if (thongSoText == null || thongSoText.trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thông số không được trống");
-            return false;
-        }
-
-        int thongSo;
-        try {
-            thongSo = Integer.parseInt(thongSoText.trim());
-        } catch (NumberFormatException e) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thông số phải là số nguyên");
-            return false;
-        }
-
-        if (thongSo <= 0) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thông số phải lớn hơn 0");
-            return false;
-        }
-
         BigDecimal gia;
         try {
             gia = new BigDecimal(giaText);
@@ -79,7 +61,7 @@ public class ProductServiceMain implements ProductDAO {
             return false;
         }
 
-        if (baoHanh.length() <= 0 || baoHanh.isEmpty()) {
+        if (baoHanh <=0) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Bảo hành không được trống");
             return false;
         }
@@ -97,14 +79,14 @@ public class ProductServiceMain implements ProductDAO {
             return false;
         }
 
-        if (addProduct(tenSanPham, gia, thongSo, hinhAnh, cameraTruoc, cameraSau, chip, pin, manHinh, baoHanh, maThuongHieu, maHeDieuHanh, maXuatXu, trangThai, maKhuVucKho, soLuong)) {
+        if (addProduct(tenSanPham, gia, hinhAnh, cameraTruoc, cameraSau, chip, pin, manHinh, baoHanh, maThuongHieu, maHeDieuHanh, maXuatXu, trangThai, maKhuVucKho, soLuong)) {
             return true;
         }
 
         return false;
     }
 
-    public boolean updateCheck(String maSanPhamText, String tenSanPham, String hinhAnh, String cameraTruoc, String cameraSau, String thongSoText, String giaText, String chip, String pin, String manHinh, String baoHanh, int maThuongHieu, int maHeDieuHanh, int maXuatXu, int trangThai) {
+    public boolean updateCheck(String maSanPhamText, String tenSanPham, String hinhAnh, String cameraTruoc, String cameraSau, String giaText, String chip, String pin, String manHinh, String baoHanh, int maThuongHieu, int maHeDieuHanh, int maXuatXu, String trangThai) {
 
         int maSanPham;
         try {
@@ -139,24 +121,6 @@ public class ProductServiceMain implements ProductDAO {
             return false;
         }
 
-        if (thongSoText == null || thongSoText.trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thông số không được trống");
-            return false;
-        }
-
-        int thongSo;
-        try {
-            thongSo = Integer.parseInt(thongSoText.trim());
-        } catch (NumberFormatException e) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thông số phải là số nguyên");
-            return false;
-        }
-
-        if (thongSo <= 0) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thông số phải lớn hơn 0");
-            return false;
-        }
-
         if (giaText == null || giaText.trim().isEmpty()) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Giá không được trống");
             return false;
@@ -178,7 +142,7 @@ public class ProductServiceMain implements ProductDAO {
             return false;
         }
 
-        if (updateProduct(maSanPham, tenSanPham, gia, thongSo, hinhAnh, cameraTruoc, cameraSau, chip, pin, manHinh, baoHanh, maThuongHieu, maHeDieuHanh, maXuatXu, trangThai)) {
+        if (updateProduct(maSanPham, tenSanPham, gia, hinhAnh, cameraTruoc, cameraSau, chip, pin, manHinh, maSanPham, maThuongHieu, maHeDieuHanh, maXuatXu, trangThai)) {
             return true;
         }
 
