@@ -23,6 +23,7 @@ import zentech.application.form.other.AttributeForm;
 import zentech.application.form.other.ChatForm;
 import zentech.application.form.other.CustomerManagement;
 import zentech.application.form.other.DeliveryNoteForm;
+import zentech.application.form.other.DestructionReleaseNoteForm;
 import zentech.application.form.other.EmployeeForm;
 import zentech.application.form.other.FormHomePage;
 import zentech.application.form.other.FormRole;
@@ -109,6 +110,8 @@ public class MainForm extends JLayeredPane {
             } else if (index == 12) {
                 Application.showForm(new ChatForm());
             } else if (index == 13) {
+                Application.showForm(new DestructionReleaseNoteForm());
+            } else if (index == 14) {
                 Application.logout();
             } else {
                 action.cancel();
