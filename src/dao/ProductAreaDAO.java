@@ -43,7 +43,7 @@ public class ProductAreaDAO {
                 pa.getP().setThoiGianBaoHanh(rs.getString("sanpham.thoigianbaohanh"));
                 pa.getP().setThongSo(rs.getInt("sanpham.thongso"));
                 pa.getP().setGia(rs.getBigDecimal("sanpham.gia"));
-                pa.getP().setTrangThai(rs.getInt("sanpham.trangthai"));
+                pa.getP().setTrangThai(rs.getString("sanpham.trangthai"));
                 pa.getP().setTenHeDieuHanh(rs.getString("hedieuhanh.tenhedieuhanh"));
                 pa.getP().setTenXuatXu(rs.getString("xuatxu.tenxuatxu"));
                 pa.getP().setTenThuongHieu(rs.getString("thuonghieu.tenthuonghieu"));

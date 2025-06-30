@@ -12,7 +12,7 @@ public class Product {
     private String cameraSau;
     private int thongSo;
     private BigDecimal gia;
-    private int trangThai;
+    private String trangThai;
     private String dungLuongPin;
     private String kichThuocManHinh;
     private String thoiGianBaoHanh;
@@ -29,7 +29,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(int maSanPham, String tenSanPham, String hinhAnh, String chipXuLy, String cameraTruoc, String cameraSau, int thongSo, BigDecimal gia, int trangThai, String dungLuongPin, String kichThuocManHinh, String thoiGianBaoHanh, String tenXuatXu, String tenHeDieuHanh, String tenThuongHieu, String tenKhuVuc) {
+    public Product(int maSanPham, String tenSanPham, String hinhAnh, String chipXuLy, String cameraTruoc, String cameraSau, int thongSo, BigDecimal gia, String trangThai, String dungLuongPin, String kichThuocManHinh, String thoiGianBaoHanh, String tenXuatXu, String tenHeDieuHanh, String tenThuongHieu, String tenKhuVuc) {
         this.maSanPham = maSanPham;
         this.tenSanPham = tenSanPham;
         this.hinhAnh = hinhAnh;
@@ -112,11 +112,11 @@ public class Product {
         this.gia = gia;
     }
 
-    public int getTrangThai() {
+    public String getTrangThai() {
         return trangThai;
     }
 
-    public void setTrangThai(int trangThai) {
+    public void setTrangThai(String trangThai) {
         this.trangThai = trangThai;
     }
 
@@ -174,19 +174,6 @@ public class Product {
 
     public void setTenKhuVuc(String tenKhuVuc) {
         this.tenKhuVuc = tenKhuVuc;
-    }
-
-    public String getTrangThaiText() {
-        switch (this.trangThai) {
-            case 0:
-                return "Hoạt động";
-            case 1:
-                return "Khoá";
-            case 2:
-                return "Ngừng bán";
-            default:
-                return "Không xác định";
-        }
     }
 
     public int getMaXuatXu() {
