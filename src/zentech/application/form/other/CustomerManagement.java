@@ -26,6 +26,7 @@ public class CustomerManagement extends javax.swing.JPanel {
         initComponents();
         initUI(tblDanhSach);
         cls.LoadDataTable(tblDanhSach);
+        ///d
 
     }
 
