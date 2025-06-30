@@ -129,6 +129,7 @@ CREATE TABLE `nhacungcap` (
   `diachi` VARCHAR(255),
   `email` VARCHAR(255),
   `sdt` VARCHAR(50),
+  `trangthai` INT NOT NULL,
   PRIMARY KEY (`manhacungcap`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -186,6 +187,7 @@ CREATE TABLE `khachhang` (
   `diachi` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) NOT NULL,
   `sdt` VARCHAR(50) NOT NULL,
+  `trangthai` INT NOT NULL,
   PRIMARY KEY (`makhachhang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
