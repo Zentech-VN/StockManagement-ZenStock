@@ -3,16 +3,16 @@ package zentech.application.form.other;
 import service.ClientService;
 
 public class CustomerManagement extends javax.swing.JPanel {
-    
+
     ClientService cls = new ClientService();
-    
+
     public CustomerManagement() {
         initComponents();
         cls.editPlaceHolder(txtMaKH, txtTenKH, txtSDt, txtDiachi, txtSearch);
         cls.LoadDataTable(tblDanhSach);
         txtMaKH.setEnabled(false);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -36,6 +36,8 @@ public class CustomerManagement extends javax.swing.JPanel {
         txtTenKH = new javax.swing.JTextField();
         txtDiachi = new javax.swing.JTextField();
         txtSDt = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel1.setText("Customer Management");
@@ -142,6 +144,9 @@ public class CustomerManagement extends javax.swing.JPanel {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel2.setText("Email");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -161,12 +166,14 @@ public class CustomerManagement extends javax.swing.JPanel {
                     .addComponent(txtMaKH)
                     .addComponent(txtTenKH)
                     .addComponent(txtDiachi)
+                    .addComponent(txtEmail)
                     .addComponent(txtSDt)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
+                            .addComponent(jLabel2)
                             .addComponent(jLabel8))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -186,7 +193,11 @@ public class CustomerManagement extends javax.swing.JPanel {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtDiachi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSDt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -230,7 +241,7 @@ public class CustomerManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        cls.add(txtTenKH, txtSDt, txtDiachi);
+        cls.add(txtTenKH, txtSDt, txtDiachi, txtEmail);
         cls.LoadDataTable(tblDanhSach);
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -246,7 +257,7 @@ public class CustomerManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchKeyReleased
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        cls.update(txtMaKH, txtTenKH, txtSDt, txtDiachi);
+        cls.update(txtMaKH, txtTenKH, txtSDt, txtDiachi, txtEmail);
         cls.LoadDataTable(tblDanhSach);
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -262,6 +273,7 @@ public class CustomerManagement extends javax.swing.JPanel {
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btnXuatExcel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -271,6 +283,7 @@ public class CustomerManagement extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblDanhSach;
     private javax.swing.JTextField txtDiachi;
+    private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtMaKH;
     private javax.swing.JTextField txtSDt;
     private javax.swing.JTextField txtSearch;

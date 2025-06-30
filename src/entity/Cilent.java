@@ -8,8 +8,22 @@ public class Cilent {
     private String TenKhacHang;
     private String DiaChi;
     private String SoDienThoai;
+    private String Email;
     private int TrangThai;
     private Date NgayThamGia;
+
+    public Cilent() {
+    }
+
+    public Cilent(int MaKhacHang, String TenKhacHang, String DiaChi, String SoDienThoai, String Email, int TrangThai, Date NgayThamGia) {
+        this.MaKhacHang = MaKhacHang;
+        this.TenKhacHang = TenKhacHang;
+        this.DiaChi = DiaChi;
+        this.SoDienThoai = SoDienThoai;
+        this.Email = Email;
+        this.TrangThai = TrangThai;
+        this.NgayThamGia = NgayThamGia;
+    }
 
     public int getMaKhacHang() {
         return MaKhacHang;
@@ -57,6 +71,14 @@ public class Cilent {
 
     public void setNgayThamGia(Date NgayThamGia) {
         this.NgayThamGia = NgayThamGia;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String Email) {
+        this.Email = Email;
     }
 
 }
