@@ -5,32 +5,27 @@ import entity.Warehouse;
 import java.awt.Window;
 import javax.swing.JDialog;
 import java.awt.Dialog;
-import java.util.List;
-import javax.swing.JTable;
 import raven.toast.Notifications;
 import service.WarehouseService;
 import zentech.application.form.other.WarehouseManagementForm;
 
-public class WarehouseManagementUpdateDialog extends JDialog {
+public class WarehouseManagementAddDialog extends JDialog {
 
     private WarehouseManagementForm warehouseManagementForm;
     private WarehouseService service;
 
-    private int maKho;
-
-    public WarehouseManagementUpdateDialog(Window parent, WarehouseManagementForm form, int id, String ten) {
+    public WarehouseManagementAddDialog(Window parent, WarehouseManagementForm form) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         this.warehouseManagementForm = form;
         initComponents();
-        txtten.setText(ten);
-        this.maKho = id;
+
         initialUI();
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sửa kho", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
     }
 
     private void initialUI() {
         txtten.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tên kho");
-      
+
     }
 
     @SuppressWarnings("unchecked")
@@ -45,7 +40,7 @@ public class WarehouseManagementUpdateDialog extends JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sửa kho", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thêm kho", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
         jPanel3.setMaximumSize(new java.awt.Dimension(100, 100));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -77,10 +72,10 @@ public class WarehouseManagementUpdateDialog extends JDialog {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtten, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(114, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Sửa");
+        jButton1.setText("Thêm");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -118,7 +113,7 @@ public class WarehouseManagementUpdateDialog extends JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         jPanel3.getAccessibleContext().setAccessibleDescription("");
@@ -129,8 +124,14 @@ public class WarehouseManagementUpdateDialog extends JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         service = new WarehouseService();
-        
-        service.updateWarehouseWithValidation(txtten.getText(), maKho);
+        Warehouse w = new Warehouse();
+        w.setTenKhuVuc(txtten.getText());
+        boolean rs = service.addWarehouse(w);
+        if (rs == true) {
+            Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Thêm kho thành công.");
+        } else {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thêm kho thất bại.");
+        }
         txtten.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
 

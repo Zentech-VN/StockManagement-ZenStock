@@ -10,23 +10,23 @@ import java.util.List;
 import jdbc.ConnectionHelper;
 
 public class ProductAreaDAO {
-    
+
     public List<ProductArea> getProductsByWarehouse(int maKho) {
         List<ProductArea> list = new ArrayList<>();
-        
+
         String sql = "select \n"
                 + "sanpham.masanpham, sanpham.tensp, sanpham.hinhanh,\n"
                 + " xuatxu.tenxuatxu, sanpham.chipxuly, hedieuhanh.tenhedieuhanh,\n"
-                + " sanpham.cameratruoc, sanpham.camerasau, sanpham.thongso,\n"
+                + " sanpham.cameratruoc, sanpham.camerasau,\n"
                 + " sanpham.gia, sanpham.trangthai, thuonghieu.tenthuonghieu, sanpham.thoigianbaohanh,\n"
-                + " sanpham.dungluongpin, sanpham.kichthuocmanhinh, khuvuc.tenkhuvuc, soluong\n"
-                + " from khuvuc_sanpham join khuvuc on khuvuc_sanpham.makhuvuc = khuvuc.makhuvuc \n"
-                + "join sanpham on khuvuc_sanpham.masanpham = sanpham.masanpham \n"
-                + "join hedieuhanh on sanpham.mahedieuhanh = hedieuhanh.mahedieuhanh\n"
-                + "join xuatxu on sanpham.maxuatxu = xuatxu.maxuatxu\n"
-                + "join thuonghieu on sanpham.mathuonghieu = thuonghieu.mathuonghieu\n"
-                + "where khuvuc_sanpham.makhuvuc = ?;";
-        
+                + " sanpham.dungluongpin, sanpham.kichthuocmanhinh, khuvuckho.tenkhuvuc, soluong\n"
+                + " from khuvuckho_sanpham join khuvuckho on khuvuckho_sanpham.makhuvuc = khuvuckho.makhuvuc \n"
+                + "join sanpham on khuvuckho_sanpham.masanpham = sanpham.masanpham \n"
+                + "join hedieuhanh on sanpham.hedieuhanh = hedieuhanh.mahedieuhanh\n"
+                + "join xuatxu on sanpham.xuatxu = xuatxu.maxuatxu\n"
+                + "join thuonghieu on sanpham.thuonghieu = thuonghieu.mathuonghieu\n"
+                + "where khuvuckho_sanpham.makhuvuc = ?;";
+
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, maKho);
             ResultSet rs = ps.executeQuery();
@@ -41,13 +41,12 @@ public class ProductAreaDAO {
                 pa.getP().setCameraSau(rs.getString("sanpham.camerasau"));
                 pa.getP().setCameraTruoc(rs.getString("sanpham.cameratruoc"));
                 pa.getP().setThoiGianBaoHanh(rs.getString("sanpham.thoigianbaohanh"));
-                pa.getP().setThongSo(rs.getInt("sanpham.thongso"));
                 pa.getP().setGia(rs.getBigDecimal("sanpham.gia"));
                 pa.getP().setTrangThai(rs.getString("sanpham.trangthai"));
                 pa.getP().setTenHeDieuHanh(rs.getString("hedieuhanh.tenhedieuhanh"));
                 pa.getP().setTenXuatXu(rs.getString("xuatxu.tenxuatxu"));
                 pa.getP().setTenThuongHieu(rs.getString("thuonghieu.tenthuonghieu"));
-                pa.getW().setTenKhuVuc(rs.getString("khuvuc.tenkhuvuc"));
+                pa.getW().setTenKhuVuc(rs.getString("khuvuckho.tenkhuvuc"));
                 pa.setSoluong(rs.getInt("soluong"));
                 list.add(pa);
             }
@@ -55,8 +54,8 @@ public class ProductAreaDAO {
             e.printStackTrace();
             return null;
         }
-        
+
         return list;
     }
-    
+
 }
