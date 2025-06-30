@@ -139,7 +139,7 @@ public class WarehouseService implements WarehouseDAO {
                     pa.getP().getMaSanPham(),
                     pa.getP().getTenSanPham(),
                     pa.getP().getTenXuatXu(),
-                    pa.getP().getChipXuLy(),
+                    pa.getP().getGia(),
                     pa.getP().getDungLuongPin(),
                     pa.getW().getTenKhuVuc(),
                     pa.getSoluong(),

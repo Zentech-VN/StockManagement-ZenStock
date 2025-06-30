@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import raven.toast.Notifications;
 import service.WarehouseService;
 import zentech.application.dialog.CustomerManagementAddDialog;
+import zentech.application.dialog.WarehouseManagementAddDialog;
 import zentech.application.dialog.WarehouseManagementUpdateDialog;
 
 public class WarehouseManagementForm extends javax.swing.JPanel {
@@ -73,6 +74,12 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
             null
         ));
 
+        crazyPanel4.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
+            "",
+            new String[]{
+                ""
+            }
+        ));
         crazyPanel4.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
             "",
             "[fill]",
@@ -224,8 +231,9 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
             return;
         }
         int id = (int) tbl10.getValueAt(select, 0);
+        String ten = (String) tbl10.getValueAt(select, 1);
         java.awt.Window parent = javax.swing.SwingUtilities.getWindowAncestor(this);
-        WarehouseManagementUpdateDialog w = new WarehouseManagementUpdateDialog(parent, null, id);
+        WarehouseManagementUpdateDialog w = new WarehouseManagementUpdateDialog(parent, null, id, ten);
         w.setVisible(true);
         ws.LoadDataKho(tbl10);
     }//GEN-LAST:event_jButton7ActionPerformed
@@ -254,7 +262,7 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         java.awt.Window parent = javax.swing.SwingUtilities.getWindowAncestor(this);
-        CustomerManagementAddDialog w = new CustomerManagementAddDialog(parent, null);
+        WarehouseManagementAddDialog w = new WarehouseManagementAddDialog(parent, null);
         w.setVisible(true);
         ws.LoadDataKho(tbl10);
     }//GEN-LAST:event_jButton6ActionPerformed
