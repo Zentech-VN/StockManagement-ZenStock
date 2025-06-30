@@ -1,8 +1,18 @@
 package zentech.application.form.other;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import dao.ProductDAO;
 import entity.Product;
+import entity.ProductWarehouse;
+import java.awt.Component;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import service.AccountService;
 import service.EmployeeService;
 import service.ProductServiceMain;
@@ -15,14 +25,13 @@ public class FormHomePage extends javax.swing.JPanel {
 
     public FormHomePage() {
         initComponents();
-        initalUI();
+        initalUI(tblSanPham);
         loadDataTable();
     }
 
     public void loadDataTable() {
-        ProductDAO pd = new ProductDAO() {
-        };
-        String[] title = {"Tên sản phẩm", "Số lượng"};
+        ProductDAO pd = new ProductDAO() {};
+        String[] title = {"Tên sản phẩm"};
         DefaultTableModel model = new DefaultTableModel(title, 0);
         for (Product p : pd.getAllProduct()) {
             model.addRow(new Object[]{p.getTenSanPham()});
@@ -31,7 +40,7 @@ public class FormHomePage extends javax.swing.JPanel {
         tblSanPham.setDefaultEditor(Object.class, null);
     }
 
-    private void initalUI() {
+    private void initalUI(JTable table) {
         panel1.putClientProperty("FlatLaf.style",
                 "[light]border:0,0,0,0,shade(@background,5%),,20;"
                 + "[dark]border:0,0,0,0,tint(@background,5%),,20;");
@@ -44,6 +53,19 @@ public class FormHomePage extends javax.swing.JPanel {
                 "[light]border:0,0,0,0,shade(@background,5%),,20;"
                 + "[dark]border:0,0,0,0,tint(@background,5%),,20;");
 
+        JScrollPane scroll = (JScrollPane) table.getParent().getParent();
+        scroll.setBorder(BorderFactory.createEmptyBorder());
+        scroll.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, ""
+                + "background:$Table.background;"
+                + "track:$Table.background;"
+                + "trackArc:999");
+
+        table.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
+        table.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
+
+        table.getTableHeader().setDefaultRenderer(getAlignmentCellRender(table.getTableHeader().getDefaultRenderer(), true));
+        table.setDefaultRenderer(Object.class, getAlignmentCellRender(table.getDefaultRenderer(Object.class), false));
+        
         int userCount = employeeService.getEmployeeCountService();
         int productCount = productService.getProductCountService();
         int accountCount = accountService.getAccountCountService();
@@ -53,6 +75,24 @@ public class FormHomePage extends javax.swing.JPanel {
         lblAccountCount.setText("" + accountCount);
     }
 
+    
+    private TableCellRenderer getAlignmentCellRender(TableCellRenderer oldRender, boolean header) {
+        return new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component com = oldRender.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (com instanceof JLabel) {
+                    JLabel label = (JLabel) com;
+                    if (column == 1) {
+                        label.setHorizontalAlignment(SwingConstants.CENTER); //Căn giữa
+                    } else {
+                        label.setHorizontalAlignment(SwingConstants.CENTER);
+                    }
+                }
+                return com;
+            }
+        };
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -235,16 +275,17 @@ public class FormHomePage extends javax.swing.JPanel {
             }
         ));
 
+        tblSanPham.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         tblSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "DEMO", "DEMO"
+                "DEMO"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
