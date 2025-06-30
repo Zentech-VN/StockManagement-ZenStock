@@ -60,7 +60,7 @@ public class ProductDAOImpl implements ProductDAO {
                 p.setThoiGianBaoHanh(rs.getString("thoigianbaohanh"));
                 p.setThongSo(rs.getInt("thongso"));
                 p.setGia(rs.getBigDecimal("gia"));
-                p.setTrangThai(rs.getInt("trangthai"));
+                p.setTrangThai(rs.getString("trangthai"));
                 p.setTenHeDieuHanh(rs.getString("tenhedieuhanh"));
                 p.setTenXuatXu(rs.getString("tenxuatxu"));
                 p.setTenThuongHieu(rs.getString("tenThuongHieu"));
