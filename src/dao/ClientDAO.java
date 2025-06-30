@@ -17,12 +17,12 @@ public class ClientDAO {
         try (Connection conn = ConnectionHelper.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 Cilent cl = new Cilent();
-                cl.setMaKhacHang(rs.getInt("makh"));
+                cl.setMaKhacHang(rs.getInt("makhachhang"));
                 cl.setTenKhacHang(rs.getString("tenkhachhang"));
+                cl.setEmail(rs.getString("email"));
                 cl.setDiaChi(rs.getString("diachi"));
                 cl.setSoDienThoai(rs.getString("sdt"));
                 cl.setTrangThai(rs.getInt("trangthai"));
-                cl.setNgayThamGia(rs.getDate("ngaythamgia"));
                 listc.add(cl);
             }
             return listc;
@@ -50,7 +50,7 @@ public class ClientDAO {
     }
 
     public int delete(int id) {
-        String sql = "delete from khachhang where makh = ?";
+        String sql = "delete from khachhang where makhachhang = ?";
         int rs = 0;
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setInt(1, id);
@@ -64,19 +64,19 @@ public class ClientDAO {
 
     public Cilent getAllMouse(int makh) {
         Cilent cl = null;
-        String sql = "select * from khachhang where makh = ?";
+        String sql = "select * from khachhang where makhachhang = ?";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql);) {
             pst.setInt(1, makh);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 cl = new Cilent();
-                cl.setMaKhacHang(rs.getInt("makh"));
+                cl.setMaKhacHang(rs.getInt("makhachhang"));
                 cl.setTenKhacHang(rs.getString("tenkhachhang"));
                 cl.setDiaChi(rs.getString("diachi"));
                 cl.setSoDienThoai(rs.getString("sdt"));
                 cl.setEmail(rs.getString("email"));
                 cl.setTrangThai(rs.getInt("trangthai"));
-                cl.setNgayThamGia(rs.getDate("ngaythamgia"));
+
             }
             return cl;
         } catch (Exception e) {
@@ -87,7 +87,7 @@ public class ClientDAO {
 
     public int Update(Cilent cl) {
         int rs = 0;
-        String sql = "update khachhang set tenkhachhang = ?, diachi = ?, email = ?, sdt = ? where makh = ?";
+        String sql = "update khachhang set tenkhachhang = ?, diachi = ?, email = ?, sdt = ? where makhachhang = ?";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setString(1, cl.getTenKhacHang());
             pst.setString(2, cl.getDiaChi());

@@ -17,13 +17,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import raven.toast.Notifications;
 import service.WarehouseService;
-import zentech.application.dialog.WarehouseManagementAddDialog;
+import zentech.application.dialog.CustomerManagementAddDialog;
 import zentech.application.dialog.WarehouseManagementUpdateDialog;
 
-/**
- *
- * @author duong
- */
 public class WarehouseManagementForm extends javax.swing.JPanel {
 
     WarehouseService ws = new WarehouseService();
@@ -98,7 +94,6 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
         crazyPanel2.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
             "",
             new String[]{
-                "JTextField.placeholderText=Search;background:@background",
                 "background:lighten(@background,8%);borderWidth:1",
                 "background:lighten(@background,8%);borderWidth:1",
                 "background:lighten(@background,8%);borderWidth:1",
@@ -113,7 +108,6 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
             null
         ));
 
-        jButton5.setBackground(new java.awt.Color(255, 255, 255));
         jButton5.setText("Làm mới");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -260,7 +254,7 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         java.awt.Window parent = javax.swing.SwingUtilities.getWindowAncestor(this);
-        WarehouseManagementAddDialog w = new WarehouseManagementAddDialog(parent, null);
+        CustomerManagementAddDialog w = new CustomerManagementAddDialog(parent, null);
         w.setVisible(true);
         ws.LoadDataKho(tbl10);
     }//GEN-LAST:event_jButton6ActionPerformed
