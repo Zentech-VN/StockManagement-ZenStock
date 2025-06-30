@@ -54,6 +54,7 @@ public class AttributeForm extends javax.swing.JPanel {
         tblDanhSach1.getColumnModel().getColumn(1).setCellRenderer(centerRenderer); // Cột Tên Thương Hiệu
         tblDanhSach2.getColumnModel().getColumn(0).setCellRenderer(centerRenderer); // Cột Mã Thương Hiệu
         tblDanhSach2.getColumnModel().getColumn(1).setCellRenderer(centerRenderer); // Cột Tên Thương Hiệu
+        txtMaKH1.setEditable(false);
     }
 
     /**

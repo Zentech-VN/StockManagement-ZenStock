@@ -54,7 +54,7 @@ public class ProductForm extends javax.swing.JPanel {
                 p.getGia(),
                 p.getTenHeDieuHanh(),
                 p.getTenXuatXu(),
-                p.getTrangThaiText()
+                p.getTrangThai()
             });
         }
 
@@ -198,7 +198,7 @@ public class ProductForm extends javax.swing.JPanel {
                         p.getGia(),
                         p.getTenHeDieuHanh(),
                         p.getTenXuatXu(),
-                        p.getTrangThaiText()
+                        p.getTrangThai()
                     });
                 }
 
