@@ -33,7 +33,7 @@ public interface ProductDAO {
                 + "hdh.tenhedieuhanh, "
                 + "th.tenthuonghieu "
                 + "FROM sanpham sp "
-                + "JOIN xuatxu xx ON sp.maxuatxu = xx.maxuatxu "
+                + "JOIN xuatxu xx ON sp.xuatxu = xx.maxuatxu "
                 + "JOIN hedieuhanh hdh ON sp.hedieuhanh = hdh.mahedieuhanh "
                 + "JOIN thuonghieu th ON sp.thuonghieu = th.mathuonghieu";
 
