@@ -35,7 +35,7 @@ public class ClientService {
     }
 
     public void LoadDataTable(JTable danhsach) {
-        String[] title = {"Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Email", "Số điện thoại", "Ngày tham gia"};
+        String[] title = {"Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Email", "Số điện thoại"};
         DefaultTableModel model = new DefaultTableModel(title, 0);
         model.setRowCount(0);
         for (Cilent c : cld.getAllCilent()) {
@@ -124,29 +124,17 @@ public class ClientService {
         }
     }
 
-    public void delete(JTextField makh, JTextField tenkh) {
+    public void delete(int makh, String tenkh) {
         String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
-        if (makh.getText().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập mã khách hàng muốn xóa");
-            return;
-        } else {
-            try {
-                int id = Integer.parseInt(makh.getText());
-                String ten = tenkh.getText();
-                int confrim = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa khách hàng có mã " + id, "Add", JOptionPane.YES_OPTION);
-                if (confrim == JOptionPane.YES_OPTION) {
-                    int rs = cld.delete(id);
-                    if (rs > 0) {
-                        Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Xóa thành công khách hàng có mã " + id);
-                        ActivityDAO.logActivity(appCurrentUser, "Xóa khách hàng: " + ten);
-                    }
-                }
-            } catch (Exception e) {
-                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Không phải số");
-                return;
+        int confrim = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa khách hàng có mã " + makh, "Add", JOptionPane.YES_OPTION);
+        if (confrim == JOptionPane.YES_OPTION) {
+            int rs = cld.delete(makh);
+            if (rs > 0) {
+                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Xóa thành công khách hàng có mã " + makh);
+                ActivityDAO.logActivity(appCurrentUser, "Xóa khách hàng: " + tenkh);
             }
-
         }
+
     }
 
     public void search(JTable danhsach, JTextField search) {
@@ -156,34 +144,27 @@ public class ClientService {
         obj.setRowFilter(RowFilter.regexFilter(search.getText()));
     }
 
-    public void update(JTextField makh, JTextField tenkh, JTextField sdt, JTextField diachi, JTextField Email) {
+    public void update(int makh, JTextField tenkh, JTextField sdt, JTextField diachi, JTextField Email) {
         String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
         String ten = tenkh.getText();
-        if (makh.getText().trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập mã khách hàng muốn cập nhập");
-            return;
-        } else {
-            if (checkvalidate(tenkh, sdt, diachi, Email)) {
-                try {
-                    int id = Integer.parseInt(makh.getText());
-                    int confrim = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn cập nhập khách hàng có mã " + id, "Update", JOptionPane.YES_OPTION);
-                    if (confrim == JOptionPane.YES_OPTION) {
-                        Cilent cl = new Cilent();
-                        cl.setMaKhacHang(id);
-                        cl.setTenKhacHang(tenkh.getText());
-                        cl.setDiaChi(diachi.getText());
-                        cl.setEmail(Email.getText());
-                        cl.setSoDienThoai(sdt.getText());
-                        int rs = cld.Update(cl);
-                        if (rs > 0) {
-                            Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Cập nhập thành công cho khách hàng có mã " + id);
-                            ActivityDAO.logActivity(appCurrentUser, "Cập nhật khách hàng: " + ten);
-                        }
-                    }
-                } catch (Exception e) {
-                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không phải số");
+
+        try {
+            int confrim = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn cập nhập khách hàng có mã " + makh, "Update", JOptionPane.YES_OPTION);
+            if (confrim == JOptionPane.YES_OPTION) {
+                Cilent cl = new Cilent();
+                cl.setMaKhacHang(makh);
+                cl.setTenKhacHang(tenkh.getText());
+                cl.setDiaChi(diachi.getText());
+                cl.setEmail(Email.getText());
+                cl.setSoDienThoai(sdt.getText());
+                int rs = cld.Update(cl);
+                if (rs > 0) {
+                    Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Cập nhập thành công cho khách hàng có mã " + makh);
+                    ActivityDAO.logActivity(appCurrentUser, "Cập nhật khách hàng: " + ten);
                 }
             }
+        } catch (Exception e) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không phải số");
         }
     }
 
