@@ -2,6 +2,7 @@ package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import dao.ActivityDAO;
+import entity.DestructionReleaseNote;
 import entity.Supplier;
 import java.awt.Dimension;
 import java.util.List;
@@ -15,17 +16,20 @@ import javax.swing.table.TableRowSorter;
 import raven.toast.Notifications;
 import zentech.application.dialog.SupplierAddDialog;
 import zentech.application.dialog.SupplierUpdateDialog;
-import zentech.application.dialog.DestructionReleaseNoteAddDialog;
+import zentech.application.dialog.DestructionReleaseNoteUpdateDialog;
 import zentech.application.dialog.DestructionReleaseNoteDetailsDialog;
+import service.DestructionReleaseNoteService;
 
 public class DestructionReleaseNoteForm extends javax.swing.JPanel {
 
     private final int[] SIZE_MAP = {12, 14, 18};
     private final String[] FONT_MAP = {"Segoe UI", "Arial", "Serif"};
+    private final DestructionReleaseNoteService destructionReleaseNoteService = new DestructionReleaseNoteService();
 
     public DestructionReleaseNoteForm() {
         initComponents();
         initalUI();
+        loadData();
     }
 
     private void initalUI() {
@@ -41,10 +45,10 @@ public class DestructionReleaseNoteForm extends javax.swing.JPanel {
         txtTrangThai.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Trạng thái");
 
         // chỉnh độ dài cột
-        tblPhieuXuatHuy.getColumnModel().getColumn(0).setPreferredWidth(30);  
-        tblPhieuXuatHuy.getColumnModel().getColumn(1).setPreferredWidth(120); 
-        tblPhieuXuatHuy.getColumnModel().getColumn(2).setPreferredWidth(200); 
-        tblPhieuXuatHuy.getColumnModel().getColumn(3).setPreferredWidth(150); 
+        tblPhieuXuatHuy.getColumnModel().getColumn(0).setPreferredWidth(30);
+        tblPhieuXuatHuy.getColumnModel().getColumn(1).setPreferredWidth(120);
+        tblPhieuXuatHuy.getColumnModel().getColumn(2).setPreferredWidth(200);
+        tblPhieuXuatHuy.getColumnModel().getColumn(3).setPreferredWidth(150);
 
         // Nếu cần sắp xếp theo kiểu số cho cột mã (cột 0)
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>((DefaultTableModel) tblPhieuXuatHuy.getModel());
@@ -69,6 +73,10 @@ public class DestructionReleaseNoteForm extends javax.swing.JPanel {
         cmoSapXep.addActionListener(e -> sortTable());
     }
 
+    public void loadData() {
+        destructionReleaseNoteService.loadPhieuHuyToTable(tblPhieuXuatHuy);
+    }
+
     private void sortTable() {
         String selected = (String) cmoSapXep.getSelectedItem();
         TableRowSorter<DefaultTableModel> sorter = (TableRowSorter<DefaultTableModel>) tblPhieuXuatHuy.getRowSorter();
@@ -78,21 +86,21 @@ public class DestructionReleaseNoteForm extends javax.swing.JPanel {
         }
 
         switch (selected) {
-            case "Mặc định":
+            case "Mã":
                 // Sắp xếp theo mã nhà cung cấp (cột 0)
                 sorter.setSortKeys(List.of(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
                 break;
-            case "Tên nhà cung cấp":
+            case "Người tạo":
                 // Sắp xếp theo tên (cột 1)
                 sorter.setSortKeys(List.of(new RowSorter.SortKey(1, SortOrder.ASCENDING)));
                 break;
-            case "Email":
+            case "Thời gian":
                 // Sắp xếp theo email (cột 3)
-                sorter.setSortKeys(List.of(new RowSorter.SortKey(3, SortOrder.ASCENDING)));
+                sorter.setSortKeys(List.of(new RowSorter.SortKey(2, SortOrder.ASCENDING)));
                 break;
             case "Trạng thái":
                 // Sắp xếp theo trạng thái (cột 5)
-                sorter.setSortKeys(List.of(new RowSorter.SortKey(5, SortOrder.ASCENDING)));
+                sorter.setSortKeys(List.of(new RowSorter.SortKey(3, SortOrder.ASCENDING)));
                 break;
             default:
                 sorter.setSortKeys(null); // Không sắp xếp
@@ -142,7 +150,7 @@ public class DestructionReleaseNoteForm extends javax.swing.JPanel {
         });
 
         cmoSapXep.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        cmoSapXep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mặc định", "Người tạo", "Thời gian", "Trạng thái" }));
+        cmoSapXep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mặc định", "Mã", "Người tạo", "Thời gian", "Trạng thái" }));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel9.setText("Sắp xếp theo:");
@@ -218,11 +226,10 @@ public class DestructionReleaseNoteForm extends javax.swing.JPanel {
 
         tblPhieuXuatHuy.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", null, null, null},
-                {"2", null, null, null}
+
             },
             new String [] {
-                "Mã ", "Người tạo", "Thời gian", "Trạng thái"
+                "Mã", "Người tạo", "Thời gian", "Trạng thái"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -331,36 +338,120 @@ public class DestructionReleaseNoteForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // Lấy cửa sổ cha (window) từ SupplierForm
-        java.awt.Window parentWindow = javax.swing.SwingUtilities.getWindowAncestor(this);
+        int selectedRow = tblPhieuXuatHuy.getSelectedRow();
+        if (selectedRow == -1) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, "Vui lòng chọn dòng cần cập nhật!");
+            return;
+        }
 
-        // Khởi tạo dialog và truyền this vào để có thể gọi lại loadTable sau khi thêm
-        DestructionReleaseNoteAddDialog dialog = new DestructionReleaseNoteAddDialog(parentWindow, this);
-        dialog.setLocationRelativeTo(this); // Hiển thị giữa màn hình
-        dialog.setVisible(true); // Hiển thị dialog (modal)
+        int modelRow = tblPhieuXuatHuy.convertRowIndexToModel(selectedRow); // chuyển về model
+        int maphieu = (int) tblPhieuXuatHuy.getValueAt(selectedRow, 0);
+        DestructionReleaseNote note = new DestructionReleaseNoteService().getAllPhieuXuatHuybyID(maphieu);
+        if (note != null) {
+            java.awt.Window parentWindow = javax.swing.SwingUtilities.getWindowAncestor(this);
+            DestructionReleaseNoteUpdateDialog dialog = new DestructionReleaseNoteUpdateDialog(parentWindow, this, maphieu);
+            dialog.setData(note); // truyền dữ liệu vào dialog
+            dialog.setVisible(true);
+        }
 
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int selectedRow = tblPhieuXuatHuy.getSelectedRow();
+        if (selectedRow == -1) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, "Vui lòng chọn dòng cần xóa!");
+            return;
+        }
 
+        int modelRow = tblPhieuXuatHuy.convertRowIndexToModel(selectedRow);
+        int maphieu = (int) tblPhieuXuatHuy.getModel().getValueAt(modelRow, 0);
+
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Bạn có chắc chắn muốn xóa phiếu xuất hủy này?",
+                "Xác nhận xóa",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            boolean success = destructionReleaseNoteService.deletePhieu(maphieu);
+            if (success) {
+                Notifications.getInstance().show(Notifications.Type.SUCCESS, "Xóa thành công!");
+                clearFields(); // Xóa các text bên phải
+                loadData();    // Load lại bảng
+            } else {
+                Notifications.getInstance().show(Notifications.Type.ERROR, "Xóa thất bại!");
+            }
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailsActionPerformed
-       // Lấy cửa sổ cha (window) từ SupplierForm
-        java.awt.Window parentWindow = javax.swing.SwingUtilities.getWindowAncestor(this);
+        int selectedRow = tblPhieuXuatHuy.getSelectedRow();
 
-        // Khởi tạo dialog và truyền this vào để có thể gọi lại loadTable sau khi thêm
-        DestructionReleaseNoteDetailsDialog dialogDetails = new DestructionReleaseNoteDetailsDialog(parentWindow, this);
-        dialogDetails.setLocationRelativeTo(this); // Hiển thị giữa màn hình
-        dialogDetails.setVisible(true); // Hiển thị dialog (modal)
+        // Kiểm tra chưa chọn dòng nào
+        if (selectedRow == -1) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, "Vui lòng chọn một phiếu xuất hủy để xem chi tiết!");
+            return;
+        }
+
+        // Lấy row thực trong model
+        int modelRow = tblPhieuXuatHuy.convertRowIndexToModel(selectedRow);
+
+        // Lấy mã phiếu từ cột 0 (cần đảm bảo đây là cột chứa maphieuxuat_huy)
+        Object value = tblPhieuXuatHuy.getModel().getValueAt(modelRow, 0);
+        if (value == null) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Không thể lấy mã phiếu từ dòng đã chọn!");
+            return;
+        }
+
+        int maphieuxuatHuy;
+        try {
+            maphieuxuatHuy = Integer.parseInt(value.toString());
+        } catch (NumberFormatException ex) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Mã phiếu không hợp lệ!");
+            return;
+        }
+
+        // Mở dialog chi tiết
+        java.awt.Window parentWindow = javax.swing.SwingUtilities.getWindowAncestor(this);
+        DestructionReleaseNoteDetailsDialog dialog = new DestructionReleaseNoteDetailsDialog(parentWindow, this, maphieuxuatHuy);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
     }//GEN-LAST:event_btnDetailsActionPerformed
 
-    private void tblPhieuXuatHuyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPhieuXuatHuyMouseClicked
+    private void updateSelectedNoteInfo() {
+        int selectedRow = tblPhieuXuatHuy.getSelectedRow();
+        if (selectedRow == -1) {
+            return;
+        }
 
+        int modelRow = tblPhieuXuatHuy.convertRowIndexToModel(selectedRow); // chuyển về model
+
+        int maphieu = (int) tblPhieuXuatHuy.getModel().getValueAt(modelRow, 0);
+        DestructionReleaseNote note = destructionReleaseNoteService.getAllPhieuXuatHuybyID(maphieu);
+
+        if (note != null) {
+            txtMa.setText(String.valueOf(note.getId()));
+            txtNguoiTao.setText(note.getCreator());
+            txtThoiGian.setText(note.getDate().toString());
+            txtTrangThai.setText(note.getStatus());
+        }
+    }
+
+    private void tblPhieuXuatHuyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPhieuXuatHuyMouseClicked
+        updateSelectedNoteInfo();
     }//GEN-LAST:event_tblPhieuXuatHuyMouseClicked
 
-    private void txtLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLamMoiActionPerformed
+    private void clearFields() {
+        txtMa.setText(null);
+        txtNguoiTao.setText(null);
+        txtThoiGian.setText(null);
+        txtTrangThai.setText(null);
+        tblPhieuXuatHuy.clearSelection();
+    }
 
+    private void txtLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLamMoiActionPerformed
+        clearFields();
     }//GEN-LAST:event_txtLamMoiActionPerformed
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
