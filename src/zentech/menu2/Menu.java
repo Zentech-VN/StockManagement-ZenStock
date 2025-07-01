@@ -40,7 +40,7 @@ public class Menu extends JPanel {
         {"Nhập Hàng"},
         {"Thuộc tính"},
         {"Nhắn tin nội bộ"},
-        {"Chuyển kho nội bộ", "Xuất kho", "Nhập kho"},
+        {"Chuyển kho nội bộ"},
         {"Logout"}
     };
 
