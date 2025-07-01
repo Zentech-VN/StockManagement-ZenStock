@@ -6,6 +6,7 @@ package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import javax.swing.JTable;
+import zentech.application.dialog.ViewWarehouseTransferDetailsDialog;
 
 /**
  *
@@ -18,6 +19,7 @@ public class InternalWarehouse extends javax.swing.JPanel {
      */
     public InternalWarehouse() {
         initComponents();
+        initalUI(jTable1);
     }
     
     private void initalUI(JTable jtable){
@@ -46,6 +48,11 @@ public class InternalWarehouse extends javax.swing.JPanel {
         jLabel1.setText("Quản lý chuyển kho");
 
         btnAdd.setText("Thêm");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnCancel.setText("Hủy");
 
@@ -91,8 +98,8 @@ public class InternalWarehouse extends javax.swing.JPanel {
                         .addComponent(btnCancel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnDetails)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 385, Short.MAX_VALUE)
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 335, Short.MAX_VALUE)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnRefresh)
                         .addGap(10, 10, 10))))
@@ -117,8 +124,17 @@ public class InternalWarehouse extends javax.swing.JPanel {
 
     private void btnDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailsActionPerformed
         // TODO add your handling code here:
+        java.awt.Window parentWindow = javax.swing.SwingUtilities.getWindowAncestor(this);
+        
+        ViewWarehouseTransferDetailsDialog dialog = new ViewWarehouseTransferDetailsDialog(parentWindow, this);
+        dialog.setLocationRelativeTo(this); // Hiển thị giữa màn hình
+        dialog.setVisible(true); // Hiển thị dialog (modal)
     }//GEN-LAST:event_btnDetailsActionPerformed
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnAddActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
