@@ -17,6 +17,7 @@ public class InternalWarehouse extends javax.swing.JPanel {
     /**
      * Creates new form InternalWarehouse
      */
+    
     public InternalWarehouse() {
         initComponents();
         initalUI(jTable1);
@@ -133,7 +134,8 @@ public class InternalWarehouse extends javax.swing.JPanel {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        
+        CreateTransferSlip cts = new CreateTransferSlip();
+        zentech.application.Application.showForm(cts);
     }//GEN-LAST:event_btnAddActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
