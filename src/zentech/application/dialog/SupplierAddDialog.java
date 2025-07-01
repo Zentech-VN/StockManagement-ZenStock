@@ -168,7 +168,7 @@ public class SupplierAddDialog extends JDialog {
     }
 
     private boolean isValidPhone(String phone) {
-        return phone.matches("^\\d{10,11}$"); // Ví dụ: 10-11 chữ số
+        return phone.matches("^(0|\\+84)(3[2-9]|5[6|8|9]|7[0|6-9]|8[1-5]|9[0-9])[0-9]{7}$"); // Ví dụ: 10-11 chữ số
     }
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
