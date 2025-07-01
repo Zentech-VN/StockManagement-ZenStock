@@ -19,7 +19,7 @@ public interface WarehouseDAO {
 
     default List<Warehouse> getAllWarehouses() {
         List<Warehouse> list = new ArrayList<>();
-        String sql = "SELECT * FROM khuvuc";
+        String sql = "SELECT * FROM khuvuckho";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -38,7 +38,7 @@ public interface WarehouseDAO {
     }
 
     default boolean addWarehouse(Warehouse warehouse) {
-        String sql = "INSERT INTO khuvuc (tenkhuvuc) VALUES (?)";
+        String sql = "INSERT INTO khuvuckho (tenkhuvuc) VALUES (?)";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -55,7 +55,7 @@ public interface WarehouseDAO {
 
     // Cập nhật kho
     default int updateWarehouse(Warehouse warehouse) {
-        String sql = "UPDATE khuvuc SET tenkhuvuc = ? WHERE makhuvuc = ?";
+        String sql = "UPDATE khuvuckho SET tenkhuvuc = ? WHERE makhuvuc = ?";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -71,7 +71,7 @@ public interface WarehouseDAO {
 
     // Xoá kho theo ID
     default boolean deleteWarehouseById(int id) {
-        String sql = "DELETE FROM khuvuc WHERE makhuvuc = ?";
+        String sql = "DELETE FROM khuvuckho WHERE makhuvuc = ?";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -87,7 +87,7 @@ public interface WarehouseDAO {
 
     // Kiểm tra mã khu vực có tồn tại
     default boolean maKhuVucTonTai(int maKhuVuc) {
-        String sql = "SELECT 1 FROM khuvuc WHERE makhuvuc = ?";
+        String sql = "SELECT 1 FROM khuvuckho WHERE makhuvuc = ?";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -103,7 +103,7 @@ public interface WarehouseDAO {
 
     default int getWareHouseCount() {
         int count = 0;
-        String sql = "SELECT COUNT(*) FROM khuvuc";
+        String sql = "SELECT COUNT(*) FROM khuvuckho";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 

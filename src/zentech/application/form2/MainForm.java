@@ -12,20 +12,18 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import zentech.application.Application;
 import zentech.application.form.other.AccountForm;
-import zentech.application.form.other.CustomerManagement;
 import zentech.application.form.other.ActivityLogForm;
 import zentech.application.form.other.AttributeForm;
 import zentech.application.form.other.ChatForm;
+import zentech.application.form.other.CustomerManagement;
 import zentech.application.form.other.DeliveryNoteForm;
+import zentech.application.form.other.DestructionReleaseNoteForm;
 import zentech.application.form.other.EmployeeForm;
 import zentech.application.form.other.FormHomePage;
 import zentech.application.form.other.FormRole;
@@ -33,6 +31,7 @@ import zentech.application.form.other.ImportForm;
 import zentech.application.form.other.InternalWarehouse;
 import zentech.application.form.other.ProductForm;
 import zentech.application.form.other.SupplierForm;
+import zentech.application.form.other.VoteApprovalForm;
 import zentech.application.form.other.WarehouseManagementForm;
 import zentech.menu2.Menu;
 import zentech.menu2.MenuAction;
@@ -115,6 +114,10 @@ public class MainForm extends JLayeredPane {
             } else if (index == 13){
                 Application.showForm(new InternalWarehouse());
             } else if (index == 14) {
+                Application.showForm(new DestructionReleaseNoteForm());
+            } else if (index == 15) {
+                Application.showForm(new VoteApprovalForm());
+            } else if (index == 16) {
                 Application.logout();
             } else {
                 action.cancel();

@@ -41,7 +41,9 @@ public class Menu extends JPanel {
         {"Thuộc tính"},
         {"Nhắn tin nội bộ"},
         {"Chuyển kho nội bộ"},
-        {"Logout"}
+        {"Phiếu xuất hủy"},
+        {"Duyệt phiếu"},
+        {"Đăng xuất"}
     };
 
     public boolean isMenuFull() {

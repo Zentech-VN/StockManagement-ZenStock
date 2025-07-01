@@ -16,79 +16,76 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jLabel1" max="32767" attributes="0"/>
-          <Group type="102" attributes="0">
-              <Component id="jPanel3" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-          </Group>
+          <Component id="crazyPanel1" alignment="0" pref="886" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <Component id="jLabel1" min="-2" pref="67" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanel3" max="32767" attributes="0"/>
-                  <Component id="jPanel1" max="32767" attributes="0"/>
-              </Group>
-          </Group>
+          <Component id="crazyPanel1" alignment="0" pref="629" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Container class="raven.crazypanel.CrazyPanel" name="crazyPanel1">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="36" style="1"/>
+        <Property name="flatLafStyleComponent" type="raven.crazypanel.FlatLafStyleComponent" editor="raven.crazypanel.bean.editor.FlatLafStyleEditor">
+          <SerializedValue value="-84,-19,0,5,115,114,0,38,114,97,118,101,110,46,99,114,97,122,121,112,97,110,101,108,46,70,108,97,116,76,97,102,83,116,121,108,101,67,111,109,112,111,110,101,110,116,-45,-56,5,104,-120,-26,26,62,2,0,2,76,0,8,111,119,110,83,116,121,108,101,116,0,18,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,91,0,6,115,116,121,108,101,115,116,0,19,91,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,120,112,116,0,0,117,114,0,19,91,76,106,97,118,97,46,108,97,110,103,46,83,116,114,105,110,103,59,-83,-46,86,-25,-23,29,123,71,2,0,0,120,112,0,0,0,0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Customer Management"/>
-      </Properties>
-    </Component>
-    <Container class="javax.swing.JPanel" name="jPanel3">
-      <Properties>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Danh s&#xe1;ch">
-              <Font PropertyName="font" name="Segoe UI" size="18" style="1"/>
-            </TitledBorder>
-          </Border>
+        <Property name="migLayoutConstraints" type="raven.crazypanel.MigLayoutConstraints" editor="raven.crazypanel.bean.editor.MigPanelEditor">
+          <SerializedValue value="-84,-19,0,5,115,114,0,37,114,97,118,101,110,46,99,114,97,122,121,112,97,110,101,108,46,77,105,103,76,97,121,111,117,116,67,111,110,115,116,114,97,105,110,116,115,7,-4,-14,44,102,-86,-49,42,2,0,4,76,0,17,99,111,108,117,109,110,67,111,110,115,116,114,97,105,110,116,115,116,0,18,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,91,0,19,99,111,109,112,111,110,101,110,116,67,111,110,115,116,114,97,105,110,116,116,0,19,91,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,76,0,17,108,97,121,111,117,116,67,111,110,115,116,114,97,105,110,116,115,113,0,126,0,1,76,0,14,114,111,119,67,111,110,115,116,114,97,105,110,116,115,113,0,126,0,1,120,112,116,0,6,91,102,105,108,108,93,117,114,0,19,91,76,106,97,118,97,46,108,97,110,103,46,83,116,114,105,110,103,59,-83,-46,86,-25,-23,29,123,71,2,0,0,120,112,0,0,0,0,116,0,19,119,114,97,112,44,102,105,108,108,44,105,110,115,101,116,115,32,49,53,116,0,22,91,103,114,111,119,32,48,93,91,102,105,108,108,93,91,103,114,111,119,32,48,93"/>
         </Property>
       </Properties>
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="txtSearch" min="-2" pref="403" max="-2" attributes="0"/>
-                  <EmptySpace pref="232" max="32767" attributes="0"/>
-                  <Component id="btnXuatExcel" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="txtSearch" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnXuatExcel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" pref="520" max="32767" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-      </Layout>
       <SubComponents>
-        <Component class="javax.swing.JTextField" name="txtSearch">
-          <Events>
-            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtSearchKeyReleased"/>
-          </Events>
-        </Component>
+        <Container class="raven.crazypanel.CrazyPanel" name="crazyPanel2">
+          <Properties>
+            <Property name="flatLafStyleComponent" type="raven.crazypanel.FlatLafStyleComponent" editor="raven.crazypanel.bean.editor.FlatLafStyleEditor">
+              <SerializedValue value="-84,-19,0,5,115,114,0,38,114,97,118,101,110,46,99,114,97,122,121,112,97,110,101,108,46,70,108,97,116,76,97,102,83,116,121,108,101,67,111,109,112,111,110,101,110,116,-45,-56,5,104,-120,-26,26,62,2,0,2,76,0,8,111,119,110,83,116,121,108,101,116,0,18,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,91,0,6,115,116,121,108,101,115,116,0,19,91,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,120,112,116,0,0,117,114,0,19,91,76,106,97,118,97,46,108,97,110,103,46,83,116,114,105,110,103,59,-83,-46,86,-25,-23,29,123,71,2,0,0,120,112,0,0,0,6,116,0,56,74,84,101,120,116,70,105,101,108,100,46,112,108,97,99,101,104,111,108,100,101,114,84,101,120,116,61,83,101,97,114,99,104,59,98,97,99,107,103,114,111,117,110,100,58,64,98,97,99,107,103,114,111,117,110,100,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,0"/>
+            </Property>
+            <Property name="migLayoutConstraints" type="raven.crazypanel.MigLayoutConstraints" editor="raven.crazypanel.bean.editor.MigPanelEditor">
+              <SerializedValue value="-84,-19,0,5,115,114,0,37,114,97,118,101,110,46,99,114,97,122,121,112,97,110,101,108,46,77,105,103,76,97,121,111,117,116,67,111,110,115,116,114,97,105,110,116,115,7,-4,-14,44,102,-86,-49,42,2,0,4,76,0,17,99,111,108,117,109,110,67,111,110,115,116,114,97,105,110,116,115,116,0,18,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,91,0,19,99,111,109,112,111,110,101,110,116,67,111,110,115,116,114,97,105,110,116,116,0,19,91,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,76,0,17,108,97,121,111,117,116,67,111,110,115,116,114,97,105,110,116,115,113,0,126,0,1,76,0,14,114,111,119,67,111,110,115,116,114,97,105,110,116,115,113,0,126,0,1,120,112,116,0,10,91,93,112,117,115,104,91,93,91,93,117,114,0,19,91,76,106,97,118,97,46,108,97,110,103,46,83,116,114,105,110,103,59,-83,-46,86,-25,-23,29,123,71,2,0,0,120,112,0,0,0,1,116,0,9,119,105,100,116,104,32,51,48,48,116,0,0,116,0,6,91,102,105,108,108,93"/>
+            </Property>
+          </Properties>
+          <SubComponents>
+            <Component class="javax.swing.JTextField" name="jTextField1">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField1ActionPerformed"/>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField1KeyReleased"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnLamMoi">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="L&#xe0;m m&#x1edb;i"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLamMoiActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnThem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThemActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnCapNhap">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="C&#x1ead;p nh&#x1ead;p"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCapNhapActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnXoa">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXoaActionPerformed"/>
+              </Events>
+            </Component>
+          </SubComponents>
+        </Container>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -115,178 +112,11 @@
         </Container>
         <Component class="javax.swing.JButton" name="btnXuatExcel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t excel"/>
+            <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t Excel"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXuatExcelActionPerformed"/>
           </Events>
-        </Component>
-      </SubComponents>
-    </Container>
-    <Container class="javax.swing.JPanel" name="jPanel1">
-      <Properties>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Ch&#x1ec9;nh s&#x1eed;a">
-              <Font PropertyName="font" name="Segoe UI" size="18" style="1"/>
-            </TitledBorder>
-          </Border>
-        </Property>
-      </Properties>
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Component id="btnClear" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="btnSave" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="btnDelete" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="btnUpdate" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="txtMaKH" alignment="0" max="32767" attributes="0"/>
-                      <Component id="txtTenKH" alignment="0" max="32767" attributes="0"/>
-                      <Component id="txtDiachi" alignment="0" max="32767" attributes="0"/>
-                      <Component id="txtEmail" alignment="0" max="32767" attributes="0"/>
-                      <Component id="txtSDt" alignment="0" max="32767" attributes="0"/>
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="txtMaKH" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="txtTenKH" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="txtDiachi" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="txtEmail" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="txtSDt" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btnUpdate" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnDelete" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnSave" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnClear" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-      <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabel3">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="M&#xe3; kh&#xe1;ch h&#xe0;ng"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel4">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="T&#xea;n kh&#xe1;ch h&#xe0;ng "/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel5">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="&#x110;&#x1ecb;a ch&#x1ec9;"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel8">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="S&#x1ed1; &#x111;i&#x1ec7;n tho&#x1ea1;i"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="btnUpdate">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="C&#x1ead;p nh&#x1ead;p"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="btnDelete">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="btnSave">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="L&#x1b0;u"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="btnClear">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="L&#xe0;m m&#x1edb;i"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClearActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JTextField" name="txtMaKH">
-        </Component>
-        <Component class="javax.swing.JTextField" name="txtTenKH">
-        </Component>
-        <Component class="javax.swing.JTextField" name="txtDiachi">
-        </Component>
-        <Component class="javax.swing.JTextField" name="txtSDt">
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel2">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Email"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="txtEmail">
         </Component>
       </SubComponents>
     </Container>

@@ -17,13 +17,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import raven.toast.Notifications;
 import service.WarehouseService;
+import zentech.application.dialog.CustomerManagementAddDialog;
 import zentech.application.dialog.WarehouseManagementAddDialog;
 import zentech.application.dialog.WarehouseManagementUpdateDialog;
 
-/**
- *
- * @author duong
- */
 public class WarehouseManagementForm extends javax.swing.JPanel {
 
     WarehouseService ws = new WarehouseService();
@@ -77,6 +74,12 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
             null
         ));
 
+        crazyPanel4.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
+            "",
+            new String[]{
+                ""
+            }
+        ));
         crazyPanel4.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
             "",
             "[fill]",
@@ -98,7 +101,6 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
         crazyPanel2.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
             "",
             new String[]{
-                "JTextField.placeholderText=Search;background:@background",
                 "background:lighten(@background,8%);borderWidth:1",
                 "background:lighten(@background,8%);borderWidth:1",
                 "background:lighten(@background,8%);borderWidth:1",
@@ -113,7 +115,6 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
             null
         ));
 
-        jButton5.setBackground(new java.awt.Color(255, 255, 255));
         jButton5.setText("Làm mới");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -230,8 +231,9 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
             return;
         }
         int id = (int) tbl10.getValueAt(select, 0);
+        String ten = (String) tbl10.getValueAt(select, 1);
         java.awt.Window parent = javax.swing.SwingUtilities.getWindowAncestor(this);
-        WarehouseManagementUpdateDialog w = new WarehouseManagementUpdateDialog(parent, null, id);
+        WarehouseManagementUpdateDialog w = new WarehouseManagementUpdateDialog(parent, null, id, ten);
         w.setVisible(true);
         ws.LoadDataKho(tbl10);
     }//GEN-LAST:event_jButton7ActionPerformed

@@ -18,10 +18,11 @@ public class WarehouseManagementUpdateDialog extends JDialog {
 
     private int maKho;
 
-    public WarehouseManagementUpdateDialog(Window parent, WarehouseManagementForm form, int id) {
+    public WarehouseManagementUpdateDialog(Window parent, WarehouseManagementForm form, int id, String ten) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         this.warehouseManagementForm = form;
         initComponents();
+        txtten.setText(ten);
         this.maKho = id;
         initialUI();
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sửa kho", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
@@ -29,7 +30,7 @@ public class WarehouseManagementUpdateDialog extends JDialog {
 
     private void initialUI() {
         txtten.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tên kho");
-        txtghichu.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Ghi chú");
+      
     }
 
     @SuppressWarnings("unchecked")
@@ -38,8 +39,6 @@ public class WarehouseManagementUpdateDialog extends JDialog {
 
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        txtghichu = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
         txtten = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -51,9 +50,6 @@ public class WarehouseManagementUpdateDialog extends JDialog {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Tên kho");
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel6.setText("Ghi chú");
 
         txtten.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -69,11 +65,8 @@ public class WarehouseManagementUpdateDialog extends JDialog {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtten, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
-                    .addComponent(txtghichu, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel6))
+                        .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -84,11 +77,7 @@ public class WarehouseManagementUpdateDialog extends JDialog {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtten, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtghichu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jButton1.setText("Sửa");
@@ -129,10 +118,9 @@ public class WarehouseManagementUpdateDialog extends JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel3.getAccessibleContext().setAccessibleName("Sửa kho");
         jPanel3.getAccessibleContext().setAccessibleDescription("");
 
         pack();
@@ -143,6 +131,7 @@ public class WarehouseManagementUpdateDialog extends JDialog {
         service = new WarehouseService();
         
         service.updateWarehouseWithValidation(txtten.getText(), maKho);
+        txtten.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -157,9 +146,7 @@ public class WarehouseManagementUpdateDialog extends JDialog {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField txtghichu;
     private javax.swing.JTextField txtten;
     // End of variables declaration//GEN-END:variables
 }
