@@ -29,6 +29,7 @@ import zentech.application.form.other.FormHomePage;
 import zentech.application.form.other.FormRole;
 import zentech.application.form.other.ImportForm;
 import zentech.application.form.other.InternalWarehouse;
+import zentech.application.form.other.ProductDetails;
 import zentech.application.form.other.ProductForm;
 import zentech.application.form.other.SupplierForm;
 import zentech.application.form.other.VoteApprovalForm;
@@ -100,24 +101,26 @@ public class MainForm extends JLayeredPane {
             } else if (index == 6) {
                 Application.showForm(new SupplierForm());
             } else if (index == 7) {
+                Application.showForm(new ProductDetails());
+            }else if (index == 8) {
                 Application.showForm(new ProductForm());
-            } else if (index == 8) {
-                Application.showForm(new WarehouseManagementForm());
             } else if (index == 9) {
-                Application.showForm(new DeliveryNoteForm());
+                Application.showForm(new WarehouseManagementForm());
             } else if (index == 10) {
-                Application.showForm(new ImportForm());
+                Application.showForm(new DeliveryNoteForm());
             } else if (index == 11) {
-                Application.showForm(new AttributeForm());
+                Application.showForm(new ImportForm());
             } else if (index == 12) {
+                Application.showForm(new AttributeForm());
+            } else if (index == 13) {
                 Application.showForm(new ChatForm());
-            } else if (index == 13){
+            } else if (index == 14){
                 Application.showForm(new InternalWarehouse());
-            } else if (index == 14) {
-                Application.showForm(new DestructionReleaseNoteForm());
             } else if (index == 15) {
-                Application.showForm(new VoteApprovalForm());
+                Application.showForm(new DestructionReleaseNoteForm());
             } else if (index == 16) {
+                Application.showForm(new VoteApprovalForm());
+            } else if (index == 17) {
                 Application.logout();
             } else {
                 action.cancel();
