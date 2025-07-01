@@ -72,11 +72,12 @@
           <Font name="Segoe UI" size="14" style="1"/>
         </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
+          <StringArray count="5">
             <StringItem index="0" value="M&#x1eb7;c &#x111;&#x1ecb;nh"/>
-            <StringItem index="1" value="Ng&#x1b0;&#x1edd;i t&#x1ea1;o"/>
-            <StringItem index="2" value="Th&#x1edd;i gian"/>
-            <StringItem index="3" value="Tr&#x1ea1;ng th&#xe1;i"/>
+            <StringItem index="1" value="M&#xe3;"/>
+            <StringItem index="2" value="Ng&#x1b0;&#x1edd;i t&#x1ea1;o"/>
+            <StringItem index="3" value="Th&#x1edd;i gian"/>
+            <StringItem index="4" value="Tr&#x1ea1;ng th&#xe1;i"/>
           </StringArray>
         </Property>
       </Properties>
@@ -167,11 +168,8 @@
             <Component class="javax.swing.JTable" name="tblPhieuXuatHuy">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="4" rowCount="2">
-                    <Column editable="false" title="M&#xe3; " type="java.lang.Object">
-                      <Data value="1"/>
-                      <Data value="2"/>
-                    </Column>
+                  <Table columnCount="4" rowCount="0">
+                    <Column editable="false" title="M&#xe3;" type="java.lang.Object"/>
                     <Column editable="false" title="Ng&#x1b0;&#x1edd;i t&#x1ea1;o" type="java.lang.Object"/>
                     <Column editable="false" title="Th&#x1edd;i gian" type="java.lang.Object"/>
                     <Column editable="false" title="Tr&#x1ea1;ng th&#xe1;i" type="java.lang.Object"/>

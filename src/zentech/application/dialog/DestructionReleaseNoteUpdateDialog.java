@@ -2,18 +2,22 @@ package zentech.application.dialog;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import dao.ActivityDAO;
+import entity.DestructionReleaseNote;
 import java.awt.Dialog;
 import java.awt.Window;
 import javax.swing.JDialog;
 import raven.toast.Notifications;
 import service.SupplierService;
 import zentech.application.form.other.DestructionReleaseNoteForm;
+import service.DestructionReleaseNoteService;
 
-public class DestructionReleaseNoteAddDialog extends JDialog {
+public class DestructionReleaseNoteUpdateDialog extends JDialog {
 
     private DestructionReleaseNoteForm destructionReleaseNoteForm;
+    private DestructionReleaseNoteService destructionReleaseNoteService = new DestructionReleaseNoteService();
+    private int id;
 
-    public DestructionReleaseNoteAddDialog(Window parent, DestructionReleaseNoteForm destructionReleaseNoteForm) {
+    public DestructionReleaseNoteUpdateDialog(Window parent, DestructionReleaseNoteForm destructionReleaseNoteForm, int id) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         this.destructionReleaseNoteForm = destructionReleaseNoteForm;
         initComponents();
@@ -28,12 +32,22 @@ public class DestructionReleaseNoteAddDialog extends JDialog {
         txtThoiGian.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Thời gian");
         txtAraeLyDo.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Lý do");
     }
-    
-    private void customer(){
+
+    private void customer() {
         txtMa.setEditable(false);
         txtMalmel.setEditable(false);
         txtNguoiTao.setEditable(false);
         txtThoiGian.setEditable(false);
+    }
+
+    public void setData(DestructionReleaseNote note) {
+        this.id = note.getId();
+        txtMa.setText(String.valueOf(note.getId()));
+        txtMalmel.setText(note.getMalmel());
+        txtNguoiTao.setText(note.getCreator());
+        txtThoiGian.setText(note.getDate().toString());
+        txtAraeLyDo.setText(note.getLyDo());
+        cmoTrangThai.setSelectedItem(note.getStatus());
     }
 
     @SuppressWarnings("unchecked")
@@ -77,7 +91,7 @@ public class DestructionReleaseNoteAddDialog extends JDialog {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("Thời gian");
 
-        cmoTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DaBan", "TrongKho", "ChoDuyet" }));
+        cmoTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ChoDuyet", "Duyet", "Huy" }));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setText("Lý do");
@@ -183,15 +197,15 @@ public class DestructionReleaseNoteAddDialog extends JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel3.getAccessibleContext().setAccessibleName("Cập nhật phiếu xuất hủy");
-
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
-
+        destructionReleaseNoteService.updateData(id, txtAraeLyDo, cmoTrangThai);
+        destructionReleaseNoteForm.loadData(); // Làm mới bảng sau khi lưu
+        dispose(); // Đóng dialog
     }//GEN-LAST:event_btnLuuActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed

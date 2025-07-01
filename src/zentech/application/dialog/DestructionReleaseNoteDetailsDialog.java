@@ -2,6 +2,7 @@ package zentech.application.dialog;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import entity.Brand;
+import entity.DestructionReleaseNote;
 import entity.MadeIn;
 import entity.OS;
 import entity.Product;
@@ -11,32 +12,53 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JDialog;
 import raven.toast.Notifications;
+import service.DestructionReleaseNoteService;
 import service.ProductServiceMain;
 import zentech.application.form.other.DestructionReleaseNoteForm;
 
 public class DestructionReleaseNoteDetailsDialog extends JDialog {
 
     private DestructionReleaseNoteForm destructionReleaseNoteForm;
+    private DestructionReleaseNoteService destructionReleaseNoteService = new DestructionReleaseNoteService();
+    private int maphieuxuatHuy;
 
-
-    public DestructionReleaseNoteDetailsDialog(Window parent, DestructionReleaseNoteForm destructionReleaseNoteForm) {
+    public DestructionReleaseNoteDetailsDialog(Window parent, DestructionReleaseNoteForm destructionReleaseNoteForm, int maphieuxuatHuy) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         this.destructionReleaseNoteForm = destructionReleaseNoteForm;
+        this.maphieuxuatHuy = maphieuxuatHuy;
         initComponents();
         initalUI();
         customer();
+        loadData();
     }
 
     private void initalUI() {
     }
-    
-    private void customer(){
+
+    private void customer() {
         txtMa.setEditable(false);
         txtMalmel.setEditable(false);
         txtNguoiTao.setEditable(false);
         txtThoiGian.setEditable(false);
         txtTrangThai.setEditable(false);
         txtAreaLyDo.setEditable(false);
+    }
+
+    private void loadData() {
+        DestructionReleaseNote note = destructionReleaseNoteService.getAllPhieuXuatHuybyID(maphieuxuatHuy);
+
+        if (note == null) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Không tìm thấy thông tin phiếu!");
+            dispose();
+            return;
+        }
+
+        txtMa.setText(String.valueOf(note.getId()));
+        txtMalmel.setText(note.getMalmel());
+        txtNguoiTao.setText(note.getCreator());
+        txtThoiGian.setText(note.getDate().toString());
+        txtTrangThai.setText(note.getStatus());
+        txtAreaLyDo.setText(note.getLyDo());
     }
 
     @SuppressWarnings("unchecked")
