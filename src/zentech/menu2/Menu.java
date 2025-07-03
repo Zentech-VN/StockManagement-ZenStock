@@ -35,14 +35,11 @@ public class Menu extends JPanel {
         {"Khách hàng"},
         {"Nhà cung cấp"},
         {"Sản phẩm"},
-        {"Quản lý kho"},
+        {"Khu vực kho"},
         {"Xuất Hàng"},
         {"Nhập Hàng"},
         {"Thuộc tính"},
         {"Nhắn tin nội bộ"},
-        {"Chuyển kho nội bộ"},
-        {"Phiếu xuất hủy"},
-        {"Duyệt phiếu"},
         {"Đăng xuất"}
     };
 
