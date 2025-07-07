@@ -84,7 +84,7 @@ public class SupplierUpdateDialog extends JDialog {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("Email");
 
-        cmoTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hoạt động", "Không hoạt động" }));
+        cmoTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mở khóa", "Khóa" }));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setText("Số điện thoại");
