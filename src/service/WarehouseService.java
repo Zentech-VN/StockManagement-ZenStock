@@ -23,6 +23,7 @@ import jdbc.ConnectionHelper;
 import raven.toast.Notifications;
 import zentech.application.form.other.WarehouseManagementForm;
 import dao.WarehouseDAO;
+import entity.ProductDetail;
 
 public class WarehouseService implements WarehouseDAO {
 
@@ -132,23 +133,18 @@ public class WarehouseService implements WarehouseDAO {
         model.setRowCount(0);
         int id = (int) tbl10.getValueAt(select, 0);
         String tenkho = (String) tbl10.getValueAt(select, 1);
-
-        try {
-            for (ProductArea pa : p.getProductsByWarehouse(id)) {
-                model.addRow(new Object[]{
-                    pa.getP().getMaSanPham(),
-                    pa.getP().getTenSanPham(),
-                    pa.getP().getTenXuatXu(),
-                    pa.getP().getGia(),
-                    pa.getP().getDungLuongPin(),
-                    pa.getW().getTenKhuVuc(),
-                    pa.getSoluong(),
-                    pa.getP().getTrangThai()
-                });
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(WarehouseManagementForm.class.getName()).log(Level.SEVERE, null, ex);
+        for (ProductDetail pd : p.getProductsByWarehouse(id)) {
+            model.addRow(new Object[]{
+                pd.getP().getMaSanPham(),
+                pd.getP().getTenSanPham(),
+                pd.getP().getTenThuongHieu(),
+                pd.getP().getGia(),
+                pd.getP().getTenHeDieuHanh(),
+                pd.getP().getTenXuatXu(),
+                pd.getP().getTrangThai()
+            });
         }
+
     }
 
     @Override

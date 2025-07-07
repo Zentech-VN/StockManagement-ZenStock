@@ -9,6 +9,7 @@ import dao.ProductDAOImpl;
 import dao.WarehouseManagementDAO;
 import entity.Product;
 import entity.ProductArea;
+import entity.ProductDetail;
 import entity.WarehouseManagement;
 import java.sql.SQLException;
 import java.util.List;
@@ -123,7 +124,7 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
 
     ProductAreaDAO p = new ProductAreaDAO();
 
-    public void ShowProductBySelectKho(JTable tbl10, JTable tbl11) {
+     public void ShowProductBySelectKho(JTable tbl10, JTable tbl11) {
         int select = tbl10.getSelectedRow();
         if (select == -1) {
             return;
@@ -134,16 +135,15 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
         String tenkho = (String) tbl10.getValueAt(select, 1);
 
         try {
-            for (ProductArea pa : p.getProductsByWarehouse(id)) {
+            for (ProductDetail pd : p.getProductsByWarehouse(id)) {
                 model.addRow(new Object[]{
-                    pa.getP().getMaSanPham(),
-                    pa.getP().getTenSanPham(),
-                    pa.getP().getTenXuatXu(),
-                    pa.getP().getChipXuLy(),
-                    pa.getP().getDungLuongPin(),
-                    pa.getW().getTenKhuVuc(),
-                    pa.getSoluong(),
-                    pa.getP().getTrangThai()
+                    pd.getP().getMaSanPham(),
+                    pd.getP().getTenSanPham(),
+                    pd.getP().getTenThuongHieu(),
+                    pd.getP().getGia(),
+                    pd.getP().getTenHeDieuHanh(),
+                    pd.getP().getTenXuatXu(),
+                    pd.getP().getTrangThai()
                 });
             }
         } catch (Exception ex) {
