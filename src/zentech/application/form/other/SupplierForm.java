@@ -123,7 +123,7 @@ public class SupplierForm extends javax.swing.JPanel {
 
         for (Supplier s : list) {
             // Tạo Object[] chứa dữ liệu từng dòng (Mã, Tên, Địa chỉ, Email, Sđt, Trạng thái, Object để lưu đối tượng)
-            String trangThaiText = (s.getTrangThai() == 0) ? "Hoạt động" : "Không hoạt động";
+            String trangThaiText = (s.getTrangThai() == 0) ? "Mở khóa" : "Khóa";
             Object[] row = new Object[]{
                 s.getMaNhaCungCap(),
                 s.getTenNhaCungCap(),
