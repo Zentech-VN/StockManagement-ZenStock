@@ -12,15 +12,14 @@ import jdbc.ConnectionHelper;
 public interface ProductWarehouseDAO {
     default List<ProductWarehouse> getAllProductWarehouse() {
         List<ProductWarehouse> list = new ArrayList<>();
-        String sql = "SELECT makhuvuc, masanpham, soluong FROM khuvuc_sanpham;";
+        String sql = "SELECT makhuvuc, masanpham FROM khuvuckho_sanpham;";
 
         try (
                 Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 int makhuvuc = rs.getInt("makhuvuc");
                 int masanpham = rs.getInt("masanpham");
-                int soluong = rs.getInt("soluong");
-                list.add(new ProductWarehouse(makhuvuc, masanpham, soluong));
+                list.add(new ProductWarehouse(makhuvuc, masanpham));
             }
         } catch (SQLException e) {
             e.printStackTrace();
