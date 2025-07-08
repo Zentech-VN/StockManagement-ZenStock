@@ -104,13 +104,13 @@ public interface ProductDAO {
 
     default boolean addProduct(String tenSanPham, BigDecimal gia, String hinhAnh, String cameraTruoc, String cameraSau,
             String chip, String pin, String manHinh, int baoHanh, int maThuongHieu,
-            int maHeDieuHanh, int maXuatXu, String trangThai, int maKhuVuc, int soLuong) {
+            int maHeDieuHanh, int maXuatXu, String trangThai, int maKhuVuc) {
 
         String sqlInsertProduct = "INSERT INTO sanpham "
                 + "(tensp, hinhanh, xuatxu, chipxuly, hedieuhanh, cameratruoc, camerasau, thoigianbaohanh, gia, trangthai, thuonghieu, dungluongpin, kichthuocmanhinh) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        String sqlInsertKho = "INSERT INTO khuvuckho_sanpham (makhuvuc, masanpham, soluong) VALUES (?, ?, ?)";
+        String sqlInsertKho = "INSERT INTO khuvuckho_sanpham (makhuvuc, masanpham) VALUES (?, ?)";
 
         try (Connection conn = ConnectionHelper.getConnection()) {
 
@@ -145,7 +145,6 @@ public interface ProductDAO {
                     PreparedStatement psKho = conn.prepareStatement(sqlInsertKho);
                     psKho.setInt(1, maKhuVuc);
                     psKho.setInt(2, masanpham);
-                    psKho.setInt(3, soLuong);
 
                     int rowsKho = psKho.executeUpdate();
 
