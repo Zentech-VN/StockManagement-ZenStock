@@ -2,8 +2,8 @@ package entity;
 
 public class ProductArea {
 
-    private int makhuvuc;
-    private int masanpham;
+    private int maimei;
+
     private int soluong;
     private Warehouse w = new Warehouse();
     private Product p = new Product();
@@ -11,26 +11,18 @@ public class ProductArea {
     public ProductArea() {
     }
 
-    public ProductArea(int makhuvuc, int masanpham, int soluong) {
-        this.makhuvuc = makhuvuc;
-        this.masanpham = masanpham;
+    public ProductArea(int maimei, int soluong) {
+        this.maimei = maimei;
+
         this.soluong = soluong;
     }
 
-    public int getMakhuvuc() {
-        return makhuvuc;
+    public int getMaimei() {
+        return maimei;
     }
 
-    public void setMakhuvuc(int makhuvuc) {
-        this.makhuvuc = makhuvuc;
-    }
-
-    public int getMasanpham() {
-        return masanpham;
-    }
-
-    public void setMasanpham(int masanpham) {
-        this.masanpham = masanpham;
+    public void setMaimei(int maimei) {
+        this.maimei = maimei;
     }
 
     public int getSoluong() {
@@ -56,5 +48,7 @@ public class ProductArea {
     public void setP(Product p) {
         this.p = p;
     }
+
+    
 
 }

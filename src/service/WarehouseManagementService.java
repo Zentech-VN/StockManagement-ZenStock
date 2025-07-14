@@ -8,20 +8,19 @@ import dao.ProductAreaDAO;
 import dao.ProductDAOImpl;
 import dao.WarehouseManagementDAO;
 import entity.Product;
-import entity.ProductArea;
-import entity.ProductDetail;
+
 import entity.WarehouseManagement;
-import java.sql.SQLException;
+
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
+
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import jdbc.ConnectionHelper;
+
 import raven.toast.Notifications;
 import zentech.application.form.other.WarehouseManagementForm;
 
@@ -124,7 +123,7 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
 
     ProductAreaDAO p = new ProductAreaDAO();
 
-     public void ShowProductBySelectKho(JTable tbl10, JTable tbl11) {
+    public void ShowProductBySelectKho(JTable tbl10, JTable tbl11) {
         int select = tbl10.getSelectedRow();
         if (select == -1) {
             return;
@@ -135,15 +134,15 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
         String tenkho = (String) tbl10.getValueAt(select, 1);
 
         try {
-            for (ProductDetail pd : p.getProductsByWarehouse(id)) {
+            for (Product p : p.getProductsByWarehouse(id)) {
                 model.addRow(new Object[]{
-                    pd.getP().getMaSanPham(),
-                    pd.getP().getTenSanPham(),
-                    pd.getP().getTenThuongHieu(),
-                    pd.getP().getGia(),
-                    pd.getP().getTenHeDieuHanh(),
-                    pd.getP().getTenXuatXu(),
-                    pd.getP().getTrangThai()
+                    p.getMaSanPham(),
+                    p.getTenSanPham(),
+                    p.getTenThuongHieu(),
+                    p.getGia(),
+                    p.getTenHeDieuHanh(),
+                    p.getTenXuatXu(),
+                    p.getTrangThai()
                 });
             }
         } catch (Exception ex) {
