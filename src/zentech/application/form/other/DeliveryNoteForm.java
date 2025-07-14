@@ -26,7 +26,7 @@ public class DeliveryNoteForm extends javax.swing.JPanel {
         initComponents();
         initalUI(tblSanPham, tblPhieuXuat);
 //        ds.LoadDataTable(tblSanPham);
-        ds.loadDataCombobox(jComboBox1);
+//        ds.loadDataCombobox(jComboBox1);
     }
 
     private void initalUI(JTable tableProduct, JTable tablePhieuXuat) {

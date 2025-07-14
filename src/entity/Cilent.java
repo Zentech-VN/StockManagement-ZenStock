@@ -9,13 +9,13 @@ public class Cilent {
     private String DiaChi;
     private String SoDienThoai;
     private String Email;
-    private int TrangThai;
+    private String TrangThai;
     private Date NgayThamGia;
 
     public Cilent() {
     }
 
-    public Cilent(int MaKhacHang, String TenKhacHang, String DiaChi, String SoDienThoai, String Email, int TrangThai, Date NgayThamGia) {
+    public Cilent(int MaKhacHang, String TenKhacHang, String DiaChi, String SoDienThoai, String Email, String TrangThai, Date NgayThamGia) {
         this.MaKhacHang = MaKhacHang;
         this.TenKhacHang = TenKhacHang;
         this.DiaChi = DiaChi;
@@ -57,11 +57,19 @@ public class Cilent {
         this.SoDienThoai = SoDienThoai;
     }
 
-    public int getTrangThai() {
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String Email) {
+        this.Email = Email;
+    }
+
+    public String getTrangThai() {
         return TrangThai;
     }
 
-    public void setTrangThai(int TrangThai) {
+    public void setTrangThai(String TrangThai) {
         this.TrangThai = TrangThai;
     }
 
@@ -71,14 +79,6 @@ public class Cilent {
 
     public void setNgayThamGia(Date NgayThamGia) {
         this.NgayThamGia = NgayThamGia;
-    }
-
-    public String getEmail() {
-        return Email;
-    }
-
-    public void setEmail(String Email) {
-        this.Email = Email;
     }
 
 }
