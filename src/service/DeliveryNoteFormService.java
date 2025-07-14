@@ -27,12 +27,12 @@ public class DeliveryNoteFormService {
 //        }
 //    }
 
-    public void loadDataCombobox(JComboBox<String> client) {
-        client.removeAllItems();
-        for (Cilent c : cd.getAllCilent()) {
-            if (c.getTrangThai() == 1) {
-                client.addItem(c.getTenKhacHang());
-            }
-        }
-    }
+//    public void loadDataCombobox(JComboBox<String> client) {
+//        client.removeAllItems();
+//        for (Cilent c : cd.getAllCilent()) {
+//            if (c.getTrangThai() == 1) {
+//                client.addItem(c.getTenKhacHang());
+//            }
+//        }
+//    }
 }

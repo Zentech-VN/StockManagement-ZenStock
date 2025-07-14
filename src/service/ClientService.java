@@ -34,39 +34,36 @@ public class ClientService {
 
     }
 
-    public void LoadDataTable(JTable danhsach) {
-        String[] title = {"Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Email", "Số điện thoại"};
-        DefaultTableModel model = new DefaultTableModel(title, 0);
-        model.setRowCount(0);
-        for (Cilent c : cld.getAllCilent()) {
-            if (c.getTrangThai() == 1) {
-                model.addRow(new Object[]{c.getMaKhacHang(), c.getTenKhacHang(), c.getDiaChi(), c.getEmail(), c.getSoDienThoai(), c.getNgayThamGia()});
+    public void loadDataTable(JTable table1, JTable table2, boolean check) {
+        if (check == true) {
+            DefaultTableModel model = (DefaultTableModel) table1.getModel();
+            model.setRowCount(0);
+            for (Cilent c : cld.getAllCilent()) {
+                if (c.getTrangThai().equalsIgnoreCase("mokhoa")) {
+                    String status = "Mở khóa";
+                    model.addRow(new Object[]{c.getMaKhacHang(), c.getTenKhacHang(), c.getDiaChi(), c.getEmail(), c.getSoDienThoai(), status});
+
+                }
+            }
+        } else {
+            DefaultTableModel model = (DefaultTableModel) table2.getModel();
+            model.setRowCount(0);
+            for (Cilent c : cld.getAllCilent()) {
+                if (c.getTrangThai().equalsIgnoreCase("khoa")) {
+                    String status = "Khóa";
+                    model.addRow(new Object[]{c.getMaKhacHang(), c.getTenKhacHang(), c.getDiaChi(), c.getEmail(), c.getSoDienThoai(), status});
+
+                }
             }
         }
-        danhsach.setModel(model);
-    }
-
-    public void showDetail(
-            JTable danhsach,
-            JTextField makh,
-            JTextField tenkh,
-            JTextField sdt,
-            JTextField diachi
-    ) {
-        int index = danhsach.getSelectedRow();
-        int makh1 = (int) danhsach.getValueAt(index, 0);
-        Cilent cl = cld.getAllMouse(makh1);
-        makh.setText(String.valueOf(cl.getMaKhacHang()));
-        tenkh.setText(cl.getTenKhacHang());
-        diachi.setText(cl.getDiaChi());
-        sdt.setText(cl.getSoDienThoai());
     }
 
     public boolean checkvalidate(
             JTextField tenkh,
             JTextField sdt,
             JTextField diachi,
-            JTextField Email
+            JTextField Email,
+            String trangthai
     ) {
         String regexsdt = "^(0|\\+84)(3[2-9]|5[6|8|9]|7[0|6-9]|8[1-5]|9[0-9])[0-9]{7}$";
         String regexemail = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
@@ -94,6 +91,10 @@ public class ClientService {
         if (!sdt.getText().matches(regexsdt)) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Số điện thoại không đúng định dạng");
             return false;
+        }
+        if (trangthai == "") {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng chọn trạng thái");
+            return false;
         } else {
             return true;
         }
@@ -103,11 +104,12 @@ public class ClientService {
             JTextField tenkh,
             JTextField sdt,
             JTextField diachi,
-            JTextField Email
+            JTextField Email,
+            String trangthai
     ) {
         String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
         String ten = tenkh.getText();
-        if (checkvalidate(tenkh, sdt, diachi, Email)) {
+        if (checkvalidate(tenkh, sdt, diachi, Email, trangthai)) {
             int confrim = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thêm khách hàng", "Add", JOptionPane.YES_OPTION);
             if (confrim == JOptionPane.YES_OPTION) {
                 Cilent cl = new Cilent();
@@ -115,6 +117,7 @@ public class ClientService {
                 cl.setDiaChi(diachi.getText());
                 cl.setEmail(Email.getText());
                 cl.setSoDienThoai(sdt.getText());
+                cl.setTrangThai(trangthai);
                 int rs = cld.addkhachhang(cl);
                 if (rs > 0) {
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Thêm thành công");
@@ -144,12 +147,12 @@ public class ClientService {
         obj.setRowFilter(RowFilter.regexFilter(search.getText()));
     }
 
-    public void update(int makh, JTextField tenkh, JTextField sdt, JTextField diachi, JTextField Email) {
+    public void update(int makh, JTextField tenkh, JTextField sdt, JTextField diachi, JTextField Email, String trangthai) {
         String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
         String ten = tenkh.getText();
 
         try {
-            int confrim = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn cập nhập khách hàng có mã " + makh, "Update", JOptionPane.YES_OPTION);
+            int confrim = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn cập nhật khách hàng có mã " + makh, "Update", JOptionPane.YES_OPTION);
             if (confrim == JOptionPane.YES_OPTION) {
                 Cilent cl = new Cilent();
                 cl.setMaKhacHang(makh);
@@ -157,9 +160,10 @@ public class ClientService {
                 cl.setDiaChi(diachi.getText());
                 cl.setEmail(Email.getText());
                 cl.setSoDienThoai(sdt.getText());
+                cl.setTrangThai(trangthai);
                 int rs = cld.Update(cl);
                 if (rs > 0) {
-                    Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Cập nhập thành công cho khách hàng có mã " + makh);
+                    Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Cập nhật thành công cho khách hàng có mã " + makh);
                     ActivityDAO.logActivity(appCurrentUser, "Cập nhật khách hàng: " + ten);
                 }
             }

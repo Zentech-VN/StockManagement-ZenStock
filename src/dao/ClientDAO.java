@@ -13,7 +13,7 @@ public class ClientDAO {
 
     public List<Cilent> getAllCilent() {
         List<Cilent> listc = new ArrayList<>();
-        String sql = "select * from khachhang";
+        String sql = "select makhachhang, tenkhachhang, diachi, email, sdt, trangthai from khachhang";
         try (Connection conn = ConnectionHelper.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 Cilent cl = new Cilent();
@@ -22,7 +22,7 @@ public class ClientDAO {
                 cl.setEmail(rs.getString("email"));
                 cl.setDiaChi(rs.getString("diachi"));
                 cl.setSoDienThoai(rs.getString("sdt"));
-                cl.setTrangThai(rs.getInt("trangthai"));
+                cl.setTrangThai(rs.getString("trangthai"));
                 listc.add(cl);
             }
             return listc;
@@ -40,7 +40,7 @@ public class ClientDAO {
             cs.setString(2, cl.getDiaChi());
             cs.setString(3, cl.getEmail());
             cs.setString(4, cl.getSoDienThoai());
-            cs.setInt(5, 1);
+            cs.setString(5, cl.getTrangThai());
             rs = cs.executeUpdate();
             return rs;
         } catch (Exception e) {
@@ -75,7 +75,7 @@ public class ClientDAO {
                 cl.setDiaChi(rs.getString("diachi"));
                 cl.setSoDienThoai(rs.getString("sdt"));
                 cl.setEmail(rs.getString("email"));
-                cl.setTrangThai(rs.getInt("trangthai"));
+                cl.setTrangThai(rs.getString("trangthai"));
 
             }
             return cl;
@@ -87,13 +87,15 @@ public class ClientDAO {
 
     public int Update(Cilent cl) {
         int rs = 0;
-        String sql = "update khachhang set tenkhachhang = ?, diachi = ?, email = ?, sdt = ? where makhachhang = ?";
+        String sql = "update khachhang set tenkhachhang = ?, diachi = ?, email = ?, sdt = ?, trangthai = ? where makhachhang = ?";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setString(1, cl.getTenKhacHang());
             pst.setString(2, cl.getDiaChi());
             pst.setString(3, cl.getEmail());
             pst.setString(4, cl.getSoDienThoai());
-            pst.setInt(5, cl.getMaKhacHang());
+             pst.setString(5, cl.getTrangThai());
+            pst.setInt(6, cl.getMaKhacHang());
+           
             rs = pst.executeUpdate();
             return rs;
         } catch (Exception e) {
