@@ -7,23 +7,18 @@ package service;
 import dao.ProductAreaDAO;
 import dao.ProductDAOImpl;
 import entity.Product;
-import entity.ProductArea;
 import entity.Warehouse;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import jdbc.ConnectionHelper;
 import raven.toast.Notifications;
 import zentech.application.form.other.WarehouseManagementForm;
 import dao.WarehouseDAO;
-import entity.ProductDetail;
 
 public class WarehouseService implements WarehouseDAO {
 
@@ -132,19 +127,22 @@ public class WarehouseService implements WarehouseDAO {
         DefaultTableModel model = (DefaultTableModel) tbl11.getModel();
         model.setRowCount(0);
         int id = (int) tbl10.getValueAt(select, 0);
-        String tenkho = (String) tbl10.getValueAt(select, 1);
-        for (ProductDetail pd : p.getProductsByWarehouse(id)) {
-            model.addRow(new Object[]{
-                pd.getP().getMaSanPham(),
-                pd.getP().getTenSanPham(),
-                pd.getP().getTenThuongHieu(),
-                pd.getP().getGia(),
-                pd.getP().getTenHeDieuHanh(),
-                pd.getP().getTenXuatXu(),
-                pd.getP().getTrangThai()
-            });
-        }
 
+        try {
+            for (Product p : p.getProductsByWarehouse(id)) {
+                model.addRow(new Object[]{
+                    p.getMaSanPham(),
+                    p.getTenSanPham(),
+                    p.getTenThuongHieu(),
+                    p.getGia(),
+                    p.getTenHeDieuHanh(),
+                    p.getTenXuatXu(),
+                    p.getTrangThai()
+                });
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(WarehouseManagementForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

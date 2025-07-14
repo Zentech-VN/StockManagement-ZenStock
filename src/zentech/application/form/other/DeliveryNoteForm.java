@@ -3,6 +3,7 @@ package zentech.application.form.other;
 import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Component;
 import java.awt.Window;
+import java.math.BigDecimal;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -13,24 +14,30 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import raven.toast.Notifications;
+import service.DeliveryNoteFormService;
 import zentech.application.dialog.ProductDetailsDialog;
+import zentech.application.dialog.SelectProductDialog;
 
 public class DeliveryNoteForm extends javax.swing.JPanel {
+
+    DeliveryNoteFormService ds = new DeliveryNoteFormService();
 
     public DeliveryNoteForm() {
         initComponents();
         initalUI(tblSanPham, tblPhieuXuat);
+//        ds.LoadDataTable(tblSanPham);
+        ds.loadDataCombobox(jComboBox1);
     }
 
     private void initalUI(JTable tableProduct, JTable tablePhieuXuat) {
         tblSanPham.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
         tblSanPham.setRowHeight(30);
         tblSanPham.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
-        
+
         tblPhieuXuat.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
         tblPhieuXuat.setRowHeight(30);
         tblPhieuXuat.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
-        
+
         JScrollPane scroll = (JScrollPane) tableProduct.getParent().getParent();
         scroll.setBorder(BorderFactory.createEmptyBorder());
         scroll.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, ""
@@ -43,7 +50,7 @@ public class DeliveryNoteForm extends javax.swing.JPanel {
 
         tableProduct.getTableHeader().setDefaultRenderer(getAlignmentCellRender(tableProduct.getTableHeader().getDefaultRenderer(), true));
         tableProduct.setDefaultRenderer(Object.class, getAlignmentCellRender(tableProduct.getDefaultRenderer(Object.class), false));
-        
+
         JScrollPane scroll2 = (JScrollPane) tablePhieuXuat.getParent().getParent();
         scroll2.setBorder(BorderFactory.createEmptyBorder());
         scroll2.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, ""
@@ -57,7 +64,7 @@ public class DeliveryNoteForm extends javax.swing.JPanel {
         tablePhieuXuat.getTableHeader().setDefaultRenderer(getAlignmentCellRender(tablePhieuXuat.getTableHeader().getDefaultRenderer(), true));
         tablePhieuXuat.setDefaultRenderer(Object.class, getAlignmentCellRender(tablePhieuXuat.getDefaultRenderer(Object.class), false));
     }
-    
+
     private TableCellRenderer getAlignmentCellRender(TableCellRenderer oldRender, boolean header) {
         return new DefaultTableCellRenderer() {
             @Override
@@ -75,7 +82,7 @@ public class DeliveryNoteForm extends javax.swing.JPanel {
             }
         };
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -86,6 +93,8 @@ public class DeliveryNoteForm extends javax.swing.JPanel {
         txtMaPhieuXuat = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtSearch2 = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPhieuXuat = new javax.swing.JTable();
         crazyPanel8 = new raven.crazypanel.CrazyPanel();
@@ -125,12 +134,15 @@ public class DeliveryNoteForm extends javax.swing.JPanel {
         crazyPanel2.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
             "wrap,fill",
             "[][]",
-            "[][]",
+            "[][][]",
             new String[]{
                 "width 150",
                 "width 450",
                 "",
-                "width 450"
+                "width 450",
+                "",
+                "width 450",
+                ""
             }
         ));
 
@@ -145,6 +157,12 @@ public class DeliveryNoteForm extends javax.swing.JPanel {
 
         txtSearch2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         crazyPanel2.add(txtSearch2);
+
+        jLabel6.setText("Khách hàng");
+        crazyPanel2.add(jLabel6);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        crazyPanel2.add(jComboBox1);
 
         crazyPanel1.add(crazyPanel2);
 
@@ -356,6 +374,11 @@ public class DeliveryNoteForm extends javax.swing.JPanel {
 
         jButton8.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jButton8.setText("Thêm");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
         crazyPanel9.add(jButton8);
 
         crazyPanel3.add(crazyPanel9);
@@ -406,6 +429,21 @@ public class DeliveryNoteForm extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_tblSanPhamMouseClicked
 
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        int select = tblSanPham.getSelectedRow();
+        if (select == -1) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Hãy chọn sản phẩm muốn thêm");
+            return;
+        }
+        int maimei = (int) tblSanPham.getValueAt(select, 0);
+        String tensanpham = (String) tblSanPham.getValueAt(select, 1);
+        int soluong = (int) tblSanPham.getValueAt(select, 2);
+        java.awt.Window parent = javax.swing.SwingUtilities.getWindowAncestor(this);
+        SelectProductDialog s = new SelectProductDialog(parent, null, maimei, tensanpham, soluong);
+        s.setVisible(true);
+    }//GEN-LAST:event_jButton8ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd2;
     private raven.crazypanel.CrazyPanel crazyPanel1;
@@ -420,10 +458,12 @@ public class DeliveryNoteForm extends javax.swing.JPanel {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblPhieuXuat;
