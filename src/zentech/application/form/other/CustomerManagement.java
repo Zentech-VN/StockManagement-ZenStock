@@ -268,7 +268,7 @@ public class CustomerManagement extends javax.swing.JPanel {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-        int select = jTable1.getSelectedRow();
+        int select = jTable2.getSelectedRow();
         if (select == -1) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng chọn khách hàng muốn xóa");
             return;
