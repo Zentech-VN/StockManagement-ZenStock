@@ -31,6 +31,7 @@ import zentech.application.form.other.ProductForm;
 import zentech.application.form.other.SupplierForm;
 import zentech.application.form.other.WarehouseManagementForm;
 import zentech.application.form.other.WarehouseReceiptForm;
+import zentech.application.form.other.StatisticalForm;
 import zentech.menu2.Menu;
 import zentech.menu2.MenuAction;
 
@@ -111,7 +112,10 @@ public class MainForm extends JLayeredPane {
                 Application.showForm(new ChatForm());
             } else if (index == 13) {
                 Application.showForm(new WarehouseReceiptForm());
-            } else if (index == 14) {
+            }   else if (index == 14) {
+                Application.showForm(new StatisticalForm());
+            
+            } else if (index == 15) {
                 Application.logout();
             } else {
                 action.cancel();
