@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.2.15 Chrome/134.0.6998.205 Electron/35.2.1 Safari/537.36" version="26.2.15">
   <diagram name="Page-1" id="ocER9yBiET0vRqm5eUkq">
-    <mxGraphModel dx="3737" dy="2301" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2683" dy="1680" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1875,7 +1875,7 @@
             <mxRectangle width="160" height="40" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="9RSEOw6tXqL1Tz8O_yQ3-621" value="ENUM(&#39;MoKhoa&#39;&lt;div&gt;,&#39;Khoa&#39;)&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" parent="9RSEOw6tXqL1Tz8O_yQ3-618" vertex="1">
+        <mxCell id="9RSEOw6tXqL1Tz8O_yQ3-621" value="ENUM(&#39;ChoDuyet&#39;&lt;div&gt;,&#39;Duyet&#39;,&#39;Huy&#39;)&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" parent="9RSEOw6tXqL1Tz8O_yQ3-618" vertex="1">
           <mxGeometry x="200" width="120" height="40" as="geometry">
             <mxRectangle width="120" height="40" as="alternateBounds" />
           </mxGeometry>
@@ -2168,7 +2168,7 @@
             <mxRectangle width="160" height="40" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="9RSEOw6tXqL1Tz8O_yQ3-659" value="ENUM(&#39;MoKhoa&#39;&lt;div&gt;,&#39;Khoa&#39;)&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" parent="9RSEOw6tXqL1Tz8O_yQ3-656" vertex="1">
+        <mxCell id="9RSEOw6tXqL1Tz8O_yQ3-659" value="ENUM(&#39;ChoDuyet&#39;&lt;div&gt;,&#39;Duyet&#39;,&#39;Huy&#39;)&lt;/div&gt;" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" parent="9RSEOw6tXqL1Tz8O_yQ3-656" vertex="1">
           <mxGeometry x="200" width="120" height="40" as="geometry">
             <mxRectangle width="120" height="40" as="alternateBounds" />
           </mxGeometry>

@@ -12,15 +12,11 @@ import java.util.List;
 import javax.swing.JDialog;
 import raven.toast.Notifications;
 import service.ProductServiceMain;
-import zentech.application.form.other.DeliveryNoteForm;
-import zentech.application.form.other.ImportForm;
 import zentech.application.form.other.ProductForm;
 
 public class ProductDetailsDialog extends JDialog {
 
     private ProductForm productForm;
-    private DeliveryNoteForm deliveryNoteForm;
-    private ImportForm importForm;
     ProductServiceMain productServiceMain;
 
     private List<Brand> brandList = new ArrayList<>();
@@ -36,24 +32,6 @@ public class ProductDetailsDialog extends JDialog {
         getProductInfoById(maSanPhamText);
     }
     
-    public ProductDetailsDialog(Window parent, DeliveryNoteForm deliveryNoteForm, String maSanPhamText) {
-        super(parent, Dialog.ModalityType.APPLICATION_MODAL);
-        this.deliveryNoteForm = deliveryNoteForm;
-        this.productServiceMain = new ProductServiceMain();
-        initComponents();
-        initalUI();
-        getProductInfoById(maSanPhamText);
-    }
-    
-    public ProductDetailsDialog(Window parent, ImportForm importForm, String maSanPhamText) {
-        super(parent, Dialog.ModalityType.APPLICATION_MODAL);
-        this.importForm = importForm;
-        this.productServiceMain = new ProductServiceMain();
-        initComponents();
-        initalUI();
-        getProductInfoById(maSanPhamText);
-    }
-
     private void initalUI() {
         txtTenSanPham.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Trống");
         txtHinhAnh.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Trống");
