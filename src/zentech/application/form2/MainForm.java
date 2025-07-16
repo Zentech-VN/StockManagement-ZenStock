@@ -22,11 +22,9 @@ import zentech.application.form.other.ActivityLogForm;
 import zentech.application.form.other.AttributeForm;
 import zentech.application.form.other.ChatForm;
 import zentech.application.form.other.CustomerManagement;
-import zentech.application.form.other.DeliveryNoteForm;
 import zentech.application.form.other.EmployeeForm;
 import zentech.application.form.other.FormHomePage;
 import zentech.application.form.other.FormRole;
-import zentech.application.form.other.ImportForm;
 import zentech.application.form.other.ProductForm;
 import zentech.application.form.other.SupplierForm;
 import zentech.application.form.other.WarehouseManagementForm;
@@ -103,19 +101,14 @@ public class MainForm extends JLayeredPane {
             } else if (index == 8) {
                 Application.showForm(new WarehouseManagementForm());
             } else if (index == 9) {
-                Application.showForm(new DeliveryNoteForm());
-            } else if (index == 10) {
-                Application.showForm(new ImportForm());
-            } else if (index == 11) {
                 Application.showForm(new AttributeForm());
-            } else if (index == 12) {
+            } else if (index == 10) {
                 Application.showForm(new ChatForm());
-            } else if (index == 13) {
+            } else if (index == 11) {
                 Application.showForm(new WarehouseReceiptForm());
-            }   else if (index == 14) {
+            } else if (index == 12) {
                 Application.showForm(new StatisticalForm());
-            
-            } else if (index == 15) {
+            } else if (index == 13) {
                 Application.logout();
             } else {
                 action.cancel();
