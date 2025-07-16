@@ -410,19 +410,7 @@ public class DeliveryNoteForm extends javax.swing.JPanel {
     }//GEN-LAST:event_tblPhieuXuatMouseClicked
 
     private void btnAdd2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd2ActionPerformed
-        Window parent = SwingUtilities.getWindowAncestor(this);
-        int modelRow = tblSanPham.getSelectedRow();
-        if (modelRow == -1) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Hãy chọn sản phẩm muốn xem chi tiết");
-            return;
-        }
 
-        DefaultTableModel model = (DefaultTableModel) tblSanPham.getModel();
-        String maSanPham = model.getValueAt(modelRow, 0).toString();
-
-        ProductDetailsDialog productDetailsDialog = new ProductDetailsDialog(parent, this, maSanPham);
-        productDetailsDialog.setLocationRelativeTo(parent);
-        productDetailsDialog.setVisible(true);
     }//GEN-LAST:event_btnAdd2ActionPerformed
 
     private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
@@ -431,17 +419,7 @@ public class DeliveryNoteForm extends javax.swing.JPanel {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
-        int select = tblSanPham.getSelectedRow();
-        if (select == -1) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Hãy chọn sản phẩm muốn thêm");
-            return;
-        }
-        int maimei = (int) tblSanPham.getValueAt(select, 0);
-        String tensanpham = (String) tblSanPham.getValueAt(select, 1);
-        int soluong = (int) tblSanPham.getValueAt(select, 2);
-        java.awt.Window parent = javax.swing.SwingUtilities.getWindowAncestor(this);
-        SelectProductDialog s = new SelectProductDialog(parent, null, maimei, tensanpham, soluong);
-        s.setVisible(true);
+
     }//GEN-LAST:event_jButton8ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

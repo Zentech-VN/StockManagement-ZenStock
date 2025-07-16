@@ -94,7 +94,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThem)
                     .addComponent(btnHuy))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(233, Short.MAX_VALUE))
         );
 
         pack();

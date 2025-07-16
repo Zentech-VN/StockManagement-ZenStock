@@ -17,11 +17,11 @@ public class SelectProductDialog extends JDialog {
     private SelectProductDialog selectproductdialog;
     private WarehouseService service;
 
-    public SelectProductDialog(Window parent, SelectProductDialog form, int maimei, String ten, int soluong) {
+    public SelectProductDialog(Window parent, SelectProductDialog form, int masp, String ten, int soluong) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         this.selectproductdialog = form;
         initComponents();
-        txtMaimei.setText(String.valueOf(maimei));
+        txtMaSP.setText(String.valueOf(masp));
         txttensp.setText(ten);
         lblsoluong.setText(lblsoluong.getText() + " " + String.valueOf(soluong));
         initialUI();
@@ -29,7 +29,7 @@ public class SelectProductDialog extends JDialog {
     }
 
     private void initialUI() {
-        txtMaimei.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Mã imei");
+        txtMaSP.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Mã imei");
         txttensp.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tên sản phẩm");
         txtSoluong.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "0");
     }
@@ -40,12 +40,12 @@ public class SelectProductDialog extends JDialog {
 
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        txtMaimei = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         txttensp = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtSoluong = new javax.swing.JTextField();
         lblsoluong = new javax.swing.JLabel();
+        txtMaSP = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -55,13 +55,7 @@ public class SelectProductDialog extends JDialog {
         jPanel3.setMaximumSize(new java.awt.Dimension(100, 100));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setText("Mã imei");
-
-        txtMaimei.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMaimeiActionPerformed(evt);
-            }
-        });
+        jLabel2.setText("Mã sản phẩm");
 
         jLabel1.setText("Tên sản phẩm");
 
@@ -81,6 +75,12 @@ public class SelectProductDialog extends JDialog {
 
         lblsoluong.setText("Số lượng hiện tại: ");
 
+        txtMaSP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMaSPActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -88,7 +88,6 @@ public class SelectProductDialog extends JDialog {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtMaimei, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
                     .addComponent(txttensp, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
                     .addComponent(txtSoluong, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -97,7 +96,8 @@ public class SelectProductDialog extends JDialog {
                             .addComponent(jLabel1)
                             .addComponent(jLabel3)
                             .addComponent(lblsoluong))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(txtMaSP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -106,7 +106,7 @@ public class SelectProductDialog extends JDialog {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtMaimei, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtMaSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -175,10 +175,6 @@ public class SelectProductDialog extends JDialog {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void txtMaimeiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaimeiActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMaimeiActionPerformed
-
     private void txttenspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttenspActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txttenspActionPerformed
@@ -186,6 +182,10 @@ public class SelectProductDialog extends JDialog {
     private void txtSoluongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSoluongActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSoluongActionPerformed
+
+    private void txtMaSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaSPActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMaSPActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -195,7 +195,7 @@ public class SelectProductDialog extends JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblsoluong;
-    private javax.swing.JTextField txtMaimei;
+    private javax.swing.JTextField txtMaSP;
     private javax.swing.JTextField txtSoluong;
     private javax.swing.JTextField txttensp;
     // End of variables declaration//GEN-END:variables
