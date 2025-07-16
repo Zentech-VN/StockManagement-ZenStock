@@ -336,7 +336,7 @@ public class CustomerManagement extends javax.swing.JPanel {
 
     private void jTextField4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField4KeyReleased
         // TODO add your handling code here:
-        cls.search(jTable2, jTextField3);
+        cls.search(jTable2, jTextField4);
     }//GEN-LAST:event_jTextField4KeyReleased
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed

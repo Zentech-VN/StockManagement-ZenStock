@@ -30,7 +30,7 @@ public class WarehouseManagementUpdateDialog extends JDialog {
 
     private void initialUI() {
         txtten.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tên kho");
-      
+
     }
 
     @SuppressWarnings("unchecked")
@@ -129,7 +129,6 @@ public class WarehouseManagementUpdateDialog extends JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         service = new WarehouseService();
-        
         service.updateWarehouseWithValidation(txtten.getText(), maKho);
         txtten.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed

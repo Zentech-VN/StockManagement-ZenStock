@@ -71,14 +71,18 @@ public class WarehouseService implements WarehouseDAO {
     }
 
     public void updateWarehouseWithValidation(String tenkho, int id) {
+        if (tenkho.isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Vui lòng nhập tên kho.");
+            return;
+        }
         Warehouse w = new Warehouse();
         w.setMaKhuVuc(id);
         w.setTenKhuVuc(tenkho);
         int rs = wd.updateWarehouse(w);
         if (rs > 0) {
-            Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Cập nhập thành công kho " + id + ".");
+            Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Cập nhật thành công kho " + id + ".");
         } else {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Cập nhập không thành công.");
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Cập nhật không thành công.");
         }
     }
 
