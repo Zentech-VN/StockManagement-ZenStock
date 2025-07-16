@@ -11,15 +11,19 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+import service.WarehouseReceiptService;
 import zentech.application.dialog.WarehouseReceiptAddDialog;
 import zentech.application.dialog.WarehouseReceiptDetailsDialog;
 import zentech.application.dialog.WarehouseReceiptUpdateDialog;
 
 public class WarehouseReceiptForm extends javax.swing.JPanel {
 
+    WarehouseReceiptService wrs = new WarehouseReceiptService();
+
     public WarehouseReceiptForm() {
         initComponents();
         initalUI(tblPhieuNhap);
+        wrs.loadDataTable(tblPhieuNhap);
     }
 
     private void initalUI(JTable table) {
@@ -51,9 +55,7 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
                 Component com = oldRender.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 if (com instanceof JLabel) {
                     JLabel label = (JLabel) com;
-                    if (column == 0) {
-                        label.setHorizontalAlignment(SwingConstants.CENTER); //Căn giữa
-                    } else if (column == 1 || column == 2 || column == 3 || column == 4 || column == 5) {
+                    if (column == 0 || column == 1 || column == 2 || column == 3 || column == 4 || column == 5) {
                         label.setHorizontalAlignment(SwingConstants.LEFT); //Căn trái
                     } else {
                         label.setHorizontalAlignment(SwingConstants.CENTER);

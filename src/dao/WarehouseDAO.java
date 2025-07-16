@@ -41,7 +41,6 @@ public interface WarehouseDAO {
         String sql = "INSERT INTO khuvuckho (tenkhuvuc) VALUES (?)";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-
             stmt.setString(1, warehouse.getTenKhuVuc());
 
             int rows = stmt.executeUpdate();
