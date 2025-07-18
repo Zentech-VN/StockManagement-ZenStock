@@ -19,7 +19,7 @@ public interface WarehouseManagementDAO {
 
     default List<WarehouseManagement> getAllWarehouses() {
         List<WarehouseManagement> list = new ArrayList<>();
-        String sql = "SELECT * FROM khuvuc";
+        String sql = "SELECT * FROM khuvuckho";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 

@@ -8,6 +8,7 @@ import dao.ProductAreaDAO;
 import dao.ProductDAOImpl;
 import dao.WarehouseManagementDAO;
 import entity.Product;
+import entity.ProductArea;
 
 import entity.WarehouseManagement;
 
@@ -134,15 +135,16 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
         String tenkho = (String) tbl10.getValueAt(select, 1);
 
         try {
-            for (Product p : p.getProductsByWarehouse(id)) {
+            for (ProductArea pa : p.getProductsByWarehouse(id)) {
                 model.addRow(new Object[]{
-                    p.getMaSanPham(),
-                    p.getTenSanPham(),
-                    p.getTenThuongHieu(),
-                    p.getGia(),
-                    p.getTenHeDieuHanh(),
-                    p.getTenXuatXu(),
-                    p.getTrangThai()
+                    pa.getP().getMaSanPham(),
+                    pa.getP().getTenSanPham(),
+                    pa.getP().getTenThuongHieu(),
+                    pa.getP().getGia(),
+                    pa.getP().getTenHeDieuHanh(),
+                    pa.getP().getTenXuatXu(),
+                    pa.getP().getTrangThai(),
+                    pa.getSoluong()
                 });
             }
         } catch (Exception ex) {

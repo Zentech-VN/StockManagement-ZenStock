@@ -123,31 +123,31 @@ public class WarehouseService implements WarehouseDAO {
 
     ProductAreaDAO p = new ProductAreaDAO();
 
-    public void ShowProductBySelectKho(JTable tbl10, JTable tbl11) {
-        int select = tbl10.getSelectedRow();
-        if (select == -1) {
-            return;
-        }
-        DefaultTableModel model = (DefaultTableModel) tbl11.getModel();
-        model.setRowCount(0);
-        int id = (int) tbl10.getValueAt(select, 0);
-
-        try {
-            for (Product p : p.getProductsByWarehouse(id)) {
-                model.addRow(new Object[]{
-                    p.getMaSanPham(),
-                    p.getTenSanPham(),
-                    p.getTenThuongHieu(),
-                    p.getGia(),
-                    p.getTenHeDieuHanh(),
-                    p.getTenXuatXu(),
-                    p.getTrangThai()
-                });
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(WarehouseManagementForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    public void ShowProductBySelectKho(JTable tbl10, JTable tbl11) {
+//        int select = tbl10.getSelectedRow();
+//        if (select == -1) {
+//            return;
+//        }
+//        DefaultTableModel model = (DefaultTableModel) tbl11.getModel();
+//        model.setRowCount(0);
+//        int id = (int) tbl10.getValueAt(select, 0);
+//
+//        try {
+//            for (Product p : p.getProductsByWarehouse(id)) {
+//                model.addRow(new Object[]{
+//                    p.getMaSanPham(),
+//                    p.getTenSanPham(),
+//                    p.getTenThuongHieu(),
+//                    p.getGia(),
+//                    p.getTenHeDieuHanh(),
+//                    p.getTenXuatXu(),
+//                    p.getTrangThai()
+//                });
+//            }
+//        } catch (Exception ex) {
+//            Logger.getLogger(WarehouseManagementForm.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 
     @Override
     public boolean updateWarehouseWithValidation(Warehouse wh) {

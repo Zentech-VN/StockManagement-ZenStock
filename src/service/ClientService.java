@@ -7,6 +7,7 @@ import entity.Cilent;
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
@@ -100,13 +101,14 @@ public class ClientService {
         }
     }
 
-    public void add(
+    public boolean add(
             JTextField tenkh,
             JTextField sdt,
             JTextField diachi,
             JTextField Email,
             String trangthai
     ) {
+        boolean check = false;
         String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
         String ten = tenkh.getText();
         if (checkvalidate(tenkh, sdt, diachi, Email, trangthai)) {
@@ -122,8 +124,14 @@ public class ClientService {
                 if (rs > 0) {
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Thêm thành công");
                     ActivityDAO.logActivity(appCurrentUser, "Thêm khách hàng: " + ten);
+                    check = true;
                 }
             }
+        }
+        if (check == true) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -147,28 +155,37 @@ public class ClientService {
         obj.setRowFilter(RowFilter.regexFilter(search.getText()));
     }
 
-    public void update(int makh, JTextField tenkh, JTextField sdt, JTextField diachi, JTextField Email, String trangthai) {
-        String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
-        String ten = tenkh.getText();
+    public boolean update(int makh, JTextField tenkh, JTextField sdt, JTextField diachi, JTextField Email, String trangthai) {
+        boolean check = false;
+        if (checkvalidate(tenkh, sdt, diachi, Email, trangthai)) {
+            String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
+            String ten = tenkh.getText();
 
-        try {
-            int confrim = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn cập nhật khách hàng có mã " + makh, "Update", JOptionPane.YES_OPTION);
-            if (confrim == JOptionPane.YES_OPTION) {
-                Cilent cl = new Cilent();
-                cl.setMaKhacHang(makh);
-                cl.setTenKhacHang(tenkh.getText());
-                cl.setDiaChi(diachi.getText());
-                cl.setEmail(Email.getText());
-                cl.setSoDienThoai(sdt.getText());
-                cl.setTrangThai(trangthai);
-                int rs = cld.Update(cl);
-                if (rs > 0) {
-                    Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Cập nhật thành công cho khách hàng có mã " + makh);
-                    ActivityDAO.logActivity(appCurrentUser, "Cập nhật khách hàng: " + ten);
+            try {
+                int confrim = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn cập nhật khách hàng có mã " + makh, "Update", JOptionPane.YES_OPTION);
+                if (confrim == JOptionPane.YES_OPTION) {
+                    Cilent cl = new Cilent();
+                    cl.setMaKhacHang(makh);
+                    cl.setTenKhacHang(tenkh.getText());
+                    cl.setDiaChi(diachi.getText());
+                    cl.setEmail(Email.getText());
+                    cl.setSoDienThoai(sdt.getText());
+                    cl.setTrangThai(trangthai);
+                    int rs = cld.Update(cl);
+                    if (rs > 0) {
+                        Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Cập nhật thành công cho khách hàng có mã " + makh);
+                        ActivityDAO.logActivity(appCurrentUser, "Cập nhật khách hàng: " + ten);
+                        check = true;
+                    }
                 }
+            } catch (Exception e) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không phải số");
             }
-        } catch (Exception e) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không phải số");
+        }
+        if (check == true) {
+            return true;
+        } else {
+            return false;
         }
     }
 

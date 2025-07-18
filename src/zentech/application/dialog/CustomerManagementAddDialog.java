@@ -10,25 +10,25 @@ import service.WarehouseService;
 import zentech.application.form.other.WarehouseManagementForm;
 
 public class CustomerManagementAddDialog extends JDialog {
-
+    
     private CustomerManagementAddDialog from;
     ClientService cls = new ClientService();
-
+    
     public CustomerManagementAddDialog(Window parent, CustomerManagementAddDialog from) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         this.from = from;
         initComponents();
         initalUI();
     }
-
+    
     private void initalUI() {
         txtTen.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tên khách hàng...");
         txtDiachi.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Địa chỉ...");
         txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "example@domain.com");
         txtSDT.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "0123456789");
-
+        
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -207,7 +207,9 @@ public class CustomerManagementAddDialog extends JDialog {
         } else {
             trangthai = "";
         }
-        cls.add(txtTen, txtSDT, txtDiachi, txtEmail, trangthai);
+        if (cls.add(txtTen, txtSDT, txtDiachi, txtEmail, trangthai) == true) {
+            this.setVisible(false);
+        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
