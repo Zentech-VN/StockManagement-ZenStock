@@ -39,6 +39,7 @@ public class Menu extends JPanel {
         {"Thuộc tính"},
         {"Nhắn tin nội bộ"},
         {"Phiếu nhập"},
+        {"Phiếu xuất"},
         {"Thống kê"},
         {"Đăng xuất"}
     };
