@@ -7,23 +7,20 @@ package zentech.application.form.other;
 import com.formdev.flatlaf.FlatClientProperties;
 import dao.WarehouseDAO;
 import entity.Warehouse;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import javax.swing.BorderFactory;
+
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import raven.toast.Notifications;
-import service.WarehouseService;
-import zentech.application.dialog.CustomerManagementAddDialog;
+import service.WarehouseManagementService;
+
 import zentech.application.dialog.WarehouseManagementAddDialog;
 import zentech.application.dialog.WarehouseManagementUpdateDialog;
 
 public class WarehouseManagementForm extends javax.swing.JPanel {
 
-    WarehouseService ws = new WarehouseService();
+    WarehouseManagementService ws = new WarehouseManagementService();
     WarehouseDAO wd = new WarehouseDAO() {
         @Override
         public boolean updateWarehouseWithValidation(Warehouse wh) {

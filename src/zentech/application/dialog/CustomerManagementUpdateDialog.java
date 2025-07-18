@@ -12,33 +12,33 @@ import service.WarehouseService;
 import zentech.application.form.other.WarehouseManagementForm;
 
 public class CustomerManagementUpdateDialog extends JDialog {
-
+    
     private CustomerManagementUpdateDialog from;
     ClientService cls = new ClientService();
-
+    
     private JTable table;
-
+    
     public CustomerManagementUpdateDialog(Window parent, CustomerManagementUpdateDialog from, JTable table1) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         this.from = from;
         if (table1.getSelectedRow() == -1) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng chọn khách hàng muốn cập nhật");
-           this.dispose();
+            this.dispose();
         }
         this.table = table1;
         initComponents();
         initalUI();
         LoadFieald();
     }
-
+    
     private void initalUI() {
         txtTen.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tên khách hàng...");
         txtDiachi.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Địa chỉ...");
         txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "example@domain.com");
         txtSDT.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "0123456789");
-
+        
     }
-
+    
     public void LoadFieald() {
         int select = this.table.getSelectedRow();
         String ten = (String) this.table.getValueAt(select, 1);
@@ -52,7 +52,7 @@ public class CustomerManagementUpdateDialog extends JDialog {
         txtSDT.setText(sdt);
         cboTranThai.setSelectedItem(trangthai);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -241,7 +241,9 @@ public class CustomerManagementUpdateDialog extends JDialog {
         }
         int select = table.getSelectedRow();
         int id = (int) table.getValueAt(select, 0);
-        cls.update(id, txtTen, txtSDT, txtDiachi, txtEmail, trangthai);
+        if (cls.update(id, txtTen, txtSDT, txtDiachi, txtEmail, trangthai) == true) {
+            this.setVisible(false);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -2,27 +2,16 @@ package entity;
 
 public class ProductArea {
 
-    private int maimei;
-
-    private int soluong;
     private Warehouse w = new Warehouse();
     private Product p = new Product();
+    private int soluong;
 
     public ProductArea() {
     }
 
-    public ProductArea(int maimei, int soluong) {
-        this.maimei = maimei;
+    public ProductArea(int soluong) {
 
         this.soluong = soluong;
-    }
-
-    public int getMaimei() {
-        return maimei;
-    }
-
-    public void setMaimei(int maimei) {
-        this.maimei = maimei;
     }
 
     public int getSoluong() {
@@ -48,7 +37,5 @@ public class ProductArea {
     public void setP(Product p) {
         this.p = p;
     }
-
-    
 
 }

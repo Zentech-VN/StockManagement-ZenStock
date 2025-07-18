@@ -1,6 +1,7 @@
 package dao;
 
 import entity.Product;
+import entity.ProductArea;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,31 +11,29 @@ import jdbc.ConnectionHelper;
 
 public class ProductAreaDAO {
 
-    public List<Product> getProductsByWarehouse(int maKho) {
-        List<Product> list = new ArrayList<>();
-        String sql = "select \n"
-                + "sanpham.masanpham, sanpham.tensp, thuonghieu.tenthuonghieu,\n"
-                + "xuatxu.tenxuatxu, hedieuhanh.tenhedieuhanh, sanpham.gia, sanpham.trangthai\n"
-                + "from \n"
-                + "khuvuckho_sanpham join sanpham on khuvuckho_sanpham.masanpham = sanpham.masanpham\n"
-                + "join thuonghieu on thuonghieu.mathuonghieu = sanpham.thuonghieu \n"
-                + "join xuatxu on xuatxu.maxuatxu = sanpham.xuatxu \n"
-                + "join hedieuhanh on hedieuhanh.mahedieuhanh = sanpham.hedieuhanh\n"
-                + "where khuvuckho_sanpham.makhuvuc = ?;";
+    public List<ProductArea> getProductsByWarehouse(int maKho) {
+        List<ProductArea> list = new ArrayList<>();
+        String sql = "select sp.masanpham, sp.tensp, th.tenthuonghieu, xx.tenxuatxu, hdh.tenhedieuhanh, sp.gia,sp.trangthai,soluong \n"
+                + "from khuvuckho_sanpham as ks join sanpham as sp on ks.masanpham = sp.masanpham\n"
+                + "join hedieuhanh as hdh on sp.hedieuHanh = hdh.mahedieuhanh\n"
+                + "join xuatxu as xx on sp.xuatxu = xx.maxuatxu\n"
+                + "join thuonghieu as th on sp.thuonghieu = th.mathuonghieu\n"
+                + "where ks.makhuvuc = ?;";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, maKho);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Product p = new Product();
-                p.setMaSanPham(rs.getInt("sanpham.masanpham"));
-                p.setTenSanPham(rs.getString("sanpham.tensp"));
-                p.setTenThuongHieu(rs.getString("thuonghieu.tenthuonghieu"));
-                p.setGia(rs.getBigDecimal("sanpham.gia"));
-                p.setTenHeDieuHanh(rs.getString("hedieuhanh.tenhedieuhanh"));
-                p.setTenXuatXu(rs.getString("xuatxu.tenxuatxu"));
-                p.setTrangThai(rs.getString("sanpham.trangthai"));
-                list.add(p);
+                ProductArea pa = new ProductArea();
+                pa.getP().setMaSanPham(rs.getInt("sp.masanpham"));
+                pa.getP().setTenSanPham(rs.getString("sp.tensp"));
+                pa.getP().setTenThuongHieu(rs.getString("th.tenthuonghieu"));
+                pa.getP().setGia(rs.getBigDecimal("sp.gia"));
+                pa.getP().setTenHeDieuHanh(rs.getString("hdh.tenhedieuhanh"));
+                pa.getP().setTenXuatXu(rs.getString("xx.tenxuatxu"));
+                pa.getP().setTrangThai(rs.getString("sp.trangthai"));
+                pa.setSoluong(rs.getInt("soluong"));
+                list.add(pa);
             }
         } catch (Exception e) {
             e.printStackTrace();

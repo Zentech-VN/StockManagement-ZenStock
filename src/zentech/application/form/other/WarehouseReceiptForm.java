@@ -1,6 +1,7 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import entity.Employee;
 import java.awt.Component;
 import java.awt.Window;
 import javax.swing.BorderFactory;
@@ -19,8 +20,10 @@ import zentech.application.dialog.WarehouseReceiptUpdateDialog;
 public class WarehouseReceiptForm extends javax.swing.JPanel {
 
     WarehouseReceiptService wrs = new WarehouseReceiptService();
+    private Employee CurrentAcc;
 
-    public WarehouseReceiptForm() {
+    public WarehouseReceiptForm(Employee acc) {
+        this.CurrentAcc = acc;
         initComponents();
         initalUI(tblPhieuNhap);
         wrs.loadDataTable(tblPhieuNhap);
@@ -241,7 +244,7 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         Window parent = SwingUtilities.getWindowAncestor(this);
-        WarehouseReceiptAddDialog warehouseReceiptAddDialog = new WarehouseReceiptAddDialog(parent, this);
+        WarehouseReceiptAddDialog warehouseReceiptAddDialog = new WarehouseReceiptAddDialog(parent, this, this.CurrentAcc);
         warehouseReceiptAddDialog.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
 
