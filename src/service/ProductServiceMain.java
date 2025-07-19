@@ -69,9 +69,6 @@ public class ProductServiceMain implements ProductDAO {
         int soLuong;
         try {
             soLuong = Integer.parseInt(soLuongText.trim());
-            if (soLuong <= 0) {
-                throw new NumberFormatException("Số lượng phải lớn hơn 0");
-            }
         } catch (NumberFormatException e) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Số lượng không hợp lệ");
             return false;
@@ -84,7 +81,7 @@ public class ProductServiceMain implements ProductDAO {
         return false;
     }
 
-    public boolean updateCheck(String maSanPhamText, String tenSanPham, String hinhAnh, String cameraTruoc, String cameraSau, String giaText, String chip, String pin, String manHinh, String baoHanh, int maThuongHieu, int maHeDieuHanh, int maXuatXu, String trangThai) {
+    public boolean updateCheck(String maSanPhamText, String tenSanPham, String hinhAnh, String cameraTruoc, String cameraSau, String giaText, String chip, String pin, String manHinh, String baoHanhText, int maThuongHieu, int maHeDieuHanh, int maXuatXu, String trangThai) {
 
         int maSanPham;
         try {
@@ -135,12 +132,20 @@ public class ProductServiceMain implements ProductDAO {
             return false;
         }
 
-        if (baoHanh == null || baoHanh.trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Bảo hành không được trống");
+        if (baoHanhText.isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập thời gian bảo hành");
             return false;
         }
 
-        if (updateProduct(maSanPham, tenSanPham, gia, hinhAnh, cameraTruoc, cameraSau, chip, pin, manHinh, maSanPham, maThuongHieu, maHeDieuHanh, maXuatXu, trangThai)) {
+        int baoHanh;
+        try {
+            baoHanh = Integer.parseInt(baoHanhText);
+        } catch (NumberFormatException e) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thời gian bảo hành phải là số");
+            return false;
+        }
+
+        if (updateProduct(maSanPham, tenSanPham, gia, hinhAnh, cameraTruoc, cameraSau, chip, pin, manHinh, baoHanh, maThuongHieu, maHeDieuHanh, maXuatXu, trangThai)) {
             return true;
         }
 
