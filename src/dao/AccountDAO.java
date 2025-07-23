@@ -229,13 +229,14 @@ public class AccountDAO {
 
     public Employee GetFullNameByuserName(int id) throws SQLException {
         Employee e = null;
-        String sql = "select nhanvien.hoten, taikhoan.manhomquyen from nhanvien join taikhoan on nhanvien.manv = taikhoan.manv\n"
+        String sql = "select nhanvien.manv, nhanvien.hoten, taikhoan.manhomquyen from nhanvien join taikhoan on nhanvien.manv = taikhoan.manv\n"
                 + "where taikhoan.manv = ?;";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 e = new Employee();
+                e.setManv(rs.getInt("nhanvien.manv"));
                 e.setHoten(rs.getString("nhanvien.hoten"));
                 Account account = new Account();
                 account.setManhomquyen(rs.getInt("taikhoan.manhomquyen"));
