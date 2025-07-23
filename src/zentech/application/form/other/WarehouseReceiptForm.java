@@ -1,7 +1,9 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.sun.imageio.plugins.png.RowFilter;
 import entity.Employee;
+
 import java.awt.Component;
 import java.awt.Window;
 import javax.swing.BorderFactory;
@@ -11,46 +13,50 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableRowSorter;
+import raven.toast.Notifications;
 import service.WarehouseReceiptService;
+
 import zentech.application.dialog.WarehouseReceiptAddDialog;
 import zentech.application.dialog.WarehouseReceiptDetailsDialog;
 import zentech.application.dialog.WarehouseReceiptUpdateDialog;
 
 public class WarehouseReceiptForm extends javax.swing.JPanel {
-
+    
     WarehouseReceiptService wrs = new WarehouseReceiptService();
     private Employee CurrentAcc;
-
+    
     public WarehouseReceiptForm(Employee acc) {
         this.CurrentAcc = acc;
         initComponents();
         initalUI(tblPhieuNhap);
         wrs.loadDataTable(tblPhieuNhap);
     }
-
+    
     private void initalUI(JTable table) {
         tblPhieuNhap.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
         tblPhieuNhap.setRowHeight(30);
         tblPhieuNhap.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
-
+        
         JScrollPane scroll = (JScrollPane) table.getParent().getParent();
         scroll.setBorder(BorderFactory.createEmptyBorder());
         scroll.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, ""
                 + "background:$Table.background;"
                 + "track:$Table.background;"
                 + "trackArc:999");
-
+        
         table.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
         table.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
-
+        
         table.getTableHeader().setDefaultRenderer(getAlignmentCellRender(table.getTableHeader().getDefaultRenderer(), true));
         table.setDefaultRenderer(Object.class, getAlignmentCellRender(table.getDefaultRenderer(Object.class), false));
-
+        
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tìm kiếm");
-
+        
     }
-
+    
     private TableCellRenderer getAlignmentCellRender(TableCellRenderer oldRender, boolean header) {
         return new DefaultTableCellRenderer() {
             @Override
@@ -68,21 +74,18 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
             }
         };
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         btnLamMoi = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        cbbSapXep = new javax.swing.JComboBox<>();
-        jLabel9 = new javax.swing.JLabel();
         crazyPanel1 = new raven.crazypanel.CrazyPanel();
         crazyPanel2 = new raven.crazypanel.CrazyPanel();
         txtSearch = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
-        btnDelete = new javax.swing.JButton();
         btnDetails = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPhieuNhap = new javax.swing.JTable();
@@ -97,12 +100,6 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
 
         jButton7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton7.setText("Xuất File");
-
-        cbbSapXep.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        cbbSapXep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã phiếu nhập", "Nhà cung cấp", "Người tạo", "Thời gian", "Trạng thái" }));
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel9.setText("Sắp xếp theo:");
 
         crazyPanel1.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
             "background:$Table.background;[light]border:0,0,0,0,shade(@background,5%),,20;[dark]border:0,0,0,0,tint(@background,5%),,20",
@@ -138,6 +135,11 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
         ));
 
         txtSearch.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
         crazyPanel2.add(txtSearch);
 
         btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -157,15 +159,6 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
             }
         });
         crazyPanel2.add(btnUpdate);
-
-        btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnDelete.setText("Xoá");
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
-        crazyPanel2.add(btnDelete);
 
         btnDetails.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnDetails.setText("Chi tiết");
@@ -210,10 +203,6 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbbSapXep, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnLamMoi)
@@ -231,54 +220,64 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLamMoi)
-                    .addComponent(jButton7)
-                    .addComponent(cbbSapXep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
+                    .addComponent(jButton7))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
-
+        wrs.loadDataTable(tblPhieuNhap);
     }//GEN-LAST:event_btnLamMoiActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         Window parent = SwingUtilities.getWindowAncestor(this);
         WarehouseReceiptAddDialog warehouseReceiptAddDialog = new WarehouseReceiptAddDialog(parent, this, this.CurrentAcc);
         warehouseReceiptAddDialog.setVisible(true);
+        wrs.loadDataTable(tblPhieuNhap);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        int select = tblPhieuNhap.getSelectedRow();
+        if (select == -1) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng chọn phiếu nhập để cập nhật!");
+            return;
+        }
+        int id = (int) tblPhieuNhap.getValueAt(select, 0);
         Window parent = SwingUtilities.getWindowAncestor(this);
-        WarehouseReceiptUpdateDialog warehouseReceiptUpdateDialog = new WarehouseReceiptUpdateDialog(parent, this);
+        WarehouseReceiptUpdateDialog warehouseReceiptUpdateDialog = new WarehouseReceiptUpdateDialog(parent, this, id);
         warehouseReceiptUpdateDialog.setVisible(true);
+        wrs.loadDataTable(tblPhieuNhap);
     }//GEN-LAST:event_btnUpdateActionPerformed
-
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-
-    }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void tblPhieuNhapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPhieuNhapMouseClicked
 
     }//GEN-LAST:event_tblPhieuNhapMouseClicked
 
     private void btnDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailsActionPerformed
+        int select = tblPhieuNhap.getSelectedRow();
+        if (select == -1) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng chọn phiếu nhập để xem chi tiết!");
+            return;
+        }
+        int maphieunhap = (int) tblPhieuNhap.getValueAt(select, 0);
         Window parent = SwingUtilities.getWindowAncestor(this);
-        WarehouseReceiptDetailsDialog warehouseReceiptDetailsDialog = new WarehouseReceiptDetailsDialog(parent, this);
+        WarehouseReceiptDetailsDialog warehouseReceiptDetailsDialog = new WarehouseReceiptDetailsDialog(parent, this, maphieunhap);
         warehouseReceiptDetailsDialog.setVisible(true);
     }//GEN-LAST:event_btnDetailsActionPerformed
 
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        // TODO add your handling code here:
+        wrs.search(tblPhieuNhap, txtSearch);
+    }//GEN-LAST:event_txtSearchKeyReleased
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDetails;
     private javax.swing.JButton btnLamMoi;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JComboBox<String> cbbSapXep;
     private raven.crazypanel.CrazyPanel crazyPanel1;
     private raven.crazypanel.CrazyPanel crazyPanel2;
     private javax.swing.JButton jButton7;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblPhieuNhap;
     private javax.swing.JTextField txtSearch;

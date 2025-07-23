@@ -7,11 +7,16 @@ package zentech.application.form.other;
 import com.formdev.flatlaf.FlatClientProperties;
 import dao.WarehouseDAO;
 import entity.Warehouse;
+import java.awt.Component;
+import javax.swing.JLabel;
 
 import javax.swing.JOptionPane;
 
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import raven.toast.Notifications;
 import service.WarehouseManagementService;
 
@@ -33,17 +38,46 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
 
         jTextField1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
         ws.LoadDataKho(tbl10);
-        initUI(tbl10, tblSanPham);
+        initUITable1(tbl10);
+        initUITable2(tblSanPham);
     }
 
-    public void initUI(JTable table, JTable table2) {
+    public void initUITable1(JTable table) {
 
         table.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
         table.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
 
-        table2.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
-        table2.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
+        table.setDefaultRenderer(Object.class, getAlignmentCellRender(table.getDefaultRenderer(Object.class), false));
+    }
+    
+     public void initUITable2(JTable table) {
 
+        table.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
+        table.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
+
+        table.setDefaultRenderer(Object.class, getAlignmentCellRender(table.getDefaultRenderer(Object.class), false));
+    }
+
+    private TableCellRenderer getAlignmentCellRender(TableCellRenderer oldRender, boolean header) {
+        return new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component com = oldRender.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (com instanceof JLabel) {
+                    JLabel label = (JLabel) com;
+                    if (column == 2 || column == 3 || column == 4) {
+                        label.setHorizontalAlignment(SwingConstants.CENTER); //Căn giữa
+                    } else if (column == 0 || column == 1 || column == 5) {
+                        label.setHorizontalAlignment(SwingConstants.LEFT); //Căn trái
+                    } else if (column == 6) {
+                        label.setHorizontalAlignment(SwingConstants.RIGHT); //Căn phải
+                    } else {
+                        label.setHorizontalAlignment(SwingConstants.CENTER);
+                    }
+                }
+                return com;
+            }
+        };
     }
 
     @SuppressWarnings("unchecked")
@@ -153,13 +187,24 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
             new String [] {
                 "Mã kho", "Tên kho"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tbl10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbl10MouseClicked(evt);
             }
         });
         jScrollPane10.setViewportView(tbl10);
+        if (tbl10.getColumnModel().getColumnCount() > 0) {
+            tbl10.getColumnModel().getColumn(1).setResizable(false);
+        }
 
         crazyPanel1.add(jScrollPane10);
 

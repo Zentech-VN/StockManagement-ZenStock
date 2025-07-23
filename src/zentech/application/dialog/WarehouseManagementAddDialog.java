@@ -124,7 +124,7 @@ public class WarehouseManagementAddDialog extends JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (txtten.getText().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Vui lòng nhập tên kho muốn thêm.");
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập tên kho muốn thêm.");
             return;
         }
         service = new WarehouseService();
@@ -134,7 +134,7 @@ public class WarehouseManagementAddDialog extends JDialog {
         if (rs == true) {
             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Thêm kho thành công.");
         } else {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Thêm kho thất bại.");
+            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Thêm kho thất bại.");
         }
         txtten.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
