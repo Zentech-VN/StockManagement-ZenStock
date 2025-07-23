@@ -10,9 +10,12 @@ import java.awt.Dialog;
 import java.awt.Window;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -81,10 +84,11 @@ public class WarehouseReceiptAddDialog extends JDialog {
         };
     }
 
-    public String LoadMoney() {
+    public void LoadMoney() {
         int soluong = 0;
         double giatien = 0;
-        double tong = 0;
+        double dem = 0;
+        BigDecimal tong = BigDecimal.ZERO;
 
         for (int i = 0; i < tblCho.getRowCount(); i++) {
             Object slObj = tblCho.getValueAt(i, 3);
@@ -93,6 +97,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
             } else {
                 soluong = Integer.parseInt(slObj.toString().trim());
             }
+
             Object gtObj = tblCho.getValueAt(i, 5);
             if (gtObj instanceof java.math.BigDecimal) {
                 giatien = ((java.math.BigDecimal) gtObj).doubleValue();
@@ -102,10 +107,17 @@ public class WarehouseReceiptAddDialog extends JDialog {
                 giatien = Double.parseDouble(gtObj.toString().trim());
             }
 
-            tong += soluong * giatien;
+            dem += soluong * giatien;
         }
 
-        return String.valueOf(tong);
+        tong = new BigDecimal(dem);
+
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+        symbols.setGroupingSeparator('.');
+        symbols.setDecimalSeparator(',');
+        DecimalFormat formatter = new DecimalFormat("#,##0.00", symbols);
+
+        jLabel4.setText(formatter.format(tong));
     }
 
     public boolean checkAddProduct() {
@@ -176,7 +188,6 @@ public class WarehouseReceiptAddDialog extends JDialog {
             double dongia = soluonghientai * gia.doubleValue();
             DefaultTableModel model = (DefaultTableModel) tblCho.getModel();
             model.addRow(new Object[]{txtKho.getText(), txtMaSanPham.getText(), txtTenSP.getText(), txtSoluong.getText(), txtghichu.getText(), dongia});
-            jLabel4.setText(LoadMoney());
         }
     }
 
@@ -278,6 +289,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
 
         jLabel3.setText("Số lượng nhập");
 
+        txtSoluong.setText("1");
         txtSoluong.setVerifyInputWhenFocusTarget(false);
         txtSoluong.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
@@ -413,6 +425,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 255, 0));
+        jLabel4.setText("0");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -617,6 +630,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
     private void btnLuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuaActionPerformed
         // TODO add your handling code here:
         addProduct();
+        LoadMoney();
     }//GEN-LAST:event_btnLuaActionPerformed
 
     private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked

@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.Position;
 import service.WarehouseReceiptService;
 import zentech.application.form.other.WarehouseReceiptForm;
 
