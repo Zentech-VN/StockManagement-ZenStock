@@ -95,6 +95,7 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
         jScrollPane10 = new javax.swing.JScrollPane();
         tbl10 = new javax.swing.JTable();
         crazyPanel3 = new raven.crazypanel.CrazyPanel();
+        lblSp = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSanPham = new javax.swing.JTable();
 
@@ -211,18 +212,22 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
         crazyPanel3.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
             "wrap,fill,insets 15",
             "[fill]",
-            "[fill]",
+            "[grow 0][fill]",
             new String[]{
                 "width 700"
             }
         ));
+
+        lblSp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblSp.setText("Sản phẩm trong kho: ");
+        crazyPanel3.add(lblSp);
 
         tblSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Mã", "Tên sản phẩm", "Thương hiệu", "Giá bán", "Hệ điều hành", "Xuất xứ", "Trạng thái"
+                "Tên sản phẩm", "Thương hiệu", "Giá bán", "Hệ điều hành", "Xuất xứ", "Số lượng", "Trạng thái"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -234,11 +239,6 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
             }
         });
         tblSanPham.getTableHeader().setReorderingAllowed(false);
-        tblSanPham.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblSanPhamMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(tblSanPham);
 
         crazyPanel3.add(jScrollPane1);
@@ -287,12 +287,9 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
 
     private void tbl10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl10MouseClicked
         // TODO add your handling code here:
-        ws.ShowProductBySelectKho(tbl10, tblSanPham);
+        lblSp.setText("Sản phẩm có trong kho:" + "");
+        ws.ShowProductBySelectKho(tbl10, tblSanPham,lblSp);
     }//GEN-LAST:event_tbl10MouseClicked
-
-    private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
-
-    }//GEN-LAST:event_tblSanPhamMouseClicked
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
@@ -342,6 +339,7 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel lblSp;
     private javax.swing.JTable tbl10;
     private javax.swing.JTable tblSanPham;
     // End of variables declaration//GEN-END:variables
