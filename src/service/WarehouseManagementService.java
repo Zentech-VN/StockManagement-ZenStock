@@ -15,6 +15,7 @@ import entity.WarehouseManagement;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -124,7 +125,8 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
 
     ProductAreaDAO p = new ProductAreaDAO();
 
-    public void ShowProductBySelectKho(JTable tbl10, JTable tbl11) {
+    public void ShowProductBySelectKho(JTable tbl10, JTable tbl11, JLabel sp) {
+
         int select = tbl10.getSelectedRow();
         if (select == -1) {
             return;
@@ -133,18 +135,18 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
         model.setRowCount(0);
         int id = (int) tbl10.getValueAt(select, 0);
         String tenkho = (String) tbl10.getValueAt(select, 1);
-
+        sp.setText(sp.getText() + " " + tenkho);
         try {
             for (ProductArea pa : p.getProductsByWarehouse(id)) {
                 model.addRow(new Object[]{
-                    pa.getP().getMaSanPham(),
                     pa.getP().getTenSanPham(),
                     pa.getP().getTenThuongHieu(),
                     pa.getP().getGia(),
                     pa.getP().getTenHeDieuHanh(),
                     pa.getP().getTenXuatXu(),
-                    pa.getP().getTrangThai(),
-                    pa.getSoluong()
+                    pa.getSoluong(),
+                    pa.getP().getTrangThai()
+
                 });
             }
         } catch (Exception ex) {
