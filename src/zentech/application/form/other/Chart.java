@@ -1,12 +1,11 @@
-
 package zentech.application.form.other;
 
+import chart.chart.ModelChart;
 import java.awt.Color;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import raven.chart.ModelChart;
 
 public class Chart extends javax.swing.JPanel {
 
@@ -73,8 +72,8 @@ public class Chart extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         materialTabbed2 = new zentech.application.tabbed.MaterialTabbed();
         jPanel5 = new javax.swing.JPanel();
-        panelShadow1 = new raven.panel.PanelShadow();
-        chart = new raven.chart.CurveLineChart();
+        panelShadow1 = new chart.panel.PanelShadow();
+        chart = new chart.chart.CurveLineChart();
         jPanel1 = new javax.swing.JPanel();
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
@@ -225,7 +224,7 @@ public class Chart extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private raven.chart.CurveLineChart chart;
+    private chart.chart.CurveLineChart chart;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel19;
@@ -238,6 +237,6 @@ public class Chart extends javax.swing.JPanel {
     private javax.swing.JTable jTable1;
     private zentech.application.tabbed.MaterialTabbed materialTabbed2;
     private zentech.application.tabbed.MaterialTabbed materialTabbed3;
-    private raven.panel.PanelShadow panelShadow1;
+    private chart.panel.PanelShadow panelShadow1;
     // End of variables declaration//GEN-END:variables
 }
