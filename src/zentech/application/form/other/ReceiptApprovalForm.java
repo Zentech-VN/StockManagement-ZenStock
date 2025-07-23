@@ -8,6 +8,7 @@ import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Window;
 import javax.swing.SwingUtilities;
 import zentech.application.dialog.CheckReceiptDialog;
+import zentech.application.dialog.ReceiptDetailsDialog;
 
 /**
  *
@@ -64,6 +65,11 @@ public class ReceiptApprovalForm extends javax.swing.JPanel {
         });
 
         jButton2.setText("Chi tiết");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -101,6 +107,13 @@ public class ReceiptApprovalForm extends javax.swing.JPanel {
         CheckReceiptDialog crd = new CheckReceiptDialog(parent, this);
         crd.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Window parent = SwingUtilities.getWindowAncestor(this);
+        ReceiptDetailsDialog rdd = new ReceiptDetailsDialog(parent, this);
+        rdd.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
