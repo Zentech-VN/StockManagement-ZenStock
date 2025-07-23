@@ -30,6 +30,7 @@ import zentech.application.form.other.SupplierForm;
 import zentech.application.form.other.WarehouseManagementForm;
 import zentech.application.form.other.WarehouseReceiptForm;
 import zentech.application.form.other.Chart;
+import zentech.application.form.other.ReceiptApprovalForm;
 import zentech.application.form.other.WarehouseDeliveryForm;
 import zentech.menu2.Menu;
 import zentech.menu2.MenuAction;
@@ -112,6 +113,8 @@ public class MainForm extends JLayeredPane {
             } else if (index == 13) {
                 Application.showForm(new Chart());
             } else if (index == 14) {
+                Application.showForm(new ReceiptApprovalForm());
+            } else if (index == 15) {
                 Application.logout();
             } else {
                 action.cancel();
