@@ -1,15 +1,36 @@
 package zentech.application.dialog;
 
+import dao.WarehouseReceiptDAO;
+import entity.PhieuNhapChiTiet;
 import java.awt.Dialog;
 import java.awt.Window;
 import javax.swing.JDialog;
+import javax.swing.table.DefaultTableModel;
 import zentech.application.form.other.WarehouseReceiptForm;
 
 public class WarehouseReceiptDetailsDialog extends JDialog {
 
-    public WarehouseReceiptDetailsDialog(Window parent, WarehouseReceiptForm warehouseReceiptForm) {
+    int maphieunhap = 0;
+    WarehouseReceiptDAO wrd = new WarehouseReceiptDAO();
+
+    public WarehouseReceiptDetailsDialog(Window parent, WarehouseReceiptForm warehouseReceiptForm, int maphieunhap) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
+        this.maphieunhap = maphieunhap;
         initComponents();
+        LoadData();
+    }
+    
+    public void LoadData(){
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        for (PhieuNhapChiTiet pnct : wrd.getAllPhieuNhapbyID(maphieunhap)) {
+            txtMaPhieuNhap.setText(String.valueOf(pnct.getPh().getMaphieunhap()));
+            txtTenSanPham.setText(String.valueOf(pnct.getPh().getS().getMaNhaCungCap()));
+            txtHinhAnh.setText(String.valueOf(pnct.getPh().getE().getManv()));
+            txtThuongHieu.setText(String.valueOf(pnct.getPh().getNgaytao()));
+            txtXuatXu.setText(pnct.getPh().getTrangthai());
+            model.addRow(new Object[]{pnct.getPh().getMaphieunhap(),pnct.getP().getMaSanPham(),pnct.getDongia(),pnct.getSoluong(),pnct.getGhichu()});
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -23,11 +44,13 @@ public class WarehouseReceiptDetailsDialog extends JDialog {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        txtMaSanPham = new javax.swing.JTextField();
+        txtMaPhieuNhap = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
         txtXuatXu = new javax.swing.JTextField();
         txtThuongHieu = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -50,7 +73,7 @@ public class WarehouseReceiptDetailsDialog extends JDialog {
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel12.setText("Thời gian");
 
-        txtMaSanPham.setEditable(false);
+        txtMaPhieuNhap.setEditable(false);
 
         jLabel23.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel23.setText("Mã phiếu nhập");
@@ -65,17 +88,18 @@ public class WarehouseReceiptDetailsDialog extends JDialog {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel23)
-                    .addComponent(txtMaSanPham, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
-                    .addComponent(txtTenSanPham)
-                    .addComponent(txtHinhAnh)
-                    .addComponent(txtThuongHieu)
-                    .addComponent(txtXuatXu))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtTenSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel12)
+                        .addComponent(jLabel4)
+                        .addComponent(jLabel23)
+                        .addComponent(txtMaPhieuNhap, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
+                        .addComponent(txtHinhAnh)
+                        .addComponent(txtThuongHieu)
+                        .addComponent(txtXuatXu)))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -84,12 +108,12 @@ public class WarehouseReceiptDetailsDialog extends JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel23)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtMaSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtMaPhieuNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtTenSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtHinhAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -111,25 +135,54 @@ public class WarehouseReceiptDetailsDialog extends JDialog {
             }
         });
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Mã phiếu nhập", "Mã sản phẩm", "Đơn giá", "Số lượng", "Ghi chú"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(4).setResizable(false);
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(8, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
-                .addContainerGap())
+                .addGap(0, 0, 0))
         );
 
         pack();
@@ -148,8 +201,10 @@ public class WarehouseReceiptDetailsDialog extends JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtHinhAnh;
-    private javax.swing.JTextField txtMaSanPham;
+    private javax.swing.JTextField txtMaPhieuNhap;
     private javax.swing.JTextField txtTenSanPham;
     private javax.swing.JTextField txtThuongHieu;
     private javax.swing.JTextField txtXuatXu;

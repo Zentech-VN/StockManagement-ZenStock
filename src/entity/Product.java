@@ -16,7 +16,6 @@ public class Product {
     private String dungLuongPin;
     private String kichThuocManHinh;
     private String thoiGianBaoHanh;
-    //Các bảng liên kết
     private String tenXuatXu;
     private String tenHeDieuHanh;
     private String tenThuongHieu;

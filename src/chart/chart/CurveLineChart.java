@@ -1,5 +1,9 @@
 package chart.chart;
 
+import chart.chart.blankchart.BlankPlotChart;
+import chart.chart.blankchart.BlankPlotChatRender;
+import chart.spline.Spline;
+import chart.spline.SplinePoint;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -24,10 +28,6 @@ import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 import org.jdesktop.animation.timing.interpolation.PropertySetter;
-import raven.chart.blankchart.BlankPlotChart;
-import raven.chart.blankchart.BlankPlotChatRender;
-import raven.spline.Spline;
-import raven.spline.SplinePoint;
 
 public class CurveLineChart extends JComponent {
 
