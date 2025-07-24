@@ -1,5 +1,6 @@
 package dao;
 
+import entity.Chart_Inventory;
 import entity.Chart_Revenue;
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
@@ -184,6 +185,124 @@ public interface ChartDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return list;
+    }
+
+    default List<Chart_Inventory> getInventoryByKeyWord(String fromDate, String toDate, String keyword) {
+        List<Chart_Inventory> list = new ArrayList<>();
+
+        String sql
+                = "SELECT "
+                + "    sp.masanpham, "
+                + "    sp.tensp, "
+                + "    IFNULL(( "
+                + "        SELECT SUM(ctpn.soluong) "
+                + "        FROM phieunhap pn "
+                + "        JOIN ctphieunhap ctpn ON pn.maphieunhap = ctpn.maphieunhap "
+                + "        WHERE pn.trangthai = 'Duyet' "
+                + "        AND ctpn.masanpham = sp.masanpham "
+                + "        AND pn.thoigian < ? "
+                + "    ), 0) "
+                + "    - "
+                + "    IFNULL(( "
+                + "        SELECT SUM(ctpx.soluong) "
+                + "        FROM phieuxuat px "
+                + "        JOIN ctphieuxuat ctpx ON px.maphieuxuat = ctpx.maphieuxuat "
+                + "        WHERE px.trangthai = 'Duyet' "
+                + "        AND ctpx.masanpham = sp.masanpham "
+                + "        AND px.thoigian < ? "
+                + "    ), 0) AS ton_dau_ky, "
+                + "    IFNULL(( "
+                + "        SELECT SUM(ctpn.soluong) "
+                + "        FROM phieunhap pn "
+                + "        JOIN ctphieunhap ctpn ON pn.maphieunhap = ctpn.maphieunhap "
+                + "        WHERE pn.trangthai = 'Duyet' "
+                + "        AND ctpn.masanpham = sp.masanpham "
+                + "        AND pn.thoigian BETWEEN ? AND ? "
+                + "    ), 0) AS nhap_trong_ky, "
+                + "    IFNULL(( "
+                + "        SELECT SUM(ctpx.soluong) "
+                + "        FROM phieuxuat px "
+                + "        JOIN ctphieuxuat ctpx ON px.maphieuxuat = ctpx.maphieuxuat "
+                + "        WHERE px.trangthai = 'Duyet' "
+                + "        AND ctpx.masanpham = sp.masanpham "
+                + "        AND px.thoigian BETWEEN ? AND ? "
+                + "    ), 0) AS xuat_trong_ky "
+                + "FROM sanpham sp "
+                + "WHERE sp.tensp LIKE ?";
+
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, fromDate);
+            ps.setString(2, fromDate);
+            ps.setString(3, fromDate);
+            ps.setString(4, toDate);
+            ps.setString(5, fromDate);
+            ps.setString(6, toDate);
+            ps.setString(7, "%" + keyword + "%");
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Chart_Inventory ci = new Chart_Inventory();
+                ci.setMaSanPham(rs.getInt("masanpham"));
+                ci.setTenSanPham(rs.getString("tensp"));
+                ci.setTonDauKy(rs.getInt("ton_dau_ky"));
+                ci.setNhapTrongKy(rs.getInt("nhap_trong_ky"));
+                ci.setXuatTrongKy(rs.getInt("xuat_trong_ky"));
+                ci.setTonCuoiKy(ci.getTonDauKy() + ci.getNhapTrongKy() - ci.getXuatTrongKy());
+                list.add(ci);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    default List<Chart_Inventory> getInventoryAll(String keyword) {
+        List<Chart_Inventory> list = new ArrayList<>();
+
+        String sql
+                = "SELECT "
+                + "    sp.masanpham, "
+                + "    sp.tensp, "
+                + "    IFNULL(( "
+                + "        SELECT SUM(ctpn.soluong) "
+                + "        FROM phieunhap pn "
+                + "        JOIN ctphieunhap ctpn ON pn.maphieunhap = ctpn.maphieunhap "
+                + "        WHERE pn.trangthai = 'Duyet' "
+                + "        AND ctpn.masanpham = sp.masanpham "
+                + "    ), 0) "
+                + "    - "
+                + "    IFNULL(( "
+                + "        SELECT SUM(ctpx.soluong) "
+                + "        FROM phieuxuat px "
+                + "        JOIN ctphieuxuat ctpx ON px.maphieuxuat = ctpx.maphieuxuat "
+                + "        WHERE px.trangthai = 'Duyet' "
+                + "        AND ctpx.masanpham = sp.masanpham "
+                + "    ), 0) AS ton_dau_ky, "
+                + "    0 AS nhap_trong_ky, "
+                + "    0 AS xuat_trong_ky "
+                + "FROM sanpham sp "
+                + "WHERE sp.tensp LIKE ?";
+
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, "%" + keyword + "%");
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Chart_Inventory ci = new Chart_Inventory();
+                ci.setMaSanPham(rs.getInt("masanpham"));
+                ci.setTenSanPham(rs.getString("tensp"));
+                ci.setTonDauKy(rs.getInt("ton_dau_ky"));
+                ci.setNhapTrongKy(0);
+                ci.setXuatTrongKy(0);
+                ci.setTonCuoiKy(ci.getTonDauKy());
+                list.add(ci);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return list;
     }
 

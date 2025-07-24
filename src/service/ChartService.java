@@ -1,7 +1,9 @@
 package service;
 
 import dao.ChartDAO;
+import entity.Chart_Inventory;
 import entity.Chart_Revenue;
+import java.time.LocalDate;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
@@ -129,6 +131,42 @@ public class ChartService implements ChartDAO {
         }
 
         return true;
+    }
+
+    public List<Chart_Inventory> getInventoryByKeyWordService(String fromDate, String toDate, String keyword) {
+        if (fromDate == null || fromDate.trim().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập ngày bắt đầu");
+            return new ArrayList<>();
+        }
+
+        if (toDate == null || toDate.trim().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập ngày kết thúc");
+            return new ArrayList<>();
+        }
+
+        if (!fromDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Định dạng ngày bắt đầu không hợp lệ (yyyy-MM-dd)");
+            return new ArrayList<>();
+        }
+
+        if (!toDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Định dạng ngày kết thúc không hợp lệ (yyyy-MM-dd)");
+            return new ArrayList<>();
+        }
+
+        if (keyword == null) {
+            keyword = "";
+        }
+
+        return getInventoryByKeyWord(fromDate, toDate, keyword.trim());
+    }
+
+    public List<Chart_Inventory> getInventoryAllService(String keyword) {
+        if (keyword == null) {
+            keyword = "";
+        }
+
+        return getInventoryAll(keyword.trim());
     }
 
 }
