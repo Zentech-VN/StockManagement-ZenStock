@@ -19,13 +19,16 @@ import java.util.Locale;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableRowSorter;
 
 import service.WarehouseReceiptService;
 import zentech.application.form.other.WarehouseReceiptForm;
@@ -60,6 +63,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
         txtSoluong.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Mã sản phẩm...");
         txtTenSP.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tên sản phẩm...");
         txtghichu.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Ghi chú...");
+        jTextField1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
     }
 
     private TableCellRenderer getAlignmentCellRender(TableCellRenderer oldRender, boolean header) {
@@ -115,7 +119,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
         symbols.setGroupingSeparator('.');
         symbols.setDecimalSeparator(',');
-        DecimalFormat formatter = new DecimalFormat("#,##0.00", symbols);
+        DecimalFormat formatter = new DecimalFormat("#,##0", symbols);
 
         jLabel4.setText(formatter.format(tong));
     }
@@ -186,8 +190,9 @@ public class WarehouseReceiptAddDialog extends JDialog {
                 JOptionPane.showMessageDialog(this, "Không phải số.");
             }
             double dongia = soluonghientai * gia.doubleValue();
+            BigDecimal dongia1 = new BigDecimal(dongia);
             DefaultTableModel model = (DefaultTableModel) tblCho.getModel();
-            model.addRow(new Object[]{txtKho.getText(), txtMaSanPham.getText(), txtTenSP.getText(), txtSoluong.getText(), txtghichu.getText(), dongia});
+            model.addRow(new Object[]{txtKho.getText(), txtMaSanPham.getText(), txtTenSP.getText(), txtSoluong.getText(), txtghichu.getText(), dongia1});
         }
     }
 
@@ -271,6 +276,8 @@ public class WarehouseReceiptAddDialog extends JDialog {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSanPham = new javax.swing.JTable();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblCho = new javax.swing.JTable();
         btnLua = new javax.swing.JButton();
@@ -450,19 +457,39 @@ public class WarehouseReceiptAddDialog extends JDialog {
             tblSanPham.getColumnModel().getColumn(4).setResizable(false);
         }
 
+        jTextField1.setPreferredSize(new java.awt.Dimension(71, 32));
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
+
+        jLabel9.setText("Search");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 808, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -537,17 +564,19 @@ public class WarehouseReceiptAddDialog extends JDialog {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnLua)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCapNhapSoLuong))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnHuy)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnThem)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnLua)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnCapNhapSoLuong))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btnHuy)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnThem)))))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                 .addContainerGap()
@@ -656,10 +685,76 @@ public class WarehouseReceiptAddDialog extends JDialog {
 
     private void txtKhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtKhoActionPerformed
         // TODO add your handling code here:
+        int result = JOptionPane.showConfirmDialog(
+                this,
+                "Bạn có muốn sửa số lượng không?",
+                "Xác nhận",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null
+        );
+
+        if (result == JOptionPane.YES_OPTION) {
+            // Mở ô nhập số mới
+            String input = JOptionPane.showInputDialog(this, "Nhập số lượng mới:");
+            if (input != null) {
+                try {
+                    int sl = Integer.parseInt(input.trim());
+                    // validate và cập nhật
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Số lượng không hợp lệ.");
+                }
+            }
+        }
     }//GEN-LAST:event_txtKhoActionPerformed
 
     private void btnCapNhapSoLuongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhapSoLuongActionPerformed
         // TODO add your handling code here:
+        int selectedRow = tblCho.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một sản phẩm cần cập nhật số lượng.");
+            return;
+        }
+
+        String currentQtyStr = tblCho.getValueAt(selectedRow, 3).toString();
+        JTextField inputField = new JTextField(currentQtyStr);
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Nhập số lượng mới:"));
+        panel.add(inputField);
+
+        int result = JOptionPane.showConfirmDialog(
+                this,
+                panel,
+                "Cập nhật số lượng",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE
+        );
+
+        if (result == JOptionPane.OK_OPTION) {
+            try {
+                int newQty = Integer.parseInt(inputField.getText().trim());
+                if (newQty < 1 || newQty > 10000) {
+                    JOptionPane.showMessageDialog(this, "Số lượng phải nằm trong khoảng từ 1 đến 10000.");
+                    return;
+                }
+
+                tblCho.setValueAt(newQty, selectedRow, 3);
+
+                Object unitPriceObj = tblCho.getValueAt(selectedRow, 5);
+                double totalPriceOld = Double.parseDouble(unitPriceObj.toString());
+                int oldQty = Integer.parseInt(currentQtyStr);
+
+                if (oldQty > 0) {
+                    double unitPrice = totalPriceOld / oldQty;
+                    double newTotal = unitPrice * newQty;
+                    tblCho.setValueAt(newTotal, selectedRow, 5);
+                }
+
+                LoadMoney(); 
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Số lượng không hợp lệ.");
+            }
+        }
 
     }//GEN-LAST:event_btnCapNhapSoLuongActionPerformed
 
@@ -688,6 +783,14 @@ public class WarehouseReceiptAddDialog extends JDialog {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        // TODO add your handling code here:
+        DefaultTableModel ob = (DefaultTableModel) tblSanPham.getModel();
+        TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(ob);
+        tblSanPham.setRowSorter(obj);
+        obj.setRowFilter(javax.swing.RowFilter.regexFilter(jTextField1.getText()));
+    }//GEN-LAST:event_jTextField1KeyReleased
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCapNhapSoLuong;
     private javax.swing.JButton btnHuy;
@@ -706,11 +809,13 @@ public class WarehouseReceiptAddDialog extends JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tblCho;
     private javax.swing.JTable tblSanPham;
     private javax.swing.JTextField txtKho;
