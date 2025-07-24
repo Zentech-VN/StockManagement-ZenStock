@@ -4,6 +4,8 @@ import chart.chart.CurveLineChart;
 import chart.chart.ModelChart;
 import com.formdev.flatlaf.FlatClientProperties;
 import entity.Chart_Inventory;
+import entity.Chart_ProductOutOfStock;
+import entity.Chart_ProductTopSelling;
 import entity.Chart_Revenue;
 import java.awt.Color;
 import java.awt.Component;
@@ -14,6 +16,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -44,6 +47,8 @@ public class Chart extends javax.swing.JPanel {
         initalTable(tblDoanhThuTheoThang);
         initalTable(tblDoanhThuTheoNgay);
         initalTableMini(tblThongKeTonKho);
+        initalTableMini(tblSanPhamBanChay);
+        initalTableMini(tblSanPhamHetHang);
 
         setDataBase();
         setDataYears("2022", "2025");
@@ -55,7 +60,23 @@ public class Chart extends javax.swing.JPanel {
         loadRevenueByMonths("2025");
         loadRevenueByDays("2025", "07");
         loadInventoryAll();
+        loadTopSellingProducts("", "", "");
+        loadLowStockProductsToTable("", "");
 
+        initalTextField(txtSanPhamBanChay_SanPham, "Tìm kiếm");
+        initalTextField(txtSanPhamBanChay_DenNgay, "yyyy-MM-dd");
+        initalTextField(txtSanPhamBanChay_TuNgay, "yyyy-MM-dd");
+        initalTextField(txtSanPhamHetHang_SanPham, "Tìm kiếm");
+        initalTextField(txtSanPhamHetHang_SoLuong, "5");
+        initalTextField(txtThongKeTonKho_SanPham, "Tìm kiếm");
+        initalTextField(txtThongKeTonKho_DenNgay, "yyyy-MM-dd");
+        initalTextField(txtThongKeTonKho_TuNgay, "yyyy-MM-dd");
+        initalTextField(txtThongKeTheoNam_DenNam, "2025");
+        initalTextField(txtThongKeTheoNam_TuNam, "2022");
+        initalTextField(txtThongKeTheoNgay_Nam, "2025");
+        initalTextField(txtThongKeTheoNgay_Thang, "07");
+        initalTextField(txtThongKeTheoThang_Nam, "2025");
+        
         initalCount();
 
     }
@@ -70,6 +91,10 @@ public class Chart extends javax.swing.JPanel {
         chart.addLegend(legend3, Color.decode("#0099F7"), Color.decode("#F11712"));
 
         chart.start();
+    }
+    
+    private void initalTextField(JTextField txt, String hint) {
+        txt.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, hint);
     }
 
     private void initalTable(JTable table) {
@@ -396,6 +421,51 @@ public class Chart extends javax.swing.JPanel {
         }
     }
 
+    private void loadTopSellingProducts(String fromDate, String toDate, String keyword) {
+        try {
+            List<Chart_ProductTopSelling> list = service.getTopSellingProductService(fromDate, toDate, keyword);
+
+            DefaultTableModel model = (DefaultTableModel) tblSanPhamBanChay.getModel();
+            model.setRowCount(0);
+
+            DecimalFormat formatter = new DecimalFormat("#,###");
+
+            for (Chart_ProductTopSelling p : list) {
+                model.addRow(new Object[]{
+                    p.getMaSanPham(),
+                    p.getTenSanPham(),
+                    formatter.format(p.getSoLuongBan())
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadLowStockProductsToTable(String keyword, String minQuantityText) {
+        try {
+            List<Chart_ProductOutOfStock> list = service.getProductOutOfStockService(keyword, minQuantityText);
+
+            if (list.isEmpty()) {
+                lblSanPhamHetHang_ThongBao.setText("*Không có sản phẩm nào sắp hết hàng!");
+            }
+
+            DefaultTableModel model = (DefaultTableModel) tblSanPhamHetHang.getModel();
+            model.setRowCount(0);
+
+            for (Chart_ProductOutOfStock p : list) {
+                model.addRow(new Object[]{
+                    p.getMaSanPham(),
+                    p.getTenSanPham(),
+                    p.getSoLuong()
+                });
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -494,6 +564,36 @@ public class Chart extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblThongKeTonKho = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
+        materialTabbed4 = new zentech.application.tabbed.MaterialTabbed();
+        jPanel9 = new javax.swing.JPanel();
+        crazyPanel26 = new raven.crazypanel.CrazyPanel();
+        jLabel18 = new javax.swing.JLabel();
+        txtSanPhamBanChay_SanPham = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        txtSanPhamBanChay_TuNgay = new javax.swing.JTextField();
+        jLabel28 = new javax.swing.JLabel();
+        txtSanPhamBanChay_DenNgay = new javax.swing.JTextField();
+        jLabel29 = new javax.swing.JLabel();
+        btnSanPhamBanChay_TimKiem = new javax.swing.JButton();
+        btnSanPhamBanChay_LamMoi = new javax.swing.JButton();
+        crazyPanel27 = new raven.crazypanel.CrazyPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblSanPhamBanChay = new javax.swing.JTable();
+        jPanel10 = new javax.swing.JPanel();
+        crazyPanel28 = new raven.crazypanel.CrazyPanel();
+        jLabel26 = new javax.swing.JLabel();
+        txtSanPhamHetHang_SanPham = new javax.swing.JTextField();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        txtSanPhamHetHang_SoLuong = new javax.swing.JTextField();
+        jLabel32 = new javax.swing.JLabel();
+        btnSanPhamHetHang_TimKiem = new javax.swing.JButton();
+        btnSanPhamHetHang_LamMoi = new javax.swing.JButton();
+        lblSanPhamHetHang_ThongBao = new javax.swing.JLabel();
+        crazyPanel29 = new raven.crazypanel.CrazyPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tblSanPhamHetHang = new javax.swing.JTable();
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
         jPanel17.setLayout(jPanel17Layout);
@@ -835,6 +935,10 @@ public class Chart extends javax.swing.JPanel {
                 "background:lighten(@background,8%);borderWidth:1",
                 "background:lighten(@background,8%);borderWidth:1",
                 "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
                 ""
             }
         ));
@@ -844,9 +948,10 @@ public class Chart extends javax.swing.JPanel {
             "[]",
             new String[]{
                 "",
-                "width 100",
+                "width 150",
                 "",
-                "width 100"
+                "width 150",
+                ""
             }
         ));
 
@@ -966,6 +1071,11 @@ public class Chart extends javax.swing.JPanel {
                 "background:lighten(@background,8%);borderWidth:1",
                 "background:lighten(@background,8%);borderWidth:1",
                 "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
                 ""
             }
         ));
@@ -975,7 +1085,8 @@ public class Chart extends javax.swing.JPanel {
             "[]",
             new String[]{
                 "",
-                "width 100"
+                "width 150",
+                ""
             }
         ));
 
@@ -1063,6 +1174,11 @@ public class Chart extends javax.swing.JPanel {
                 "background:lighten(@background,8%);borderWidth:1",
                 "background:lighten(@background,8%);borderWidth:1",
                 "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
                 ""
             }
         ));
@@ -1072,9 +1188,10 @@ public class Chart extends javax.swing.JPanel {
             "[]",
             new String[]{
                 "",
-                "width 100",
+                "width 150",
                 "",
-                "width 100"
+                "width 150",
+                ""
             }
         ));
 
@@ -1197,6 +1314,10 @@ public class Chart extends javax.swing.JPanel {
                 "background:lighten(@background,8%);borderWidth:1",
                 "background:lighten(@background,8%);borderWidth:1",
                 "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
                 ""
             }
         ));
@@ -1280,6 +1401,11 @@ public class Chart extends javax.swing.JPanel {
         });
         tblThongKeTonKho.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tblThongKeTonKho);
+        if (tblThongKeTonKho.getColumnModel().getColumnCount() > 0) {
+            tblThongKeTonKho.getColumnModel().getColumn(3).setHeaderValue("Nhập trong kì");
+            tblThongKeTonKho.getColumnModel().getColumn(4).setHeaderValue("Xuất trong kì");
+            tblThongKeTonKho.getColumnModel().getColumn(5).setHeaderValue("Tồn cuối kì");
+        }
 
         crazyPanel23.add(jScrollPane2);
 
@@ -1306,28 +1432,275 @@ public class Chart extends javax.swing.JPanel {
 
         materialTabbed2.addTab("Tồn kho", jPanel3);
 
+        crazyPanel26.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
+            "background:$Table.background;[light]border:0,0,0,0,shade(@background,5%),,20;[dark]border:0,0,0,0,tint(@background,5%),,20",
+            new String[]{
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "",
+                "background:lighten(@background,8%);borderWidth:1"
+            }
+        ));
+        crazyPanel26.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
+            "wrap,insets 15",
+            "[fill]",
+            "[grow 0][][][fill][grow 0][fill][grow 0][fill][grow 0][][][fill]",
+            new String[]{
+                "width 400",
+                "width 400",
+                "width 400",
+                "width 400",
+                "width 400",
+                "width 400",
+                "width 400",
+                "width 400",
+                "height 50",
+                "height 50"
+            }
+        ));
+
+        jLabel18.setText("Tìm kiếm sản phẩm");
+        crazyPanel26.add(jLabel18);
+        crazyPanel26.add(txtSanPhamBanChay_SanPham);
+        crazyPanel26.add(jLabel19);
+
+        jLabel20.setText("Từ ngày");
+        crazyPanel26.add(jLabel20);
+        crazyPanel26.add(txtSanPhamBanChay_TuNgay);
+
+        jLabel28.setText("Đến ngày");
+        crazyPanel26.add(jLabel28);
+        crazyPanel26.add(txtSanPhamBanChay_DenNgay);
+        crazyPanel26.add(jLabel29);
+
+        btnSanPhamBanChay_TimKiem.setText("Tìm kiếm");
+        btnSanPhamBanChay_TimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSanPhamBanChay_TimKiemActionPerformed(evt);
+            }
+        });
+        crazyPanel26.add(btnSanPhamBanChay_TimKiem);
+
+        btnSanPhamBanChay_LamMoi.setText("Làm mới");
+        btnSanPhamBanChay_LamMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSanPhamBanChay_LamMoiActionPerformed(evt);
+            }
+        });
+        crazyPanel26.add(btnSanPhamBanChay_LamMoi);
+
+        crazyPanel27.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
+            "background:$Table.background;[light]border:0,0,0,0,shade(@background,5%),,20;[dark]border:0,0,0,0,tint(@background,5%),,20",
+            null
+        ));
+        crazyPanel27.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
+            "wrap,fill,insets 15",
+            "[fill]",
+            "[fill]",
+            null
+        ));
+
+        tblSanPhamBanChay.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Mã", "Tên sản phẩm", "Số lượng bán"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblSanPhamBanChay.getTableHeader().setReorderingAllowed(false);
+        jScrollPane4.setViewportView(tblSanPhamBanChay);
+
+        crazyPanel27.add(jScrollPane4);
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(crazyPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(crazyPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, 774, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(crazyPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE)
+                    .addComponent(crazyPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        materialTabbed4.addTab("Bán chạy nhất", jPanel9);
+
+        crazyPanel28.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
+            "background:$Table.background;[light]border:0,0,0,0,shade(@background,5%),,20;[dark]border:0,0,0,0,tint(@background,5%),,20",
+            new String[]{
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                ""
+            }
+        ));
+        crazyPanel28.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
+            "wrap,insets 15",
+            "[fill]",
+            "[grow 0][][][fill][grow 0][fill][grow 0][fill][grow 0][][][fill]",
+            new String[]{
+                "width 400",
+                "width 400",
+                "width 400",
+                "width 400",
+                "width 400",
+                "width 400",
+                "height 50",
+                "height 50",
+                "height 50",
+                "height 50"
+            }
+        ));
+
+        jLabel26.setText("Tìm kiếm sản phẩm");
+        crazyPanel28.add(jLabel26);
+        crazyPanel28.add(txtSanPhamHetHang_SanPham);
+        crazyPanel28.add(jLabel27);
+
+        jLabel31.setText("Số lượng ít nhất");
+        crazyPanel28.add(jLabel31);
+        crazyPanel28.add(txtSanPhamHetHang_SoLuong);
+        crazyPanel28.add(jLabel32);
+
+        btnSanPhamHetHang_TimKiem.setText("Tìm kiếm");
+        btnSanPhamHetHang_TimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSanPhamHetHang_TimKiemActionPerformed(evt);
+            }
+        });
+        crazyPanel28.add(btnSanPhamHetHang_TimKiem);
+
+        btnSanPhamHetHang_LamMoi.setText("Làm mới");
+        btnSanPhamHetHang_LamMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSanPhamHetHang_LamMoiActionPerformed(evt);
+            }
+        });
+        crazyPanel28.add(btnSanPhamHetHang_LamMoi);
+
+        lblSanPhamHetHang_ThongBao.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        crazyPanel28.add(lblSanPhamHetHang_ThongBao);
+
+        crazyPanel29.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
+            "background:$Table.background;[light]border:0,0,0,0,shade(@background,5%),,20;[dark]border:0,0,0,0,tint(@background,5%),,20",
+            null
+        ));
+        crazyPanel29.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
+            "wrap,fill,insets 15",
+            "[fill]",
+            "[fill]",
+            null
+        ));
+
+        tblSanPhamHetHang.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Mã", "Tên sản phẩm", "Số lượng"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblSanPhamHetHang.getTableHeader().setReorderingAllowed(false);
+        jScrollPane5.setViewportView(tblSanPhamHetHang);
+
+        crazyPanel29.add(jScrollPane5);
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(crazyPanel28, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(crazyPanel29, javax.swing.GroupLayout.DEFAULT_SIZE, 774, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(crazyPanel28, javax.swing.GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE)
+                    .addComponent(crazyPanel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        materialTabbed4.addTab("Sắp hết hàng", jPanel10);
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1116, Short.MAX_VALUE)
+            .addComponent(materialTabbed4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 746, Short.MAX_VALUE)
+            .addComponent(materialTabbed4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        materialTabbed2.addTab("Khách hàng", jPanel7);
+        materialTabbed2.addTab("Sản phẩm", jPanel7);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(materialTabbed2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1121, Short.MAX_VALUE)
+            .addComponent(materialTabbed2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(materialTabbed2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 793, Short.MAX_VALUE)
+            .addComponent(materialTabbed2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1354,18 +1727,30 @@ public class Chart extends javax.swing.JPanel {
 
     private void btnLamMoiNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiNamActionPerformed
         initalChart(chartRevenueYears, "Thống kê theo năm", "Doanh thu", "Vốn", "Lợi nhuận");
+
+        txtThongKeTheoNam_TuNam.setText("");
+        txtThongKeTheoNam_DenNam.setText("");
+
         setDataYears("2022", "2025");
         loadRevenueByYears("2022", "2025");
     }//GEN-LAST:event_btnLamMoiNamActionPerformed
 
     private void btnLamMoiThangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiThangActionPerformed
         initalChart(chartRevenueMonths, "Thống kê theo tháng", "Doanh thu", "Vốn", "Lợi nhuận");
+
+        txtThongKeTheoThang_Nam.setText("");
+        txtThongKeTheoThang_Nam.setText("");
+
         setDataMonths("2025");
         loadRevenueByMonths("2025");
     }//GEN-LAST:event_btnLamMoiThangActionPerformed
 
     private void btnLamMoiNgayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiNgayActionPerformed
         initalChart(chartRevenueDays, "Thống kê theo ngày", "Doanh thu", "Vốn", "Lợi nhuận");
+
+        txtThongKeTheoNgay_Nam.setText("");
+        txtThongKeTheoNgay_Thang.setText("");
+
         setDataDays("2025", "07");
         loadRevenueByDays("2025", "07");
     }//GEN-LAST:event_btnLamMoiNgayActionPerformed
@@ -1398,7 +1783,41 @@ public class Chart extends javax.swing.JPanel {
 
     private void btnThongKeTonKho_LamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThongKeTonKho_LamMoiActionPerformed
         loadInventoryAll();
+
+        txtThongKeTonKho_SanPham.setText("");
+        txtThongKeTonKho_TuNgay.setText("");
+        txtThongKeTonKho_DenNgay.setText("");
     }//GEN-LAST:event_btnThongKeTonKho_LamMoiActionPerformed
+
+    private void btnSanPhamBanChay_TimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSanPhamBanChay_TimKiemActionPerformed
+        String keyword = txtSanPhamBanChay_SanPham.getText();
+        String from = txtSanPhamBanChay_TuNgay.getText();
+        String to = txtSanPhamBanChay_DenNgay.getText();
+
+        loadTopSellingProducts(from, to, keyword);
+    }//GEN-LAST:event_btnSanPhamBanChay_TimKiemActionPerformed
+
+    private void btnSanPhamBanChay_LamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSanPhamBanChay_LamMoiActionPerformed
+        loadTopSellingProducts("", "", "");
+
+        txtSanPhamBanChay_SanPham.setText("");
+        txtSanPhamBanChay_TuNgay.setText("");
+        txtSanPhamBanChay_DenNgay.setText("");
+    }//GEN-LAST:event_btnSanPhamBanChay_LamMoiActionPerformed
+
+    private void btnSanPhamHetHang_TimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSanPhamHetHang_TimKiemActionPerformed
+        String keyword = txtSanPhamHetHang_SanPham.getText();
+        String minQuantityText = txtSanPhamHetHang_SoLuong.getText();
+
+        loadLowStockProductsToTable(keyword, minQuantityText);
+    }//GEN-LAST:event_btnSanPhamHetHang_TimKiemActionPerformed
+
+    private void btnSanPhamHetHang_LamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSanPhamHetHang_LamMoiActionPerformed
+        loadLowStockProductsToTable("", "");
+
+        txtSanPhamHetHang_SanPham.setText("");
+        txtSanPhamHetHang_SoLuong.setText("");
+    }//GEN-LAST:event_btnSanPhamHetHang_LamMoiActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1407,6 +1826,10 @@ public class Chart extends javax.swing.JPanel {
     private javax.swing.JButton btnLamMoiThang;
     private javax.swing.JButton btnNam;
     private javax.swing.JButton btnNgay;
+    private javax.swing.JButton btnSanPhamBanChay_LamMoi;
+    private javax.swing.JButton btnSanPhamBanChay_TimKiem;
+    private javax.swing.JButton btnSanPhamHetHang_LamMoi;
+    private javax.swing.JButton btnSanPhamHetHang_TimKiem;
     private javax.swing.JButton btnThang;
     private javax.swing.JButton btnThongKeTonKho_LamMoi;
     private javax.swing.JButton btnThongKeTonKho_TimKiem;
@@ -1424,6 +1847,10 @@ public class Chart extends javax.swing.JPanel {
     private raven.crazypanel.CrazyPanel crazyPanel21;
     private raven.crazypanel.CrazyPanel crazyPanel22;
     private raven.crazypanel.CrazyPanel crazyPanel23;
+    private raven.crazypanel.CrazyPanel crazyPanel26;
+    private raven.crazypanel.CrazyPanel crazyPanel27;
+    private raven.crazypanel.CrazyPanel crazyPanel28;
+    private raven.crazypanel.CrazyPanel crazyPanel29;
     private raven.crazypanel.CrazyPanel crazyPanel3;
     private raven.crazypanel.CrazyPanel crazyPanel4;
     private raven.crazypanel.CrazyPanel crazyPanel5;
@@ -1436,13 +1863,22 @@ public class Chart extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1450,6 +1886,7 @@ public class Chart extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
@@ -1462,20 +1899,25 @@ public class Chart extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblCustomerCount;
     private javax.swing.JLabel lblProductCount;
+    private javax.swing.JLabel lblSanPhamHetHang_ThongBao;
     private javax.swing.JLabel lblUserCount;
     private zentech.application.tabbed.MaterialTabbed materialTabbed1;
     private zentech.application.tabbed.MaterialTabbed materialTabbed2;
     private zentech.application.tabbed.MaterialTabbed materialTabbed3;
+    private zentech.application.tabbed.MaterialTabbed materialTabbed4;
     private raven.crazypanel.CrazyPanel panel1;
     private raven.crazypanel.CrazyPanel panel2;
     private raven.crazypanel.CrazyPanel panel3;
@@ -1487,7 +1929,14 @@ public class Chart extends javax.swing.JPanel {
     private javax.swing.JTable tblDoanhThuTheoNgay;
     private javax.swing.JTable tblDoanhThuTheoThang;
     private javax.swing.JTable tblDoanhThuTongQuan;
+    private javax.swing.JTable tblSanPhamBanChay;
+    private javax.swing.JTable tblSanPhamHetHang;
     private javax.swing.JTable tblThongKeTonKho;
+    private javax.swing.JTextField txtSanPhamBanChay_DenNgay;
+    private javax.swing.JTextField txtSanPhamBanChay_SanPham;
+    private javax.swing.JTextField txtSanPhamBanChay_TuNgay;
+    private javax.swing.JTextField txtSanPhamHetHang_SanPham;
+    private javax.swing.JTextField txtSanPhamHetHang_SoLuong;
     private javax.swing.JTextField txtThongKeTheoNam_DenNam;
     private javax.swing.JTextField txtThongKeTheoNam_TuNam;
     private javax.swing.JTextField txtThongKeTheoNgay_Nam;

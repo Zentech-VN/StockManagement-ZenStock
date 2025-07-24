@@ -2,8 +2,9 @@ package service;
 
 import dao.ChartDAO;
 import entity.Chart_Inventory;
+import entity.Chart_ProductOutOfStock;
+import entity.Chart_ProductTopSelling;
 import entity.Chart_Revenue;
-import java.time.LocalDate;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
@@ -139,13 +140,13 @@ public class ChartService implements ChartDAO {
             return new ArrayList<>();
         }
 
-        if (toDate == null || toDate.trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập ngày kết thúc");
+        if (!fromDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Định dạng ngày bắt đầu không hợp lệ (yyyy-MM-dd)");
             return new ArrayList<>();
         }
 
-        if (!fromDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Định dạng ngày bắt đầu không hợp lệ (yyyy-MM-dd)");
+        if (toDate == null || toDate.trim().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập ngày kết thúc");
             return new ArrayList<>();
         }
 
@@ -167,6 +168,77 @@ public class ChartService implements ChartDAO {
         }
 
         return getInventoryAll(keyword.trim());
+    }
+
+    public List<Chart_ProductTopSelling> getTopSellingProductService(String fromDate, String toDate, String keyword) {
+        boolean hasKeyword = keyword != null && !keyword.trim().isEmpty();
+        boolean hasFrom = fromDate != null && !fromDate.trim().isEmpty();
+        boolean hasTo = toDate != null && !toDate.trim().isEmpty();
+
+        if (keyword == null) {
+            keyword = "";
+        }
+
+        if (!hasFrom && !hasTo && !hasKeyword) {
+            return getTopSellingProducts();
+        }
+
+        if (hasKeyword) {
+            return getTopSellingProductsByKeyword("2000-01-01", "2100-01-01", keyword);
+        }
+
+        if (fromDate == null || fromDate.trim().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập ngày bắt đầu");
+            return new ArrayList<>();
+        }
+
+        if (!fromDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Định dạng ngày bắt đầu không hợp lệ (yyyy-MM-dd)");
+            return new ArrayList<>();
+        }
+
+        if (toDate == null || toDate.trim().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập ngày kết thúc");
+            return new ArrayList<>();
+        }
+
+        if (!toDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Định dạng ngày kết thúc không hợp lệ (yyyy-MM-dd)");
+            return new ArrayList<>();
+        }
+
+        if (hasFrom && hasTo && hasKeyword) {
+            return getTopSellingProductsByKeyword(fromDate, toDate, keyword);
+        }
+
+        if (hasFrom && hasTo) {
+            return getTopSellingProductsByDate(fromDate, toDate);
+        }
+
+        return getTopSellingProducts();
+    }
+
+    public List<Chart_ProductOutOfStock> getProductOutOfStockService(String keyword, String minQuantityText) {
+        List<Chart_ProductOutOfStock> list = new ArrayList<>();
+
+        if (keyword == null) {
+            keyword = "";
+        } else {
+            keyword = keyword.trim();
+        }
+
+        int minQuantity = 5; //Mặc định là 5
+        try {
+            if (minQuantityText != null && !minQuantityText.trim().isEmpty()) {
+                minQuantity = Integer.parseInt(minQuantityText.trim());
+            }
+        } catch (NumberFormatException e) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Số lượng tồn tối thiểu không hợp lệ, dùng mặc định = 5");
+        }
+
+        list = getProductOutOfStock(keyword, minQuantity);
+
+        return list;
     }
 
 }

@@ -1,15 +1,13 @@
 package dao;
 
 import entity.Chart_Inventory;
+import entity.Chart_ProductOutOfStock;
+import entity.Chart_ProductTopSelling;
 import entity.Chart_Revenue;
-import java.math.BigDecimal;
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import jdbc.ConnectionHelper;
@@ -298,6 +296,138 @@ public interface ChartDAO {
                 ci.setXuatTrongKy(0);
                 ci.setTonCuoiKy(ci.getTonDauKy());
                 list.add(ci);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    default List<Chart_ProductTopSelling> getTopSellingProducts() {
+        List<Chart_ProductTopSelling> list = new ArrayList<>();
+        String sql = "SELECT "
+                + "sp.masanpham, "
+                + "sp.tensp, "
+                + "SUM(ctpx.soluong) AS so_luong_ban "
+                + "FROM phieuxuat px "
+                + "JOIN ctphieuxuat ctpx ON px.maphieuxuat = ctpx.maphieuxuat "
+                + "JOIN sanpham sp ON ctpx.masanpham = sp.masanpham "
+                + "WHERE px.trangthai = 'Duyet' "
+                + "GROUP BY sp.masanpham, sp.tensp "
+                + "ORDER BY so_luong_ban DESC "
+                + "LIMIT 100";
+
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Chart_ProductTopSelling p = new Chart_ProductTopSelling();
+                p.setMaSanPham(rs.getInt("masanpham"));
+                p.setTenSanPham(rs.getString("tensp"));
+                p.setSoLuongBan(rs.getInt("so_luong_ban"));
+                list.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    default List<Chart_ProductTopSelling> getTopSellingProductsByDate(String fromDate, String toDate) {
+        List<Chart_ProductTopSelling> list = new ArrayList<>();
+        String sql = "SELECT "
+                + "sp.masanpham, "
+                + "sp.tensp, "
+                + "SUM(ctpx.soluong) AS so_luong_ban "
+                + "FROM phieuxuat px "
+                + "JOIN ctphieuxuat ctpx ON px.maphieuxuat = ctpx.maphieuxuat "
+                + "JOIN sanpham sp ON ctpx.masanpham = sp.masanpham "
+                + "WHERE px.trangthai = 'Duyet' "
+                + "AND px.thoigian BETWEEN ? AND ? "
+                + "GROUP BY sp.masanpham, sp.tensp "
+                + "ORDER BY so_luong_ban DESC "
+                + "LIMIT 100";
+
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, fromDate);
+            ps.setString(2, toDate);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Chart_ProductTopSelling p = new Chart_ProductTopSelling();
+                p.setMaSanPham(rs.getInt("masanpham"));
+                p.setTenSanPham(rs.getString("tensp"));
+                p.setSoLuongBan(rs.getInt("so_luong_ban"));
+                list.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    default List<Chart_ProductTopSelling> getTopSellingProductsByKeyword(String fromDate, String toDate, String keyword) {
+        List<Chart_ProductTopSelling> list = new ArrayList<>();
+        String sql = "SELECT "
+                + "sp.masanpham, "
+                + "sp.tensp, "
+                + "SUM(ctpx.soluong) AS so_luong_ban "
+                + "FROM phieuxuat px "
+                + "JOIN ctphieuxuat ctpx ON px.maphieuxuat = ctpx.maphieuxuat "
+                + "JOIN sanpham sp ON ctpx.masanpham = sp.masanpham "
+                + "WHERE px.trangthai = 'Duyet' "
+                + "AND px.thoigian BETWEEN ? AND ? "
+                + "AND sp.tensp LIKE ? "
+                + "GROUP BY sp.masanpham, sp.tensp "
+                + "ORDER BY so_luong_ban DESC "
+                + "LIMIT 100";
+
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, fromDate);
+            ps.setString(2, toDate);
+            ps.setString(3, "%" + keyword + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Chart_ProductTopSelling p = new Chart_ProductTopSelling();
+                p.setMaSanPham(rs.getInt("masanpham"));
+                p.setTenSanPham(rs.getString("tensp"));
+                p.setSoLuongBan(rs.getInt("so_luong_ban"));
+                list.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    default List<Chart_ProductOutOfStock> getProductOutOfStock(String keyword, int minQuantity) {
+        List<Chart_ProductOutOfStock> list = new ArrayList<>();
+
+        if(minQuantity <= 0) {
+            minQuantity = 5;
+        }
+        
+        String sql = "SELECT "
+                + "sp.masanpham, "
+                + "sp.tensp, "
+                + "SUM(kvs.soluong) AS so_luong_ton "
+                + "FROM sanpham sp "
+                + "JOIN khuvuckho_sanpham kvs ON sp.masanpham = kvs.masanpham "
+                + "WHERE sp.tensp LIKE ? "
+                + "GROUP BY sp.masanpham, sp.tensp "
+                + "HAVING so_luong_ton <= ? "
+                + "ORDER BY so_luong_ton ASC";
+
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, "%" + keyword + "%");
+            ps.setInt(2, minQuantity);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Chart_ProductOutOfStock p = new Chart_ProductOutOfStock();
+                p.setMaSanPham(rs.getInt("masanpham"));
+                p.setTenSanPham(rs.getString("tensp"));
+                p.setSoLuong(rs.getInt("so_luong_ton"));
+                list.add(p);
             }
         } catch (Exception e) {
             e.printStackTrace();
