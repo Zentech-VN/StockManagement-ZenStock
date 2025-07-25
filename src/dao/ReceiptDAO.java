@@ -210,19 +210,40 @@ public class ReceiptDAO {
         return receipts;
     }
     public boolean approveReceipt(int receiptId, String receiptCategory) {
-        String sql;
+        String updateStatusSql;
+        String updateInventorySql;
         
         if ("import".equals(receiptCategory)) {
-            sql = "UPDATE phieunhap SET trangthai = 'Duyet' WHERE maphieunhap = ? AND trangthai = 'ChoDuyet'";
+            updateStatusSql = "UPDATE phieunhap SET trangthai = 'Duyet' WHERE maphieunhap = ? AND trangthai = 'ChoDuyet'";
+            // Increase
+            updateInventorySql =
+                "INSERT INTO khuvuckho_sanpham (makhuvuc, masanpham, soluong)\n" +
+                "SELECT kvsp.makhuvuc, ct.masanpham, ct.soluong\n" +
+                "FROM ctphieunhap ct\n" +
+                "JOIN khuvuckho_sanpham kvsp ON ct.masanpham = kvsp.masanpham\n" +
+                "WHERE ct.maphieunhap = ?\n" +
+                "ON DUPLICATE KEY UPDATE soluong = khuvuckho_sanpham.soluong + VALUES(soluong)";
+
         } else {
-            sql = "UPDATE phieuxuat SET trangthai = 'Duyet' WHERE maphieuxuat = ? AND trangthai = 'ChoDuyet'";
+            updateStatusSql = "UPDATE phieuxuat SET trangthai = 'Duyet' WHERE maphieuxuat = ? AND trangthai = 'ChoDuyet'";
+            
+            updateInventorySql =
+                "UPDATE khuvuckho_sanpham kvsp\n" +
+                "JOIN ctphieuxuat ct ON kvsp.masanpham = ct.masanpham\n" +
+                "SET kvsp.soluong = kvsp.soluong - ct.soluong\n" +
+                "WHERE ct.maphieuxuat = ? AND kvsp.soluong >= ct.soluong";
         }
         
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
-            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            pst.setInt(1, receiptId);
-            int rowsAffected = pst.executeUpdate();
+            PreparedStatement pst1 = (PreparedStatement) con.prepareStatement(updateStatusSql);
+            pst1.setInt(1, receiptId);
+
+            PreparedStatement pst2 = con.prepareStatement(updateInventorySql);
+            pst2.setInt(1, receiptId);
+            pst2.executeUpdate();
+
+            int rowsAffected = pst1.executeUpdate();
             ConnectionHelper.closeConnection(con);
             return rowsAffected > 0;
 
