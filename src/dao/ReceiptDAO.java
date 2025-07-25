@@ -215,7 +215,7 @@ public class ReceiptDAO {
         
         if ("import".equals(receiptCategory)) {
             updateStatusSql = "UPDATE phieunhap SET trangthai = 'Duyet' WHERE maphieunhap = ? AND trangthai = 'ChoDuyet'";
-            // Increase
+            //  Increase
             updateInventorySql =
                 "INSERT INTO khuvuckho_sanpham (makhuvuc, masanpham, soluong)\n" +
                 "SELECT kvsp.makhuvuc, ct.masanpham, ct.soluong\n" +
@@ -226,7 +226,7 @@ public class ReceiptDAO {
 
         } else {
             updateStatusSql = "UPDATE phieuxuat SET trangthai = 'Duyet' WHERE maphieuxuat = ? AND trangthai = 'ChoDuyet'";
-            
+            //decrease
             updateInventorySql =
                 "UPDATE khuvuckho_sanpham kvsp\n" +
                 "JOIN ctphieuxuat ct ON kvsp.masanpham = ct.masanpham\n" +
