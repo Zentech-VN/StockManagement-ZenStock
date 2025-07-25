@@ -7,7 +7,15 @@ package zentech.application.dialog;
 import java.awt.Dialog;
 import java.awt.Window;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import zentech.application.form.other.ReceiptApprovalForm;
+import service.ReceiptService;
+import entity.Receipt;
+import entity.ReceiptDetails;
+import jdbc.ConnectionHelper;
+import java.util.List;
+import java.text.DecimalFormat;
 
 /**
  *
@@ -15,13 +23,144 @@ import zentech.application.form.other.ReceiptApprovalForm;
  */
 public class CheckReceiptDialog extends JDialog {
 
-    /**
-     * Creates new form CheckReceiptDialog
-     */
-    public CheckReceiptDialog(Window parent, ReceiptApprovalForm receiptApprovalForm) {
+    private ReceiptService receiptService;
+    private ReceiptApprovalForm parentForm;
+    private int receiptId;
+    private String receiptCategory;
+    private Receipt receiptSummary;
+
+    public CheckReceiptDialog(Window parent, ReceiptApprovalForm receiptApprovalForm, int selectedReceiptId) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
+        this.parentForm = receiptApprovalForm;
+        this.receiptId = selectedReceiptId;
+        this.receiptService = new ReceiptService();
+
         initComponents();
+        setupDialog();
         setLocationRelativeTo(null);
+        loadReceiptData();
+    }
+
+    private void setupDialog() {
+        setTitle("Kiểm tra phiếu - ID: " + receiptId);
+
+        String[] title = {"Tên sản phẩm", "Đơn giá", "Khu vực kho", "Số lượng", "Ghi chú"};
+        DefaultTableModel model = new DefaultTableModel(title, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        jTable1.setModel(model);
+        jTable1.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 12));
+        jTable1.setRowHeight(25);
+        jTable1.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+
+    }
+
+    private void loadReceiptData() {
+        try {
+            receiptCategory = parentForm.getSelectedReceiptCategory();
+            if (receiptCategory == null) {
+                JOptionPane.showMessageDialog(this, "Không thể xác định loại phiếu.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Receipt receiptSummary = receiptService.getReceiptSummary(receiptId, receiptCategory);
+
+            jTextField1.setText(receiptSummary.getCreatedBy());
+            jTextField2.setText(receiptSummary.getTimestamp().toString());
+            jTextField3.setText(""); 
+            DecimalFormat formatter = new DecimalFormat("#,###.##");
+            jTextField4.setText(formatter.format(receiptSummary.getTotalAmount()) + " VND");
+
+            loadReceiptDetails();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void loadReceiptDetails() {
+        try {
+            System.out.println("Loading receipt details for ID: " + receiptId + ", category: " + receiptCategory);
+
+            List<ReceiptDetails> details = receiptService.getReceiptDetailsForInspection(receiptId, receiptCategory);
+            System.out.println("Found " + details.size() + " details");
+
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            for (ReceiptDetails detail : details) {
+                DecimalFormat formatter = new DecimalFormat("#,###.##");
+                model.addRow(new Object[]{
+                    detail.getProductName(),
+                    formatter.format(detail.getPrice()) + " VND",
+                    detail.getWarehouseCode(),
+                    detail.getQuantity(),
+                    detail.getNote() != null ? detail.getNote() : ""
+                });
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void refresh(){
+        parentForm.refreshTable();
+    }
+    
+    private void approveReceipt() {
+
+        try {
+            boolean success = receiptService.approveReceipt(receiptId, receiptCategory);
+
+            if (success) {
+                JOptionPane.showMessageDialog(this,
+                    "Duyệt phiếu thành công!",
+                    "Thành công",
+                    JOptionPane.INFORMATION_MESSAGE);
+                dispose();
+                refresh();
+            } else {
+                JOptionPane.showMessageDialog(this,
+                    "Không thể duyệt phiếu. Vui lòng thử lại.",
+                    "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+            
+            } catch (Exception e) {
+                e.printStackTrace();
+            
+        }
+    }
+
+    private void rejectReceipt() {
+        int confirm = JOptionPane.showConfirmDialog(this,"Bạn có chắc chắn muốn hủy phiếu này?", "Xác nhận hủy",
+            JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                boolean success = receiptService.rejectReceipt(receiptId, receiptCategory);
+
+                if (success) {
+                    JOptionPane.showMessageDialog(this,
+                        "Hủy phiếu thành công!",
+                        "Thành công",
+                        JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                    refresh();
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                        "Không thể hủy phiếu. Vui lòng thử lại.",
+                        "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
     
 
@@ -81,10 +220,20 @@ public class CheckReceiptDialog extends JDialog {
         jButton1.setBackground(new java.awt.Color(51, 51, 255));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jButton1.setText("Duyệt");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(255, 51, 51));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jButton2.setText("Hủy");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -143,6 +292,16 @@ public class CheckReceiptDialog extends JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        approveReceipt();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        rejectReceipt(); 
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
 

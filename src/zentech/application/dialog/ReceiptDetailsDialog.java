@@ -4,9 +4,16 @@
  */
 package zentech.application.dialog;
 
+import entity.Receipt;
+import entity.ReceiptDetails;
 import java.awt.Dialog;
 import java.awt.Window;
+import java.text.DecimalFormat;
+import java.util.List;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import service.ReceiptService;
 import zentech.application.form.other.ReceiptApprovalForm;
 
 /**
@@ -18,10 +25,88 @@ public class ReceiptDetailsDialog extends JDialog {
     /**
      * Creates new form CheckReceiptDialog
      */
-    public ReceiptDetailsDialog(Window parent, ReceiptApprovalForm receiptApprovalForm) {
+    
+    private ReceiptService receiptService;
+    private ReceiptApprovalForm parentForm;
+    private int receiptId;
+    private String receiptCategory;
+    private Receipt receiptSummary;
+    
+    public ReceiptDetailsDialog(Window parent, ReceiptApprovalForm receiptApprovalForm, int selectedReceiptId) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
+        this.parentForm = receiptApprovalForm;
+        this.receiptId = selectedReceiptId;
+        this.receiptService = new ReceiptService();
+        
         initComponents();
         setLocationRelativeTo(null);
+        setupDialog();
+        loadReceiptData();
+        loadReceiptDetails();
+    }
+    
+    private void setupDialog() {
+        String[] title = {"Tên sản phẩm", "Đơn giá", "Khu vực kho", "Số lượng", "Ghi chú"};
+        DefaultTableModel model = new DefaultTableModel(title, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        jTable1.setModel(model);
+        jTable1.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 12));
+        jTable1.setRowHeight(25);
+        jTable1.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+
+    }
+    
+    private void loadReceiptData() {
+        try {
+            receiptCategory = parentForm.getSelectedReceiptCategory();
+            if (receiptCategory == null) {
+                JOptionPane.showMessageDialog(this, "Không thể xác định loại phiếu.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Receipt receiptSummary = receiptService.getReceiptSummary(receiptId, receiptCategory);
+
+            jTextField1.setText(receiptSummary.getCreatedBy());
+            jTextField2.setText(receiptSummary.getTimestamp().toString());
+            jTextField3.setText(""); 
+            DecimalFormat formatter = new DecimalFormat("#,###.##");
+            jTextField4.setText(formatter.format(receiptSummary.getTotalAmount()) + " VND");
+
+            loadReceiptDetails();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void loadReceiptDetails() {
+        try {
+            System.out.println("Loading receipt details for ID: " + receiptId + ", category: " + receiptCategory);
+
+            List<ReceiptDetails> details = receiptService.getReceiptDetailsForInspection(receiptId, receiptCategory);
+            System.out.println("Found " + details.size() + " details");
+
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            for (ReceiptDetails detail : details) {
+                DecimalFormat formatter = new DecimalFormat("#,###.##");
+                model.addRow(new Object[]{
+                    detail.getProductName(),
+                    formatter.format(detail.getPrice()) + " VND",
+                    detail.getWarehouseCode(),
+                    detail.getQuantity(),
+                    detail.getNote() != null ? detail.getNote() : ""
+                });
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     /**
