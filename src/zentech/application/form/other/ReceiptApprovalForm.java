@@ -7,8 +7,17 @@ package zentech.application.form.other;
 import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Window;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
 import zentech.application.dialog.CheckReceiptDialog;
 import zentech.application.dialog.ReceiptDetailsDialog;
+import service.WarehouseReceiptService;
+import dao.WarehouseReceiptDAO;
+import entity.PhieuNhap;
+import service.ReceiptService;
+import entity.Receipt;
+import jdbc.ConnectionHelper;
+import java.util.List;
 
 /**
  *
@@ -16,17 +25,57 @@ import zentech.application.dialog.ReceiptDetailsDialog;
  */
 public class ReceiptApprovalForm extends javax.swing.JPanel {
 
+    private WarehouseReceiptService wrs = new WarehouseReceiptService();
+    private WarehouseReceiptDAO wrd = new WarehouseReceiptDAO();
+    private ReceiptService rs = new ReceiptService();
+
     /**
      * Creates new form ReceiptApproval
      */
     public ReceiptApprovalForm() {
         initComponents();
         initalUI();
-        
+        setupTable();
+        rs.loadPendingReceipts(jTable1);
     }
-    
+
     private void initalUI() {
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tìm kiếm");
+    }
+
+    private void setupTable() {
+        String[] title = {"Mã phiếu", "Loại phiếu", "Người tạo", "Thời gian", "Tổng tiền"};
+        DefaultTableModel model = new DefaultTableModel(title, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        jTable1.setModel(model);
+        jTable1.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        jTable1.setRowHeight(25);
+        jTable1.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+    }
+
+    public int getSelectedReceiptId() {
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow >= 0) {
+            return (Integer) jTable1.getValueAt(selectedRow, 0);
+        }
+        return -1;
+    }
+
+    public String getSelectedReceiptCategory() {
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow >= 0) {
+            String receiptType = (String) jTable1.getValueAt(selectedRow, 1);
+            return receiptType.equals("Phiếu Nhập") ? "import" : "export";
+        }
+        return null;
+    }
+    
+    public void refreshTable() {
+        rs.loadPendingReceipts(jTable1);
     }
 
     /**
@@ -71,6 +120,12 @@ public class ReceiptApprovalForm extends javax.swing.JPanel {
             }
         });
 
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -101,18 +156,34 @@ public class ReceiptApprovalForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        int selectedReceiptId = getSelectedReceiptId();
+        if (selectedReceiptId == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một phiếu để kiểm tra", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         Window parent = SwingUtilities.getWindowAncestor(this);
-        CheckReceiptDialog crd = new CheckReceiptDialog(parent, this);
+        CheckReceiptDialog crd = new CheckReceiptDialog(parent, this, selectedReceiptId);
         crd.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+
+        int selectedReceiptId = getSelectedReceiptId();
+        if (selectedReceiptId == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một phiếu để xem chi tiết", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         Window parent = SwingUtilities.getWindowAncestor(this);
-        ReceiptDetailsDialog rdd = new ReceiptDetailsDialog(parent, this);
+        ReceiptDetailsDialog rdd = new ReceiptDetailsDialog(parent, this, selectedReceiptId);
         rdd.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        // TODO add your handling code here:
+        rs.searchReceipts(jTable1, txtSearch);
+    }//GEN-LAST:event_txtSearchKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
