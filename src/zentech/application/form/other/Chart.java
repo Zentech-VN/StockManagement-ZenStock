@@ -37,11 +37,13 @@ public class Chart extends javax.swing.JPanel {
     public Chart() {
         initComponents();
 
+        //Khởi tạo giao diện chart
         initalChart(chartRevenue, "Tổng quan", "Doanh thu", "Vốn", "Lợi nhuận");
         initalChart(chartRevenueYears, "Thống kê theo năm", "Doanh thu", "Vốn", "Lợi nhuận");
         initalChart(chartRevenueMonths, "Thống kê theo tháng", "Doanh thu", "Vốn", "Lợi nhuận");
         initalChart(chartRevenueDays, "Thống kê theo ngày", "Doanh thu", "Vốn", "Lợi nhuận");
 
+        //Khởi tạo giao diện JTable
         initalTable(tblDoanhThuTongQuan);
         initalTable(tblDoanhThuTheoNam);
         initalTable(tblDoanhThuTheoThang);
@@ -50,19 +52,25 @@ public class Chart extends javax.swing.JPanel {
         initalTableMini(tblSanPhamBanChay);
         initalTableMini(tblSanPhamHetHang);
 
+        //Truyền data vào chart
         setDataBase();
         setDataYears("2022", "2025");
         setDataMonths("2025");
         setDataDays("2025", "07");
 
+        //Truyền data vào JTable
         loadRevenueBaseData();
         loadRevenueByYears("2022", "2025");
         loadRevenueByMonths("2025");
         loadRevenueByDays("2025", "07");
         loadInventoryAll();
+        List<Chart_Inventory> inventories = new ArrayList<>();
+        inventories = service.getInventoryByKeyWordService("2025-06-01", "2025-07-01", "");
+        loadInventoryByKeyWord(inventories);
         loadTopSellingProducts("", "", "");
         loadLowStockProductsToTable("", "");
 
+        //Khởi tạo giao diện JTextField
         initalTextField(txtSanPhamBanChay_SanPham, "Tìm kiếm");
         initalTextField(txtSanPhamBanChay_DenNgay, "yyyy-MM-dd");
         initalTextField(txtSanPhamBanChay_TuNgay, "yyyy-MM-dd");
@@ -77,6 +85,7 @@ public class Chart extends javax.swing.JPanel {
         initalTextField(txtThongKeTheoNgay_Thang, "07");
         initalTextField(txtThongKeTheoThang_Nam, "2025");
         
+        //Giao diện đếm số lượng
         initalCount();
 
     }
@@ -89,7 +98,8 @@ public class Chart extends javax.swing.JPanel {
         chart.addLegend(legend1, Color.decode("#7b4397"), Color.decode("#dc2430"));
         chart.addLegend(legend2, Color.decode("#e65c00"), Color.decode("#F9D423"));
         chart.addLegend(legend3, Color.decode("#0099F7"), Color.decode("#F11712"));
-
+        
+        //Animation
         chart.start();
     }
     
@@ -130,8 +140,6 @@ public class Chart extends javax.swing.JPanel {
                         c.setForeground(Color.RED);
                     } else if (val > 0) {
                         c.setForeground(new Color(0, 153, 0));
-                    } else {
-                        c.setForeground(Color.BLACK);
                     }
 
                 } catch (Exception e) {
@@ -321,9 +329,9 @@ public class Chart extends javax.swing.JPanel {
             for (Chart_Revenue d : list) {
                 model.addRow(new Object[]{
                     d.getThang(),
+                    formatter.format(d.getDoanhThu()),
                     formatter.format(d.getGiaVon()),
                     formatter.format(d.getLoiNhuan()),
-                    formatter.format(d.getDoanhThu())
                 });
             }
         } catch (Exception e) {
@@ -343,9 +351,9 @@ public class Chart extends javax.swing.JPanel {
             for (Chart_Revenue d : list) {
                 model.addRow(new Object[]{
                     d.getThang(),
+                    formatter.format(d.getDoanhThu()),
                     formatter.format(d.getGiaVon()),
                     formatter.format(d.getLoiNhuan()),
-                    formatter.format(d.getDoanhThu())
                 });
             }
         } catch (Exception e) {
@@ -366,9 +374,9 @@ public class Chart extends javax.swing.JPanel {
             for (Chart_Revenue d : list) {
                 model.addRow(new Object[]{
                     d.getThang(),
+                    formatter.format(d.getDoanhThu()),
                     formatter.format(d.getGiaVon()),
                     formatter.format(d.getLoiNhuan()),
-                    formatter.format(d.getDoanhThu())
                 });
             }
         } catch (Exception e) {
@@ -1382,17 +1390,17 @@ public class Chart extends javax.swing.JPanel {
 
         tblThongKeTonKho.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã", "Tên sản phẩm", "Tồn đầu kì", "Nhập trong kì", "Xuất trong kì", "Tồn cuối kì"
+                "STT", "Mã", "Tên sản phẩm", "Tồn đầu kì", "Nhập trong kì", "Xuất trong kì", "Tồn cuối kì"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1401,11 +1409,6 @@ public class Chart extends javax.swing.JPanel {
         });
         tblThongKeTonKho.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tblThongKeTonKho);
-        if (tblThongKeTonKho.getColumnModel().getColumnCount() > 0) {
-            tblThongKeTonKho.getColumnModel().getColumn(3).setHeaderValue("Nhập trong kì");
-            tblThongKeTonKho.getColumnModel().getColumn(4).setHeaderValue("Xuất trong kì");
-            tblThongKeTonKho.getColumnModel().getColumn(5).setHeaderValue("Tồn cuối kì");
-        }
 
         crazyPanel23.add(jScrollPane2);
 
