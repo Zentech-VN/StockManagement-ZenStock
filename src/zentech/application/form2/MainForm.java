@@ -87,33 +87,33 @@ public class MainForm extends JLayeredPane {
             if (index == 0) {
                 Application.showForm(new FormHomePage());
             } else if (index == 1) {
-                Application.showForm(new AccountForm());
+                Application.showForm(new Chart()); 
             } else if (index == 2) {
-                Application.showForm(new EmployeeForm());
+                Application.showForm(new AccountForm()); 
             } else if (index == 3) {
-                Application.showForm(new FormRole());
+                Application.showForm(new EmployeeForm()); 
             } else if (index == 4) {
-                Application.showForm(new ActivityLogForm());
+                Application.showForm(new FormRole()); 
             } else if (index == 5) {
-                Application.showForm(new CustomerManagement());
+                Application.showForm(new ActivityLogForm()); 
             } else if (index == 6) {
-                Application.showForm(new SupplierForm());
+                Application.showForm(new ProductForm()); 
             } else if (index == 7) {
-                Application.showForm(new ProductForm());
+                Application.showForm(new WarehouseManagementForm()); 
             } else if (index == 8) {
-                Application.showForm(new WarehouseManagementForm());
+                Application.showForm(new WarehouseReceiptForm(acc)); 
             } else if (index == 9) {
-                Application.showForm(new AttributeForm());
+                Application.showForm(new WarehouseDeliveryForm(acc)); 
             } else if (index == 10) {
-                Application.showForm(new ChatForm());
+                Application.showForm(new ReceiptApprovalForm()); 
             } else if (index == 11) {
-                Application.showForm(new WarehouseReceiptForm(acc));
+                Application.showForm(new AttributeForm()); 
             } else if (index == 12) {
-                Application.showForm(new WarehouseDeliveryForm(acc));
+                Application.showForm(new CustomerManagement()); 
             } else if (index == 13) {
-                Application.showForm(new Chart());
+                Application.showForm(new SupplierForm()); 
             } else if (index == 14) {
-                Application.showForm(new ReceiptApprovalForm());
+                Application.showForm(new ChatForm());
             } else if (index == 15) {
                 Application.logout();
             } else {
