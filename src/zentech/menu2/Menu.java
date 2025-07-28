@@ -25,23 +25,27 @@ import zentech.menu.mode.ToolBarAccentColor;
 public class Menu extends JPanel {
 
     private final String menuItems[][] = {
-        {"~MAIN~"},
+        {"~CHỈ SỐ~"},
         {"Trang chủ"},
-        {"~Quản Lý~"},
+        {"Thống kê"},
+        {"~QUẢN TRỊ~"},
         {"Tài Khoản"},
         {"Nhân viên"},
         {"Quyền hạn"},
         {"Nhật ký hoạt động"},
-        {"Khách hàng"},
-        {"Nhà cung cấp"},
+        {"~QUẢN LÝ KHO~"},
         {"Sản phẩm"},
         {"Khu vực kho"},
-        {"Thuộc tính"},
-        {"Nhắn tin nội bộ"},
         {"Phiếu nhập"},
         {"Phiếu xuất"},
-        {"Thống kê"},
         {"Duyệt phiếu"},
+        {"~QUẢN LÝ ĐỐI TƯỢNG~"},
+        {"Thuộc tính"},
+        {"Khách hàng"},
+        {"Nhà cung cấp"},
+        {"~HỖ TRỢ~"},
+        {"Nhắn tin nội bộ"},
+        {"~KHÁC~"},
         {"Đăng xuất"}
     };
 
