@@ -24,7 +24,7 @@ import zentech.application.form.other.ChatForm;
 import zentech.application.form.other.CustomerManagement;
 import zentech.application.form.other.EmployeeForm;
 import zentech.application.form.other.FormHomePage;
-import zentech.application.form.other.FormRole;
+import zentech.application.form.other.UserRightsForm;
 import zentech.application.form.other.ProductForm;
 import zentech.application.form.other.SupplierForm;
 import zentech.application.form.other.WarehouseManagementForm;
@@ -93,7 +93,7 @@ public class MainForm extends JLayeredPane {
             } else if (index == 3) {
                 Application.showForm(new EmployeeForm()); 
             } else if (index == 4) {
-                Application.showForm(new FormRole()); 
+                Application.showForm(new UserRightsForm()); 
             } else if (index == 5) {
                 Application.showForm(new ActivityLogForm()); 
             } else if (index == 6) {
