@@ -1,38 +1,52 @@
 package zentech.application.dialog;
 
-import com.formdev.flatlaf.FlatClientProperties;
-import dao.WarehouseReceiptDAO;
-import entity.PhieuNhapChiTiet;
+import dao.WarehouseDeliveryDAO;
+import entity.PhieuXuatChiTiet;
 import java.awt.Dialog;
 import java.awt.Window;
+import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.table.DefaultTableModel;
-import zentech.application.form.other.WarehouseReceiptForm;
+import zentech.application.form.other.WarehouseDeliveryForm;
 
-public class WarehouseReceiptDetailsDialog extends JDialog {
+public class WarehouseDeliveryDetailForm extends JDialog {
 
-    int maphieunhap = 0;
-    WarehouseReceiptDAO wrd = new WarehouseReceiptDAO();
+    int maphieuxuat = 0;
+    private WarehouseDeliveryDAO wdd = new WarehouseDeliveryDAO();
+    WarehouseDeliveryForm from;
 
-    public WarehouseReceiptDetailsDialog(Window parent, WarehouseReceiptForm warehouseReceiptForm, int maphieunhap) {
+    public WarehouseDeliveryDetailForm(Window parent, WarehouseDeliveryForm from, int maphieuxuat) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
-        this.maphieunhap = maphieunhap;
+        this.from = from;
+        this.maphieuxuat = maphieuxuat;
         initComponents();
         LoadData();
-        jTable1.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
-        jTable1.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
     }
-    
-    public void LoadData(){
+
+    public void LoadData() {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
-        for (PhieuNhapChiTiet pnct : wrd.getAllPhieuNhapbyID(maphieunhap)) {
-            txtMaPhieuNhap.setText(String.valueOf(pnct.getPh().getMaphieunhap()));
-            txtTenSanPham.setText(String.valueOf(pnct.getPh().getS().getMaNhaCungCap()));
-            txtHinhAnh.setText(String.valueOf(pnct.getPh().getE().getManv()));
-            txtThuongHieu.setText(String.valueOf(pnct.getPh().getNgaytao()));
-            txtXuatXu.setText(pnct.getPh().getTrangthai());
-            model.addRow(new Object[]{pnct.getPh().getMaphieunhap(),pnct.getP().getMaSanPham(),pnct.getDongia(),pnct.getSoluong(),pnct.getGhichu()});
+
+        List<PhieuXuatChiTiet> list = wdd.getPhieuXuatById(maphieuxuat);
+        if (list == null || list.isEmpty()) {
+            return;
+        }
+
+        PhieuXuatChiTiet pxctFirst = list.get(0);
+        txtMaPhieuXuat.setText(String.valueOf(pxctFirst.getPhieuxuat().getMaphieuxuat()));
+        txtTenSanPham.setText(pxctFirst.getPhieuxuat().getKhachhang().getTenKhacHang());
+        txtHinhAnh.setText(pxctFirst.getPhieuxuat().getNhanvien().getHoten());
+        txtThuongHieu.setText(String.valueOf(pxctFirst.getPhieuxuat().getThoigian()));
+        txtXuatXu.setText(pxctFirst.getPhieuxuat().getTrangthai());
+
+        for (PhieuXuatChiTiet pxct : list) {
+            model.addRow(new Object[]{
+                pxct.getPhieuxuat().getMaphieuxuat(),
+                pxct.getSanpham().getMaSanPham(),
+                pxct.getDongia(),
+                pxct.getSoluong(),
+                pxct.getGhichu()
+            });
         }
     }
 
@@ -47,7 +61,7 @@ public class WarehouseReceiptDetailsDialog extends JDialog {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        txtMaPhieuNhap = new javax.swing.JTextField();
+        txtMaPhieuXuat = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
         txtXuatXu = new javax.swing.JTextField();
         txtThuongHieu = new javax.swing.JTextField();
@@ -63,7 +77,7 @@ public class WarehouseReceiptDetailsDialog extends JDialog {
         txtTenSanPham.setEditable(false);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setText("Nhà cung cấp");
+        jLabel2.setText("Khách hàng");
 
         txtHinhAnh.setEditable(false);
 
@@ -76,10 +90,10 @@ public class WarehouseReceiptDetailsDialog extends JDialog {
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel12.setText("Thời gian");
 
-        txtMaPhieuNhap.setEditable(false);
+        txtMaPhieuXuat.setEditable(false);
 
         jLabel23.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel23.setText("Mã phiếu nhập");
+        jLabel23.setText("Mã phiếu xuất");
 
         txtXuatXu.setEditable(false);
 
@@ -99,7 +113,7 @@ public class WarehouseReceiptDetailsDialog extends JDialog {
                         .addComponent(jLabel12)
                         .addComponent(jLabel4)
                         .addComponent(jLabel23)
-                        .addComponent(txtMaPhieuNhap, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
+                        .addComponent(txtMaPhieuXuat, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
                         .addComponent(txtHinhAnh)
                         .addComponent(txtThuongHieu)
                         .addComponent(txtXuatXu)))
@@ -111,7 +125,7 @@ public class WarehouseReceiptDetailsDialog extends JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel23)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtMaPhieuNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtMaPhieuXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -143,7 +157,7 @@ public class WarehouseReceiptDetailsDialog extends JDialog {
 
             },
             new String [] {
-                "Mã phiếu nhập", "Mã sản phẩm", "Đơn giá", "Số lượng", "Ghi chú"
+                "Mã phiếu Xuất", "Mã sản phẩm", "Đơn giá", "Số lượng", "Ghi chú"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -168,27 +182,24 @@ public class WarehouseReceiptDetailsDialog extends JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
-                .addContainerGap())
+                .addGap(15, 15, 15)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addGap(0, 0, 0))
         );
 
         pack();
@@ -210,7 +221,7 @@ public class WarehouseReceiptDetailsDialog extends JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtHinhAnh;
-    private javax.swing.JTextField txtMaPhieuNhap;
+    private javax.swing.JTextField txtMaPhieuXuat;
     private javax.swing.JTextField txtTenSanPham;
     private javax.swing.JTextField txtThuongHieu;
     private javax.swing.JTextField txtXuatXu;

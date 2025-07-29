@@ -25,6 +25,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -149,7 +150,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
         return true;
     }
 
-    public boolean checkmoney() {
+    public boolean checksoluong() {
         int soluonghientai = 0;
         try {
             soluonghientai = Integer.parseInt(txtSoluong.getText());
@@ -181,7 +182,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập số lượng sản phẩm.");
             return;
         }
-        if (checkAddProduct()) {
+        if (checkAddProduct() && checksoluong()) {
             int select = tblSanPham.getSelectedRow();
             BigDecimal gia = (BigDecimal) tblSanPham.getValueAt(select, 2);
             try {
@@ -622,20 +623,27 @@ public class WarehouseReceiptAddDialog extends JDialog {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // Khi thêm trạng thái luôn luôn là ChoDuyet
-        if (getProduct() == null || getProduct().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn ít nhất một sản phẩm khi tạo phiếu nhập.");
-            return;
-        }
-        if (getFrom() == null || getProduct().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Nhân viên không tồn tại");
-            return;
-        }
-        boolean rs = wrd.TaoPhieuNhap(getFrom(), getProduct());
-        if (rs == true) {
-            JOptionPane.showMessageDialog(this, "Tạo phiếu nhập thành công.");
-            this.dispose();
-        }
+        int chooser = JOptionPane.showConfirmDialog(this, "Bạn muốn tạo phiếu nhập?", "Tạo phiếu nhập", JOptionPane.YES_OPTION);
+        if (chooser == JOptionPane.YES_OPTION) {
+            if (getProduct() == null || getProduct().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn ít nhất một sản phẩm khi tạo phiếu nhập.");
+                return;
+            }
+            if (getFrom() == null || getProduct().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Nhân viên không tồn tại");
+                return;
+            }
+            boolean rs = wrd.TaoPhieuNhap(getFrom(), getProduct());
+            if (rs == true) {
+                JOptionPane.showMessageDialog(this, "Tạo phiếu nhập thành công.");
+                Window parent = SwingUtilities.getWindowAncestor(this);
+                this.dispose();
 
+                WarehouseReceiptDetailsDialog showdetail = new WarehouseReceiptDetailsDialog(parent, null, wrd.getMaPhieuNhap());
+                showdetail.setVisible(true);
+
+            }
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
@@ -750,7 +758,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
                     tblCho.setValueAt(newTotal, selectedRow, 5);
                 }
 
-                LoadMoney(); 
+                LoadMoney();
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Số lượng không hợp lệ.");
             }
@@ -760,12 +768,12 @@ public class WarehouseReceiptAddDialog extends JDialog {
 
     private void txtSoluongMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtSoluongMouseMoved
         // TODO add your handling code here:
-        checkmoney();
+        checksoluong();
     }//GEN-LAST:event_txtSoluongMouseMoved
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        if (checkmoney()) {
+        if (checksoluong()) {
             int slht = 0;
             slht = Integer.parseInt(txtSoluong.getText());
             int trusoluong = slht - 1;
@@ -775,7 +783,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        if (checkmoney()) {
+        if (checksoluong()) {
             int slht = 0;
             slht = Integer.parseInt(txtSoluong.getText());
             int tangsoluong = slht + 1;

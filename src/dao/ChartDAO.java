@@ -402,10 +402,10 @@ public interface ChartDAO {
     default List<Chart_ProductOutOfStock> getProductOutOfStock(String keyword, int minQuantity) {
         List<Chart_ProductOutOfStock> list = new ArrayList<>();
 
-        if(minQuantity <= 0) {
+        if (minQuantity <= 0) {
             minQuantity = 5;
         }
-        
+
         String sql = "SELECT "
                 + "sp.masanpham, "
                 + "sp.tensp, "

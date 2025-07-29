@@ -5,6 +5,7 @@ import entity.PhieuNhapChiTiet;
 import entity.ProductArea;
 
 import entity.Supplier;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -17,6 +18,25 @@ import javax.swing.JOptionPane;
 import jdbc.ConnectionHelper;
 
 public class WarehouseReceiptDAO {
+
+    int getmaphieunhap = 0;
+
+    public BigDecimal getdongiabyid(int masanpham) {
+        String sql = "select gia from sanpham where masanpham = ?";
+        BigDecimal gia = null;
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setInt(1, masanpham);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                gia = rs.getBigDecimal("gia");
+            }
+            rs.close();
+            return gia;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public List<PhieuNhap> getAllentries() {
         List<PhieuNhap> listp = new ArrayList<>();
@@ -104,6 +124,10 @@ public class WarehouseReceiptDAO {
 
     }
 
+    public int getMaPhieuNhap() {
+        return this.getmaphieunhap;
+    }
+
     public boolean TaoPhieuNhap(PhieuNhap pn, List<PhieuNhapChiTiet> listpnct) {
         String sql_phieunhap = "INSERT INTO phieunhap (manhacungcap, nguoitao, thoigian, trangthai) VALUES (?, ?, ?, ?)";
         String sql_phieunhapchitiet = "INSERT INTO ctphieunhap (maphieunhap, masanpham, dongia, soluong, ghichu) VALUES (?, ?, ?, ?, ?)";
@@ -127,6 +151,7 @@ public class WarehouseReceiptDAO {
             try (ResultSet rs = pst.getGeneratedKeys()) {
                 if (rs.next()) {
                     maphieunhap = rs.getInt(1);
+                    this.getmaphieunhap = maphieunhap;
                 } else {
                     JOptionPane.showMessageDialog(null, "Không lấy được mã phiếu nhập");
                     conn.rollback();
@@ -216,6 +241,17 @@ public class WarehouseReceiptDAO {
         } catch (Exception e) {
             e.printStackTrace();
             return -1;
+        }
+    }
+
+    public int xoaphieunhap(int id) {
+        String sql = "delete from phieunhap where maphieunhap = ?";
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setInt(1, id);
+            return pst.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
         }
     }
 
