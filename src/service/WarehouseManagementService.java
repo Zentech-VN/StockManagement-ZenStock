@@ -5,7 +5,7 @@
 package service;
 
 import dao.ProductAreaDAO;
-import dao.ProductDAOImpl;
+
 import dao.WarehouseManagementDAO;
 import entity.Product;
 import entity.ProductArea;
@@ -110,9 +110,6 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
         public boolean updateWarehouseWithValidation(WarehouseManagement wh) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
-    };
-
-    ProductDAOImpl pd = new ProductDAOImpl() {
     };
 
     public void LoadDataKho(JTable tbl10) {

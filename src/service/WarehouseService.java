@@ -5,7 +5,7 @@
 package service;
 
 import dao.ProductAreaDAO;
-import dao.ProductDAOImpl;
+
 import entity.Product;
 import entity.Warehouse;
 import java.util.List;
@@ -110,9 +110,6 @@ public class WarehouseService implements WarehouseDAO {
         }
     };
 
-    ProductDAOImpl pd = new ProductDAOImpl() {
-    };
-
     public void LoadDataKho(JTable tbl10) {
         DefaultTableModel model = (DefaultTableModel) tbl10.getModel();
         model.setRowCount(0);
@@ -148,7 +145,6 @@ public class WarehouseService implements WarehouseDAO {
 //            Logger.getLogger(WarehouseManagementForm.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //    }
-
     @Override
     public boolean updateWarehouseWithValidation(Warehouse wh) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

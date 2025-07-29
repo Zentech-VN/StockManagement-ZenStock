@@ -1,6 +1,7 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.WarehouseReceiptDAO;
 import entity.Employee;
 
 import java.awt.Component;
@@ -24,6 +25,7 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
     
     WarehouseReceiptService wrs = new WarehouseReceiptService();
     private Employee CurrentAcc;
+    private WarehouseReceiptDAO wrd = new WarehouseReceiptDAO();
     
     public WarehouseReceiptForm(Employee acc) {
         this.CurrentAcc = acc;
@@ -84,6 +86,7 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDetails = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPhieuNhap = new javax.swing.JTable();
 
@@ -166,6 +169,15 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
         });
         crazyPanel2.add(btnDetails);
 
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setText("Xóa");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        crazyPanel2.add(jButton1);
+
         crazyPanel1.add(crazyPanel2);
 
         tblPhieuNhap.setModel(new javax.swing.table.DefaultTableModel(
@@ -240,8 +252,9 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
             return;
         }
         int id = (int) tblPhieuNhap.getValueAt(select, 0);
+        int manhacungcap = (int) tblPhieuNhap.getValueAt(select, 1);
         Window parent = SwingUtilities.getWindowAncestor(this);
-        WarehouseReceiptUpdateDialog warehouseReceiptUpdateDialog = new WarehouseReceiptUpdateDialog(parent, this, id);
+        WarehouseReceiptUpdateDialog warehouseReceiptUpdateDialog = new WarehouseReceiptUpdateDialog(parent, this, id, manhacungcap);
         warehouseReceiptUpdateDialog.setVisible(true);
         wrs.loadDataTable(tblPhieuNhap);
     }//GEN-LAST:event_btnUpdateActionPerformed
@@ -267,6 +280,27 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
         wrs.search(tblPhieuNhap, txtSearch);
     }//GEN-LAST:event_txtSearchKeyReleased
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        int select = tblPhieuNhap.getSelectedRow();
+        if (select == -1) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng chọn phiếu nhập để xóa!");
+            return;
+        }
+        int id = (int) tblPhieuNhap.getValueAt(select, 0);
+        String trangthai = (String) tblPhieuNhap.getValueAt(select, 4);
+        if (trangthai.equalsIgnoreCase("choduyet")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không được xóa phiếu nhập có trạng thái chờ duyệt!");
+            return;
+        }
+        int rs = wrd.xoaphieunhap(id);
+        if (rs > 0) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Xóa thành công phiếu nhập có mã " + id + "!");
+            wrs.loadDataTable(tblPhieuNhap);
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDetails;
@@ -274,6 +308,7 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
     private javax.swing.JButton btnUpdate;
     private raven.crazypanel.CrazyPanel crazyPanel1;
     private raven.crazypanel.CrazyPanel crazyPanel2;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblPhieuNhap;

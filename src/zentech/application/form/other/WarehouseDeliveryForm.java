@@ -1,24 +1,42 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.WarehouseDeliveryDAO;
 import entity.Employee;
+import entity.PhieuXuat;
 import java.awt.Component;
+import java.awt.Window;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableRowSorter;
+import raven.toast.Notifications;
+import zentech.application.dialog.WarehouseDeliveryAddForm;
+import zentech.application.dialog.WarehouseDeliveryDetailForm;
+import zentech.application.dialog.WarehouseDeliveryUpdateForm;
 
 public class WarehouseDeliveryForm extends javax.swing.JPanel {
 
     private Employee CurrentAcc;
+    private WarehouseDeliveryDAO wdd = new WarehouseDeliveryDAO();
 
     public WarehouseDeliveryForm(Employee acc) {
         this.CurrentAcc = acc;
         initComponents();
         initalUI(tblPhieuXuat);
+        LoadDataTable();
+        cbbSapXep.addActionListener(e -> {
+            String selected = (String) cbbSapXep.getSelectedItem();
+            sortTableData(selected);
+        });
     }
 
     private void initalUI(JTable table) {
@@ -59,6 +77,47 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
                 return com;
             }
         };
+    }
+
+    public void LoadDataTable() {
+        DefaultTableModel model = (DefaultTableModel) tblPhieuXuat.getModel();
+        model.setRowCount(0);
+        for (PhieuXuat px : wdd.getAllPhieuNhap()) {
+            model.addRow(
+                    new Object[]{
+                        px.getMaphieuxuat(),
+                        px.getKhachhang().getTenKhacHang(),
+                        px.getNhanvien().getHoten(),
+                        px.getThoigian(),
+                        px.getTrangthai()
+                    });
+        }
+    }
+
+    private void sortTableData(String criteria) {
+        DefaultTableModel model = (DefaultTableModel) tblPhieuXuat.getModel();
+        model.setRowCount(0);
+
+        List<PhieuXuat> list = wdd.getAllPhieuNhap();
+        if (criteria.equals("Mã phiếu xuất")) {
+            list.sort((a, b) -> Integer.compare(a.getMaphieuxuat(), b.getMaphieuxuat()));
+        } else if (criteria.equals("Người tạo")) {
+            list.sort((a, b) -> a.getNhanvien().getHoten().compareToIgnoreCase(b.getNhanvien().getHoten()));
+        } else if (criteria.equals("Thời gian")) {
+            list.sort((a, b) -> a.getThoigian().compareTo(b.getThoigian()));
+        } else if (criteria.equals("Trạng thái")) {
+            list.sort((a, b) -> a.getTrangthai().compareToIgnoreCase(b.getTrangthai()));
+        }
+
+        for (PhieuXuat px : list) {
+            model.addRow(new Object[]{
+                px.getMaphieuxuat(),
+                px.getKhachhang().getTenKhacHang(),
+                px.getNhanvien().getHoten(),
+                px.getThoigian(),
+                px.getTrangthai()
+            });
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -130,6 +189,11 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
         ));
 
         txtSearch.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
         crazyPanel2.add(txtSearch);
 
         btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -175,7 +239,7 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã", "Nhà cung cấp", "Người tạo", "Thời gian", "Trạng thái"
+                "Mã", "Khách hàng", "Người tạo", "Thời gian", "Trạng thái"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -221,28 +285,62 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
                 .addGap(39, 39, 39)
                 .addComponent(crazyPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnLamMoi)
-                    .addComponent(jButton7)
-                    .addComponent(cbbSapXep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnLamMoi)
+                            .addComponent(jButton7)
+                            .addComponent(jLabel9))
+                        .addContainerGap())
+                    .addComponent(cbbSapXep, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
-
+        LoadDataTable();
     }//GEN-LAST:event_btnLamMoiActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        
+        Window parent = SwingUtilities.getWindowAncestor(this);
+        WarehouseDeliveryAddForm wdaf = new WarehouseDeliveryAddForm(parent, this, CurrentAcc);
+        wdaf.setVisible(true);
+        LoadDataTable();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        
+        int select = tblPhieuXuat.getSelectedRow();
+        if (select == -1) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng chọn phiếu xuất muốn xóa!");
+            return;
+        }
+        int id = (int) tblPhieuXuat.getValueAt(select, 0);
+        String tenkhachhang = (String) tblPhieuXuat.getValueAt(select, 1);
+        Window parent = SwingUtilities.getWindowAncestor(this);
+        WarehouseDeliveryUpdateForm warehousedeliveryupdateform = new WarehouseDeliveryUpdateForm(parent, this, id, tenkhachhang);
+        warehousedeliveryupdateform.setVisible(true);
+        LoadDataTable();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int select = tblPhieuXuat.getSelectedRow();
+        if (select == -1) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng chọn phiếu xuất muốn xóa!");
+            return;
+        }
+        int id = (int) tblPhieuXuat.getValueAt(select, 0);
+        String trangthai = (String) tblPhieuXuat.getValueAt(select, 4);
+        if (trangthai.equalsIgnoreCase("duyet")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không được xóa phiếu có trạng thái duyệt!");
+            return;
+        }
+        int confrim = JOptionPane.showConfirmDialog(this, "Bạn muốn xóa phiếu xuất có mã " + id + "?", "Xóa phiếu xuất", JOptionPane.YES_NO_OPTION);
+        if (confrim == JOptionPane.YES_OPTION) {
+            int rs = wdd.xoaphieuxuat(id);
+            if (rs > 0) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Xóa thành công phiễu xuất có mã " + id + ".");
+                LoadDataTable();
+            }
+        }
 
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -251,8 +349,24 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
     }//GEN-LAST:event_tblPhieuXuatMouseClicked
 
     private void btnDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailsActionPerformed
-        
+        int select = tblPhieuXuat.getSelectedRow();
+        if (select == -1) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng chọn phiếu xuất muốn xóa!");
+            return;
+        }
+        int id = (int) tblPhieuXuat.getValueAt(select, 0);
+        Window parent = SwingUtilities.getWindowAncestor(this);
+        WarehouseDeliveryDetailForm detail = new WarehouseDeliveryDetailForm(parent, this, id);
+        detail.setVisible(true);
     }//GEN-LAST:event_btnDetailsActionPerformed
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        // TODO add your handling code here:
+        DefaultTableModel ob = (DefaultTableModel) tblPhieuXuat.getModel();
+        TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(ob);
+        tblPhieuXuat.setRowSorter(obj);
+        obj.setRowFilter(javax.swing.RowFilter.regexFilter(txtSearch.getText()));
+    }//GEN-LAST:event_txtSearchKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;

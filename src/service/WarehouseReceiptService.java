@@ -29,7 +29,7 @@ public class WarehouseReceiptService {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
         for (PhieuNhap p : wrd.getAllentries()) {
-            model.addRow(new Object[]{p.getMaphieunhap(), p.getS().getMaNhaCungCap(), p.getE().getManv(), p.getNgaytao(), settrangthai(p.getTrangthai())});
+            model.addRow(new Object[]{p.getMaphieunhap(), p.getS().getMaNhaCungCap(), p.getE().getHoten(), p.getNgaytao(), settrangthai(p.getTrangthai())});
         }
     }
 

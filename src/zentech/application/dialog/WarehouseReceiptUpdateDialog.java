@@ -9,6 +9,7 @@ import java.awt.Window;
 import java.math.BigDecimal;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import service.WarehouseReceiptService;
@@ -18,13 +19,15 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
 
     int maphieunhap = 0;
     int masanpham = 0;
+    int manhacungcap = 0;
 
     WarehouseReceiptService wrs = new WarehouseReceiptService();
     WarehouseReceiptDAO wrd = new WarehouseReceiptDAO();
 
-    public WarehouseReceiptUpdateDialog(Window parent, WarehouseReceiptForm warehouseReceiptForm, int id) {
+    public WarehouseReceiptUpdateDialog(Window parent, WarehouseReceiptForm warehouseReceiptForm, int id, int manhacungcap) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         this.maphieunhap = id;
+        this.manhacungcap = manhacungcap;
         initComponents();
         LoadData();
 
@@ -416,41 +419,32 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tblCHiTietPhieuNhapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCHiTietPhieuNhapMouseClicked
-        // TODO add your handling code here:
-        int selectRow = tblCHiTietPhieuNhap.getSelectedRow();
-        int masanpham = (int) tblCHiTietPhieuNhap.getValueAt(selectRow, 1);
-        BigDecimal dongia = (BigDecimal) tblCHiTietPhieuNhap.getValueAt(selectRow, 2);
-        int soluong = (int) tblCHiTietPhieuNhap.getValueAt(selectRow, 3);
-        txtMaSanPham.setText(String.valueOf(masanpham));
-        txtSoLuong.setText(String.valueOf(soluong));
-        lblDonGia.setText(String.valueOf(dongia));
-        this.masanpham = masanpham;
-    }//GEN-LAST:event_tblCHiTietPhieuNhapMouseClicked
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         String[] update = {"Phiếu nhập", "Phiếu nhập chi tiết"};
         int luachon = JOptionPane.showOptionDialog(
-                this,
-                "Bạn muốn cập nhật phần nào?",
-                "Cập nhật",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.INFORMATION_MESSAGE,
-                null,
-                update,
-                update[0]
+            this,
+            "Bạn muốn cập nhật phần nào?",
+            "Cập nhật",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.INFORMATION_MESSAGE,
+            null,
+            update,
+            update[0]
         );
         if (luachon == 0) {
-            int manhacungcap = Integer.parseInt(cboNhaCungCap.getSelectedItem().toString());
-            if (manhacungcap == -1) {
+            int manhacungcap1 = Integer.parseInt(cboNhaCungCap.getSelectedItem().toString());
+            if (manhacungcap1 == -1 || manhacungcap1 == this.manhacungcap) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp");
                 return;
             }
-            int rs = wrd.UpdatePhieunhap(maphieunhap, manhacungcap);
+            int rs = wrd.UpdatePhieunhap(maphieunhap, manhacungcap1);
             if (rs > 0) {
                 JOptionPane.showMessageDialog(this, "Cập nhật thành công.");
                 this.dispose();
+                Window parent = SwingUtilities.getWindowAncestor(this);
+                WarehouseReceiptDetailsDialog showdetail = new WarehouseReceiptDetailsDialog(parent, null, maphieunhap);
+                showdetail.setVisible(true);
             }
         } else {
             if (checkUpdate()) {
@@ -459,26 +453,19 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
                     if (rs > 0) {
                         JOptionPane.showMessageDialog(this, "Cập nhật thành công.");
                         this.dispose();
+                        Window parent = SwingUtilities.getWindowAncestor(this);
+                        WarehouseReceiptDetailsDialog showdetail = new WarehouseReceiptDetailsDialog(parent, null, maphieunhap);
+                        showdetail.setVisible(true);
                     }
                 }
             }
         }
 
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void txtGiaSanPhamMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtGiaSanPhamMouseMoved
         // TODO add your handling code here:
-
-        if (kiemtrasoluong()) {
-            int slht = 0;
-            slht = Integer.parseInt(txtSoLuong.getText());
-            int tangsoluong = slht + 1;
-            txtSoLuong.setText(String.valueOf(tangsoluong));
-            LoadMoney();
-        }
-
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_txtGiaSanPhamMouseMoved
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
@@ -491,8 +478,36 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
             LoadMoney();
         }
 
-
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+
+        if (kiemtrasoluong()) {
+            int slht = 0;
+            slht = Integer.parseInt(txtSoLuong.getText());
+            int tangsoluong = slht + 1;
+            txtSoLuong.setText(String.valueOf(tangsoluong));
+            LoadMoney();
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void txtSoLuongMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtSoLuongMouseMoved
+        // TODO add your handling code here:
+        kiemtrasoluong();
+    }//GEN-LAST:event_txtSoLuongMouseMoved
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        // TODO add your handling code here:
+        DefaultTableModel ob = (DefaultTableModel) tblSanPham.getModel();
+        TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(ob);
+        tblSanPham.setRowSorter(obj);
+        obj.setRowFilter(javax.swing.RowFilter.regexFilter(jTextField1.getText()));
+    }//GEN-LAST:event_jTextField1KeyReleased
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
         // TODO add your handling code here:
@@ -510,29 +525,19 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
         txtSoLuong.setText("1");
         txtGiaSanPham.setText(String.valueOf(gia));
 
-
     }//GEN-LAST:event_tblSanPhamMouseClicked
 
-    private void txtSoLuongMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtSoLuongMouseMoved
+    private void tblCHiTietPhieuNhapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCHiTietPhieuNhapMouseClicked
         // TODO add your handling code here:
-        kiemtrasoluong();
-    }//GEN-LAST:event_txtSoLuongMouseMoved
-
-    private void txtGiaSanPhamMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtGiaSanPhamMouseMoved
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtGiaSanPhamMouseMoved
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
-        // TODO add your handling code here:
-        DefaultTableModel ob = (DefaultTableModel) tblSanPham.getModel();
-        TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(ob);
-        tblSanPham.setRowSorter(obj);
-        obj.setRowFilter(javax.swing.RowFilter.regexFilter(jTextField1.getText()));
-    }//GEN-LAST:event_jTextField1KeyReleased
+        int selectRow = tblCHiTietPhieuNhap.getSelectedRow();
+        int masanpham = (int) tblCHiTietPhieuNhap.getValueAt(selectRow, 1);
+        BigDecimal dongia = (BigDecimal) tblCHiTietPhieuNhap.getValueAt(selectRow, 2);
+        int soluong = (int) tblCHiTietPhieuNhap.getValueAt(selectRow, 3);
+        txtMaSanPham.setText(String.valueOf(masanpham));
+        txtSoLuong.setText(String.valueOf(soluong));
+        lblDonGia.setText(String.valueOf(dongia));
+        this.masanpham = masanpham;
+    }//GEN-LAST:event_tblCHiTietPhieuNhapMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cboNhaCungCap;

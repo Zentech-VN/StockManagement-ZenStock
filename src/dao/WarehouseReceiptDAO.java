@@ -18,6 +18,8 @@ import jdbc.ConnectionHelper;
 
 public class WarehouseReceiptDAO {
 
+    int getmaphieunhap = 0;
+
     public List<PhieuNhap> getAllentries() {
         List<PhieuNhap> listp = new ArrayList<>();
         String sql = "select * from phieunhap";
@@ -104,6 +106,10 @@ public class WarehouseReceiptDAO {
 
     }
 
+    public int getMaPhieuNhap() {
+        return this.getmaphieunhap;
+    }
+
     public boolean TaoPhieuNhap(PhieuNhap pn, List<PhieuNhapChiTiet> listpnct) {
         String sql_phieunhap = "INSERT INTO phieunhap (manhacungcap, nguoitao, thoigian, trangthai) VALUES (?, ?, ?, ?)";
         String sql_phieunhapchitiet = "INSERT INTO ctphieunhap (maphieunhap, masanpham, dongia, soluong, ghichu) VALUES (?, ?, ?, ?, ?)";
@@ -127,6 +133,7 @@ public class WarehouseReceiptDAO {
             try (ResultSet rs = pst.getGeneratedKeys()) {
                 if (rs.next()) {
                     maphieunhap = rs.getInt(1);
+                    this.getmaphieunhap = maphieunhap;
                 } else {
                     JOptionPane.showMessageDialog(null, "Không lấy được mã phiếu nhập");
                     conn.rollback();
@@ -216,6 +223,17 @@ public class WarehouseReceiptDAO {
         } catch (Exception e) {
             e.printStackTrace();
             return -1;
+        }
+    }
+
+    public int xoaphieunhap(int id) {
+        String sql = "delete from phieunhap where maphieunhap = ?";
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setInt(1, id);
+            return pst.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
         }
     }
 
