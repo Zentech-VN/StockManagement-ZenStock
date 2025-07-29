@@ -314,6 +314,11 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
             return;
         }
         int id = (int) tblPhieuXuat.getValueAt(select, 0);
+        String trangthai = (String) tblPhieuXuat.getValueAt(select, 4);
+        if (trangthai.equalsIgnoreCase("duyet")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không được cập nhật phiếu có trạng thái duyệt!");
+            return;
+        }
         String tenkhachhang = (String) tblPhieuXuat.getValueAt(select, 1);
         Window parent = SwingUtilities.getWindowAncestor(this);
         WarehouseDeliveryUpdateForm warehousedeliveryupdateform = new WarehouseDeliveryUpdateForm(parent, this, id, tenkhachhang);

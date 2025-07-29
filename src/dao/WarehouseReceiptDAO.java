@@ -5,6 +5,7 @@ import entity.PhieuNhapChiTiet;
 import entity.ProductArea;
 
 import entity.Supplier;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -19,6 +20,23 @@ import jdbc.ConnectionHelper;
 public class WarehouseReceiptDAO {
 
     int getmaphieunhap = 0;
+
+    public BigDecimal getdongiabyid(int masanpham) {
+        String sql = "select gia from sanpham where masanpham = ?";
+        BigDecimal gia = null;
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setInt(1, masanpham);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                gia = rs.getBigDecimal("gia");
+            }
+            rs.close();
+            return gia;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public List<PhieuNhap> getAllentries() {
         List<PhieuNhap> listp = new ArrayList<>();

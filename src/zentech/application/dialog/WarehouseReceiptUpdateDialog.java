@@ -80,7 +80,8 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
         int soluong = Integer.parseInt(txtSoLuong.getText());
         double gia = Double.parseDouble(txtGiaSanPham.getText());
         double dongia = soluong * gia;
-        lblDonGia.setText(String.valueOf(dongia));
+        BigDecimal dongia1 = new BigDecimal(dongia);
+        lblDonGia.setText(String.valueOf(dongia1));
     }
 
     public PhieuNhapChiTiet getUpdate() {
@@ -537,6 +538,7 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
         txtSoLuong.setText(String.valueOf(soluong));
         lblDonGia.setText(String.valueOf(dongia));
         this.masanpham = masanpham;
+        txtGiaSanPham.setText(String.valueOf(wrd.getdongiabyid(masanpham)));
     }//GEN-LAST:event_tblCHiTietPhieuNhapMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

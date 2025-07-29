@@ -1,10 +1,14 @@
 package zentech.application.form.other;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import dao.AccountDAO;
 import dao.ActivityDAO;
 import java.util.ArrayList;
 import entity.Account;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import service.AccountService;
 import zentech.application.dialog.EditAccountDialog;
 import zentech.application.dialog.StaffListDialog;
@@ -17,11 +21,13 @@ public class AccountForm extends javax.swing.JPanel {
 
     public AccountForm() {
         initComponents();
+        initalUI(tblList);
         asv.LoadTable(lista, tblList);
     }
 
     public AccountForm(Account currentUser) {
         initComponents();
+        initalUI(tblList);
         asv.LoadTable(lista, tblList);
     }
 
@@ -33,19 +39,118 @@ public class AccountForm extends javax.swing.JPanel {
         return index;
     }
 
+    private void initalUI(JTable table) {
+        table.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
+        table.setRowHeight(30);
+        table.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
+
+        JScrollPane scroll = (JScrollPane) table.getParent().getParent();
+        scroll.setBorder(BorderFactory.createEmptyBorder());
+        scroll.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, ""
+                + "background:$Table.background;"
+                + "track:$Table.background;"
+                + "trackArc:999");
+
+        table.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
+        table.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblList = new javax.swing.JTable();
+        crazyPanel1 = new raven.crazypanel.CrazyPanel();
+        crazyPanel2 = new raven.crazypanel.CrazyPanel();
+        txtSearcha = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        txtSearch = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblList = new javax.swing.JTable();
+
+        crazyPanel1.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
+            "background:$Table.background;[light]border:0,0,0,0,shade(@background,5%),,20;[dark]border:0,0,0,0,tint(@background,5%),,20",
+            null
+        ));
+        crazyPanel1.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
+            "wrap,fill,insets 15",
+            "[fill]",
+            "[grow 0][fill]",
+            new String[]{
+                ""
+            }
+        ));
+
+        crazyPanel2.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
+            "background:$Table:background",
+            new String[]{
+                "JTextField.placeholderText=Search;background:@background",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                ""
+            }
+        ));
+        crazyPanel2.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
+            "",
+            "[]push[][][][]",
+            "",
+            new String[]{
+                "width 400"
+            }
+        ));
+
+        txtSearcha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchaActionPerformed(evt);
+            }
+        });
+        txtSearcha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchaKeyReleased(evt);
+            }
+        });
+        crazyPanel2.add(txtSearcha);
+
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setText("Thêm");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        crazyPanel2.add(jButton1);
+
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton2.setText("Sửa");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        crazyPanel2.add(jButton2);
+
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton3.setText("Xóa");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        crazyPanel2.add(jButton3);
+
+        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton4.setText("Làm mới");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        crazyPanel2.add(jButton4);
+
+        crazyPanel1.add(crazyPanel2);
 
         tblList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -60,95 +165,23 @@ public class AccountForm extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(tblList);
 
-        jButton1.setText("Thêm");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Sửa");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton3.setText("Xóa");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        txtSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSearchActionPerformed(evt);
-            }
-        });
-        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSearchKeyReleased(evt);
-            }
-        });
-
-        jButton4.setText("Làm mới");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
-        jButton6.setText("Xuất Excel");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-
-        jButton8.setText("Nhập Excel");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
+        crazyPanel1.add(jScrollPane1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton6)
-                .addGap(94, 94, 94)
-                .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
+                .addContainerGap()
+                .addComponent(crazyPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 914, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton6)
-                    .addComponent(jButton8))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addComponent(crazyPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -180,7 +213,7 @@ public class AccountForm extends javax.swing.JPanel {
         int index = getRowSelected();
         String user = appCurrentUser;
         String hoTen = tblList.getValueAt(index, 1).toString();
-       
+
         if (index != -1) {
             int input = JOptionPane.showConfirmDialog(null,
                     "Bạn có chắc chắn muốn xóa tài khoản!", "Xóa tài khoản",
@@ -207,39 +240,30 @@ public class AccountForm extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
-
-    }//GEN-LAST:event_txtSearchActionPerformed
-
-    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
-        String txt = txtSearch.getText();
-        asv.LoadTableWithSearch(txt, tblList);
-
-    }//GEN-LAST:event_txtSearchKeyReleased
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-
-    }//GEN-LAST:event_jButton8ActionPerformed
-
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         lista = asv.getTaiKhoanAll();
         asv.LoadTable(lista, tblList);
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void txtSearchaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchaKeyReleased
+        String txt = txtSearcha.getText();
+        asv.LoadTableWithSearch(txt, tblList);
+    }//GEN-LAST:event_txtSearchaKeyReleased
+
+    private void txtSearchaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchaActionPerformed
+
+    }//GEN-LAST:event_txtSearchaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private raven.crazypanel.CrazyPanel crazyPanel1;
+    private raven.crazypanel.CrazyPanel crazyPanel2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblList;
-    private javax.swing.JTextField txtSearch;
+    private javax.swing.JTextField txtSearcha;
     // End of variables declaration//GEN-END:variables
 }

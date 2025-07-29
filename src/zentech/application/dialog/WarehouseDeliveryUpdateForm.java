@@ -114,7 +114,8 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
         int soluong = Integer.parseInt(txtSoLuong.getText());
         double gia = Double.parseDouble(txtGiaSanPham.getText());
         double dongia = soluong * gia;
-        lblDonGia.setText(String.valueOf(dongia));
+        BigDecimal dongia1 = new BigDecimal(dongia);
+        lblDonGia.setText(String.valueOf(dongia1));
     }
 
     public PhieuXuatChiTiet getFrom() {
@@ -389,7 +390,7 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton4))
                             .addComponent(txtGiaSanPham))
@@ -603,7 +604,7 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
         txtSoLuong.setText(String.valueOf(soluong));
         lblDonGia.setText(String.valueOf(dongia));
         this.masanpham = masanpham;
-
+        txtGiaSanPham.setText(String.valueOf(wdd.getdongiabyid(masanpham)));
     }//GEN-LAST:event_tblChiTietPhieuXuatMouseClicked
 
     private void txtSoLuongMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtSoLuongMouseMoved

@@ -29,7 +29,7 @@ public class AccountService {
 
     public void LoadTable(List<Account> listc, JTable jTable1) {
         lista = acc.selectAll();
-        String[] title = {"MaNV", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"};
+        String[] title = {"Mã nhân viên", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"};
         DefaultTableModel model = new DefaultTableModel(title, 0);
 
         for (Account account : lista) {

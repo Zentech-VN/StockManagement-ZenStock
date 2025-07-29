@@ -4,6 +4,7 @@ import entity.Cilent;
 import entity.PhieuXuat;
 import entity.PhieuXuatChiTiet;
 import entity.ProductArea;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +15,7 @@ import javax.swing.JOptionPane;
 import jdbc.ConnectionHelper;
 
 public class WarehouseDeliveryDAO {
-    
+
     int maphieuxuatvuatao = 0;
 
     public List<PhieuXuat> getAllPhieuNhap() {
@@ -77,8 +78,8 @@ public class WarehouseDeliveryDAO {
             return null;
         }
     }
-    
-     public int getMaPhieuXuatVuaTao() {
+
+    public int getMaPhieuXuatVuaTao() {
         return this.maphieuxuatvuatao;
     }
 
@@ -229,42 +230,58 @@ public class WarehouseDeliveryDAO {
         }
     }
 
-public List<PhieuXuatChiTiet> getPhieuXuatById(int maphieuxuat) {
-    List<PhieuXuatChiTiet> list = new ArrayList<>();
-    String sql = "SELECT * FROM phieuxuat AS px " +
-                 "JOIN ctphieuxuat AS pxct ON px.maphieuxuat = pxct.maphieuxuat " +
-                 "JOIN khachhang AS kh ON px.makhachhang = kh.makhachhang " +
-                 "JOIN nhanvien AS nv ON px.nguoitao = nv.manv " +
-                 "WHERE px.maphieuxuat = ?";
+    public List<PhieuXuatChiTiet> getPhieuXuatById(int maphieuxuat) {
+        List<PhieuXuatChiTiet> list = new ArrayList<>();
+        String sql = "SELECT * FROM phieuxuat AS px "
+                + "JOIN ctphieuxuat AS pxct ON px.maphieuxuat = pxct.maphieuxuat "
+                + "JOIN khachhang AS kh ON px.makhachhang = kh.makhachhang "
+                + "JOIN nhanvien AS nv ON px.nguoitao = nv.manv "
+                + "WHERE px.maphieuxuat = ?";
 
-    try (Connection conn = ConnectionHelper.getConnection();
-         PreparedStatement pst = conn.prepareStatement(sql)) {
-        pst.setInt(1, maphieuxuat); // Sử dụng tham số thay vì hardcode
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setInt(1, maphieuxuat); // Sử dụng tham số thay vì hardcode
 
-        ResultSet rs = pst.executeQuery();
-        while (rs.next()) {
-            PhieuXuatChiTiet pxct = new PhieuXuatChiTiet();
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                PhieuXuatChiTiet pxct = new PhieuXuatChiTiet();
 
-            // Gán thông tin Phiếu Xuất
-            pxct.getPhieuxuat().setMaphieuxuat(rs.getInt("px.maphieuxuat"));
-            pxct.getPhieuxuat().getKhachhang().setTenKhacHang(rs.getString("kh.tenkhachhang"));
-            pxct.getPhieuxuat().getNhanvien().setHoten(rs.getString("nv.hoten"));
-            pxct.getPhieuxuat().setThoigian(rs.getDate("px.thoigian"));
-            pxct.getPhieuxuat().setTrangthai(rs.getString("px.trangthai"));
+                // Gán thông tin Phiếu Xuất
+                pxct.getPhieuxuat().setMaphieuxuat(rs.getInt("px.maphieuxuat"));
+                pxct.getPhieuxuat().getKhachhang().setTenKhacHang(rs.getString("kh.tenkhachhang"));
+                pxct.getPhieuxuat().getNhanvien().setHoten(rs.getString("nv.hoten"));
+                pxct.getPhieuxuat().setThoigian(rs.getDate("px.thoigian"));
+                pxct.getPhieuxuat().setTrangthai(rs.getString("px.trangthai"));
 
-            // Gán thông tin chi tiết phiếu xuất
-            pxct.getSanpham().setMaSanPham(rs.getInt("pxct.masanpham"));
-            pxct.setDongia(rs.getBigDecimal("pxct.dongia"));
-            pxct.setSoluong(rs.getInt("pxct.soluong"));
-            pxct.setGhichu(rs.getString("pxct.ghichu"));
+                // Gán thông tin chi tiết phiếu xuất
+                pxct.getSanpham().setMaSanPham(rs.getInt("pxct.masanpham"));
+                pxct.setDongia(rs.getBigDecimal("pxct.dongia"));
+                pxct.setSoluong(rs.getInt("pxct.soluong"));
+                pxct.setGhichu(rs.getString("pxct.ghichu"));
 
-            list.add(pxct);
+                list.add(pxct);
+            }
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        return list;
-    } catch (Exception e) {
-        e.printStackTrace();
-        return null;
     }
-}
+
+    public BigDecimal getdongiabyid(int masanpham) {
+        String sql = "select gia from sanpham where masanpham = ?";
+        BigDecimal gia = null;
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setInt(1, masanpham);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                gia = rs.getBigDecimal("gia");
+            }
+            rs.close();
+            return gia;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }
