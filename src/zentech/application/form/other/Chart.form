@@ -1134,14 +1134,14 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel14">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="T&#x1eeb; ng&#xe0;y"/>
+                    <Property name="text" type="java.lang.String" value="T&#x1eeb; ng&#xe0;y (yyyy-MM-dd)"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtThongKeTonKho_TuNgay">
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel15">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="&#x110;&#x1ebf;n ng&#xe0;y"/>
+                    <Property name="text" type="java.lang.String" value="&#x110;&#x1ebf;n ng&#xe0;y (yyyy-MM-dd)"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtThongKeTonKho_DenNgay">
@@ -1163,6 +1163,16 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThongKeTonKho_LamMoiActionPerformed"/>
                   </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel30">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="B&#x1ea1;n &#x111;ang xem th&#xf4;ng tin t&#x1eeb; ng&#xe0;y"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblThongKeTonKho_ThoiGian">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&lt;yyyy-MM-dd -  yyyy-MM-dd&gt;"/>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>
@@ -1328,14 +1338,14 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel20">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="T&#x1eeb; ng&#xe0;y"/>
+                            <Property name="text" type="java.lang.String" value="T&#x1eeb; ng&#xe0;y (yyyy-MM-dd)"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtSanPhamBanChay_TuNgay">
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel28">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="&#x110;&#x1ebf;n ng&#xe0;y"/>
+                            <Property name="text" type="java.lang.String" value="&#x110;&#x1ebf;n ng&#xe0;y (yyyy-MM-dd)"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtSanPhamBanChay_DenNgay">
@@ -1357,6 +1367,16 @@
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSanPhamBanChay_LamMoiActionPerformed"/>
                           </Events>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel33">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="B&#x1ea1;n &#x111;ang xem th&#xf4;ng tin t&#x1eeb; ng&#xe0;y"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="lblSanPhamBanChay_ThoiGian">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="&lt;yyyy-MM-dd -  yyyy-MM-dd&gt;"/>
+                          </Properties>
                         </Component>
                       </SubComponents>
                     </Container>

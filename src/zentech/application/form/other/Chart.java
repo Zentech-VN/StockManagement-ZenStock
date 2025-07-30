@@ -10,6 +10,7 @@ import entity.Chart_Revenue;
 import java.awt.Color;
 import java.awt.Component;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -51,39 +52,56 @@ public class Chart extends javax.swing.JPanel {
         initalTableMini(tblThongKeTonKho);
         initalTableMini(tblSanPhamBanChay);
         initalTableMini(tblSanPhamHetHang);
-
+        
+        LocalDate today = LocalDate.now();
+        LocalDate firstDayOfMonth = today.withDayOfMonth(1);
+        String year = String.valueOf(LocalDate.now().getYear());
+        String month = String.valueOf(LocalDate.now().getMonthValue());
+        
         //Truyền data vào chart
         setDataBase();
-        setDataYears("2022", "2025");
-        setDataMonths("2025");
-        setDataDays("2025", "07");
+        setDataYears("2022", year);
+        setDataMonths(year);
+        setDataDays(year, month);
 
         //Truyền data vào JTable
         loadRevenueBaseData();
-        loadRevenueByYears("2022", "2025");
-        loadRevenueByMonths("2025");
-        loadRevenueByDays("2025", "07");
+        loadRevenueByYears("2022", year);
+        loadRevenueByMonths(year);
+        loadRevenueByDays(year, month);
         loadInventoryAll();
         List<Chart_Inventory> inventories = new ArrayList<>();
-        inventories = service.getInventoryByKeyWordService("2025-06-01", "2025-07-01", "");
+        inventories = service.getInventoryByKeyWordService(firstDayOfMonth.toString(), today.toString(), "");
         loadInventoryByKeyWord(inventories);
         loadTopSellingProducts("", "", "");
         loadLowStockProductsToTable("", "");
 
         //Khởi tạo giao diện JTextField
-        initalTextField(txtSanPhamBanChay_SanPham, "Tìm kiếm");
-        initalTextField(txtSanPhamBanChay_DenNgay, "yyyy-MM-dd");
-        initalTextField(txtSanPhamBanChay_TuNgay, "yyyy-MM-dd");
-        initalTextField(txtSanPhamHetHang_SanPham, "Tìm kiếm");
-        initalTextField(txtSanPhamHetHang_SoLuong, "5");
-        initalTextField(txtThongKeTonKho_SanPham, "Tìm kiếm");
-        initalTextField(txtThongKeTonKho_DenNgay, "yyyy-MM-dd");
-        initalTextField(txtThongKeTonKho_TuNgay, "yyyy-MM-dd");
         initalTextField(txtThongKeTheoNam_DenNam, "2025");
         initalTextField(txtThongKeTheoNam_TuNam, "2022");
         initalTextField(txtThongKeTheoNgay_Nam, "2025");
         initalTextField(txtThongKeTheoNgay_Thang, "07");
         initalTextField(txtThongKeTheoThang_Nam, "2025");
+        
+        //Tồn kho
+        initalTextField(txtThongKeTonKho_SanPham, "Tìm kiếm");
+        initalTextField(txtThongKeTonKho_TuNgay, firstDayOfMonth.toString());
+        initalTextField(txtThongKeTonKho_DenNgay, today.toString());
+        txtThongKeTonKho_TuNgay.setText(firstDayOfMonth.toString());
+        txtThongKeTonKho_DenNgay.setText(today.toString());
+        lblThongKeTonKho_ThoiGian.setText(txtThongKeTonKho_TuNgay.getText() + " đến " + txtThongKeTonKho_DenNgay.getText());
+        
+        //Bán chạy
+        initalTextField(txtSanPhamBanChay_SanPham, "Tìm kiếm");
+        initalTextField(txtSanPhamBanChay_TuNgay, today.toString());
+        initalTextField(txtSanPhamBanChay_DenNgay, firstDayOfMonth.toString());
+        txtSanPhamBanChay_TuNgay.setText(firstDayOfMonth.toString());
+        txtSanPhamBanChay_DenNgay.setText(today.toString());
+        lblSanPhamBanChay_ThoiGian.setText(txtSanPhamBanChay_TuNgay.getText()  + " đến " + txtSanPhamBanChay_DenNgay.getText());
+        
+        //Hết hàng
+        initalTextField(txtSanPhamHetHang_SanPham, "Tìm kiếm");
+        initalTextField(txtSanPhamHetHang_SoLuong, "5");
         
         //Giao diện đếm số lượng
         initalCount();
@@ -568,6 +586,8 @@ public class Chart extends javax.swing.JPanel {
         jLabel16 = new javax.swing.JLabel();
         btnThongKeTonKho_TimKiem = new javax.swing.JButton();
         btnThongKeTonKho_LamMoi = new javax.swing.JButton();
+        jLabel30 = new javax.swing.JLabel();
+        lblThongKeTonKho_ThoiGian = new javax.swing.JLabel();
         crazyPanel23 = new raven.crazypanel.CrazyPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblThongKeTonKho = new javax.swing.JTable();
@@ -585,6 +605,8 @@ public class Chart extends javax.swing.JPanel {
         jLabel29 = new javax.swing.JLabel();
         btnSanPhamBanChay_TimKiem = new javax.swing.JButton();
         btnSanPhamBanChay_LamMoi = new javax.swing.JButton();
+        jLabel33 = new javax.swing.JLabel();
+        lblSanPhamBanChay_ThoiGian = new javax.swing.JLabel();
         crazyPanel27 = new raven.crazypanel.CrazyPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblSanPhamBanChay = new javax.swing.JTable();
@@ -1352,11 +1374,11 @@ public class Chart extends javax.swing.JPanel {
         crazyPanel22.add(txtThongKeTonKho_SanPham);
         crazyPanel22.add(jLabel17);
 
-        jLabel14.setText("Từ ngày");
+        jLabel14.setText("Từ ngày (yyyy-MM-dd)");
         crazyPanel22.add(jLabel14);
         crazyPanel22.add(txtThongKeTonKho_TuNgay);
 
-        jLabel15.setText("Đến ngày");
+        jLabel15.setText("Đến ngày (yyyy-MM-dd)");
         crazyPanel22.add(jLabel15);
         crazyPanel22.add(txtThongKeTonKho_DenNgay);
         crazyPanel22.add(jLabel16);
@@ -1376,6 +1398,12 @@ public class Chart extends javax.swing.JPanel {
             }
         });
         crazyPanel22.add(btnThongKeTonKho_LamMoi);
+
+        jLabel30.setText("Bạn đang xem thông tin từ ngày");
+        crazyPanel22.add(jLabel30);
+
+        lblThongKeTonKho_ThoiGian.setText("<yyyy-MM-dd -  yyyy-MM-dd>");
+        crazyPanel22.add(lblThongKeTonKho_ThoiGian);
 
         crazyPanel23.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
             "background:$Table.background;[light]border:0,0,0,0,shade(@background,5%),,20;[dark]border:0,0,0,0,tint(@background,5%),,20",
@@ -1477,11 +1505,11 @@ public class Chart extends javax.swing.JPanel {
         crazyPanel26.add(txtSanPhamBanChay_SanPham);
         crazyPanel26.add(jLabel19);
 
-        jLabel20.setText("Từ ngày");
+        jLabel20.setText("Từ ngày (yyyy-MM-dd)");
         crazyPanel26.add(jLabel20);
         crazyPanel26.add(txtSanPhamBanChay_TuNgay);
 
-        jLabel28.setText("Đến ngày");
+        jLabel28.setText("Đến ngày (yyyy-MM-dd)");
         crazyPanel26.add(jLabel28);
         crazyPanel26.add(txtSanPhamBanChay_DenNgay);
         crazyPanel26.add(jLabel29);
@@ -1501,6 +1529,12 @@ public class Chart extends javax.swing.JPanel {
             }
         });
         crazyPanel26.add(btnSanPhamBanChay_LamMoi);
+
+        jLabel33.setText("Bạn đang xem thông tin từ ngày");
+        crazyPanel26.add(jLabel33);
+
+        lblSanPhamBanChay_ThoiGian.setText("<yyyy-MM-dd -  yyyy-MM-dd>");
+        crazyPanel26.add(lblSanPhamBanChay_ThoiGian);
 
         crazyPanel27.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
             "background:$Table.background;[light]border:0,0,0,0,shade(@background,5%),,20;[dark]border:0,0,0,0,tint(@background,5%),,20",
@@ -1771,10 +1805,13 @@ public class Chart extends javax.swing.JPanel {
 
         if (!hasKeyword && !hasFromDate && !hasToDate) {
             inventories = service.getInventoryAllService("");
+            lblThongKeTonKho_ThoiGian.setText("<yyyy-MM-dd> đến <yyyy-MM-dd>");
         } else if (hasKeyword && !hasFromDate && !hasToDate) {
             inventories = service.getInventoryAllService(keyword);
+            lblThongKeTonKho_ThoiGian.setText("<yyyy-MM-dd> đến <yyyy-MM-dd>");
         } else if (hasFromDate && hasToDate) {
             inventories = service.getInventoryByKeyWordService(fromDate, toDate, keyword);
+            lblThongKeTonKho_ThoiGian.setText(txtThongKeTonKho_TuNgay.getText() + " đến " + txtThongKeTonKho_DenNgay.getText());
         } else {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
                     "Vui lòng nhập cả Từ ngày và Đến ngày để thống kê theo thời gian");
@@ -1798,6 +1835,12 @@ public class Chart extends javax.swing.JPanel {
         String to = txtSanPhamBanChay_DenNgay.getText();
 
         loadTopSellingProducts(from, to, keyword);
+        
+        if(from.isEmpty() || to.isEmpty()) {
+            lblSanPhamBanChay_ThoiGian.setText("<yyyy-MM-dd> đến <yyyy-MM-dd>");
+        } else {
+            lblSanPhamBanChay_ThoiGian.setText(txtSanPhamBanChay_TuNgay.getText()  + " đến " + txtSanPhamBanChay_DenNgay.getText());
+        }
     }//GEN-LAST:event_btnSanPhamBanChay_TimKiemActionPerformed
 
     private void btnSanPhamBanChay_LamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSanPhamBanChay_LamMoiActionPerformed
@@ -1880,8 +1923,10 @@ public class Chart extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1915,7 +1960,9 @@ public class Chart extends javax.swing.JPanel {
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblCustomerCount;
     private javax.swing.JLabel lblProductCount;
+    private javax.swing.JLabel lblSanPhamBanChay_ThoiGian;
     private javax.swing.JLabel lblSanPhamHetHang_ThongBao;
+    private javax.swing.JLabel lblThongKeTonKho_ThoiGian;
     private javax.swing.JLabel lblUserCount;
     private zentech.application.tabbed.MaterialTabbed materialTabbed1;
     private zentech.application.tabbed.MaterialTabbed materialTabbed2;
