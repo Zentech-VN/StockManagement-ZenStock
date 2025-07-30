@@ -98,25 +98,19 @@ public class Menu extends JPanel {
         String tenquyen = "";
         switch (ma) {
             case 1:
-                tenquyen = "Quản lý kho";
+                tenquyen = "Quản trị hệ thống";
                 break;
             case 2:
-                tenquyen = "Nhân viên nhập hàng";
+                tenquyen = "Quản lý kho";
                 break;
             case 3:
-                tenquyen = "Nhân viên xuất hàng";
-                break;
-            case 4:
                 tenquyen = "Thủ kho";
                 break;
+            case 4:
+                tenquyen = "Nhân viên Nhập kho";
+                break;
             case 5:
-                tenquyen = "Nhân viên kiểm kho";
-                break;
-            case 6:
-                tenquyen = "Demo";
-                break;
-            case 7:
-                tenquyen = "Test";
+                tenquyen = "Nhân viên Xuất kho";
                 break;
             default:
                 tenquyen = "Chưa có quyền";
