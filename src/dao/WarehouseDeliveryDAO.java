@@ -151,10 +151,26 @@ public class WarehouseDeliveryDAO {
     }
 
     public int xoaphieuxuat(int id) {
-        String sql = "delete from phieuxuat where maphieuxuat = ?";
-        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
-            pst.setInt(1, id);
-            return pst.executeUpdate();
+        String sql_phieuxuat = "delete from phieuxuat where maphieuxuat = ?";
+        String sql_ctphieuxuat = "delete from ctphieuxuat where maphieuxuat = ?";
+        int rs_phieunhap = 0;
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst_ctphieuxuat = conn.prepareStatement(sql_ctphieuxuat)) {
+            conn.setAutoCommit(false);
+            pst_ctphieuxuat.setInt(1, id);
+            int rs_ctphieunhap = pst_ctphieuxuat.executeUpdate();
+            if (rs_ctphieunhap == -1) {
+                JOptionPane.showMessageDialog(null, "Xóa phiếu xuất chi tiết không thành công!");
+                conn.rollback();
+                return 0;
+            }
+            try (PreparedStatement pst_phieuxuat = conn.prepareStatement(sql_phieuxuat)) {
+                pst_phieuxuat.setInt(1, id);
+                rs_phieunhap = pst_phieuxuat.executeUpdate();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return 0;
+            }
+            return rs_phieunhap;
         } catch (Exception e) {
             e.printStackTrace();
             return 0;

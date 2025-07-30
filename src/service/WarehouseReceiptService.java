@@ -47,7 +47,7 @@ public class WarehouseReceiptService {
             model.addRow(new Object[]{pa.getP().getMaSanPham(), pa.getP().getTenSanPham(), pa.getP().getGia(), pa.getW().getMaKhuVuc(), pa.getSoluong()});
         }
     }
-    
+
     public void search(JTable table, JTextField search) {
         DefaultTableModel ob = (DefaultTableModel) table.getModel();
         TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(ob);
