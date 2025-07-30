@@ -40,13 +40,13 @@ public class WarehouseReceiptDAO {
 
     public List<PhieuNhap> getAllentries() {
         List<PhieuNhap> listp = new ArrayList<>();
-        String sql = "select * from phieunhap";
+        String sql = "select * from phieunhap join nhanvien on phieunhap.nguoitao = nhanvien.manv";
         try (Connection conn = ConnectionHelper.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 PhieuNhap p = new PhieuNhap();
                 p.setMaphieunhap(rs.getInt("maphieunhap"));
                 p.getS().setMaNhaCungCap(rs.getInt("manhacungcap"));
-                p.getE().setManv(rs.getInt("nguoitao"));
+                p.getE().setHoten(rs.getString("nhanvien.hoten"));
                 p.setNgaytao(rs.getDate("thoigian"));
                 p.setTrangthai(rs.getString("trangthai"));
                 listp.add(p);
@@ -245,10 +245,26 @@ public class WarehouseReceiptDAO {
     }
 
     public int xoaphieunhap(int id) {
-        String sql = "delete from phieunhap where maphieunhap = ?";
-        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
-            pst.setInt(1, id);
-            return pst.executeUpdate();
+        String sql_phieunhap = "delete from phieunhap where maphieunhap = ?";
+        String sql_ctphieunhap = "delete from ctphieunhap where maphieunhap = ?";
+        int rs_phieunhap = 0;
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst_ctphieunhap = conn.prepareStatement(sql_ctphieunhap)) {
+            conn.setAutoCommit(false);
+            pst_ctphieunhap.setInt(1, id);
+            int rs_ctphieunhap = pst_ctphieunhap.executeUpdate();
+            if (rs_ctphieunhap == -1) {
+                JOptionPane.showMessageDialog(null, "Xóa phiếu nhập chi tiết không thành công!");
+                conn.rollback();
+                return 0;
+            }
+            try (PreparedStatement pst_phieunhap = conn.prepareStatement(sql_phieunhap)) {
+                pst_phieunhap.setInt(1, id);
+                rs_phieunhap = pst_phieunhap.executeUpdate();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return 0;
+            }
+            return rs_phieunhap;
         } catch (Exception e) {
             e.printStackTrace();
             return 0;

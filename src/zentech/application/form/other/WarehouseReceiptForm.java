@@ -22,40 +22,40 @@ import zentech.application.dialog.WarehouseReceiptDetailsDialog;
 import zentech.application.dialog.WarehouseReceiptUpdateDialog;
 
 public class WarehouseReceiptForm extends javax.swing.JPanel {
-    
+
     WarehouseReceiptService wrs = new WarehouseReceiptService();
     private Employee CurrentAcc;
     private WarehouseReceiptDAO wrd = new WarehouseReceiptDAO();
-    
+
     public WarehouseReceiptForm(Employee acc) {
         this.CurrentAcc = acc;
         initComponents();
         initalUI(tblPhieuNhap);
         wrs.loadDataTable(tblPhieuNhap);
     }
-    
+
     private void initalUI(JTable table) {
         tblPhieuNhap.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
         tblPhieuNhap.setRowHeight(30);
         tblPhieuNhap.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
-        
+
         JScrollPane scroll = (JScrollPane) table.getParent().getParent();
         scroll.setBorder(BorderFactory.createEmptyBorder());
         scroll.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, ""
                 + "background:$Table.background;"
                 + "track:$Table.background;"
                 + "trackArc:999");
-        
+
         table.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
         table.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
-        
+
         table.getTableHeader().setDefaultRenderer(getAlignmentCellRender(table.getTableHeader().getDefaultRenderer(), true));
         table.setDefaultRenderer(Object.class, getAlignmentCellRender(table.getDefaultRenderer(Object.class), false));
-        
+
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tìm kiếm");
-        
+
     }
-    
+
     private TableCellRenderer getAlignmentCellRender(TableCellRenderer oldRender, boolean header) {
         return new DefaultTableCellRenderer() {
             @Override
@@ -73,7 +73,7 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
             }
         };
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -253,6 +253,11 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
         }
         int id = (int) tblPhieuNhap.getValueAt(select, 0);
         int manhacungcap = (int) tblPhieuNhap.getValueAt(select, 1);
+        String trangthai = (String) tblPhieuNhap.getValueAt(select, 4);
+        if (trangthai.equalsIgnoreCase("duyet")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không được cập nhật phiếu nhập có trạng thái duyệt!");
+            return;
+        }
         Window parent = SwingUtilities.getWindowAncestor(this);
         WarehouseReceiptUpdateDialog warehouseReceiptUpdateDialog = new WarehouseReceiptUpdateDialog(parent, this, id, manhacungcap);
         warehouseReceiptUpdateDialog.setVisible(true);
@@ -273,6 +278,7 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
         Window parent = SwingUtilities.getWindowAncestor(this);
         WarehouseReceiptDetailsDialog warehouseReceiptDetailsDialog = new WarehouseReceiptDetailsDialog(parent, this, maphieunhap);
         warehouseReceiptDetailsDialog.setVisible(true);
+        wrs.loadDataTable(tblPhieuNhap);
     }//GEN-LAST:event_btnDetailsActionPerformed
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
@@ -289,16 +295,15 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
         }
         int id = (int) tblPhieuNhap.getValueAt(select, 0);
         String trangthai = (String) tblPhieuNhap.getValueAt(select, 4);
-        if (trangthai.equalsIgnoreCase("choduyet")) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không được xóa phiếu nhập có trạng thái chờ duyệt!");
+        if (trangthai.equalsIgnoreCase("duyệt")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không được xóa phiếu nhập có trạng thái duyệt!");
             return;
         }
         int rs = wrd.xoaphieunhap(id);
         if (rs > 0) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Xóa thành công phiếu nhập có mã " + id + "!");
-            wrs.loadDataTable(tblPhieuNhap);
         }
-
+        wrs.loadDataTable(tblPhieuNhap);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
