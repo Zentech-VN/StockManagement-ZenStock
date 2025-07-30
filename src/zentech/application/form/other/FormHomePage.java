@@ -281,7 +281,7 @@ public class FormHomePage extends javax.swing.JPanel {
 
             },
             new String [] {
-                "DEMO"
+                "Sản phẩm"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -309,7 +309,7 @@ public class FormHomePage extends javax.swing.JPanel {
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.setText("Có thể dùng form này để ghi About us hoặc các thông\ntin về bản cập nhật mới của app.\n\nTable bên trái là để xem nhanh các sản phẩm. Chỉ là \nxem nhanh không thể thao tác thêm xoá sửa.");
+        jTextArea1.setText("Phần mềm Quản lý Kho Hàng là giải pháp hỗ trợ doanh\nnghiệp kiểm soát toàn bộ quá trình nhập – xuất – tồn kho\nmột cách chính xác, hiệu quả và minh bạch, giúp tối ưu\nvận hành và nâng cao hiệu quả quản lý kho hàng trong\nthực tế.");
         jScrollPane2.setViewportView(jTextArea1);
 
         panel4.add(jScrollPane2);
