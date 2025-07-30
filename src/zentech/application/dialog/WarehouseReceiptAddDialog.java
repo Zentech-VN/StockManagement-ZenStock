@@ -226,7 +226,8 @@ public class WarehouseReceiptAddDialog extends JDialog {
 
     public PhieuNhap getFrom() {
         PhieuNhap pn = new PhieuNhap();
-        pn.getS().setMaNhaCungCap(Integer.parseInt(jComboBox1.getSelectedItem().toString()));
+        String tennhacungcap = jComboBox1.getSelectedItem().toString();
+        pn.getS().setMaNhaCungCap(wrd.getMaNhaCungCap(tennhacungcap));
         pn.getE().setManv(this.currentacc.getManv());
         Date sqlDate = Date.valueOf(LocalDateTime.now().toLocalDate());
         pn.setNgaytao(sqlDate);

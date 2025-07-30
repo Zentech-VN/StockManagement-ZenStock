@@ -89,7 +89,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="cboNhaCungCap" alignment="1" max="32767" attributes="0"/>
                       <Component id="txtMaPhieuNhap" alignment="1" max="32767" attributes="0"/>
-                      <Component id="txtMaSanPham" alignment="0" max="32767" attributes="0"/>
+                      <Component id="txtSanPham" alignment="0" max="32767" attributes="0"/>
                       <Component id="txtSoLuong" alignment="1" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -130,7 +130,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="txtMaSanPham" min="-2" pref="33" max="-2" attributes="0"/>
+                  <Component id="txtSanPham" min="-2" pref="33" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -180,10 +180,10 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
-            <Property name="text" type="java.lang.String" value="M&#xe3; S&#x1ea3;n ph&#x1ea9;m"/>
+            <Property name="text" type="java.lang.String" value="S&#x1ea3;n ph&#x1ea9;m"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtMaSanPham">
+        <Component class="javax.swing.JTextField" name="txtSanPham">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>

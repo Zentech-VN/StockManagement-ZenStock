@@ -29,14 +29,14 @@ public class WarehouseReceiptService {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
         for (PhieuNhap p : wrd.getAllentries()) {
-            model.addRow(new Object[]{p.getMaphieunhap(), p.getS().getMaNhaCungCap(), p.getE().getHoten(), p.getNgaytao(), settrangthai(p.getTrangthai())});
+            model.addRow(new Object[]{p.getMaphieunhap(), p.getS().getTenNhaCungCap(), p.getE().getHoten(), p.getNgaytao(), settrangthai(p.getTrangthai())});
         }
     }
 
     public void loadDataCbo1(JComboBox nhacungcap) {
         nhacungcap.removeAllItems();
         for (Supplier s : wrd.getAllNhaCungCap()) {
-            nhacungcap.addItem(s.getMaNhaCungCap());
+            nhacungcap.addItem(s.getTenNhaCungCap());
         }
     }
 

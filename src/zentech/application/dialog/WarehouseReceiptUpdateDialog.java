@@ -4,11 +4,13 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.sun.imageio.plugins.png.RowFilter;
 import dao.WarehouseReceiptDAO;
 import entity.PhieuNhapChiTiet;
+import entity.ProductArea;
 import java.awt.Dialog;
 import java.awt.Window;
 import java.math.BigDecimal;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -18,16 +20,16 @@ import zentech.application.form.other.WarehouseReceiptForm;
 public class WarehouseReceiptUpdateDialog extends JDialog {
 
     int maphieunhap = 0;
-    int masanpham = 0;
-    int manhacungcap = 0;
+    String tensanpham = "";
+    String tennhacungcap = "";
 
     WarehouseReceiptService wrs = new WarehouseReceiptService();
     WarehouseReceiptDAO wrd = new WarehouseReceiptDAO();
 
-    public WarehouseReceiptUpdateDialog(Window parent, WarehouseReceiptForm warehouseReceiptForm, int id, int manhacungcap) {
+    public WarehouseReceiptUpdateDialog(Window parent, WarehouseReceiptForm warehouseReceiptForm, int id, String tennhacungcap) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         this.maphieunhap = id;
-        this.manhacungcap = manhacungcap;
+        this.tennhacungcap = tennhacungcap;
         initComponents();
         LoadData();
 
@@ -50,7 +52,7 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
         for (PhieuNhapChiTiet pnct : wrd.getAllPhieuNhapbyID(maphieunhap)) {
             txtMaPhieuNhap.setText(String.valueOf(pnct.getPh().getMaphieunhap()));
             cboNhaCungCap.setSelectedItem(pnct.getPh().getS().getMaNhaCungCap());
-            model.addRow(new Object[]{pnct.getPh().getMaphieunhap(), pnct.getP().getMaSanPham(), pnct.getDongia(), pnct.getSoluong(), pnct.getGhichu()});
+            model.addRow(new Object[]{pnct.getPh().getMaphieunhap(), pnct.getP().getTenSanPham(), pnct.getDongia(), pnct.getSoluong(), pnct.getGhichu()});
         }
     }
 
@@ -86,19 +88,20 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
 
     public PhieuNhapChiTiet getUpdate() {
         PhieuNhapChiTiet pnct = new PhieuNhapChiTiet();
-        int masanphamduochon = Integer.parseInt(txtMaSanPham.getText());
+        String masanphamduochon = txtSanPham.getText();
         int soluong = Integer.parseInt(txtSoLuong.getText());
+
         BigDecimal dongia = new BigDecimal(lblDonGia.getText().trim());
-        pnct.getP().setMaSanPham(masanphamduochon);
+        pnct.getP().setMaSanPham(wrd.getMaSanPhambyTen(masanphamduochon));
         pnct.setSoluong(soluong);
         pnct.setDongia(dongia);
         pnct.getPh().setMaphieunhap(maphieunhap);
-        pnct.getP().setMaSanPham(masanpham);
+
         return pnct;
     }
 
     public boolean checkUpdate() {
-        if (txtMaSanPham.getText().isEmpty()) {
+        if (txtSanPham.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập mã sản phẩm!");
             return false;
         }
@@ -125,7 +128,7 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
         jLabel2 = new javax.swing.JLabel();
         cboNhaCungCap = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        txtMaSanPham = new javax.swing.JTextField();
+        txtSanPham = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtSoLuong = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
@@ -157,7 +160,7 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
 
         cboNhaCungCap.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel3.setText("Mã Sản phẩm");
+        jLabel3.setText("Sản phẩm");
 
         jLabel4.setText("Số lượng");
 
@@ -216,7 +219,7 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cboNhaCungCap, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtMaPhieuNhap, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtMaSanPham)
+                    .addComponent(txtSanPham)
                     .addComponent(txtSoLuong, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -250,7 +253,7 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtMaSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -424,22 +427,18 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
         // TODO add your handling code here:
         String[] update = {"Phiếu nhập", "Phiếu nhập chi tiết"};
         int luachon = JOptionPane.showOptionDialog(
-            this,
-            "Bạn muốn cập nhật phần nào?",
-            "Cập nhật",
-            JOptionPane.DEFAULT_OPTION,
-            JOptionPane.INFORMATION_MESSAGE,
-            null,
-            update,
-            update[0]
+                this,
+                "Bạn muốn cập nhật phần nào?",
+                "Cập nhật",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                update,
+                update[0]
         );
         if (luachon == 0) {
-            int manhacungcap1 = Integer.parseInt(cboNhaCungCap.getSelectedItem().toString());
-            if (manhacungcap1 == -1 || manhacungcap1 == this.manhacungcap) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp");
-                return;
-            }
-            int rs = wrd.UpdatePhieunhap(maphieunhap, manhacungcap1);
+            String tennhacungcap = cboNhaCungCap.getSelectedItem().toString();
+            int rs = wrd.UpdatePhieunhap(maphieunhap, wrd.getMaNhaCungCap(tennhacungcap));
             if (rs > 0) {
                 JOptionPane.showMessageDialog(this, "Cập nhật thành công.");
                 this.dispose();
@@ -450,7 +449,7 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
         } else {
             if (checkUpdate()) {
                 if (kiemtrasoluong()) {
-                    int rs = wrd.UpdatePhieuNhapChiTiet(getUpdate(), masanpham);
+                    int rs = wrd.UpdatePhieuNhapChiTiet(getUpdate(), wrd.getMaSanPhambyTen(tensanpham));
                     if (rs > 0) {
                         JOptionPane.showMessageDialog(this, "Cập nhật thành công.");
                         this.dispose();
@@ -512,17 +511,17 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
 
     private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
         // TODO add your handling code here:
-        if (this.masanpham == 0) {
+        if (this.tensanpham.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn phiếu nhập chi tiết để chọn sản phẩm muốn cập nhật!");
             return;
         }
 
         int select = tblSanPham.getSelectedRow();
 
-        int masanpham = (int) tblSanPham.getValueAt(select, 0);
+        String tensanpham = (String) tblSanPham.getValueAt(select, 1);
         BigDecimal gia = (BigDecimal) tblSanPham.getValueAt(select, 2);
 
-        txtMaSanPham.setText(String.valueOf(masanpham));
+        txtSanPham.setText(tensanpham);
         txtSoLuong.setText("1");
         txtGiaSanPham.setText(String.valueOf(gia));
 
@@ -531,14 +530,18 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
     private void tblCHiTietPhieuNhapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCHiTietPhieuNhapMouseClicked
         // TODO add your handling code here:
         int selectRow = tblCHiTietPhieuNhap.getSelectedRow();
-        int masanpham = (int) tblCHiTietPhieuNhap.getValueAt(selectRow, 1);
+        String tensanpham = (String) tblCHiTietPhieuNhap.getValueAt(selectRow, 1);
         BigDecimal dongia = (BigDecimal) tblCHiTietPhieuNhap.getValueAt(selectRow, 2);
         int soluong = (int) tblCHiTietPhieuNhap.getValueAt(selectRow, 3);
-        txtMaSanPham.setText(String.valueOf(masanpham));
+
+        txtSanPham.setText(tensanpham);
         txtSoLuong.setText(String.valueOf(soluong));
         lblDonGia.setText(String.valueOf(dongia));
-        this.masanpham = masanpham;
-        txtGiaSanPham.setText(String.valueOf(wrd.getdongiabyid(masanpham)));
+
+        int id = wrd.getMaSanPhambyTen(tensanpham);
+        txtGiaSanPham.setText(String.valueOf(wrd.getdongiabyid(id)));
+
+        this.tensanpham = tensanpham;
     }//GEN-LAST:event_tblCHiTietPhieuNhapMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -566,7 +569,7 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
     private javax.swing.JTable tblSanPham;
     private javax.swing.JTextField txtGiaSanPham;
     private javax.swing.JTextField txtMaPhieuNhap;
-    private javax.swing.JTextField txtMaSanPham;
+    private javax.swing.JTextField txtSanPham;
     private javax.swing.JTextField txtSoLuong;
     // End of variables declaration//GEN-END:variables
 }

@@ -17,6 +17,23 @@ import jdbc.ConnectionHelper;
 public class WarehouseDeliveryDAO {
 
     int maphieuxuatvuatao = 0;
+    
+    public int getMaSanPhambyTen(String tensanpham) {
+        String sql = "select masanpham from sanpham where tensp = ?";
+        int id = 0;
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, tensanpham);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt("masanpham");
+            }
+            rs.close();
+            return id;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
 
     public List<PhieuXuat> getAllPhieuNhap() {
         List<PhieuXuat> list = new ArrayList<>();
@@ -206,6 +223,22 @@ public class WarehouseDeliveryDAO {
         }
     }
 
+    public int getMaKhachHangbyTen(String tenkhachhang) {
+        String sql = "select makhachhang from khachhang where tenkhachhang = ?";
+        int id = 0;
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, tenkhachhang);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt("makhachhang");
+            }
+            return id;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     public Cilent getKhachHangbyId(String tenkhachhang) {
         Cilent c = null;
         String sql = "select * from khachhang where tenkhachhang = ?";
@@ -226,7 +259,7 @@ public class WarehouseDeliveryDAO {
 
     public List<PhieuXuatChiTiet> getAllPhieuXuatChiTiet(int maphieuxuat) {
         List<PhieuXuatChiTiet> list = new ArrayList<>();
-        String sql = "select * from ctphieuxuat where maphieuxuat = ?";
+        String sql = "select * from ctphieuxuat join sanpham on ctphieuxuat.masanpham = sanpham.masanpham where maphieuxuat = ?";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setInt(1, maphieuxuat);
             ResultSet rs = pst.executeQuery();
@@ -234,6 +267,7 @@ public class WarehouseDeliveryDAO {
                 PhieuXuatChiTiet pxct = new PhieuXuatChiTiet();
                 pxct.getPhieuxuat().setMaphieuxuat(rs.getInt("maphieuxuat"));
                 pxct.getSanpham().setMaSanPham(rs.getInt("masanpham"));
+                pxct.getSanpham().setTenSanPham(rs.getString("sanpham.tensp"));
                 pxct.setDongia(rs.getBigDecimal("dongia"));
                 pxct.setSoluong(rs.getInt("soluong"));
                 pxct.setGhichu(rs.getString("ghichu"));
@@ -248,10 +282,13 @@ public class WarehouseDeliveryDAO {
 
     public List<PhieuXuatChiTiet> getPhieuXuatById(int maphieuxuat) {
         List<PhieuXuatChiTiet> list = new ArrayList<>();
-        String sql = "SELECT * FROM phieuxuat AS px "
-                + "JOIN ctphieuxuat AS pxct ON px.maphieuxuat = pxct.maphieuxuat "
-                + "JOIN khachhang AS kh ON px.makhachhang = kh.makhachhang "
-                + "JOIN nhanvien AS nv ON px.nguoitao = nv.manv "
+        String sql
+                = "SELECT * "
+                + "FROM phieuxuat px "
+                + "JOIN ctphieuxuat pxct ON px.maphieuxuat = pxct.maphieuxuat "
+                + "JOIN khachhang kh ON px.makhachhang = kh.makhachhang "
+                + "JOIN nhanvien nv ON px.nguoitao = nv.manv "
+                + "JOIN sanpham sp ON pxct.masanpham = sp.masanpham "
                 + "WHERE px.maphieuxuat = ?";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
@@ -270,6 +307,7 @@ public class WarehouseDeliveryDAO {
 
                 // Gán thông tin chi tiết phiếu xuất
                 pxct.getSanpham().setMaSanPham(rs.getInt("pxct.masanpham"));
+                pxct.getSanpham().setTenSanPham(rs.getString("sp.tensp"));
                 pxct.setDongia(rs.getBigDecimal("pxct.dongia"));
                 pxct.setSoluong(rs.getInt("pxct.soluong"));
                 pxct.setGhichu(rs.getString("pxct.ghichu"));

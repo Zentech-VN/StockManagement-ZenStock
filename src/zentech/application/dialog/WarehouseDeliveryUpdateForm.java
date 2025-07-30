@@ -26,7 +26,7 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
 
     private WarehouseDeliveryForm warehousedeliveryform;
     private WarehouseDeliveryDAO wdd = new WarehouseDeliveryDAO();
-    int masanpham = 0;
+    String tensanpham = "";
     int maphieuxuat = 0;
     String tenkhachhang = "";
     int soluongcuasanpham = 0;
@@ -70,7 +70,7 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
             model.addRow(
                     new Object[]{
                         pxct.getPhieuxuat().getMaphieuxuat(),
-                        pxct.getSanpham().getMaSanPham(),
+                        pxct.getSanpham().getTenSanPham(),
                         pxct.getDongia(),
                         pxct.getSoluong(),
                         pxct.getGhichu()
@@ -121,7 +121,8 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
     public PhieuXuatChiTiet getFrom() {
         PhieuXuatChiTiet pxct = new PhieuXuatChiTiet();
         pxct.getPhieuxuat().setMaphieuxuat(maphieuxuat);
-        pxct.getSanpham().setMaSanPham(Integer.parseInt(txtMaSanPham.getText()));
+        int id = wdd.getMaSanPhambyTen(txtMaSanPham.getText());
+        pxct.getSanpham().setMaSanPham(id);
         BigDecimal dongia = new BigDecimal(lblDonGia.getText());
         pxct.setDongia(dongia);
         pxct.setSoluong(Integer.parseInt(txtSoLuong.getText()));
@@ -255,7 +256,7 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
 
             },
             new String [] {
-                "Mã phiếu xuất", "Mã sản phẩm", "Đơn giá", "Số lượng", "Ghi chú"
+                "Mã phiếu xuất", "Sản phẩm", "Đơn giá", "Số lượng", "Ghi chú"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -300,7 +301,7 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
 
         jLabel1.setText("Mã Phiếu nhập");
 
-        jLabel2.setText("Mã khách hàng");
+        jLabel2.setText("Khách hàng");
 
         jLabel3.setText("Mã Sản phẩm");
 
@@ -454,6 +455,9 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblKhachHangMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tblKhachHangMouseEntered(evt);
+            }
         });
         jScrollPane2.setViewportView(tblKhachHang);
 
@@ -519,17 +523,17 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
 
     private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
         // TODO add your handling code here:
-        if (this.masanpham == 0) {
+        if (this.tensanpham.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn phiếu nhập chi tiết để chọn sản phẩm muốn cập nhật!");
             return;
         }
 
         int select = tblSanPham.getSelectedRow();
-        int masanpham = (int) tblSanPham.getValueAt(select, 0);
+        String tensanpham = (String) tblSanPham.getValueAt(select, 1);
         BigDecimal gia = (BigDecimal) tblSanPham.getValueAt(select, 2);
         int soluong = (int) tblSanPham.getValueAt(select, 4);
 
-        txtMaSanPham.setText(String.valueOf(masanpham));
+        txtMaSanPham.setText(tensanpham);
         txtSoLuong.setText("1");
         txtGiaSanPham.setText(String.valueOf(gia));
         this.soluongcuasanpham = soluong;
@@ -566,8 +570,8 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng để cập nhật");
                 return;
             }
-            int id = Integer.parseInt(txtMaKhachHang.getText());
-            int rs = wdd.capnhatphieuxuat(maphieuxuat, id);
+            String tenkhachhang = txtMaKhachHang.getText();
+            int rs = wdd.capnhatphieuxuat(maphieuxuat, wdd.getMaKhachHangbyTen(tenkhachhang));
             if (rs > 0) {
                 JOptionPane.showMessageDialog(this, "Cập nhật thành công phiếu xuất có mã " + this.maphieuxuat + ".");
                 this.dispose();
@@ -581,7 +585,7 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
                 return;
             }
             if (kiemtrasoluong()) {
-                int rs = wdd.capnhapchitietphieuxuat(getFrom(), masanpham);
+                int rs = wdd.capnhapchitietphieuxuat(getFrom(), wdd.getMaSanPhambyTen(txtMaSanPham.getText()));
                 if (rs > 0) {
                     JOptionPane.showMessageDialog(this, "Cập nhật thành công phiếu xuất có mã " + this.maphieuxuat + ".");
                     this.dispose();
@@ -597,14 +601,15 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
     private void tblChiTietPhieuXuatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblChiTietPhieuXuatMouseClicked
         // TODO add your handling code here:
         int selectRow = tblChiTietPhieuXuat.getSelectedRow();
-        int masanpham = (int) tblChiTietPhieuXuat.getValueAt(selectRow, 1);
+        String tensanpham = (String) tblChiTietPhieuXuat.getValueAt(selectRow, 1);
+        this.tensanpham = tensanpham;
         BigDecimal dongia = (BigDecimal) tblChiTietPhieuXuat.getValueAt(selectRow, 2);
         int soluong = (int) tblChiTietPhieuXuat.getValueAt(selectRow, 3);
-        txtMaSanPham.setText(String.valueOf(masanpham));
+        
+        txtMaSanPham.setText(tensanpham);
         txtSoLuong.setText(String.valueOf(soluong));
         lblDonGia.setText(String.valueOf(dongia));
-        this.masanpham = masanpham;
-        txtGiaSanPham.setText(String.valueOf(wdd.getdongiabyid(masanpham)));
+        txtGiaSanPham.setText(String.valueOf(wdd.getdongiabyid(wdd.getMaSanPhambyTen(tensanpham))));
     }//GEN-LAST:event_tblChiTietPhieuXuatMouseClicked
 
     private void txtSoLuongMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtSoLuongMouseMoved
@@ -642,9 +647,13 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
     private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
         // TODO add your handling code here:
         int select = tblKhachHang.getSelectedRow();
-        int id = (int) tblKhachHang.getValueAt(select, 0);
+        String id = (String) tblKhachHang.getValueAt(select, 1);
         txtMaKhachHang.setText(String.valueOf(id));
     }//GEN-LAST:event_tblKhachHangMouseClicked
+
+    private void tblKhachHangMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblKhachHangMouseEntered
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
