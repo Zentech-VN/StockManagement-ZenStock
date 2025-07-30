@@ -107,7 +107,7 @@ public class MainForm extends JLayeredPane {
                 Application.showForm(new AttributeForm()); 
             } else if (index == 11) {
                 Application.showForm(new CustomerManagement()); 
-            } else if (index == 11) {
+            } else if (index == 12) {
                 Application.showForm(new SupplierForm()); 
             } else if (index == 13) {
                 Application.showForm(new ChatForm());
