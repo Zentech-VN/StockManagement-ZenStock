@@ -28,9 +28,6 @@ public class WarehouseDeliveryDetailForm extends JDialog {
         model.setRowCount(0);
 
         List<PhieuXuatChiTiet> list = wdd.getPhieuXuatById(maphieuxuat);
-        if (list == null || list.isEmpty()) {
-            return;
-        }
 
         PhieuXuatChiTiet pxctFirst = list.get(0);
         txtMaPhieuXuat.setText(String.valueOf(pxctFirst.getPhieuxuat().getMaphieuxuat()));
@@ -42,7 +39,7 @@ public class WarehouseDeliveryDetailForm extends JDialog {
         for (PhieuXuatChiTiet pxct : list) {
             model.addRow(new Object[]{
                 pxct.getPhieuxuat().getMaphieuxuat(),
-                pxct.getSanpham().getMaSanPham(),
+                pxct.getSanpham().getTenSanPham(),
                 pxct.getDongia(),
                 pxct.getSoluong(),
                 pxct.getGhichu()
@@ -157,7 +154,7 @@ public class WarehouseDeliveryDetailForm extends JDialog {
 
             },
             new String [] {
-                "Mã phiếu Xuất", "Mã sản phẩm", "Đơn giá", "Số lượng", "Ghi chú"
+                "Mã phiếu Xuất", "Sản phẩm", "Đơn giá", "Số lượng", "Ghi chú"
             }
         ) {
             boolean[] canEdit = new boolean [] {

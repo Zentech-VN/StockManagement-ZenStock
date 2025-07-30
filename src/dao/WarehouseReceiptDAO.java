@@ -21,6 +21,23 @@ public class WarehouseReceiptDAO {
 
     int getmaphieunhap = 0;
 
+    public int getMaSanPhambyTen(String tensanpham) {
+        String sql = "select masanpham from sanpham where tensp = ?";
+        int id = 0;
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, tensanpham);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt("masanpham");
+            }
+            rs.close();
+            return id;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     public BigDecimal getdongiabyid(int masanpham) {
         String sql = "select gia from sanpham where masanpham = ?";
         BigDecimal gia = null;
@@ -40,12 +57,13 @@ public class WarehouseReceiptDAO {
 
     public List<PhieuNhap> getAllentries() {
         List<PhieuNhap> listp = new ArrayList<>();
-        String sql = "select * from phieunhap join nhanvien on phieunhap.nguoitao = nhanvien.manv";
+        String sql = "select * from phieunhap join nhanvien on phieunhap.nguoitao = nhanvien.manv join nhacungcap on phieunhap.manhacungcap = nhacungcap.manhacungcap";
         try (Connection conn = ConnectionHelper.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 PhieuNhap p = new PhieuNhap();
                 p.setMaphieunhap(rs.getInt("maphieunhap"));
                 p.getS().setMaNhaCungCap(rs.getInt("manhacungcap"));
+                p.getS().setTenNhaCungCap(rs.getString("nhacungcap.tennhacungcap"));
                 p.getE().setHoten(rs.getString("nhanvien.hoten"));
                 p.setNgaytao(rs.getDate("thoigian"));
                 p.setTrangthai(rs.getString("trangthai"));
@@ -83,6 +101,23 @@ public class WarehouseReceiptDAO {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public int getMaNhaCungCap(String tennhacungcap) {
+        String sql = "select manhacungcap from nhacungcap where tennhacungcap = ?";
+        int id = 0;
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, tennhacungcap);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt("manhacungcap");
+            }
+            rs.close();
+            return id;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     public List<ProductArea> GetProducArea() {
@@ -190,7 +225,7 @@ public class WarehouseReceiptDAO {
 
     public List<PhieuNhapChiTiet> getAllPhieuNhapbyID(int id) {
         List<PhieuNhapChiTiet> listpnct = new ArrayList<>();
-        String sql = "select * from phieunhap join ctphieunhap on phieunhap.maphieunhap = ctphieunhap.maphieunhap\n"
+        String sql = "select * from phieunhap join ctphieunhap on phieunhap.maphieunhap = ctphieunhap.maphieunhap join sanpham on ctphieunhap.masanpham = sanpham.masanpham\n"
                 + "where phieunhap.maphieunhap = ?;";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setInt(1, id);
@@ -203,6 +238,7 @@ public class WarehouseReceiptDAO {
                 pnct.getPh().setNgaytao(rs.getDate("thoigian"));
                 pnct.getPh().setTrangthai(rs.getString("trangthai"));
                 pnct.getP().setMaSanPham(rs.getInt("ctphieunhap.masanpham"));
+                pnct.getP().setTenSanPham(rs.getString("sanpham.tensp"));
                 pnct.setDongia(rs.getBigDecimal("ctphieunhap.dongia"));
                 pnct.setSoluong(rs.getInt("ctphieunhap.soluong"));
                 pnct.setGhichu(rs.getString("ctphieunhap.ghichu"));

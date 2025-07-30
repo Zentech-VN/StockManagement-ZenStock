@@ -242,11 +242,11 @@ public class WarehouseDeliveryAddForm extends JDialog {
 
     public PhieuXuat getFrom() {
         PhieuXuat px = new PhieuXuat();
-        int makhachhang = Integer.parseInt(txtMaKhachHang.getText());
+        String tenkhachhang = txtMaKhachHang.getText();
         int manguoitao = this.CurrentAcc.getManv();
         Date sqlDate = Date.valueOf(LocalDateTime.now().toLocalDate());
 
-        px.getKhachhang().setMaKhacHang(makhachhang);
+        px.getKhachhang().setMaKhacHang(wdd.getMaKhachHangbyTen(tenkhachhang));
         px.getNhanvien().setManv(manguoitao);
         px.setThoigian(sqlDate);
         px.setTrangthai("ChoDuyet");
@@ -377,7 +377,7 @@ public class WarehouseDeliveryAddForm extends JDialog {
 
         jLabel4.setText("Mã sản phẩm");
 
-        jLabel5.setText("Mã khách hàng");
+        jLabel5.setText("Khách hàng");
 
         txtMaKho.setPreferredSize(new java.awt.Dimension(71, 32));
 
@@ -837,7 +837,7 @@ public class WarehouseDeliveryAddForm extends JDialog {
     private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
         // TODO add your handling code here:
         int select = tblKhachHang.getSelectedRow();
-        int id = (int) tblKhachHang.getValueAt(select, 0);
+        String id = (String) tblKhachHang.getValueAt(select, 1);
         txtMaKhachHang.setText(String.valueOf(id));
     }//GEN-LAST:event_tblKhachHangMouseClicked
 

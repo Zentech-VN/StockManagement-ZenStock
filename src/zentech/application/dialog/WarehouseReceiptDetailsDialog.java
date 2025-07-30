@@ -32,7 +32,7 @@ public class WarehouseReceiptDetailsDialog extends JDialog {
             txtHinhAnh.setText(String.valueOf(pnct.getPh().getE().getManv()));
             txtThuongHieu.setText(String.valueOf(pnct.getPh().getNgaytao()));
             txtXuatXu.setText(pnct.getPh().getTrangthai());
-            model.addRow(new Object[]{pnct.getPh().getMaphieunhap(),pnct.getP().getMaSanPham(),pnct.getDongia(),pnct.getSoluong(),pnct.getGhichu()});
+            model.addRow(new Object[]{pnct.getPh().getMaphieunhap(),pnct.getP().getTenSanPham(),pnct.getDongia(),pnct.getSoluong(),pnct.getGhichu()});
         }
     }
 
@@ -143,7 +143,7 @@ public class WarehouseReceiptDetailsDialog extends JDialog {
 
             },
             new String [] {
-                "Mã phiếu nhập", "Mã sản phẩm", "Đơn giá", "Số lượng", "Ghi chú"
+                "Mã phiếu nhập", "Sản phẩm", "Đơn giá", "Số lượng", "Ghi chú"
             }
         ) {
             boolean[] canEdit = new boolean [] {

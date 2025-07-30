@@ -83,13 +83,21 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblPhieuXuat.getModel();
         model.setRowCount(0);
         for (PhieuXuat px : wdd.getAllPhieuNhap()) {
+            String trangthai = "";
+            if (px.getTrangthai().equalsIgnoreCase("duyet")) {
+                trangthai = "Duyệt";
+            } else if (px.getTrangthai().equalsIgnoreCase("choduyet")) {
+                trangthai = "Chờ duyệt";
+            } else {
+                trangthai = "Hủy";
+            }
             model.addRow(
                     new Object[]{
                         px.getMaphieuxuat(),
                         px.getKhachhang().getTenKhacHang(),
                         px.getNhanvien().getHoten(),
                         px.getThoigian(),
-                        px.getTrangthai()
+                        trangthai
                     });
         }
     }
@@ -315,8 +323,11 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
         }
         int id = (int) tblPhieuXuat.getValueAt(select, 0);
         String trangthai = (String) tblPhieuXuat.getValueAt(select, 4);
-        if (trangthai.equalsIgnoreCase("duyet")) {
+        if (trangthai.equalsIgnoreCase("duyệt")) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không được cập nhật phiếu xuất có trạng thái duyệt!");
+            return;
+        } else if (trangthai.equalsIgnoreCase("hủy")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không được xóa phiếu có trạng thái hủy!");
             return;
         }
         String tenkhachhang = (String) tblPhieuXuat.getValueAt(select, 1);
@@ -334,10 +345,14 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
         }
         int id = (int) tblPhieuXuat.getValueAt(select, 0);
         String trangthai = (String) tblPhieuXuat.getValueAt(select, 4);
-        if (trangthai.equalsIgnoreCase("duyet")) {
+        if (trangthai.equalsIgnoreCase("duyệt")) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không được xóa phiếu có trạng thái duyệt!");
             return;
+        } else if (trangthai.equalsIgnoreCase("hủy")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không được xóa phiếu có trạng thái hủy!");
+            return;
         }
+
         int confrim = JOptionPane.showConfirmDialog(this, "Bạn muốn xóa phiếu xuất có mã " + id + "?", "Xóa phiếu xuất", JOptionPane.YES_NO_OPTION);
         if (confrim == JOptionPane.YES_OPTION) {
             int rs = wdd.xoaphieuxuat(id);

@@ -252,14 +252,17 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
             return;
         }
         int id = (int) tblPhieuNhap.getValueAt(select, 0);
-        int manhacungcap = (int) tblPhieuNhap.getValueAt(select, 1);
+        String tennhacungcap = (String) tblPhieuNhap.getValueAt(select, 1);
         String trangthai = (String) tblPhieuNhap.getValueAt(select, 4);
         if (trangthai.equalsIgnoreCase("duyet")) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không được cập nhật phiếu nhập có trạng thái duyệt!");
             return;
+        } else if (trangthai.equalsIgnoreCase("hủy")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không được xóa phiếu có trạng thái hủy!");
+            return;
         }
         Window parent = SwingUtilities.getWindowAncestor(this);
-        WarehouseReceiptUpdateDialog warehouseReceiptUpdateDialog = new WarehouseReceiptUpdateDialog(parent, this, id, manhacungcap);
+        WarehouseReceiptUpdateDialog warehouseReceiptUpdateDialog = new WarehouseReceiptUpdateDialog(parent, this, id, tennhacungcap);
         warehouseReceiptUpdateDialog.setVisible(true);
         wrs.loadDataTable(tblPhieuNhap);
     }//GEN-LAST:event_btnUpdateActionPerformed
@@ -297,6 +300,9 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
         String trangthai = (String) tblPhieuNhap.getValueAt(select, 4);
         if (trangthai.equalsIgnoreCase("duyệt")) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không được xóa phiếu nhập có trạng thái duyệt!");
+            return;
+        } else if (trangthai.equalsIgnoreCase("hủy")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không được xóa phiếu có trạng thái hủy!");
             return;
         }
         int rs = wrd.xoaphieunhap(id);
