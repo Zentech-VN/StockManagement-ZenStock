@@ -1,7 +1,6 @@
 package service;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import dao.ActivityDAO;
 import dao.ClientDAO;
 import entity.Cilent;
 import java.io.FileWriter;
@@ -123,7 +122,6 @@ public class ClientService {
                 int rs = cld.addkhachhang(cl);
                 if (rs > 0) {
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Thêm thành công");
-                    ActivityDAO.logActivity(appCurrentUser, "Thêm khách hàng: " + ten);
                     check = true;
                 }
             }
@@ -142,7 +140,6 @@ public class ClientService {
             int rs = cld.delete(makh);
             if (rs > 0) {
                 Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Xóa thành công khách hàng có mã " + makh);
-                ActivityDAO.logActivity(appCurrentUser, "Xóa khách hàng: " + tenkh);
             }
         }
 
@@ -174,7 +171,6 @@ public class ClientService {
                     int rs = cld.Update(cl);
                     if (rs > 0) {
                         Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Cập nhật thành công cho khách hàng có mã " + makh);
-                        ActivityDAO.logActivity(appCurrentUser, "Cập nhật khách hàng: " + ten);
                         check = true;
                     }
                 }

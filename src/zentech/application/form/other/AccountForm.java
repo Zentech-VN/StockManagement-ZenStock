@@ -2,7 +2,6 @@ package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import dao.AccountDAO;
-import dao.ActivityDAO;
 import java.util.ArrayList;
 import entity.Account;
 import javax.swing.BorderFactory;
@@ -231,7 +230,6 @@ public class AccountForm extends javax.swing.JPanel {
 
                     JOptionPane.showMessageDialog(this, "Xóa tài khoản thành công!",
                             "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    ActivityDAO.logActivity(user, "Xóa tài khoản: " + hoTen);
                 } else {
                     JOptionPane.showMessageDialog(this, "Xóa tài khoản thất bại!",
                             "Lỗi", JOptionPane.ERROR_MESSAGE);

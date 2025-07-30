@@ -1,7 +1,6 @@
 package zentech.application.dialog;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import dao.ActivityDAO;
 import entity.Brand;
 import entity.MadeIn;
 import entity.OS;
@@ -470,7 +469,6 @@ public class ProductAddDialog extends JDialog {
             String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Thêm thành công sản phẩm");
             productForm.loadProductData();
-            ActivityDAO.logActivity(appCurrentUser, "Thêm sản phẩm: " + tenSanPham);
             this.dispose();
         }
     }//GEN-LAST:event_jButton1ActionPerformed

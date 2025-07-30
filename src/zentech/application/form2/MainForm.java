@@ -18,7 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import zentech.application.Application;
 import zentech.application.form.other.AccountForm;
-import zentech.application.form.other.ActivityLogForm;
 import zentech.application.form.other.AttributeForm;
 import zentech.application.form.other.ChatForm;
 import zentech.application.form.other.CustomerManagement;
@@ -95,26 +94,24 @@ public class MainForm extends JLayeredPane {
             } else if (index == 4) {
                 Application.showForm(new UserRightsForm()); 
             } else if (index == 5) {
-                Application.showForm(new ActivityLogForm()); 
-            } else if (index == 6) {
                 Application.showForm(new ProductForm()); 
-            } else if (index == 7) {
+            } else if (index == 6) {
                 Application.showForm(new WarehouseManagementForm()); 
-            } else if (index == 8) {
+            } else if (index == 7) {
                 Application.showForm(new WarehouseReceiptForm(acc)); 
-            } else if (index == 9) {
+            } else if (index == 8) {
                 Application.showForm(new WarehouseDeliveryForm(acc)); 
-            } else if (index == 10) {
+            } else if (index == 9) {
                 Application.showForm(new ReceiptApprovalForm()); 
-            } else if (index == 11) {
+            } else if (index == 10) {
                 Application.showForm(new AttributeForm()); 
-            } else if (index == 12) {
+            } else if (index == 11) {
                 Application.showForm(new CustomerManagement()); 
-            } else if (index == 13) {
+            } else if (index == 11) {
                 Application.showForm(new SupplierForm()); 
-            } else if (index == 14) {
+            } else if (index == 13) {
                 Application.showForm(new ChatForm());
-            } else if (index == 15) {
+            } else if (index == 14) {
                 Application.logout();
             } else {
                 action.cancel();

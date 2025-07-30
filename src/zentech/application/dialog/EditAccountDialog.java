@@ -1,6 +1,5 @@
 package zentech.application.dialog;
 
-import dao.ActivityDAO;
 import entity.Account;
 import entity.PermGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -105,7 +104,6 @@ public class EditAccountDialog extends javax.swing.JFrame {
             if (success) {
                 JOptionPane.showMessageDialog(this, "Cập nhật tài khoản thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
                 dispose();
-                ActivityDAO.logActivity(appCurrentUser, "Cập nhật tài khoản: " + username);
             } else {
                 //Kiểm tra xem có phải do username đã tồn tại không (nếu username khác với username hiện tại)
                 if (!username.equals(currentAccount.getUsername()) && accountService.isUsernameExists(username)) {

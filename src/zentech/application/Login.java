@@ -9,7 +9,6 @@ import javax.swing.UIManager;
 import zentech.application.changepassword.ForgotPassword;
 import dao.AccountDAO;
 import entity.Account;
-import dao.ActivityDAO;
 import entity.Employee;
 import helper.BCrypt;
 import java.awt.Dimension;
@@ -222,7 +221,6 @@ public class Login extends javax.swing.JFrame {
                             this.setVisible(false);
                             app.setVisible(true);
                             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Đăng nhập thành công!");
-                            ActivityDAO.logActivity(usernameCheck, "LOGIN");
                             Application.getAppInstance().setCurrentUser(usernameCheck);
                         } catch (Exception e) {
                             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, e);

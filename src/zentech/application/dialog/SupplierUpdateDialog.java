@@ -1,7 +1,6 @@
 package zentech.application.dialog;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import dao.ActivityDAO;
 import entity.Supplier;
 import java.awt.Dialog;
 import java.awt.Window;
@@ -252,7 +251,6 @@ public class SupplierUpdateDialog extends JDialog {
 
         if (updated) {
             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Cập nhật nhà cung cấp thành công!, Thành công");
-            ActivityDAO.logActivity(appCurrentUser, "Cập nhật nhà cung cấp: " + tenNCC);
             supplierForm.loadTable(); // cập nhật lại bảng trong SupplierForm
             dispose(); // đóng dialog
         } else {

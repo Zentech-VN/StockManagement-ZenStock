@@ -1,6 +1,5 @@
 package zentech.application.dialog;
 
-import dao.ActivityDAO;
 import entity.Account;
 import entity.Activity;
 import entity.Employee;
@@ -275,7 +274,6 @@ public class AccountDialog extends javax.swing.JFrame {
                 if (success) {
                     JOptionPane.showMessageDialog(this, "Thêm tài khoản thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
                     dispose();
-                    ActivityDAO.logActivity(user, "Thêm tài khoản: " + username);
                 } else {
                     if (accountService.isUsernameExists(username)) {
                         JOptionPane.showMessageDialog(this, "Tên đăng nhập đã tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);

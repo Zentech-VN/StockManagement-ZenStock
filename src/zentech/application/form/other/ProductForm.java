@@ -1,7 +1,6 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import dao.ActivityDAO;
 import entity.Product;
 import java.awt.Component;
 import java.awt.Window;
@@ -417,7 +416,6 @@ public class ProductForm extends javax.swing.JPanel {
 
         int ret = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xoá sản phẩm: " + tenSanPham + "?", "Xoá sản phẩm", JOptionPane.YES_NO_OPTION);
         if (ret == JOptionPane.YES_OPTION) {
-            ActivityDAO.logActivity(appCurrentUser, "Xoá sản phẩm: " + tenSanPham);
             this.productService = new ProductServiceMain();
 
             if (productService.deleteProductService(maSanPham)) {

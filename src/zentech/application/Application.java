@@ -6,7 +6,6 @@ import entity.Employee;
 import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.SwingUtilities;
-import dao.ActivityDAO;
 import entity.Activity;
 import java.time.LocalDateTime;
 
@@ -44,19 +43,7 @@ public class Application extends javax.swing.JFrame {
         setContentPane(mainForm);
         getRootPane().putClientProperty(FlatClientProperties.FULL_WINDOW_CONTENT, true);
         Notifications.getInstance().setJFrame(this);
-        
-         this.addWindowListener(new java.awt.event.WindowAdapter(){
-            public void windowClosing(java.awt.event.WindowEvent e){
-                String user = getCurrentUser();
-                if(user != null && !user.isEmpty()){
-                    try{
-                        ActivityDAO.insert(new Activity(user, "LOGOUT", LocalDateTime.now()));
-                    }catch(Exception ex){
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        });
+       
          
         System.out.println("Loading time: " + (System.currentTimeMillis() - startTime) + " ms");
 
@@ -80,13 +67,6 @@ public class Application extends javax.swing.JFrame {
     public static void logout() {
         SwingUtilities.invokeLater(() -> {
             String user = app.getCurrentUser();
-            if(user != null && !user.isEmpty()){
-                try{
-                    ActivityDAO.insert(new Activity(user, "LOGOUT", LocalDateTime.now()));
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
-            }
             app.dispose();
             l = new Login();
             l.setLocationRelativeTo(null);

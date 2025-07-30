@@ -1,7 +1,6 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import dao.ActivityDAO;
 import entity.Supplier;
 import java.awt.Dimension;
 import java.util.List;
@@ -464,7 +463,6 @@ public class SupplierForm extends javax.swing.JPanel {
             boolean success = service.deleteSupplier(maNhaCungCap);
             if (success) {
                 Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Xoá thành công");
-                ActivityDAO.logActivity(appCurrentUser, "Xóa nhà cung cấp: " + tenNhaCungCap);
                 loadTable(); // Tải lại dữ liệu lên bảng
                 txtMa.setText(null);
                 txtDiaChi.setText(null);

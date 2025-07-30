@@ -1,7 +1,6 @@
 package zentech.application.dialog;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import dao.ActivityDAO;
 import java.awt.Window;
 import javax.swing.JDialog;
 import java.awt.Dialog;
@@ -242,7 +241,6 @@ public EmployeeUpdateDialog(Window parent, EmployeeForm employeeForm, String ma,
         if (x) {
             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Sửa thành công nhân viên");
             employeeForm.loadEmployeeData();
-            ActivityDAO.logActivity(appCurrentUser, "Thêm tài khoản: " + ten);
             this.dispose();
         }
     }//GEN-LAST:event_jButton1ActionPerformed

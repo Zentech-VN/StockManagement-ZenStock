@@ -32,7 +32,6 @@ public class Menu extends JPanel {
         {"Tài Khoản"},
         {"Nhân viên"},
         {"Quyền hạn"},
-        {"Nhật ký hoạt động"},
         {"~QUẢN LÝ KHO~"},
         {"Sản phẩm"},
         {"Khu vực kho"},

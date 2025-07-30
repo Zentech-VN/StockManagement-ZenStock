@@ -1,7 +1,6 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import dao.ActivityDAO;
 import entity.Employee;
 import entity.EmployeeAccout;
 import java.awt.Component;
@@ -573,7 +572,6 @@ public class EmployeeForm extends javax.swing.JPanel {
 
         int ret = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xoá nhân viên có mã: " + maInt, "Xoá", JOptionPane.YES_NO_OPTION);
         if (ret == JOptionPane.YES_OPTION) {
-            ActivityDAO.logActivity(appCurrentUser, "Xóa nhân viên: " + hoTen);
             this.employeeService = new EmployeeService();
             
             if (employeeService.deleteEmployeeById(maInt)) {
