@@ -116,9 +116,6 @@ public class ChangePassword extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Thay đổi mật khẩu thành công!");
         this.dispose();
 
-        Login lg = new Login();
-        lg.setVisible(true);
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
