@@ -3,7 +3,9 @@ package zentech.application.dialog;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.sun.imageio.plugins.png.RowFilter;
 import dao.WarehouseReceiptDAO;
+import entity.PhieuNhap;
 import entity.PhieuNhapChiTiet;
+import entity.Product;
 import entity.ProductArea;
 import java.awt.Dialog;
 import java.awt.Window;
@@ -88,14 +90,20 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
 
     public PhieuNhapChiTiet getUpdate() {
         PhieuNhapChiTiet pnct = new PhieuNhapChiTiet();
-        String masanphamduochon = txtSanPham.getText();
-        int soluong = Integer.parseInt(txtSoLuong.getText());
 
-        BigDecimal dongia = new BigDecimal(lblDonGia.getText().trim());
-        pnct.getP().setMaSanPham(wrd.getMaSanPhambyTen(masanphamduochon));
-        pnct.setSoluong(soluong);
-        pnct.setDongia(dongia);
-        pnct.getPh().setMaphieunhap(maphieunhap);
+        PhieuNhap ph = new PhieuNhap();
+        ph.setMaphieunhap(maphieunhap);
+        pnct.setPh(ph);
+
+        Product sp = new Product();
+        int maSpMoi = wrd.getMaSanPhambyTen(txtSanPham.getText().trim());
+        sp.setMaSanPham(maSpMoi);
+        pnct.setP(sp);
+
+        BigDecimal gia = new BigDecimal(txtGiaSanPham.getText().trim());
+        int sl = Integer.parseInt(txtSoLuong.getText().trim());
+        pnct.setSoluong(sl);
+        pnct.setDongia(gia.multiply(new BigDecimal(sl)));
 
         return pnct;
     }
@@ -445,7 +453,9 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
                 Window parent = SwingUtilities.getWindowAncestor(this);
                 WarehouseReceiptDetailsDialog showdetail = new WarehouseReceiptDetailsDialog(parent, null, maphieunhap);
                 showdetail.setVisible(true);
-            }
+            }else {
+                        JOptionPane.showMessageDialog(this, "Cập nhật thất bại phiếu xuất có mã " + this.maphieunhap + ".");
+                    }
         } else {
             if (checkUpdate()) {
                 if (kiemtrasoluong()) {
@@ -456,6 +466,8 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
                         Window parent = SwingUtilities.getWindowAncestor(this);
                         WarehouseReceiptDetailsDialog showdetail = new WarehouseReceiptDetailsDialog(parent, null, maphieunhap);
                         showdetail.setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Cập nhật thất bại phiếu xuất có mã " + this.maphieunhap + ".");
                     }
                 }
             }
