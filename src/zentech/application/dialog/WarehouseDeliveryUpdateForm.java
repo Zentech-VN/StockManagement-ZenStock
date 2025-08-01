@@ -4,7 +4,9 @@ import dao.WarehouseDeliveryDAO;
 import entity.Cilent;
 
 import entity.PhieuNhapChiTiet;
+import entity.PhieuXuat;
 import entity.PhieuXuatChiTiet;
+import entity.Product;
 import entity.ProductArea;
 
 import java.awt.Dialog;
@@ -120,13 +122,23 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
 
     public PhieuXuatChiTiet getFrom() {
         PhieuXuatChiTiet pxct = new PhieuXuatChiTiet();
-        pxct.getPhieuxuat().setMaphieuxuat(maphieuxuat);
-        int id = wdd.getMaSanPhambyTen(txtMaSanPham.getText());
-        pxct.getSanpham().setMaSanPham(id);
-        BigDecimal dongia = new BigDecimal(lblDonGia.getText());
-        pxct.setDongia(dongia);
-        pxct.setSoluong(Integer.parseInt(txtSoLuong.getText()));
+
+        PhieuXuat px = new PhieuXuat();
+        px.setMaphieuxuat(maphieuxuat);
+        pxct.setPhieuxuat(px);
+
+        Product sp = new Product();
+        int maSp = wdd.getMaSanPhambyTen(txtMaSanPham.getText());
+        sp.setMaSanPham(maSp);
+        pxct.setSanpham(sp);
+
+        BigDecimal gia = new BigDecimal(txtGiaSanPham.getText().trim());
+        int sl = Integer.parseInt(txtSoLuong.getText().trim());
+        pxct.setDongia(gia.multiply(new BigDecimal(sl)));
+
+        pxct.setSoluong(sl);
         pxct.setGhichu(txtghichu.getText());
+
         return pxct;
     }
 
@@ -578,6 +590,9 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
                 Window parent = SwingUtilities.getWindowAncestor(this);
                 WarehouseDeliveryDetailForm detail = new WarehouseDeliveryDetailForm(parent, null, this.maphieuxuat);
                 detail.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Cập nhật thất bại phiếu xuất có mã " + this.maphieuxuat + ".");
+
             }
         } else {
             if (txtMaSanPham.getText().isEmpty()) {
@@ -592,6 +607,9 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
                     Window parent = SwingUtilities.getWindowAncestor(this);
                     WarehouseDeliveryDetailForm detail = new WarehouseDeliveryDetailForm(parent, null, this.maphieuxuat);
                     detail.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Cập nhật thất bại phiếu xuất có mã " + this.maphieuxuat + ".");
+
                 }
             }
         }
@@ -605,7 +623,7 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
         this.tensanpham = tensanpham;
         BigDecimal dongia = (BigDecimal) tblChiTietPhieuXuat.getValueAt(selectRow, 2);
         int soluong = (int) tblChiTietPhieuXuat.getValueAt(selectRow, 3);
-        
+
         txtMaSanPham.setText(tensanpham);
         txtSoLuong.setText(String.valueOf(soluong));
         lblDonGia.setText(String.valueOf(dongia));
