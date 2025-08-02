@@ -1,6 +1,5 @@
 package zentech.application.changepassword;
 
-import dao.AccountDAO;
 import dao.AccountDAO_ChangePassword;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
