@@ -2,6 +2,7 @@ package zentech.application.changepassword;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import dao.AccountDAO;
+import dao.AccountDAO_ChangePassword;
 import entity.Account;
 import helper.SendEmailSMTP;
 import java.util.regex.Matcher;
@@ -93,7 +94,7 @@ public class ForgotPassword extends javax.swing.JFrame {
             if (matcher.matches() == false) {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập đúng định dạng email");
             } else {
-                Account tk = AccountDAO.getInstance().selectByEmail(email);
+                Account tk = AccountDAO_ChangePassword.getInstance().selectByEmail(email);
                 if (tk == null) {
                     JOptionPane.showMessageDialog(this, "Tài khoản của email này không tồn tại trên hệ thống");
                 } else {
@@ -103,7 +104,7 @@ public class ForgotPassword extends javax.swing.JFrame {
                     this.emailCheck = email;
                     String opt = SendEmailSMTP.getOTP();
                     SendEmailSMTP.sendOTP(email, opt);
-                    AccountDAO.getInstance().sendOpt(email, opt);
+                    AccountDAO_ChangePassword.getInstance().sendOpt(email, opt);
                 }
             }
         }
