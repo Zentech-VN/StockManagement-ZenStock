@@ -41,7 +41,7 @@ public class AccountDAO_ChangePassword {
         int result;
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
-            String sql = "UPDATE taikhoan tk join nhanvien nv on tk.manv=nv.manv SET `otp`=? WHERE email=?";
+            String sql = "UPDATE taikhoan tk join nhanvien nv on tk.manv=nv.manv SET `otp`=?, otpCreatedAt = CURRENT_TIMESTAMP WHERE Email = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, opt);
             pst.setString(2, email);
@@ -80,7 +80,7 @@ public class AccountDAO_ChangePassword {
         boolean check = false;
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
-            String sql = "SELECT * FROM taikhoan tk join nhanvien nv on tk.manv=nv.manv where nv.email = ? and tk.otp = ?";
+            String sql = "SELECT * FROM taikhoan tk join nhanvien nv on tk.manv=nv.manv where nv.email = ? and tk.otp = ? AND tk.otpCreatedAt >= NOW() - INTERVAL 5 MINUTE";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, email);
             pst.setString(2, otp);
