@@ -6,11 +6,13 @@ import dao.PermGroupDAO;
 import java.util.ArrayList;
 import entity.Account;
 import entity.PermGroup;
+import java.awt.Window;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 import service.AccountService;
@@ -238,7 +240,8 @@ public class AccountForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        StaffListDialog sl = new StaffListDialog();
+        Window parent = SwingUtilities.getWindowAncestor(this);
+        StaffListDialog sl = new StaffListDialog(parent);
         sl.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -248,7 +251,8 @@ public class AccountForm extends javax.swing.JPanel {
         //Kiểm tra index hợp lệ và danh sách không rỗng
         if (index != -1 && lista != null && index < lista.size()) {
             Account selectedAccount = lista.get(index);
-            EditAccountDialog ead = new EditAccountDialog(this, selectedAccount.getManv(), selectedAccount);
+            Window parent = SwingUtilities.getWindowAncestor(this);
+            EditAccountDialog ead = new EditAccountDialog(parent, this, selectedAccount.getManv(), selectedAccount);
             ead.setVisible(true);
         } else {
             if (lista == null || lista.isEmpty()) {
