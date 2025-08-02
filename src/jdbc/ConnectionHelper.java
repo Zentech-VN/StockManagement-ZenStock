@@ -5,6 +5,9 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.io.InputStream;
 import javax.sql.DataSource;
+import com.zaxxer.hikari.HikariDataSource;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class ConnectionHelper {
 
@@ -17,23 +20,50 @@ public class ConnectionHelper {
             // Initialize DataSource
             dataSource = DataSourceFactory.createDataSource(props);
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException("Error loading DB configuration", e);
         }
     }
 
     public static Connection getConnection() throws SQLException {
-        return dataSource.getConnection();
+        try {
+            Connection conn = dataSource.getConnection();
+            return conn;
+        } catch (SQLException e) {
+            throw e;
+        }
     }
 
     public static void closeConnection(Connection c) {
         try {
-            if (c != null) {
+            if (c != null && !c.isClosed()) {
                 c.close();
             }
         } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
+        }
+    }
+    
+    public static String getPoolStatus() {
+        if (dataSource instanceof HikariDataSource) {
+            HikariDataSource hikariDS = (HikariDataSource) dataSource;
+            return String.format(
+                "Pool Status - Active: %d, Idle: %d, Total: %d",
+                hikariDS.getHikariPoolMXBean().getActiveConnections(),
+                hikariDS.getHikariPoolMXBean().getIdleConnections(),
+                hikariDS.getHikariPoolMXBean().getTotalConnections()
+            );
+        }
+        return "Pool status not available";
+    }
+    
+    public static DataSource getDataSource() {
+        return dataSource;
+    }
+    
+    public static void shutdownPool() {
+        if (dataSource instanceof HikariDataSource) {
+            HikariDataSource hikariDS = (HikariDataSource) dataSource;
+            hikariDS.close();
+
         }
     }
 }
