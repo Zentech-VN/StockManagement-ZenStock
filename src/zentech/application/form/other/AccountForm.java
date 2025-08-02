@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import entity.Account;
 import entity.PermGroup;
 import java.awt.Window;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -41,33 +43,18 @@ public class AccountForm extends javax.swing.JPanel {
         SwingWorker<DefaultTableModel, Void> worker = new SwingWorker<DefaultTableModel, Void>() {
             @Override
             protected DefaultTableModel doInBackground() {
-                String[] title = {"Mã nhân viên", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"};
-                DefaultTableModel model = new DefaultTableModel(title, 0);
+                String[] columns = {"Mã nhân viên", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"};
+                DefaultTableModel model = new DefaultTableModel(columns, 0);
 
                 for (Account account : accounts) {
-                    String trangthaiString;
-                    switch (account.getTrangthai()) {
-                        case 1:
-                            trangthaiString = "Hoạt động";
-                            break;
-                        case 0:
-                            trangthaiString = "Ngưng hoạt động";
-                            break;
-                        default:
-                            trangthaiString = "Không xác định";
-                            break;
-                    }
-
-                    String tenNhomQuyen = getPermGroup(account.getManhomquyen()).getTennhomquyen();
-
                     model.addRow(new Object[]{
                         account.getManv(),
                         account.getUsername(),
-                        tenNhomQuyen,
-                        trangthaiString
+                        getPermGroupCached(account.getManhomquyen()),
+                        getStatusText(account.getTrangthai())
                     });
                 }
-
+                jTable1.setModel(model);
                 return model;
             }
 
@@ -82,6 +69,24 @@ public class AccountForm extends javax.swing.JPanel {
         };
 
         worker.execute();
+    }
+    
+    private Map<Integer, String> permGroupCache = new HashMap<>();
+
+    private String getPermGroupCached(int manhomquyen) {
+        return permGroupCache.computeIfAbsent(manhomquyen, 
+            id -> getPermGroup(id).getTennhomquyen());
+    }
+
+    private String getStatusText(int status) {
+        switch (status) {
+            case 1: 
+                return "Hoạt động";
+            case 0: 
+                return "Ngưng hoạt động";
+            default: 
+                return "Không xác định";
+        }
     }
 
     public static PermGroup getPermGroup(int manhom) {
