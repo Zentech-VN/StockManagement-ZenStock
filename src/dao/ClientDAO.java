@@ -1,6 +1,6 @@
 package dao;
 
-import entity.Cilent;
+import entity.Client;
 import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,12 +11,12 @@ import jdbc.ConnectionHelper;
 
 public class ClientDAO {
 
-    public List<Cilent> getAllCilent() {
-        List<Cilent> listc = new ArrayList<>();
+    public List<Client> getAllCilent() {
+        List<Client> listc = new ArrayList<>();
         String sql = "select makhachhang, tenkhachhang, diachi, email, sdt, trangthai from khachhang";
         try (Connection conn = ConnectionHelper.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
-                Cilent cl = new Cilent();
+                Client cl = new Client();
                 cl.setMaKhacHang(rs.getInt("makhachhang"));
                 cl.setTenKhacHang(rs.getString("tenkhachhang"));
                 cl.setEmail(rs.getString("email"));
@@ -32,7 +32,7 @@ public class ClientDAO {
         }
     }
 
-    public int addkhachhang(Cilent cl) {
+    public int addkhachhang(Client cl) {
         int rs = 0;
         String sql = "insert into khachhang(tenkhachhang,diachi,email,sdt, trangthai) values(?,?,?,?,?)";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement cs = conn.prepareStatement(sql)) {
@@ -62,14 +62,14 @@ public class ClientDAO {
         }
     }
 
-    public Cilent getAllMouse(int makh) {
-        Cilent cl = null;
+    public Client getAllMouse(int makh) {
+        Client cl = null;
         String sql = "select * from khachhang where makhachhang = ?";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql);) {
             pst.setInt(1, makh);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                cl = new Cilent();
+                cl = new Client();
                 cl.setMaKhacHang(rs.getInt("makhachhang"));
                 cl.setTenKhacHang(rs.getString("tenkhachhang"));
                 cl.setDiaChi(rs.getString("diachi"));
@@ -85,7 +85,7 @@ public class ClientDAO {
         }
     }
 
-    public int Update(Cilent cl) {
+    public int Update(Client cl) {
         int rs = 0;
         String sql = "update khachhang set tenkhachhang = ?, diachi = ?, email = ?, sdt = ?, trangthai = ? where makhachhang = ?";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {

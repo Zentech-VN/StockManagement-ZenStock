@@ -15,6 +15,7 @@ import javax.swing.RowSorter;
 import javax.swing.SortOrder;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -41,29 +42,47 @@ public class ProductForm extends javax.swing.JPanel {
     }
 
     public void loadProductData() {
-        this.productService = new ProductServiceMain();
         DefaultTableModel model = (DefaultTableModel) tblSanPham.getModel();
         model.setRowCount(0);
 
-        for (Product p : productService.getBasicProduct()) {
-            model.addRow(new Object[]{
-                p.getMaSanPham(),
-                p.getTenSanPham(),
-                p.getTenThuongHieu(),
-                p.getGia(),
-                p.getTenHeDieuHanh(),
-                p.getTenXuatXu(),
-                p.getTrangThai()
-            });
-        }
+        SwingWorker<List<Product>, Product> worker = new SwingWorker<List<Product>, Product>() {
+            @Override
+            protected List<Product> doInBackground() {
+                productService = new ProductServiceMain();
+                return productService.getBasicProduct();
+            }
 
-        this.tblSanPham.setModel(model);
+            @Override
+            protected void done() {
+                try {
+                    List<Product> products = get();
+                    DefaultTableModel model = (DefaultTableModel) tblSanPham.getModel();
+                    model.setRowCount(0);
 
-        if (sorter == null) {
-            initSorter();
-        } else {
-            sorter.sort();
-        }
+                    for (Product p : products) {
+                        model.addRow(new Object[]{
+                            p.getMaSanPham(),
+                            p.getTenSanPham(),
+                            p.getTenThuongHieu(),
+                            p.getGia(),
+                            p.getTenHeDieuHanh(),
+                            p.getTenXuatXu(),
+                            p.getTrangThai()
+                        });
+                    }
+
+                    if (sorter == null) {
+                        initSorter();
+                    } else {
+                        sorter.sort();
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        };
+        worker.execute();
+
     }
 
     private void initalUI(JTable table) {

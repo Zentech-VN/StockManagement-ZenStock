@@ -15,10 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-/**
- *
- * @author PC
- */
+
+
 public class ReceiptService {
 
     static ArrayList<Receipt> listr;
@@ -33,27 +31,6 @@ public class ReceiptService {
         }
     }
     
-    public void loadPendingReceipts(JTable jTable1) {
-        try {
-            List<Receipt> receipts = getAllPendingReceipts();
-
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            model.setRowCount(0);
-
-            for (Receipt receipt : receipts) {
-                model.addRow(new Object[]{
-                    receipt.getReceiptId(),
-                    receipt.getReceiptType(),
-                    receipt.getCreatedBy(),
-                    receipt.getTimestamp(),
-                    receipt.getTotalAmount()
-                });
-            }
-
-        } catch (Exception e) {
-            throw new RuntimeException("Lỗi khi tải danh sách phiếu chờ duyệt: " + e.getMessage(), e);
-        }
-    }
     public boolean processReceiptApproval(int receiptId, String receiptCategory) {
         try {
             boolean result = receiptDAO.approveReceipt(receiptId, receiptCategory);

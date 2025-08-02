@@ -2,12 +2,17 @@ package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import dao.AccountDAO;
+import dao.PermGroupDAO;
 import java.util.ArrayList;
 import entity.Account;
+import entity.PermGroup;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingWorker;
+import javax.swing.table.DefaultTableModel;
 import service.AccountService;
 import zentech.application.dialog.EditAccountDialog;
 import zentech.application.dialog.StaffListDialog;
@@ -21,13 +26,64 @@ public class AccountForm extends javax.swing.JPanel {
     public AccountForm() {
         initComponents();
         initalUI(tblList);
-        asv.LoadTable(lista, tblList);
+        loadTable(lista, tblList);
     }
 
     public AccountForm(Account currentUser) {
         initComponents();
         initalUI(tblList);
-        asv.LoadTable(lista, tblList);
+        loadTable(lista, tblList);
+    }
+
+    public void loadTable(List<Account> accounts, JTable jTable1) {
+        SwingWorker<DefaultTableModel, Void> worker = new SwingWorker<DefaultTableModel, Void>() {
+            @Override
+            protected DefaultTableModel doInBackground() {
+                String[] title = {"Mã nhân viên", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"};
+                DefaultTableModel model = new DefaultTableModel(title, 0);
+
+                for (Account account : accounts) {
+                    String trangthaiString;
+                    switch (account.getTrangthai()) {
+                        case 1:
+                            trangthaiString = "Hoạt động";
+                            break;
+                        case 0:
+                            trangthaiString = "Ngưng hoạt động";
+                            break;
+                        default:
+                            trangthaiString = "Không xác định";
+                            break;
+                    }
+
+                    String tenNhomQuyen = getPermGroup(account.getManhomquyen()).getTennhomquyen();
+
+                    model.addRow(new Object[]{
+                        account.getManv(),
+                        account.getUsername(),
+                        tenNhomQuyen,
+                        trangthaiString
+                    });
+                }
+
+                return model;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    jTable1.setModel(get());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        worker.execute();
+    }
+
+    public static PermGroup getPermGroup(int manhom) {
+        return PermGroupDAO.selectById(manhom + "");
     }
 
     public int getRowSelected() {
@@ -153,13 +209,10 @@ public class AccountForm extends javax.swing.JPanel {
 
         tblList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã nhân viên", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"
             }
         ));
         jScrollPane1.setViewportView(tblList);
@@ -226,7 +279,7 @@ public class AccountForm extends javax.swing.JPanel {
                     lista = asv.getTaiKhoanAll();
 
                     //reload table
-                    asv.LoadTable(lista, tblList);
+                    loadTable(lista, tblList);
 
                     JOptionPane.showMessageDialog(this, "Xóa tài khoản thành công!",
                             "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -240,7 +293,7 @@ public class AccountForm extends javax.swing.JPanel {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         lista = asv.getTaiKhoanAll();
-        asv.LoadTable(lista, tblList);
+        loadTable(lista, tblList);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void txtSearchaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchaKeyReleased

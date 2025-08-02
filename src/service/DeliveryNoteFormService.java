@@ -6,7 +6,7 @@ package service;
 
 import dao.ClientDAO;
 import dao.ProductAreaDAO;
-import entity.Cilent;
+import entity.Client;
 import entity.ProductArea;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
@@ -29,7 +29,7 @@ public class DeliveryNoteFormService {
 
 //    public void loadDataCombobox(JComboBox<String> client) {
 //        client.removeAllItems();
-//        for (Cilent c : cd.getAllCilent()) {
+//        for (Client c : cd.getAllCilent()) {
 //            if (c.getTrangThai() == 1) {
 //                client.addItem(c.getTenKhacHang());
 //            }

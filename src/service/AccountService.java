@@ -26,33 +26,7 @@ public class AccountService {
             lista.set(rowIndex, updatedAccount);
         }
     }
-
-    public void LoadTable(List<Account> listc, JTable jTable1) {
-        lista = acc.selectAll();
-        String[] title = {"Mã nhân viên", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"};
-        DefaultTableModel model = new DefaultTableModel(title, 0);
-
-        for (Account account : lista) {
-            int tt = account.getTrangthai();
-            String trangthaiString = "";
-            switch (tt) {
-                case 1:
-                    trangthaiString = "Hoạt động";
-                    break;
-                case 0:
-                    trangthaiString = "Ngưng hoạt động";
-                    break;
-                default:
-                    trangthaiString = "Không xác định";
-                    break;
-            }
-            model.addRow(new Object[]{
-                account.getManv(), account.getUsername(), getPermGroup(account.getManhomquyen()).getTennhomquyen(), trangthaiString
-            });
-        }
-        jTable1.setModel(model);
-    }
-
+    
     public PermGroup getPermGroup(int manhom) {
         return permGroupDAO.selectById(manhom + "");
     }

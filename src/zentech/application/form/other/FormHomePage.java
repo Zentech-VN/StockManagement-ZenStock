@@ -3,13 +3,15 @@ package zentech.application.form.other;
 import com.formdev.flatlaf.FlatClientProperties;
 import dao.ProductDAO;
 import entity.Product;
-import entity.ProductWarehouse;
 import java.awt.Component;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -27,17 +29,6 @@ public class FormHomePage extends javax.swing.JPanel {
         initComponents();
         initalUI(tblSanPham);
         loadDataTable();
-    }
-
-    public void loadDataTable() {
-        ProductDAO pd = new ProductDAO() {};
-        String[] title = {"Tên sản phẩm"};
-        DefaultTableModel model = new DefaultTableModel(title, 0);
-        for (Product p : pd.getAllProduct()) {
-            model.addRow(new Object[]{p.getTenSanPham()});
-        }
-        tblSanPham.setModel(model);
-        tblSanPham.setDefaultEditor(Object.class, null);
     }
 
     private void initalUI(JTable table) {
@@ -65,17 +56,10 @@ public class FormHomePage extends javax.swing.JPanel {
 
         table.getTableHeader().setDefaultRenderer(getAlignmentCellRender(table.getTableHeader().getDefaultRenderer(), true));
         table.setDefaultRenderer(Object.class, getAlignmentCellRender(table.getDefaultRenderer(Object.class), false));
-        
-        int userCount = employeeService.getEmployeeCountService();
-        int productCount = productService.getProductCountService();
-        int accountCount = accountService.getAccountCountService();
 
-        lblUserCount.setText("" + userCount);
-        lblProductCount.setText("" + productCount);
-        lblAccountCount.setText("" + accountCount);
+        loadDashboardCounts();
     }
 
-    
     private TableCellRenderer getAlignmentCellRender(TableCellRenderer oldRender, boolean header) {
         return new DefaultTableCellRenderer() {
             @Override
@@ -93,6 +77,75 @@ public class FormHomePage extends javax.swing.JPanel {
             }
         };
     }
+
+    public void loadDataTable() {
+        SwingWorker<List<Object[]>, Void> worker = new SwingWorker<List<Object[]>, Void>() {
+            @Override
+            protected List<Object[]> doInBackground() throws Exception {
+                ProductDAO pd = new ProductDAO() {
+                };
+                List<Object[]> rows = new ArrayList<>();
+
+                for (Product p : pd.getAllProduct()) {
+                    rows.add(new Object[]{p.getTenSanPham()});
+                }
+
+                return rows;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    List<Object[]> rows = get();
+
+                    String[] title = {"Tên sản phẩm"};
+                    DefaultTableModel model = new DefaultTableModel(title, 0);
+
+                    for (Object[] row : rows) {
+                        model.addRow(row);
+                    }
+
+                    tblSanPham.setModel(model);
+                    tblSanPham.setDefaultEditor(Object.class, null);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        worker.execute();
+    }
+
+    private void loadDashboardCounts() {
+        SwingWorker<int[], Void> worker = new SwingWorker<int[], Void>() {
+            @Override
+            protected int[] doInBackground() throws Exception {
+                int userCount = employeeService.getEmployeeCountService();
+                int productCount = productService.getProductCountService();
+                int accountCount = accountService.getAccountCountService();
+
+                return new int[]{userCount, productCount, accountCount};
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    int[] counts = get();
+
+                    lblUserCount.setText(String.valueOf(counts[0]));
+                    lblProductCount.setText(String.valueOf(counts[1]));
+                    lblAccountCount.setText(String.valueOf(counts[2]));
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        worker.execute();
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -174,7 +227,7 @@ public class FormHomePage extends javax.swing.JPanel {
 
         lblUserCount.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         lblUserCount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblUserCount.setText("?");
+        lblUserCount.setText("...");
         crazyPanel4.add(lblUserCount);
         crazyPanel4.add(jLabel13);
 
@@ -212,7 +265,7 @@ public class FormHomePage extends javax.swing.JPanel {
 
         lblProductCount.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         lblProductCount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblProductCount.setText("?");
+        lblProductCount.setText("...");
         crazyPanel2.add(lblProductCount);
         crazyPanel2.add(jLabel10);
 
@@ -250,7 +303,7 @@ public class FormHomePage extends javax.swing.JPanel {
 
         lblAccountCount.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         lblAccountCount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblAccountCount.setText("?");
+        lblAccountCount.setText("...");
         crazyPanel5.add(lblAccountCount);
         crazyPanel5.add(jLabel6);
 

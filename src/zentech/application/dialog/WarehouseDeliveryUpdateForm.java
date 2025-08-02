@@ -1,7 +1,7 @@
 package zentech.application.dialog;
 
 import dao.WarehouseDeliveryDAO;
-import entity.Cilent;
+import entity.Client;
 
 import entity.PhieuNhapChiTiet;
 import entity.PhieuXuat;
@@ -52,7 +52,7 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
     public void LoadDataTableKhachHang() {
         DefaultTableModel model = (DefaultTableModel) tblKhachHang.getModel();
         model.setRowCount(0);
-        for (Cilent c : wdd.getAllKhachHang()) {
+        for (Client c : wdd.getAllKhachHang()) {
             model.addRow(new Object[]{c.getMaKhacHang(), c.getTenKhacHang()});
         }
     }
@@ -86,7 +86,7 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
         txtMaKhachHang.setEditable(false);
         txtMaSanPham.setEditable(false);
         txtMaPhieuNhap.setText(String.valueOf(this.maphieuxuat));
-        Cilent c = wdd.getKhachHangbyId(tenkhachhang);
+        Client c = wdd.getKhachHangbyId(tenkhachhang);
         txtMaKhachHang.setText(String.valueOf(c.getMaKhacHang()));
     }
 

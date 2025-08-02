@@ -1,28 +1,23 @@
 package entity;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.FieldDefaults;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Getter
+@Setter
+@ToString
 public class ChiTietQuyen {
 
-    private String hanhdong;
-    private DanhMucChucNang danhmuc_chucnang = new DanhMucChucNang();
-    private NhomQuyen nhomquyen = new NhomQuyen();
-
-    public ChiTietQuyen() {
-    }
-
-    public String getHanhdong() {
-        return hanhdong;
-    }
-
-    public void setHanhdong(String hanhdong) {
-        this.hanhdong = hanhdong;
-    }
-
-    public DanhMucChucNang getDanhmuc_chucnang() {
-        return danhmuc_chucnang;
-    }
-
-    public NhomQuyen getNhomquyen() {
-        return nhomquyen;
-    }
+    String hanhdong;
+    DanhMucChucNang danhmuc_chucnang = new DanhMucChucNang();
+    NhomQuyen nhomquyen = new NhomQuyen();
 
 }

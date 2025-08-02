@@ -19,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -52,12 +53,12 @@ public class Chart extends javax.swing.JPanel {
         initalTableMini(tblThongKeTonKho);
         initalTableMini(tblSanPhamBanChay);
         initalTableMini(tblSanPhamHetHang);
-        
+
         LocalDate today = LocalDate.now();
         LocalDate firstDayOfMonth = today.withDayOfMonth(1);
         String year = String.valueOf(LocalDate.now().getYear());
         String month = String.valueOf(LocalDate.now().getMonthValue());
-        
+
         //Truyền data vào chart
         setDataBase();
         setDataYears("2022", year);
@@ -82,7 +83,7 @@ public class Chart extends javax.swing.JPanel {
         initalTextField(txtThongKeTheoNgay_Nam, "2025");
         initalTextField(txtThongKeTheoNgay_Thang, "07");
         initalTextField(txtThongKeTheoThang_Nam, "2025");
-        
+
         //Tồn kho
         initalTextField(txtThongKeTonKho_SanPham, "Tìm kiếm");
         initalTextField(txtThongKeTonKho_TuNgay, firstDayOfMonth.toString());
@@ -90,19 +91,19 @@ public class Chart extends javax.swing.JPanel {
         txtThongKeTonKho_TuNgay.setText(firstDayOfMonth.toString());
         txtThongKeTonKho_DenNgay.setText(today.toString());
         lblThongKeTonKho_ThoiGian.setText(txtThongKeTonKho_TuNgay.getText() + " đến " + txtThongKeTonKho_DenNgay.getText());
-        
+
         //Bán chạy
         initalTextField(txtSanPhamBanChay_SanPham, "Tìm kiếm");
         initalTextField(txtSanPhamBanChay_TuNgay, today.toString());
         initalTextField(txtSanPhamBanChay_DenNgay, firstDayOfMonth.toString());
         txtSanPhamBanChay_TuNgay.setText(firstDayOfMonth.toString());
         txtSanPhamBanChay_DenNgay.setText(today.toString());
-        lblSanPhamBanChay_ThoiGian.setText(txtSanPhamBanChay_TuNgay.getText()  + " đến " + txtSanPhamBanChay_DenNgay.getText());
-        
+        lblSanPhamBanChay_ThoiGian.setText(txtSanPhamBanChay_TuNgay.getText() + " đến " + txtSanPhamBanChay_DenNgay.getText());
+
         //Hết hàng
         initalTextField(txtSanPhamHetHang_SanPham, "Tìm kiếm");
         initalTextField(txtSanPhamHetHang_SoLuong, "5");
-        
+
         //Giao diện đếm số lượng
         initalCount();
 
@@ -116,11 +117,11 @@ public class Chart extends javax.swing.JPanel {
         chart.addLegend(legend1, Color.decode("#7b4397"), Color.decode("#dc2430"));
         chart.addLegend(legend2, Color.decode("#e65c00"), Color.decode("#F9D423"));
         chart.addLegend(legend3, Color.decode("#0099F7"), Color.decode("#F11712"));
-        
+
         //Animation
         chart.start();
     }
-    
+
     private void initalTextField(JTextField txt, String hint) {
         txt.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, hint);
     }
@@ -231,265 +232,382 @@ public class Chart extends javax.swing.JPanel {
     }
 
     private void setDataBase() {
-        try {
-            List<Chart_Revenue> lists = service.getRevenue10MonthService();
-
-            //Xoá dữ liệu cũ
-            chartRevenue.clear();
-
-            for (int i = lists.size() - 1; i >= 0; i--) {
-                Chart_Revenue d = lists.get(i);
-                chartRevenue.addData(new ModelChart(
-                        d.getThang(),
-                        new double[]{d.getDoanhThu(), d.getGiaVon(), d.getLoiNhuan()}
-                ));
+        SwingWorker<List<Chart_Revenue>, Void> worker = new SwingWorker<List<Chart_Revenue>, Void>() {
+            @Override
+            protected List<Chart_Revenue> doInBackground() throws Exception {
+                // Lấy dữ liệu trong background
+                return service.getRevenue10MonthService();
             }
 
-            //Animation
-            chartRevenue.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            @Override
+            protected void done() {
+                try {
+                    List<Chart_Revenue> lists = get(); // lấy kết quả từ doInBackground
+                    chartRevenue.clear();
+
+                    for (int i = lists.size() - 1; i >= 0; i--) {
+                        Chart_Revenue d = lists.get(i);
+                        chartRevenue.addData(new ModelChart(
+                                d.getThang(),
+                                new double[]{d.getDoanhThu(), d.getGiaVon(), d.getLoiNhuan()}
+                        ));
+                    }
+
+                    chartRevenue.start(); // chạy animation
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        worker.execute();
     }
 
     private void setDataYears(String fromYear, String toYear) {
-        try {
-            List<Chart_Revenue> lists = service.getRevenueYearsService(fromYear, toYear);
-
-            chartRevenueYears.clear();
-
-            for (int i = lists.size() - 1; i >= 0; i--) {
-                Chart_Revenue d = lists.get(i);
-                chartRevenueYears.addData(new ModelChart(
-                        d.getThang(),
-                        new double[]{d.getDoanhThu(), d.getGiaVon(), d.getLoiNhuan()}
-                ));
+        SwingWorker<List<Chart_Revenue>, Void> worker = new SwingWorker<List<Chart_Revenue>, Void>() {
+            @Override
+            protected List<Chart_Revenue> doInBackground() throws Exception {
+                return service.getRevenueYearsService(fromYear, toYear);
             }
 
-            chartRevenueYears.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            @Override
+            protected void done() {
+                try {
+                    List<Chart_Revenue> lists = get();
+                    chartRevenueYears.clear();
+
+                    for (int i = lists.size() - 1; i >= 0; i--) {
+                        Chart_Revenue d = lists.get(i);
+                        chartRevenueYears.addData(new ModelChart(
+                                d.getThang(),
+                                new double[]{d.getDoanhThu(), d.getGiaVon(), d.getLoiNhuan()}
+                        ));
+                    }
+
+                    chartRevenueYears.start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        worker.execute();
     }
 
     private void setDataMonths(String year) {
-        try {
-            List<Chart_Revenue> lists = service.getRevenueMonthsService(year);
-
-            chartRevenueMonths.clear();
-
-            for (int i = lists.size() - 1; i >= 0; i--) {
-                Chart_Revenue d = lists.get(i);
-                chartRevenueMonths.addData(new ModelChart(
-                        d.getThang(),
-                        new double[]{d.getDoanhThu(), d.getGiaVon(), d.getLoiNhuan()}
-                ));
+        SwingWorker<List<Chart_Revenue>, Void> worker = new SwingWorker<List<Chart_Revenue>, Void>() {
+            @Override
+            protected List<Chart_Revenue> doInBackground() throws Exception {
+                return service.getRevenueMonthsService(year);
             }
 
-            chartRevenueMonths.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            @Override
+            protected void done() {
+                try {
+                    List<Chart_Revenue> lists = get();
+                    chartRevenueMonths.clear();
+
+                    for (int i = lists.size() - 1; i >= 0; i--) {
+                        Chart_Revenue d = lists.get(i);
+                        chartRevenueMonths.addData(new ModelChart(
+                                d.getThang(),
+                                new double[]{d.getDoanhThu(), d.getGiaVon(), d.getLoiNhuan()}
+                        ));
+                    }
+
+                    chartRevenueMonths.start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        worker.execute();
     }
 
     private void setDataDays(String year, String month) {
-        try {
-            List<Chart_Revenue> lists = service.getRevenueDaysService(year, month);
-
-            chartRevenueDays.clear();
-
-            for (int i = lists.size() - 1; i >= 0; i--) {
-                Chart_Revenue d = lists.get(i);
-                chartRevenueDays.addData(new ModelChart(
-                        d.getThang(),
-                        new double[]{d.getDoanhThu(), d.getGiaVon(), d.getLoiNhuan()}
-                ));
+        SwingWorker<List<Chart_Revenue>, Void> worker = new SwingWorker<List<Chart_Revenue>, Void>() {
+            @Override
+            protected List<Chart_Revenue> doInBackground() throws Exception {
+                return service.getRevenueDaysService(year, month);
             }
 
-            chartRevenueDays.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            @Override
+            protected void done() {
+                try {
+                    List<Chart_Revenue> lists = get();
+                    chartRevenueDays.clear();
+
+                    for (int i = lists.size() - 1; i >= 0; i--) {
+                        Chart_Revenue d = lists.get(i);
+                        chartRevenueDays.addData(new ModelChart(
+                                d.getThang(),
+                                new double[]{d.getDoanhThu(), d.getGiaVon(), d.getLoiNhuan()}
+                        ));
+                    }
+
+                    chartRevenueDays.start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        worker.execute();
     }
 
     private void loadRevenueBaseData() {
-        try {
-            List<Chart_Revenue> list = service.getRevenueService();
-
-            DefaultTableModel model = (DefaultTableModel) tblDoanhThuTongQuan.getModel();
-            model.setRowCount(0);
-
-            for (Chart_Revenue d : list) {
-                DecimalFormat formatter = new DecimalFormat("#,###");
-
-                model.addRow(new Object[]{
-                    d.getThang(),
-                    formatter.format(d.getDoanhThu()),
-                    formatter.format(d.getGiaVon()),
-                    formatter.format(d.getLoiNhuan())
-                });
+        SwingWorker<List<Chart_Revenue>, Void> worker = new SwingWorker<List<Chart_Revenue>, Void>() {
+            @Override
+            protected List<Chart_Revenue> doInBackground() throws Exception {
+                return service.getRevenueService();
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            @Override
+            protected void done() {
+                try {
+                    List<Chart_Revenue> list = get();
+                    DefaultTableModel model = (DefaultTableModel) tblDoanhThuTongQuan.getModel();
+                    model.setRowCount(0);
+
+                    DecimalFormat formatter = new DecimalFormat("#,###");
+                    for (Chart_Revenue d : list) {
+                        model.addRow(new Object[]{
+                            d.getThang(),
+                            formatter.format(d.getDoanhThu()),
+                            formatter.format(d.getGiaVon()),
+                            formatter.format(d.getLoiNhuan())
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        worker.execute();
     }
 
     private void loadRevenueByYears(String fromYear, String toYear) {
-        try {
-            List<Chart_Revenue> list = service.getRevenueYearsService(fromYear, toYear);
-
-            DefaultTableModel model = (DefaultTableModel) tblDoanhThuTheoNam.getModel();
-            model.setRowCount(0);
-
-            DecimalFormat formatter = new DecimalFormat("#,###");
-
-            for (Chart_Revenue d : list) {
-                model.addRow(new Object[]{
-                    d.getThang(),
-                    formatter.format(d.getDoanhThu()),
-                    formatter.format(d.getGiaVon()),
-                    formatter.format(d.getLoiNhuan()),
-                });
+        SwingWorker<List<Chart_Revenue>, Void> worker = new SwingWorker<List<Chart_Revenue>, Void>() {
+            @Override
+            protected List<Chart_Revenue> doInBackground() throws Exception {
+                return service.getRevenueYearsService(fromYear, toYear);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+            @Override
+            protected void done() {
+                try {
+                    List<Chart_Revenue> list = get();
+                    DefaultTableModel model = (DefaultTableModel) tblDoanhThuTheoNam.getModel();
+                    model.setRowCount(0);
+
+                    DecimalFormat formatter = new DecimalFormat("#,###");
+                    for (Chart_Revenue d : list) {
+                        model.addRow(new Object[]{
+                            d.getThang(),
+                            formatter.format(d.getDoanhThu()),
+                            formatter.format(d.getGiaVon()),
+                            formatter.format(d.getLoiNhuan())
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        worker.execute();
     }
 
     private void loadRevenueByMonths(String year) {
-        try {
-            List<Chart_Revenue> list = service.getRevenueMonthsService(year);
-
-            DefaultTableModel model = (DefaultTableModel) tblDoanhThuTheoThang.getModel();
-            model.setRowCount(0);
-
-            DecimalFormat formatter = new DecimalFormat("#,###");
-
-            for (Chart_Revenue d : list) {
-                model.addRow(new Object[]{
-                    d.getThang(),
-                    formatter.format(d.getDoanhThu()),
-                    formatter.format(d.getGiaVon()),
-                    formatter.format(d.getLoiNhuan()),
-                });
+        SwingWorker<List<Chart_Revenue>, Void> worker = new SwingWorker<List<Chart_Revenue>, Void>() {
+            @Override
+            protected List<Chart_Revenue> doInBackground() throws Exception {
+                return service.getRevenueMonthsService(year);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+            @Override
+            protected void done() {
+                try {
+                    List<Chart_Revenue> list = get();
+                    DefaultTableModel model = (DefaultTableModel) tblDoanhThuTheoThang.getModel();
+                    model.setRowCount(0);
+
+                    DecimalFormat formatter = new DecimalFormat("#,###");
+                    for (Chart_Revenue d : list) {
+                        model.addRow(new Object[]{
+                            d.getThang(),
+                            formatter.format(d.getDoanhThu()),
+                            formatter.format(d.getGiaVon()),
+                            formatter.format(d.getLoiNhuan())
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        worker.execute();
     }
 
     private void loadRevenueByDays(String year, String month) {
-        try {
-            ChartService service = new ChartService();
-            List<Chart_Revenue> list = service.getRevenueDaysService(year, month);
+        SwingWorker<List<Chart_Revenue>, Void> worker = new SwingWorker<List<Chart_Revenue>, Void>() {
 
-            DefaultTableModel model = (DefaultTableModel) tblDoanhThuTheoNgay.getModel();
-            model.setRowCount(0);
-
-            DecimalFormat formatter = new DecimalFormat("#,###");
-
-            for (Chart_Revenue d : list) {
-                model.addRow(new Object[]{
-                    d.getThang(),
-                    formatter.format(d.getDoanhThu()),
-                    formatter.format(d.getGiaVon()),
-                    formatter.format(d.getLoiNhuan()),
-                });
+            @Override
+            protected List<Chart_Revenue> doInBackground() throws Exception {
+                return service.getRevenueDaysService(year, month);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+            @Override
+            protected void done() {
+                try {
+                    List<Chart_Revenue> list = get();
+                    DefaultTableModel model = (DefaultTableModel) tblDoanhThuTheoNgay.getModel();
+                    model.setRowCount(0);
+
+                    DecimalFormat formatter = new DecimalFormat("#,###");
+                    for (Chart_Revenue d : list) {
+                        model.addRow(new Object[]{
+                            d.getThang(),
+                            formatter.format(d.getDoanhThu()),
+                            formatter.format(d.getGiaVon()),
+                            formatter.format(d.getLoiNhuan())
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        worker.execute();
     }
 
     private void loadInventoryAll() {
-        try {
-            List<Chart_Inventory> list = service.getInventoryAllService("");
+        SwingWorker<List<Chart_Inventory>, Void> worker = new SwingWorker<List<Chart_Inventory>, Void>() {
 
-            DefaultTableModel model = (DefaultTableModel) tblThongKeTonKho.getModel();
-            model.setRowCount(0);
-
-            DecimalFormat df = new DecimalFormat("#,###");
-
-            int stt = 1;
-            for (Chart_Inventory ci : list) {
-                model.addRow(new Object[]{
-                    stt++,
-                    ci.getMaSanPham(),
-                    ci.getTenSanPham(),
-                    ci.getTonDauKy(),
-                    ci.getNhapTrongKy(),
-                    ci.getXuatTrongKy(),
-                    ci.getTonCuoiKy()
-                });
+            @Override
+            protected List<Chart_Inventory> doInBackground() throws Exception {
+                return service.getInventoryAllService("");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+            @Override
+            protected void done() {
+                try {
+                    List<Chart_Inventory> list = get();
+                    DefaultTableModel model = (DefaultTableModel) tblThongKeTonKho.getModel();
+                    model.setRowCount(0);
+
+                    int stt = 1;
+                    for (Chart_Inventory ci : list) {
+                        model.addRow(new Object[]{
+                            stt++,
+                            ci.getMaSanPham(),
+                            ci.getTenSanPham(),
+                            ci.getTonDauKy(),
+                            ci.getNhapTrongKy(),
+                            ci.getXuatTrongKy(),
+                            ci.getTonCuoiKy()
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        worker.execute();
     }
 
-    private void loadInventoryByKeyWord(List<Chart_Inventory> list) {
-        DefaultTableModel model = (DefaultTableModel) tblThongKeTonKho.getModel();
-        model.setRowCount(0);
-        DecimalFormat format = new DecimalFormat("#,###");
+    private void loadInventoryByKeyWord(List<Chart_Inventory> inputList) {
+        SwingWorker<List<Chart_Inventory>, Void> worker = new SwingWorker<List<Chart_Inventory>, Void>() {
+            @Override
+            protected List<Chart_Inventory> doInBackground() {
+                return inputList; // đã có list từ ngoài
+            }
 
-        int stt = 1;
-        for (Chart_Inventory i : list) {
-            model.addRow(new Object[]{
-                stt++,
-                i.getMaSanPham(),
-                i.getTenSanPham(),
-                i.getTonDauKy(),
-                i.getNhapTrongKy(),
-                i.getXuatTrongKy(),
-                i.getTonCuoiKy()
-            });
-        }
+            @Override
+            protected void done() {
+                try {
+                    List<Chart_Inventory> list = get();
+                    DefaultTableModel model = (DefaultTableModel) tblThongKeTonKho.getModel();
+                    model.setRowCount(0);
+
+                    int stt = 1;
+                    for (Chart_Inventory i : list) {
+                        model.addRow(new Object[]{
+                            stt++,
+                            i.getMaSanPham(),
+                            i.getTenSanPham(),
+                            i.getTonDauKy(),
+                            i.getNhapTrongKy(),
+                            i.getXuatTrongKy(),
+                            i.getTonCuoiKy()
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        worker.execute();
     }
 
     private void loadTopSellingProducts(String fromDate, String toDate, String keyword) {
-        try {
-            List<Chart_ProductTopSelling> list = service.getTopSellingProductService(fromDate, toDate, keyword);
-
-            DefaultTableModel model = (DefaultTableModel) tblSanPhamBanChay.getModel();
-            model.setRowCount(0);
-
-            DecimalFormat formatter = new DecimalFormat("#,###");
-
-            for (Chart_ProductTopSelling p : list) {
-                model.addRow(new Object[]{
-                    p.getMaSanPham(),
-                    p.getTenSanPham(),
-                    formatter.format(p.getSoLuongBan())
-                });
+        SwingWorker<List<Chart_ProductTopSelling>, Void> worker = new SwingWorker<List<Chart_ProductTopSelling>, Void>() {
+            @Override
+            protected List<Chart_ProductTopSelling> doInBackground() throws Exception {
+                return service.getTopSellingProductService(fromDate, toDate, keyword);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+            @Override
+            protected void done() {
+                try {
+                    List<Chart_ProductTopSelling> list = get();
+                    DefaultTableModel model = (DefaultTableModel) tblSanPhamBanChay.getModel();
+                    model.setRowCount(0);
+
+                    DecimalFormat formatter = new DecimalFormat("#,###");
+                    for (Chart_ProductTopSelling p : list) {
+                        model.addRow(new Object[]{
+                            p.getMaSanPham(),
+                            p.getTenSanPham(),
+                            formatter.format(p.getSoLuongBan())
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        worker.execute();
     }
 
     private void loadLowStockProductsToTable(String keyword, String minQuantityText) {
-        try {
-            List<Chart_ProductOutOfStock> list = service.getProductOutOfStockService(keyword, minQuantityText);
-
-            if (list.isEmpty()) {
-                lblSanPhamHetHang_ThongBao.setText("*Không có sản phẩm nào sắp hết hàng!");
+        SwingWorker<List<Chart_ProductOutOfStock>, Void> worker = new SwingWorker<List<Chart_ProductOutOfStock>, Void>() {
+            @Override
+            protected List<Chart_ProductOutOfStock> doInBackground() throws Exception {
+                return service.getProductOutOfStockService(keyword, minQuantityText);
             }
 
-            DefaultTableModel model = (DefaultTableModel) tblSanPhamHetHang.getModel();
-            model.setRowCount(0);
+            @Override
+            protected void done() {
+                try {
+                    List<Chart_ProductOutOfStock> list = get();
 
-            for (Chart_ProductOutOfStock p : list) {
-                model.addRow(new Object[]{
-                    p.getMaSanPham(),
-                    p.getTenSanPham(),
-                    p.getSoLuong()
-                });
+                    if (list.isEmpty()) {
+                        lblSanPhamHetHang_ThongBao.setText("*Không có sản phẩm nào sắp hết hàng!");
+                    }
+
+                    DefaultTableModel model = (DefaultTableModel) tblSanPhamHetHang.getModel();
+                    model.setRowCount(0);
+
+                    for (Chart_ProductOutOfStock p : list) {
+                        model.addRow(new Object[]{
+                            p.getMaSanPham(),
+                            p.getTenSanPham(),
+                            p.getSoLuong()
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        };
+        worker.execute();
     }
 
     @SuppressWarnings("unchecked")
@@ -1835,11 +1953,11 @@ public class Chart extends javax.swing.JPanel {
         String to = txtSanPhamBanChay_DenNgay.getText();
 
         loadTopSellingProducts(from, to, keyword);
-        
-        if(from.isEmpty() || to.isEmpty()) {
+
+        if (from.isEmpty() || to.isEmpty()) {
             lblSanPhamBanChay_ThoiGian.setText("<yyyy-MM-dd> đến <yyyy-MM-dd>");
         } else {
-            lblSanPhamBanChay_ThoiGian.setText(txtSanPhamBanChay_TuNgay.getText()  + " đến " + txtSanPhamBanChay_DenNgay.getText());
+            lblSanPhamBanChay_ThoiGian.setText(txtSanPhamBanChay_TuNgay.getText() + " đến " + txtSanPhamBanChay_DenNgay.getText());
         }
     }//GEN-LAST:event_btnSanPhamBanChay_TimKiemActionPerformed
 

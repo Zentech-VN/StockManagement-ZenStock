@@ -18,6 +18,7 @@ import javax.swing.RowSorter;
 import javax.swing.SortOrder;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -61,7 +62,7 @@ public class EmployeeForm extends javax.swing.JPanel {
 
         table.getTableHeader().setDefaultRenderer(getAlignmentCellRender(table.getTableHeader().getDefaultRenderer(), true));
         table.setDefaultRenderer(Object.class, getAlignmentCellRender(table.getDefaultRenderer(Object.class), false));
-        
+
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tìm kiếm");
 
         txtMa.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Mã");
@@ -76,7 +77,7 @@ public class EmployeeForm extends javax.swing.JPanel {
 
         cbbSapXep.addActionListener(evt -> applySort());
     }
-    
+
     private TableCellRenderer getAlignmentCellRender(TableCellRenderer oldRender, boolean header) {
         return new DefaultTableCellRenderer() {
             @Override
@@ -91,7 +92,7 @@ public class EmployeeForm extends javax.swing.JPanel {
                     } else if (column == 6) {
                         label.setHorizontalAlignment(SwingConstants.RIGHT); //Căn phải
                     } else {
-                        label.setHorizontalAlignment(SwingConstants.CENTER); 
+                        label.setHorizontalAlignment(SwingConstants.CENTER);
                     }
                 }
                 return com;
@@ -107,28 +108,51 @@ public class EmployeeForm extends javax.swing.JPanel {
     }
 
     public void loadEmployeeData() {
-        this.employeeService = new EmployeeService();
-        DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
-        model.setRowCount(0);
+        SwingWorker<List<Object[]>, Void> worker = new SwingWorker<List<Object[]>, Void>() {
+            @Override
+            protected List<Object[]> doInBackground() throws Exception {
+                employeeService = new EmployeeService();
+                List<Object[]> rows = new ArrayList<>();
 
-        for (Employee x : employeeService.getAllEmployeeService()) {
-            model.addRow(new Object[]{
-                x.getManv(),
-                x.getHoten(),
-                x.getGioiTinhText(),
-                x.getNgaysinh(),
-                x.getSdt(),
-                x.getEmail(),
-                x.getTrangThaiText()
-            });
-        }
-        this.tblNhanVien.setModel(model);
+                for (Employee x : employeeService.getAllEmployeeService()) {
+                    rows.add(new Object[]{
+                        x.getManv(),
+                        x.getHoten(),
+                        x.getGioiTinhText(),
+                        x.getNgaysinh(),
+                        x.getSdt(),
+                        x.getEmail(),
+                        x.getTrangThaiText()
+                    });
+                }
+                return rows;
+            }
 
-        if (sorter == null) {
-            initSorter();
-        } else {
-            sorter.sort();
-        }
+            @Override
+            protected void done() {
+                try {
+                    List<Object[]> rows = get();
+                    DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
+                    model.setRowCount(0); // clear dữ liệu cũ
+
+                    for (Object[] row : rows) {
+                        model.addRow(row);
+                    }
+                    tblNhanVien.setModel(model);
+
+                    if (sorter == null) {
+                        initSorter();
+                    } else {
+                        sorter.sort();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        worker.execute();
     }
 
     private void initSorter() {
@@ -514,7 +538,7 @@ public class EmployeeForm extends javax.swing.JPanel {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         loadEmployeeData();
-        
+
         txtMa.setText("");
         txtHoTen.setText("");
         txtGioiTinh.setText("");
@@ -542,9 +566,9 @@ public class EmployeeForm extends javax.swing.JPanel {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Hãy chọn sản phẩm muốn chỉnh sửa");
             return;
         }
-        
+
         DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
-        
+
         String ma = model.getValueAt(modelRow, 0).toString();
         String hoTen = model.getValueAt(modelRow, 1).toString();
         String gioiTinh = model.getValueAt(modelRow, 2).toString();
@@ -573,7 +597,7 @@ public class EmployeeForm extends javax.swing.JPanel {
         int ret = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xoá nhân viên có mã: " + maInt, "Xoá", JOptionPane.YES_NO_OPTION);
         if (ret == JOptionPane.YES_OPTION) {
             this.employeeService = new EmployeeService();
-            
+
             if (employeeService.deleteEmployeeById(maInt)) {
                 loadEmployeeData();
             }
@@ -608,7 +632,7 @@ public class EmployeeForm extends javax.swing.JPanel {
             txtNgaySinh.setText(ngaySinh);
             txtDienThoai.setText(dienThoai);
             txtEmail.setText(email);
-            
+
         }
     }//GEN-LAST:event_tblNhanVienMouseClicked
 

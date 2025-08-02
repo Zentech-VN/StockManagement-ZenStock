@@ -1,5 +1,6 @@
 package entity;
 
+import java.sql.Date;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,9 +15,14 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @ToString
-public class OS {
+public class Client {
 
-    int id;
-    String ten;
+    int MaKhacHang;
+    String TenKhacHang;
+    String DiaChi;
+    String SoDienThoai;
+    String Email;
+    String TrangThai;
+    Date NgayThamGia;
 
 }

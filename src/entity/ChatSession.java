@@ -1,17 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package entity;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- *
- * @author Duc Pham Ngoc
- */
 public class ChatSession {
     private String id;
     private List<ChatMessage> messages;
@@ -55,8 +47,6 @@ public class ChatSession {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
-    
-    
     
     //helper method
     public void addMessage(ChatMessage message) {

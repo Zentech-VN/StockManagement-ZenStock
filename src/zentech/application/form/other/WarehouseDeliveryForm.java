@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -80,26 +81,56 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
     }
 
     public void LoadDataTable() {
-        DefaultTableModel model = (DefaultTableModel) tblPhieuXuat.getModel();
-        model.setRowCount(0);
-        for (PhieuXuat px : wdd.getAllPhieuNhap()) {
-            String trangthai = "";
-            if (px.getTrangthai().equalsIgnoreCase("duyet")) {
-                trangthai = "Duyệt";
-            } else if (px.getTrangthai().equalsIgnoreCase("choduyet")) {
-                trangthai = "Chờ duyệt";
-            } else {
-                trangthai = "Hủy";
+        SwingWorker<List<PhieuXuat>, Void> worker = new SwingWorker<List<PhieuXuat>, Void>() {
+            @Override
+            protected List<PhieuXuat> doInBackground() throws Exception {
+                // Chạy dưới background thread
+                return wdd.getAllPhieuNhap();
             }
-            model.addRow(
-                    new Object[]{
-                        px.getMaphieuxuat(),
-                        px.getKhachhang().getTenKhacHang(),
-                        px.getNhanvien().getHoten(),
-                        px.getThoigian(),
-                        trangthai
-                    });
-        }
+
+            @Override
+            protected void done() {
+                try {
+                    List<PhieuXuat> list = get();
+                    DefaultTableModel model = (DefaultTableModel) tblPhieuXuat.getModel();
+                    model.setRowCount(0);
+
+                    for (PhieuXuat px : list) {
+                        String trangthai;
+                        switch (px.getTrangthai().toLowerCase()) {
+                            case "duyet":
+                                trangthai = "Duyệt";
+                                break;
+                            case "choduyet":
+                                trangthai = "Chờ duyệt";
+                                break;
+                            default:
+                                trangthai = "Hủy";
+                                break;
+                        }
+
+                        model.addRow(new Object[]{
+                            px.getMaphieuxuat(),
+                            px.getKhachhang().getTenKhacHang(),
+                            px.getNhanvien().getHoten(),
+                            px.getThoigian(),
+                            trangthai
+                        });
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(
+                            tblPhieuXuat,
+                            "Lỗi khi tải danh sách phiếu xuất: " + e.getMessage(),
+                            "Lỗi",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }
+            }
+        };
+
+        worker.execute();
     }
 
     private void sortTableData(String criteria) {
@@ -293,14 +324,12 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
                 .addGap(39, 39, 39)
                 .addComponent(crazyPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnLamMoi)
-                            .addComponent(jButton7)
-                            .addComponent(jLabel9))
-                        .addContainerGap())
-                    .addComponent(cbbSapXep, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnLamMoi)
+                    .addComponent(jButton7)
+                    .addComponent(jLabel9)
+                    .addComponent(cbbSapXep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
