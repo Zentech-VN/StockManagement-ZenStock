@@ -1,11 +1,9 @@
 package zentech.application.changepassword;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import dao.AccountDAO;
 import dao.AccountDAO_ChangePassword;
 import helper.BCrypt;
 import javax.swing.JOptionPane;
-import zentech.application.Login;
 
 public class ChangePassword extends javax.swing.JFrame {
 
