@@ -8,6 +8,9 @@ import entity.Account;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import entity.PermGroup;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
 
 public class AccountService {
 
@@ -37,49 +40,17 @@ public class AccountService {
         return lista;
     }
 
-    public void LoadTableWithSearch(String searchText, JTable jTable1) {
-        lista = acc.selectAll();
-        String[] title = {"MaNV", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"};
-        DefaultTableModel model = new DefaultTableModel(title, 0);
+    public void Search(JTextField txtSearch, JTable tblList) {
+        DefaultTableModel model = (DefaultTableModel) tblList.getModel();
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+        tblList.setRowSorter(sorter);
 
-        // Nếu không có từ khóa tìm kiếm, hiển thị tất cả
-        if (searchText == null || searchText.trim().isEmpty()) {
-            for (Account account : lista) {
-                addRowToModel(model, account);
-            }
+        String searchText = txtSearch.getText().trim();
+        if (searchText.isEmpty()) {
+            sorter.setRowFilter(null);
         } else {
-            //lọc danh sách theo từ khóa tìm kiếm
-            String searchLower = searchText.trim().toLowerCase();
-
-            for (Account account : lista) {
-                boolean match = false;
-                if (String.valueOf(account.getManv()).contains(searchLower)) {
-                    match = true;
-                }
-                if (account.getUsername() != null
-                        && account.getUsername().toLowerCase().contains(searchLower)) {
-                    match = true;
-                }
-                try {
-                    PermGroup permGroup = getPermGroup(account.getManhomquyen());
-                    if (permGroup != null && permGroup.getTennhomquyen() != null
-                            && permGroup.getTennhomquyen().toLowerCase().contains(searchLower)) {
-                        match = true;
-                    }
-                } catch (Exception e) {
-
-                }
-                String trangthaiString = getTrangThaiString(account.getTrangthai());
-                if (trangthaiString.toLowerCase().contains(searchLower)) {
-                    match = true;
-                }
-                if (match) {
-                    addRowToModel(model, account);
-                }
-            }
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText));
         }
-
-        jTable1.setModel(model);
     }
 
     private void addRowToModel(DefaultTableModel model, Account account) {
