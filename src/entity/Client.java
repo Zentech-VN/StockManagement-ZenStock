@@ -15,7 +15,7 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @ToString
-public class Cilent {
+public class Client {
 
     int MaKhacHang;
     String TenKhacHang;

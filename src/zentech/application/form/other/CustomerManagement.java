@@ -1,9 +1,14 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import entity.Client;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingWorker;
+import javax.swing.table.DefaultTableModel;
 import raven.toast.Notifications;
 import service.ClientService;
 import zentech.application.dialog.CustomerManagementAddDialog;
@@ -17,10 +22,57 @@ public class CustomerManagement extends javax.swing.JPanel {
         initComponents();
         initalUI(jTable1);
         initalUI(jTable2);
-        cls.loadDataTable(jTable1, jTable2, true);
-        cls.loadDataTable(jTable1, jTable2, false);
+        loadDataTable(jTable1, jTable2, true);
+        loadDataTable(jTable1, jTable2, false);
     }
-    
+
+    public void loadDataTable(JTable table1, JTable table2, boolean check) {
+        SwingWorker<List<Object[]>, Void> worker = new SwingWorker<List<Object[]>, Void>() {
+            @Override
+            protected List<Object[]> doInBackground() throws Exception {
+                List<Object[]> rows = new ArrayList<>();
+                for (Client c : cls.getAllClientService()) {
+                    if (check && c.getTrangThai().equalsIgnoreCase("mokhoa")) {
+                        rows.add(new Object[]{
+                            c.getMaKhacHang(),
+                            c.getTenKhacHang(),
+                            c.getDiaChi(),
+                            c.getEmail(),
+                            c.getSoDienThoai(),
+                            "Mở khóa"
+                        });
+                    } else if (!check && c.getTrangThai().equalsIgnoreCase("khoa")) {
+                        rows.add(new Object[]{
+                            c.getMaKhacHang(),
+                            c.getTenKhacHang(),
+                            c.getDiaChi(),
+                            c.getEmail(),
+                            c.getSoDienThoai(),
+                            "Khóa"
+                        });
+                    }
+                }
+                return rows;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    List<Object[]> rows = get();
+                    DefaultTableModel model = (DefaultTableModel) (check ? table1.getModel() : table2.getModel());
+                    model.setRowCount(0);
+                    for (Object[] row : rows) {
+                        model.addRow(row);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        worker.execute();
+    }
+
     private void initalUI(JTable table) {
         table.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
         table.setRowHeight(30);
@@ -35,7 +87,7 @@ public class CustomerManagement extends javax.swing.JPanel {
 
         table.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
         table.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
-        
+
         jTextField3.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search");
         jTextField4.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search");
     }
@@ -137,10 +189,7 @@ public class CustomerManagement extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "Mã khách hàng", "Tên khách hàng", "Địa chỉ ", "Email", "Số điện thoại", "Trạng thái"
@@ -310,13 +359,13 @@ public class CustomerManagement extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 955, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(materialTabbed3, javax.swing.GroupLayout.DEFAULT_SIZE, 955, Short.MAX_VALUE))
+                .addComponent(materialTabbed3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 640, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(materialTabbed3, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE))
+                .addComponent(materialTabbed3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -325,8 +374,8 @@ public class CustomerManagement extends javax.swing.JPanel {
         java.awt.Window parent = javax.swing.SwingUtilities.getWindowAncestor(this);
         CustomerManagementAddDialog c = new CustomerManagementAddDialog(parent, null);
         c.setVisible(true);
-        cls.loadDataTable(jTable1, jTable2, true);
-        cls.loadDataTable(jTable1, jTable2, false);
+        loadDataTable(jTable1, jTable2, true);
+        loadDataTable(jTable1, jTable2, false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -339,7 +388,7 @@ public class CustomerManagement extends javax.swing.JPanel {
         int id = (int) jTable2.getValueAt(select, 0);
         String ten = (String) jTable2.getValueAt(select, 1);
         cls.delete(id, ten);
-        cls.loadDataTable(jTable1, jTable2, true);
+        loadDataTable(jTable1, jTable2, true);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -352,7 +401,7 @@ public class CustomerManagement extends javax.swing.JPanel {
         int id = (int) jTable1.getValueAt(select, 0);
         String ten = (String) jTable1.getValueAt(select, 1);
         cls.delete(id, ten);
-        cls.loadDataTable(jTable1, jTable2, true);
+        loadDataTable(jTable1, jTable2, true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -360,8 +409,8 @@ public class CustomerManagement extends javax.swing.JPanel {
         java.awt.Window parent = javax.swing.SwingUtilities.getWindowAncestor(this);
         CustomerManagementUpdateDialog c = new CustomerManagementUpdateDialog(parent, null, jTable1);
         c.setVisible(true);
-        cls.loadDataTable(jTable1, jTable2, true);
-        cls.loadDataTable(jTable1, jTable2, false);
+        loadDataTable(jTable1, jTable2, true);
+        loadDataTable(jTable1, jTable2, false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -369,8 +418,8 @@ public class CustomerManagement extends javax.swing.JPanel {
         java.awt.Window parent = javax.swing.SwingUtilities.getWindowAncestor(this);
         CustomerManagementAddDialog c = new CustomerManagementAddDialog(parent, null);
         c.setVisible(true);
-        cls.loadDataTable(jTable1, jTable2, true);
-        cls.loadDataTable(jTable1, jTable2, false);
+        loadDataTable(jTable1, jTable2, true);
+        loadDataTable(jTable1, jTable2, false);
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -378,8 +427,8 @@ public class CustomerManagement extends javax.swing.JPanel {
         java.awt.Window parent = javax.swing.SwingUtilities.getWindowAncestor(this);
         CustomerManagementUpdateDialog c = new CustomerManagementUpdateDialog(parent, null, jTable2);
         c.setVisible(true);
-        cls.loadDataTable(jTable1, jTable2, true);
-        cls.loadDataTable(jTable1, jTable2, false);
+        loadDataTable(jTable1, jTable2, true);
+        loadDataTable(jTable1, jTable2, false);
     }//GEN-LAST:event_jButton6ActionPerformed
 
 

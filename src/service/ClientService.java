@@ -2,11 +2,12 @@ package service;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import dao.ClientDAO;
-import entity.Cilent;
+import entity.Client;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import entity.Client;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
@@ -34,28 +35,8 @@ public class ClientService {
 
     }
 
-    public void loadDataTable(JTable table1, JTable table2, boolean check) {
-        if (check == true) {
-            DefaultTableModel model = (DefaultTableModel) table1.getModel();
-            model.setRowCount(0);
-            for (Cilent c : cld.getAllCilent()) {
-                if (c.getTrangThai().equalsIgnoreCase("mokhoa")) {
-                    String status = "Mở khóa";
-                    model.addRow(new Object[]{c.getMaKhacHang(), c.getTenKhacHang(), c.getDiaChi(), c.getEmail(), c.getSoDienThoai(), status});
-
-                }
-            }
-        } else {
-            DefaultTableModel model = (DefaultTableModel) table2.getModel();
-            model.setRowCount(0);
-            for (Cilent c : cld.getAllCilent()) {
-                if (c.getTrangThai().equalsIgnoreCase("khoa")) {
-                    String status = "Khóa";
-                    model.addRow(new Object[]{c.getMaKhacHang(), c.getTenKhacHang(), c.getDiaChi(), c.getEmail(), c.getSoDienThoai(), status});
-
-                }
-            }
-        }
+    public List<Client> getAllClientService() {
+        return cld.getAllCilent();
     }
 
     public boolean checkvalidate(
@@ -113,7 +94,7 @@ public class ClientService {
         if (checkvalidate(tenkh, sdt, diachi, Email, trangthai)) {
             int confrim = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thêm khách hàng", "Add", JOptionPane.YES_OPTION);
             if (confrim == JOptionPane.YES_OPTION) {
-                Cilent cl = new Cilent();
+                Client cl = new Client();
                 cl.setTenKhacHang(tenkh.getText());
                 cl.setDiaChi(diachi.getText());
                 cl.setEmail(Email.getText());
@@ -161,7 +142,7 @@ public class ClientService {
             try {
                 int confrim = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn cập nhật khách hàng có mã " + makh, "Update", JOptionPane.YES_OPTION);
                 if (confrim == JOptionPane.YES_OPTION) {
-                    Cilent cl = new Cilent();
+                    Client cl = new Client();
                     cl.setMaKhacHang(makh);
                     cl.setTenKhacHang(tenkh.getText());
                     cl.setDiaChi(diachi.getText());

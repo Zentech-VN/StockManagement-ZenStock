@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
@@ -49,8 +45,8 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
 
         table.setDefaultRenderer(Object.class, getAlignmentCellRender(table.getDefaultRenderer(Object.class), false));
     }
-    
-     public void initUITable2(JTable table) {
+
+    public void initUITable2(JTable table) {
 
         table.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
         table.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
@@ -288,7 +284,7 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
     private void tbl10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl10MouseClicked
         // TODO add your handling code here:
         lblSp.setText("Sản phẩm có trong kho:" + "");
-        ws.ShowProductBySelectKho(tbl10, tblSanPham,lblSp);
+        ws.ShowProductBySelectKho(tbl10, tblSanPham, lblSp);
     }//GEN-LAST:event_tbl10MouseClicked
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed

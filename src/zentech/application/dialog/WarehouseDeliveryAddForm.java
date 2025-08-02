@@ -2,7 +2,7 @@ package zentech.application.dialog;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import dao.WarehouseDeliveryDAO;
-import entity.Cilent;
+import entity.Client;
 import entity.Employee;
 import entity.PhieuXuat;
 import entity.PhieuXuatChiTiet;
@@ -124,7 +124,7 @@ public class WarehouseDeliveryAddForm extends JDialog {
     public void LoadDataTable2() {
         DefaultTableModel model = (DefaultTableModel) tblKhachHang.getModel();
         model.setRowCount(0);
-        for (Cilent c : wdd.getAllKhachHang()) {
+        for (Client c : wdd.getAllKhachHang()) {
             model.addRow(new Object[]{c.getMaKhacHang(), c.getTenKhacHang()});
         }
     }

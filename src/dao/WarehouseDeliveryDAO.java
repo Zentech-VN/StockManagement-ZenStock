@@ -1,6 +1,6 @@
 package dao;
 
-import entity.Cilent;
+import entity.Client;
 import entity.PhieuXuat;
 import entity.PhieuXuatChiTiet;
 import entity.ProductArea;
@@ -79,12 +79,12 @@ public class WarehouseDeliveryDAO {
         return list;
     }
 
-    public List<Cilent> getAllKhachHang() {
-        List<Cilent> list = new ArrayList<>();
+    public List<Client> getAllKhachHang() {
+        List<Client> list = new ArrayList<>();
         String sql = "select * from khachhang";
         try (Connection conn = ConnectionHelper.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
-                Cilent c = new Cilent();
+                Client c = new Client();
                 c.setMaKhacHang(rs.getInt("makhachhang"));
                 c.setTenKhacHang(rs.getString("tenkhachhang"));
                 list.add(c);
@@ -239,14 +239,14 @@ public class WarehouseDeliveryDAO {
         }
     }
 
-    public Cilent getKhachHangbyId(String tenkhachhang) {
-        Cilent c = null;
+    public Client getKhachHangbyId(String tenkhachhang) {
+        Client c = null;
         String sql = "select * from khachhang where tenkhachhang = ?";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setString(1, tenkhachhang);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                c = new Cilent();
+                c = new Client();
                 c.setMaKhacHang(rs.getInt("makhachhang"));
             }
             rs.close();

@@ -81,7 +81,7 @@ public class PermGroupDAO {
         return result;
     }
 
-    public PermGroup selectById(String t) {
+    public static PermGroup selectById(String t) {
         PermGroup result = null;
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();

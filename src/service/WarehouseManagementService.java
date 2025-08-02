@@ -11,6 +11,7 @@ import entity.Product;
 import entity.ProductArea;
 
 import entity.WarehouseManagement;
+import java.util.ArrayList;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -20,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
+import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -113,11 +115,34 @@ public class WarehouseManagementService implements WarehouseManagementDAO {
     };
 
     public void LoadDataKho(JTable tbl10) {
-        DefaultTableModel model = (DefaultTableModel) tbl10.getModel();
-        model.setRowCount(0);
-        for (WarehouseManagement w : wd.getAllWarehouses()) {
-            model.addRow(new Object[]{w.getMaKhuVuc(), w.getTenKhuVuc()});
-        }
+        SwingWorker<List<WarehouseManagement>, Void> worker = new SwingWorker<List<WarehouseManagement>, Void>() {
+            @Override
+            protected List<WarehouseManagement> doInBackground() {
+                return wd.getAllWarehouses();
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    List<WarehouseManagement> list = get();
+                    if (list == null) {
+                        list = new ArrayList<>();
+                    }
+
+                    DefaultTableModel model = (DefaultTableModel) tbl10.getModel();
+                    model.setRowCount(0);
+                    for (WarehouseManagement w : list) {
+                        model.addRow(new Object[]{
+                            w.getMaKhuVuc(),
+                            w.getTenKhuVuc()
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        worker.execute();
     }
 
     ProductAreaDAO p = new ProductAreaDAO();

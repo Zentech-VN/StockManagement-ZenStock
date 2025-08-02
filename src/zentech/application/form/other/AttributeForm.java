@@ -1,53 +1,123 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import entity.Brand;
+import entity.MadeIn;
+import entity.OS;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import service.BrandService;
 import service.MadeInService;
 import service.OSService;
 
-/**
- *
- * @author PC
- */
 public class AttributeForm extends javax.swing.JPanel {
 
-    /**
-     * Creates new form AttributeForm
-     */
     private BrandService brandService = new BrandService();
     private MadeInService madeInService = new MadeInService();
     private OSService oSService = new OSService();
 
     public AttributeForm() {
         initComponents();
-        initalUI(tblDanhSach);
-        initalUI(tblDanhSach1);
-        initalUI(tblDanhSach2);
-        loadDataBrand();
+        initalUI(tblBrand);
+        initalUI(tblMadeIn);
+        initalUI(tblOS);
         customer();
-        loadDataMadeIn();
-        loadDataOS();
+        loadToTableBrand(tblBrand);
+        loadToTableMadeIn(tblMadeIn);
+        loadToTableOS(tblOS);
     }
 
-    private void loadDataBrand() {
-        brandService.loadToTable(tblDanhSach);
+    public void loadToTableBrand(JTable tbl) {
+        SwingWorker<DefaultTableModel, Void> worker = new SwingWorker<DefaultTableModel, Void>() {
+            @Override
+            protected DefaultTableModel doInBackground() {
+                // Lấy model hiện tại
+                DefaultTableModel model = (DefaultTableModel) tbl.getModel();
+                model.setRowCount(0); // Xóa dữ liệu cũ
+
+                // Lấy danh sách từ service (chạy trên background)
+                List<Brand> list = brandService.getAllBrandsService();
+                for (Brand b : list) {
+                    Object[] row = {b.getId(), b.getTen()};
+                    model.addRow(row);
+                }
+                return model;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    // Cập nhật UI trên EDT
+                    DefaultTableModel model = get();
+                    tbl.setModel(model);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        worker.execute();
     }
-    
-    private void loadDataMadeIn(){
-        madeInService.loadToTable(tblDanhSach1);
+
+    public void loadToTableMadeIn(JTable tbl) {
+        SwingWorker<DefaultTableModel, Void> worker = new SwingWorker<DefaultTableModel, Void>() {
+            @Override
+            protected DefaultTableModel doInBackground() {
+                DefaultTableModel model = (DefaultTableModel) tbl.getModel();
+                model.setRowCount(0);
+
+                List<MadeIn> list = madeInService.getAllMadeIn();
+                for (MadeIn m : list) {
+                    Object[] row = {m.getId(), m.getTen()};
+                    model.addRow(row);
+                }
+                return model;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    DefaultTableModel model = get();
+                    tbl.setModel(model);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        worker.execute();
     }
-    
-    private void loadDataOS(){
-        oSService.loadToTable(tblDanhSach2);
+
+    public void loadToTableOS(JTable tbl) {
+        SwingWorker<DefaultTableModel, Void> worker = new SwingWorker<DefaultTableModel, Void>() {
+            @Override
+            protected DefaultTableModel doInBackground() {
+                DefaultTableModel model = (DefaultTableModel) tbl.getModel();
+                model.setRowCount(0);
+
+                List<OS> list = oSService.getAllOSService();
+                for (OS o : list) {
+                    Object[] row = {o.getId(), o.getTen()};
+                    model.addRow(row);
+                }
+                return model;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    DefaultTableModel model = get();
+                    tbl.setModel(model);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        worker.execute();
     }
 
     private void customer() {
@@ -55,12 +125,12 @@ public class AttributeForm extends javax.swing.JPanel {
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 
 // Áp dụng căn giữa cho từng cột (ví dụ 2 cột)
-        tblDanhSach.getColumnModel().getColumn(0).setCellRenderer(centerRenderer); // Cột Mã Thương Hiệu
-        tblDanhSach.getColumnModel().getColumn(1).setCellRenderer(centerRenderer); // Cột Tên Thương Hiệu
-        tblDanhSach1.getColumnModel().getColumn(0).setCellRenderer(centerRenderer); // Cột Mã Thương Hiệu
-        tblDanhSach1.getColumnModel().getColumn(1).setCellRenderer(centerRenderer); // Cột Tên Thương Hiệu
-        tblDanhSach2.getColumnModel().getColumn(0).setCellRenderer(centerRenderer); // Cột Mã Thương Hiệu
-        tblDanhSach2.getColumnModel().getColumn(1).setCellRenderer(centerRenderer); // Cột Tên Thương Hiệu
+        tblBrand.getColumnModel().getColumn(0).setCellRenderer(centerRenderer); // Cột Mã Thương Hiệu
+        tblBrand.getColumnModel().getColumn(1).setCellRenderer(centerRenderer); // Cột Tên Thương Hiệu
+        tblMadeIn.getColumnModel().getColumn(0).setCellRenderer(centerRenderer); // Cột Mã Thương Hiệu
+        tblMadeIn.getColumnModel().getColumn(1).setCellRenderer(centerRenderer); // Cột Tên Thương Hiệu
+        tblOS.getColumnModel().getColumn(0).setCellRenderer(centerRenderer); // Cột Mã Thương Hiệu
+        tblOS.getColumnModel().getColumn(1).setCellRenderer(centerRenderer); // Cột Tên Thương Hiệu
         txtMaKH1.setEditable(false);
         txtMaKH2.setEditable(false);
         txtMaKH3.setEditable(false);
@@ -81,7 +151,7 @@ public class AttributeForm extends javax.swing.JPanel {
         table.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
         table.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -92,7 +162,7 @@ public class AttributeForm extends javax.swing.JPanel {
         crazyPanel10 = new raven.crazypanel.CrazyPanel();
         txtSearch7 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblDanhSach = new javax.swing.JTable();
+        tblBrand = new javax.swing.JTable();
         crazyPanel11 = new raven.crazypanel.CrazyPanel();
         jLabel5 = new javax.swing.JLabel();
         txtMaKH1 = new javax.swing.JTextField();
@@ -108,7 +178,7 @@ public class AttributeForm extends javax.swing.JPanel {
         crazyPanel6 = new raven.crazypanel.CrazyPanel();
         txtSearch8 = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
-        tblDanhSach1 = new javax.swing.JTable();
+        tblMadeIn = new javax.swing.JTable();
         crazyPanel7 = new raven.crazypanel.CrazyPanel();
         jLabel3 = new javax.swing.JLabel();
         txtMaKH2 = new javax.swing.JTextField();
@@ -124,7 +194,7 @@ public class AttributeForm extends javax.swing.JPanel {
         crazyPanel2 = new raven.crazypanel.CrazyPanel();
         txtSearch9 = new javax.swing.JTextField();
         jScrollPane5 = new javax.swing.JScrollPane();
-        tblDanhSach2 = new javax.swing.JTable();
+        tblOS = new javax.swing.JTable();
         crazyPanel3 = new raven.crazypanel.CrazyPanel();
         jLabel1 = new javax.swing.JLabel();
         txtMaKH3 = new javax.swing.JTextField();
@@ -178,7 +248,7 @@ public class AttributeForm extends javax.swing.JPanel {
 
         crazyPanel9.add(crazyPanel10);
 
-        tblDanhSach.setModel(new javax.swing.table.DefaultTableModel(
+        tblBrand.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -194,12 +264,12 @@ public class AttributeForm extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        tblDanhSach.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblBrand.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblDanhSachMouseClicked(evt);
+                tblBrandMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblDanhSach);
+        jScrollPane1.setViewportView(tblBrand);
 
         crazyPanel9.add(jScrollPane1);
 
@@ -352,7 +422,7 @@ public class AttributeForm extends javax.swing.JPanel {
 
         crazyPanel5.add(crazyPanel6);
 
-        tblDanhSach1.setModel(new javax.swing.table.DefaultTableModel(
+        tblMadeIn.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -368,12 +438,12 @@ public class AttributeForm extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        tblDanhSach1.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblMadeIn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblDanhSach1MouseClicked(evt);
+                tblMadeInMouseClicked(evt);
             }
         });
-        jScrollPane4.setViewportView(tblDanhSach1);
+        jScrollPane4.setViewportView(tblMadeIn);
 
         crazyPanel5.add(jScrollPane4);
 
@@ -526,7 +596,7 @@ public class AttributeForm extends javax.swing.JPanel {
 
         crazyPanel1.add(crazyPanel2);
 
-        tblDanhSach2.setModel(new javax.swing.table.DefaultTableModel(
+        tblOS.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -542,17 +612,17 @@ public class AttributeForm extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        tblDanhSach2.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblOS.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblDanhSach2MouseClicked(evt);
+                tblOSMouseClicked(evt);
             }
         });
-        tblDanhSach2.addKeyListener(new java.awt.event.KeyAdapter() {
+        tblOS.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                tblDanhSach2KeyReleased(evt);
+                tblOSKeyReleased(evt);
             }
         });
-        jScrollPane5.setViewportView(tblDanhSach2);
+        jScrollPane5.setViewportView(tblOS);
 
         crazyPanel1.add(jScrollPane5);
 
@@ -680,76 +750,76 @@ public class AttributeForm extends javax.swing.JPanel {
         clearFormOS();
     }//GEN-LAST:event_btnClear3ActionPerformed
 
-    private void clearFormOS(){
-        oSService.clearForm(txtMaKH3, txtTenKH3, tblDanhSach2);
+    private void clearFormOS() {
+        oSService.clearForm(txtMaKH3, txtTenKH3, tblOS);
     }
-    
+
     private void btnSave3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave3ActionPerformed
         // TODO add your handling code here:
-        oSService.saveOS(txtTenKH3, tblDanhSach2, txtMaKH3);
+        oSService.saveOS(txtTenKH3, tblOS, txtMaKH3);
     }//GEN-LAST:event_btnSave3ActionPerformed
 
     private void btnDelete3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelete3ActionPerformed
         // TODO add your handling code here:
-        oSService.deleteOS(txtMaKH3, tblDanhSach2, txtTenKH3);
+        oSService.deleteOS(txtMaKH3, tblOS, txtTenKH3);
     }//GEN-LAST:event_btnDelete3ActionPerformed
 
     private void btnUpdate3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdate3ActionPerformed
         // TODO add your handling code here:
-        oSService.updateOS(txtMaKH3, txtTenKH3, tblDanhSach2);
+        oSService.updateOS(txtMaKH3, txtTenKH3, tblOS);
     }//GEN-LAST:event_btnUpdate3ActionPerformed
 
-    private void tblDanhSach2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDanhSach2MouseClicked
+    private void tblOSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblOSMouseClicked
         // TODO add your handling code here:
-        oSService.showSelectedOS(tblDanhSach2, txtMaKH3, txtTenKH3);
-    }//GEN-LAST:event_tblDanhSach2MouseClicked
+        oSService.showSelectedOS(tblOS, txtMaKH3, txtTenKH3);
+    }//GEN-LAST:event_tblOSMouseClicked
 
     private void txtSearch9KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearch9KeyReleased
         // TODO add your handling code here:
-        oSService.Find(tblDanhSach2, txtSearch9);
+        oSService.Find(tblOS, txtSearch9);
     }//GEN-LAST:event_txtSearch9KeyReleased
 
-    private void clearFormMadeIn(){
-        madeInService.clearForm(txtMaKH2, txtMaKH1, tblDanhSach1);
+    private void clearFormMadeIn() {
+        madeInService.clearForm(txtMaKH2, txtMaKH1, tblMadeIn);
     }
-    
-    private void tblDanhSach1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDanhSach1MouseClicked
+
+    private void tblMadeInMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMadeInMouseClicked
         // TODO add your handling code here:
-        madeInService.showSelectedMadeIn(tblDanhSach1, txtMaKH2, txtMaKH1);
-    }//GEN-LAST:event_tblDanhSach1MouseClicked
+        madeInService.showSelectedMadeIn(tblMadeIn, txtMaKH2, txtMaKH1);
+    }//GEN-LAST:event_tblMadeInMouseClicked
 
     private void txtSearch8KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearch8KeyReleased
         // TODO add your handling code here:
-        madeInService.Find(tblDanhSach1, txtSearch8);
+        madeInService.Find(tblMadeIn, txtSearch8);
     }//GEN-LAST:event_txtSearch8KeyReleased
 
     private void btnClear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClear1ActionPerformed
-        brandService.clearForm(txtMaKH1, txtTenKH1, tblDanhSach);
+        brandService.clearForm(txtMaKH1, txtTenKH1, tblBrand);
     }//GEN-LAST:event_btnClear1ActionPerformed
 
     private void btnSave1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave1ActionPerformed
-        brandService.saveBrand(txtTenKH1, tblDanhSach, txtMaKH1);
+        brandService.saveBrand(txtTenKH1, tblBrand, txtMaKH1);
     }//GEN-LAST:event_btnSave1ActionPerformed
 
     private void btnDelete1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelete1ActionPerformed
-        brandService.deleteBrand(txtMaKH1, tblDanhSach, txtTenKH1);
+        brandService.deleteBrand(txtMaKH1, tblBrand, txtTenKH1);
     }//GEN-LAST:event_btnDelete1ActionPerformed
 
     private void btnUpdate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdate1ActionPerformed
-        brandService.updateBrand(txtMaKH1, txtTenKH1, tblDanhSach);
+        brandService.updateBrand(txtMaKH1, txtTenKH1, tblBrand);
     }//GEN-LAST:event_btnUpdate1ActionPerformed
 
-    private void tblDanhSachMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDanhSachMouseClicked
-        brandService.showSelectedBrand(tblDanhSach, txtMaKH1, txtTenKH1);
-    }//GEN-LAST:event_tblDanhSachMouseClicked
+    private void tblBrandMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBrandMouseClicked
+        brandService.showSelectedBrand(tblBrand, txtMaKH1, txtTenKH1);
+    }//GEN-LAST:event_tblBrandMouseClicked
 
     private void txtSearch7KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearch7KeyReleased
-        brandService.Find(tblDanhSach, txtSearch7);
+        brandService.Find(tblBrand, txtSearch7);
     }//GEN-LAST:event_txtSearch7KeyReleased
 
-    private void tblDanhSach2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblDanhSach2KeyReleased
+    private void tblOSKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblOSKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_tblDanhSach2KeyReleased
+    }//GEN-LAST:event_tblOSKeyReleased
 
     private void btnSave4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave4ActionPerformed
         // TODO add your handling code here:
@@ -806,9 +876,9 @@ public class AttributeForm extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private zentech.application.tabbed.MaterialTabbed materialTabbed1;
-    private javax.swing.JTable tblDanhSach;
-    private javax.swing.JTable tblDanhSach1;
-    private javax.swing.JTable tblDanhSach2;
+    private javax.swing.JTable tblBrand;
+    private javax.swing.JTable tblMadeIn;
+    private javax.swing.JTable tblOS;
     private javax.swing.JTextField txtMaKH1;
     private javax.swing.JTextField txtMaKH2;
     private javax.swing.JTextField txtMaKH3;

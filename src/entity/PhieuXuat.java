@@ -18,7 +18,7 @@ import lombok.experimental.FieldDefaults;
 public class PhieuXuat {
 
     int maphieuxuat;
-    Cilent khachhang = new Cilent();
+    Client khachhang = new Client();
     Employee nhanvien = new Employee();
     Date thoigian;
     String trangthai;

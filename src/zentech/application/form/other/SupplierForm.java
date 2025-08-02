@@ -3,6 +3,7 @@ package zentech.application.form.other;
 import com.formdev.flatlaf.FlatClientProperties;
 import entity.Supplier;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -11,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.RowFilter;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
+import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import raven.toast.Notifications;
@@ -61,10 +63,10 @@ public class SupplierForm extends javax.swing.JPanel {
                 + "background:$Table.background;"
                 + "track:$Table.background;"
                 + "trackArc:999");
-        
+
         tblNhaCungCap.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
         tblNhaCungCap.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
-        
+
         // Nếu cần sắp xếp theo kiểu số cho cột mã (cột 0)
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>((DefaultTableModel) tblNhaCungCap.getModel());
 
@@ -128,24 +130,42 @@ public class SupplierForm extends javax.swing.JPanel {
     }
 
     public void loadTable() {
-        List<Supplier> list = service.getAllSuppliers();
-        DefaultTableModel model = (DefaultTableModel) tblNhaCungCap.getModel();
-        model.setRowCount(0); // Xóa dữ liệu cũ trên bảng trước khi load mới
+        new SwingWorker<List<Supplier>, Void>() {
+            @Override
+            protected List<Supplier> doInBackground() {
+                List<Supplier> list = service.getAllSuppliers();
+                return (list != null) ? list : new ArrayList<>();
+            }
 
-        for (Supplier s : list) {
-            // Tạo Object[] chứa dữ liệu từng dòng (Mã, Tên, Địa chỉ, Email, Sđt, Trạng thái, Object để lưu đối tượng)
-            String trangThaiText = (s.getTrangThai() == 0) ? "Mở khóa" : "Khóa";
-            Object[] row = new Object[]{
-                s.getMaNhaCungCap(),
-                s.getTenNhaCungCap(),
-                s.getDiaChi(),
-                s.getEmail(),
-                s.getSdt(),
-                trangThaiText,
-                s // Lưu luôn đối tượng Supplier để tiện xử lý nếu cần
-            };
-            model.addRow(row);
-        }
+            @Override
+            protected void done() {
+                try {
+                    List<Supplier> list = get();
+                    DefaultTableModel model = (DefaultTableModel) tblNhaCungCap.getModel();
+                    model.setRowCount(0);
+
+                    for (Supplier s : list) {
+                        String trangThaiText = (s.getTrangThai() == 0) ? "Mở khóa" : "Khóa";
+                        model.addRow(new Object[]{
+                            s.getMaNhaCungCap(),
+                            s.getTenNhaCungCap(),
+                            s.getDiaChi(),
+                            s.getEmail(),
+                            s.getSdt(),
+                            trangThaiText,
+                            s 
+                        });
+                    }
+
+                    tblNhaCungCap.getColumnModel().getColumn(6).setMinWidth(0);
+                    tblNhaCungCap.getColumnModel().getColumn(6).setMaxWidth(0);
+                    tblNhaCungCap.getColumnModel().getColumn(6).setWidth(0);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.execute();
     }
 
     @SuppressWarnings("unchecked")
