@@ -1,35 +1,22 @@
 package entity;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.FieldDefaults;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Getter
+@Setter
+@ToString
 public class OS {
-    private int id;
-    private String ten;
 
-    public OS() {
-    }
+    int id;
+    String ten;
 
-    public OS(int id, String ten) {
-        this.id = id;
-        this.ten = ten;
-    }
-    
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTen() {
-        return ten;
-    }
-
-    public void setTen(String ten) {
-        this.ten = ten;
-    }
-
-    @Override
-    public String toString() {
-        return ten;
-    }
 }
