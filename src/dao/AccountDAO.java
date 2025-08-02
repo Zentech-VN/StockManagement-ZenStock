@@ -55,16 +55,15 @@ public class AccountDAO {
         ArrayList<Account> result = new ArrayList<Account>();
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
-            String sql = "SELECT * FROM taikhoan WHERE trangthai = '0' OR trangthai = '1'";
+            String sql = "SELECT manv, tendangnhap, manhomquyen, trangthai FROM taikhoan WHERE trangthai = '0' OR trangthai = '1'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while (rs.next()) {
                 int manv = rs.getInt("manv");
                 String username = rs.getString("tendangnhap");
-                String matkhau = rs.getString("matkhau");
                 int manhomquyen = rs.getInt("manhomquyen");
                 int trangthai = rs.getInt("trangthai");
-                Account tk = new Account(manv, username, matkhau, manhomquyen, trangthai);
+                Account tk = new Account(manv, username, manhomquyen, trangthai);
                 result.add(tk);
             }
             ConnectionHelper.closeConnection(con);
@@ -77,7 +76,7 @@ public class AccountDAO {
         Account result = null;
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
-            String sql = "SELECT * FROM taikhoan WHERE tendangnhap=?";
+            String sql = "SELECT manv, tendangnhap, matkhau, trangthai, manhomquyen FROM taikhoan WHERE tendangnhap = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();
@@ -118,7 +117,7 @@ public class AccountDAO {
         Account result = null;
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
-            String sql = "SELECT * FROM taikhoan WHERE manv=?";
+            String sql = "SELECT manv, tendangnhap, matkhau, trangthai, manhomquyen FROM taikhoan WHERE manv=?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             ResultSet rs = (ResultSet) pst.executeQuery();
