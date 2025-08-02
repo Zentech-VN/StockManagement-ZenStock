@@ -1,7 +1,6 @@
 package zentech.application.changepassword;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import dao.AccountDAO;
 import dao.AccountDAO_ChangePassword;
 import entity.Account;
 import helper.SendEmailSMTP;
