@@ -1,6 +1,7 @@
 package zentech.application.changepassword;
 
 import dao.AccountDAO;
+import dao.AccountDAO_ChangePassword;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
@@ -201,7 +202,7 @@ public class GetOTP extends javax.swing.JFrame {
             if (matcher.matches() == false) {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập mã OTP có 6 chữ số!");
             } else {
-                boolean check = AccountDAO.getInstance().checkOtp(this.email, otp);
+                boolean check = AccountDAO_ChangePassword.getInstance().checkOtp(this.email, otp);
                 if (check) {
                     this.dispose();
                     cg.setVisible(true);
