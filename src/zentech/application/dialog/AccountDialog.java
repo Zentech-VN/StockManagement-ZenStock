@@ -4,12 +4,15 @@ import entity.Account;
 import entity.Activity;
 import entity.Employee;
 import entity.PermGroup;
+import java.awt.Dialog;
+import java.awt.Window;
 import java.time.LocalDateTime;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import service.AccountDialogService;
 
-public class AccountDialog extends javax.swing.JFrame {
+public class AccountDialog extends JDialog {
 
     private AccountDialogService accountService;
     private Object taiKhoan;
@@ -18,7 +21,8 @@ public class AccountDialog extends javax.swing.JFrame {
     private Employee currentUser; 
             
     //add - constructor cho thêm tài khoản
-    public AccountDialog(Object taiKhoan, int manv, Employee currentUser) {
+    public AccountDialog(Window parent, Object taiKhoan, int manv, Employee currentUser) {
+        super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         this.taiKhoan = taiKhoan;
         this.manv = manv;
         this.currentUser = currentUser;
