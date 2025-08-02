@@ -94,13 +94,10 @@ public class AccountForm extends javax.swing.JPanel {
     }
 
     public int getRowSelected() {
-        int index = tblList.getSelectedRow();
-        if (index == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản");
-        }
-        return index;
+        int viewIndex = tblList.getSelectedRow();
+        return tblList.convertRowIndexToModel(viewIndex);
     }
-
+    
     private void initalUI(JTable table) {
         table.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
         table.setRowHeight(30);
