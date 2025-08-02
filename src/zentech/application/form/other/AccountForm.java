@@ -123,7 +123,7 @@ public class AccountForm extends javax.swing.JPanel {
 
         crazyPanel1 = new raven.crazypanel.CrazyPanel();
         crazyPanel2 = new raven.crazypanel.CrazyPanel();
-        txtSearcha = new javax.swing.JTextField();
+        txtSearch = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -164,17 +164,17 @@ public class AccountForm extends javax.swing.JPanel {
             }
         ));
 
-        txtSearcha.addActionListener(new java.awt.event.ActionListener() {
+        txtSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSearchaActionPerformed(evt);
+                txtSearchActionPerformed(evt);
             }
         });
-        txtSearcha.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSearchaKeyReleased(evt);
+                txtSearchKeyReleased(evt);
             }
         });
-        crazyPanel2.add(txtSearcha);
+        crazyPanel2.add(txtSearch);
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton1.setText("Thêm");
@@ -305,14 +305,14 @@ public class AccountForm extends javax.swing.JPanel {
         loadTable(lista, tblList);
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void txtSearchaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchaKeyReleased
-        String txt = txtSearcha.getText();
-        asv.LoadTableWithSearch(txt, tblList);
-    }//GEN-LAST:event_txtSearchaKeyReleased
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        String txt = txtSearch.getText();
+        asv.Search(txtSearch, tblList);
+    }//GEN-LAST:event_txtSearchKeyReleased
 
-    private void txtSearchaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchaActionPerformed
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
 
-    }//GEN-LAST:event_txtSearchaActionPerformed
+    }//GEN-LAST:event_txtSearchActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -324,6 +324,6 @@ public class AccountForm extends javax.swing.JPanel {
     private javax.swing.JButton jButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblList;
-    private javax.swing.JTextField txtSearcha;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
