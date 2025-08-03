@@ -18,7 +18,6 @@ public class UserRightsAddDialog extends JDialog {
 
     private final Map<String, Map<String, JCheckBox>> cbxMatrix = new LinkedHashMap<>();
 
-// DAO dùng để thêm nhóm và quyền
     private final UserRightsDAO userRightsDAO = new UserRightsDAO();
 
     public UserRightsAddDialog(Window parent, UserRightsForm userRightsForm) {
@@ -55,7 +54,6 @@ public class UserRightsAddDialog extends JDialog {
         cbxMatrix.put("khachhang", row(chkKhachHangView, chkKhachHangCreate, chkKhachHangUpdate, chkKhachHangDelete));
         cbxMatrix.put("nhacungcap", row(chkNhaCungCapView, chkNhaCungCapCreate, chkNhaCungCapUpdate, chkNhaCungCapDelete));
 
-        // Thêm/bớt theo đúng danh sách chức năng trong bảng danhmucchucnang của bạn
     }
 
     private void addIfSelected(List<ActionRecord> out, String feature, String action, JCheckBox cb) {
@@ -105,7 +103,7 @@ public class UserRightsAddDialog extends JDialog {
     }
 
     private void onSave() {
-        String ten = txtTenNhomQuyen.getText().trim(); // đổi tên biến đúng với form bạn
+        String ten = txtTenNhomQuyen.getText().trim(); 
         if (ten.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập tên nhóm quyền!");
             return;
@@ -121,9 +119,8 @@ public class UserRightsAddDialog extends JDialog {
             }
         }
 
-        // Cách 1: dùng transaction gói sẵn trong DAO (đơn giản nhất)
         try {
-            int maNhom = userRightsDAO.createGroupAndAssignRights(ten, 1, rights); // 1 = hoạt động
+            int maNhom = userRightsDAO.createGroupAndAssignRights(ten, 1, rights); 
             JOptionPane.showMessageDialog(this, "Đã tạo nhóm quyền mới (#" + maNhom + ") và lưu quyền thành công!");
             dispose();
             return;

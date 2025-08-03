@@ -3,6 +3,8 @@ package zentech.application.form2;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.util.UIScale;
+import dao.UserRightsDAO;
+import entity.ChiTietQuyen;
 import entity.Employee;
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -12,10 +14,12 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import raven.toast.Notifications;
 import zentech.application.Application;
 import zentech.application.form.other.AccountForm;
 import zentech.application.form.other.AttributeForm;
@@ -29,7 +33,6 @@ import zentech.application.form.other.SupplierForm;
 import zentech.application.form.other.WarehouseManagementForm;
 import zentech.application.form.other.WarehouseReceiptForm;
 import zentech.application.form.other.Chart;
-import zentech.application.form.other.ChatForm;
 import zentech.application.form.other.ReceiptApprovalForm;
 import zentech.application.form.other.WarehouseDeliveryForm;
 import zentech.menu2.Menu;
@@ -39,6 +42,7 @@ public class MainForm extends JLayeredPane {
 
     private Menu menu;
     Employee acc;
+    UserRightsDAO urd = new UserRightsDAO();
 
     public MainForm(Employee acc) {
         this.acc = acc;
@@ -81,35 +85,101 @@ public class MainForm extends JLayeredPane {
         menuButton.setIcon(new FlatSVGIcon("zentech/icon/svg/" + icon, 0.8f));
     }
 
+    private boolean hasPermission(List<ChiTietQuyen> listQuyen, String machucnang) {
+        for (ChiTietQuyen q : listQuyen) {
+            if (q.getDanhmuc_chucnang() != null
+                    && q.getDanhmuc_chucnang().getMachucnang().equalsIgnoreCase(machucnang)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void showNoPermission() {
+        Notifications.getInstance().show(Notifications.Type.WARNING,
+                Notifications.Location.TOP_CENTER,
+                "Bạn không có quyền sử dụng chức năng này!");
+    }
+
     private void initMenuEvent() {
+        int id = this.acc.getAcc().getManhomquyen();
+        List<ChiTietQuyen> listQuyen = urd.getQuyenByGroup(id);
+
         menu.addMenuEvent((int index, int subIndex, MenuAction action) -> {
-            // Application.mainForm.showForm(new DefaultForm("Form : " + index + " " + subIndex));
             if (index == 0) {
                 Application.showForm(new FormHomePage());
             } else if (index == 1) {
-                Application.showForm(new Chart()); 
+                if (!hasPermission(listQuyen, "thongke")) {
+                    showNoPermission();
+                    return;
+                }
+                Application.showForm(new Chart());
             } else if (index == 2) {
-                Application.showForm(new AccountForm()); 
+                if (!hasPermission(listQuyen, "taikhoan")) {
+                    showNoPermission();
+                    return;
+                }
+                Application.showForm(new AccountForm());
             } else if (index == 3) {
-                Application.showForm(new EmployeeForm()); 
+                if (!hasPermission(listQuyen, "nhanvien")) {
+                    showNoPermission();
+                    return;
+                }
+                Application.showForm(new EmployeeForm());
             } else if (index == 4) {
-                Application.showForm(new UserRightsForm()); 
+                if (!hasPermission(listQuyen, "nhomquyen")) {
+                    showNoPermission();
+                    return;
+                }
+                Application.showForm(new UserRightsForm());
             } else if (index == 5) {
-                Application.showForm(new ProductForm()); 
+                if (!hasPermission(listQuyen, "sanpham")) {
+                    showNoPermission();
+                    return;
+                }
+                Application.showForm(new ProductForm());
             } else if (index == 6) {
-                Application.showForm(new WarehouseManagementForm()); 
+                if (!hasPermission(listQuyen, "khuvuckho")) {
+                    showNoPermission();
+                    return;
+                }
+                Application.showForm(new WarehouseManagementForm());
             } else if (index == 7) {
-                Application.showForm(new WarehouseReceiptForm(acc)); 
+                if (!hasPermission(listQuyen, "nhaphang")) {
+                    showNoPermission();
+                    return;
+                }
+                Application.showForm(new WarehouseReceiptForm(acc));
             } else if (index == 8) {
-                Application.showForm(new WarehouseDeliveryForm(acc)); 
+                if (!hasPermission(listQuyen, "xuathang")) {
+                    showNoPermission();
+                    return;
+                }
+                Application.showForm(new WarehouseDeliveryForm(acc));
             } else if (index == 9) {
-                Application.showForm(new ReceiptApprovalForm()); 
+                if (!hasPermission(listQuyen, "duyetphieu")) {
+                    showNoPermission();
+                    return;
+                }
+                Application.showForm(new ReceiptApprovalForm());
             } else if (index == 10) {
-                Application.showForm(new AttributeForm()); 
+                if (!hasPermission(listQuyen, "thuoctinh")) {
+                    showNoPermission();
+                    return;
+                }
+                Application.showForm(new AttributeForm());
             } else if (index == 11) {
-                Application.showForm(new CustomerManagement()); 
+                if (!hasPermission(listQuyen, "khachhang")) {
+                    showNoPermission();
+                    return;
+                }
+                Application.showForm(new CustomerManagement());
             } else if (index == 12) {
-                Application.showForm(new SupplierForm()); 
+                if (!hasPermission(listQuyen, "nhacungcap")) {
+                    showNoPermission();
+                    return;
+                }
+                Application.showForm(new SupplierForm());
             } else if (index == 13) {
                 Application.showForm(new ChatForm());
             } else if (index == 14) {
