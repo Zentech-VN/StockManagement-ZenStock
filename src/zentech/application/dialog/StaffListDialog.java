@@ -18,6 +18,8 @@ public class StaffListDialog extends JDialog {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         initComponents();
         setLocationRelativeTo(null);
+        lists = ssv.search(""); 
+        ssv.loadTable(lists, jTable1);
     }
 
     public int getRow() {
