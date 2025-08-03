@@ -27,7 +27,6 @@ public class StaffDAO {
             pst.setInt(2, t.getGioitinh());
             pst.setString(3, t.getSdt());
             pst.setDate(4, (Date) (t.getNgaysinh()));
-            pst.setInt(5, t.getTrangthai());
             pst.setString(6, t.getEmail());
             result = pst.executeUpdate();
             ConnectionHelper.closeConnection(con);
@@ -47,7 +46,6 @@ public class StaffDAO {
             pst.setInt(2, t.getGioitinh());
             pst.setDate(3, (Date) t.getNgaysinh());
             pst.setString(4, t.getSdt());
-            pst.setInt(5, t.getTrangthai());
             pst.setString(6, t.getEmail());
             pst.setInt(7, t.getManv());
             result = pst.executeUpdate();
@@ -77,7 +75,7 @@ public class StaffDAO {
         ArrayList<Staff> result = new ArrayList<Staff>();
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
-            String sql = "SELECT * FROM nhanvien WHERE trangthai = '1'";
+            String sql = "SELECT manv, hoten, gioitinh, ngaysinh, sdt, email FROM nhanvien WHERE trangthai = '1'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while (rs.next()) {
@@ -86,9 +84,8 @@ public class StaffDAO {
                 int gioitinh = rs.getInt("gioitinh");
                 Date ngaysinh = rs.getDate("ngaysinh");
                 String sdt = rs.getString("sdt");
-                int trangthai = rs.getInt("trangthai");
                 String email = rs.getString("email");
-                Staff nv = new Staff(manv, hoten, gioitinh, ngaysinh, sdt, trangthai, email);
+                Staff nv = new Staff(manv, hoten, gioitinh, ngaysinh, sdt, email);
                 result.add(nv);
             }
             ConnectionHelper.closeConnection(con);
@@ -102,7 +99,7 @@ public class StaffDAO {
         ArrayList<Staff> result = new ArrayList<Staff>();
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
-            String sql = "SELECT * FROM nhanvien nv where nv.trangthai = 1 and not EXISTS(SELECT * FROM taikhoan tk WHERE nv.manv=tk.manv)";
+            String sql = "SELECT manv, hoten, gioitinh, ngaysinh, sdt, email FROM nhanvien nv where nv.trangthai = 1 and not EXISTS(SELECT * FROM taikhoan tk WHERE nv.manv=tk.manv)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while (rs.next()) {
@@ -111,9 +108,8 @@ public class StaffDAO {
                 int gioitinh = rs.getInt("gioitinh");
                 Date ngaysinh = rs.getDate("ngaysinh");
                 String sdt = rs.getString("sdt");
-                int trangthai = rs.getInt("trangthai");
                 String email = rs.getString("email");
-                Staff nv = new Staff(manv, hoten, gioitinh, ngaysinh, sdt, trangthai, email);
+                Staff nv = new Staff(manv, hoten, gioitinh, ngaysinh, sdt, email);
                 result.add(nv);
             }
             ConnectionHelper.closeConnection(con);
