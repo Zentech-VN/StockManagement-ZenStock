@@ -14,6 +14,7 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @ToString
+
 public class ProductArea {
 
     Warehouse w = new Warehouse();

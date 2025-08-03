@@ -18,6 +18,6 @@ public class NhomQuyen {
 
     int manhomquyen;
     String tennhomquyen;
-    String trangthai;
+    int trangthai;
 
 }

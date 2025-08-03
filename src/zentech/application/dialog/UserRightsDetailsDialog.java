@@ -1,34 +1,107 @@
 package zentech.application.dialog;
 
+import dao.UserRightsDAO;
 import java.awt.Dialog;
 import java.awt.Window;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import zentech.application.form.other.UserRightsForm;
 
 public class UserRightsDetailsDialog extends JDialog {
 
-    public UserRightsDetailsDialog(Window parent, UserRightsForm userRightsForm) {
+    private final int manhomquyen;
+    private final UserRightsDAO dao = new UserRightsDAO();
+    private final Map<String, Map<String, JCheckBox>> cbxMatrix = new LinkedHashMap<>();
+
+    public UserRightsDetailsDialog(Window parent, UserRightsForm userRightsForm, int id) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
+        this.manhomquyen = id;
         initComponents();
-        disableCheckBox(
-                jCheckBox1, jCheckBox2, jCheckBox3, jCheckBox4, jCheckBox5,
-                jCheckBox6, jCheckBox7, jCheckBox8, jCheckBox9, jCheckBox10,
-                jCheckBox11, jCheckBox12, jCheckBox13, jCheckBox14, jCheckBox15,
-                jCheckBox16, jCheckBox17, jCheckBox18, jCheckBox19, jCheckBox20,
-                jCheckBox21, jCheckBox22, jCheckBox23, jCheckBox24, jCheckBox25,
-                jCheckBox26, jCheckBox27, jCheckBox28, jCheckBox29, jCheckBox30,
-                jCheckBox31, jCheckBox32, jCheckBox33, jCheckBox34, jCheckBox35,
-                jCheckBox36, jCheckBox37, jCheckBox38, jCheckBox39, jCheckBox40,
-                jCheckBox41, jCheckBox42, jCheckBox43, jCheckBox44, jCheckBox45,
-                jCheckBox46, jCheckBox47, jCheckBox48, jCheckBox49, jCheckBox50,
-                jCheckBox51, jCheckBox52
-        );
+        bindCheckboxesByIndex();
+        loadGroupData();
+        lockAsReadOnly();
+
     }
 
-    public void disableCheckBox(JCheckBox... checkBoxes) {
-        for (JCheckBox checkBox : checkBoxes) {
-            checkBox.setEnabled(false);
+    private Map<String, JCheckBox> row(JCheckBox v, JCheckBox c, JCheckBox u, JCheckBox d) {
+        Map<String, JCheckBox> m = new LinkedHashMap<>();
+        m.put("read", v);
+        m.put("create", c);
+        m.put("update", u);
+        m.put("delete", d);
+        return m;
+    }
+
+    private static final java.util.List<String> FEATURES = java.util.Arrays.asList(
+            "thongke", "taikhoan", "nhanvien", "quyenhan", "nhatky",
+            "sanpham", "khuvuckho", "phieunhap", "phieuxuat",
+            "duyetphieu", "thuoctinh", "khachhang", "nhacungcap"
+    );
+
+    private JCheckBox[] allCbx() {
+        return new JCheckBox[]{
+            jCheckBox1, jCheckBox2, jCheckBox3, jCheckBox4,
+            jCheckBox5, jCheckBox6, jCheckBox7, jCheckBox8,
+            jCheckBox11, jCheckBox9, jCheckBox12, jCheckBox10,
+            jCheckBox15, jCheckBox16, jCheckBox13, jCheckBox14,
+            jCheckBox18, jCheckBox19, jCheckBox20, jCheckBox17,
+            jCheckBox24, jCheckBox21, jCheckBox22, jCheckBox23,
+            jCheckBox28, jCheckBox25, jCheckBox26, jCheckBox27,
+            jCheckBox32, jCheckBox31, jCheckBox30, jCheckBox29,
+            jCheckBox36, jCheckBox34, jCheckBox33, jCheckBox35,
+            jCheckBox39, jCheckBox38, jCheckBox37, jCheckBox40,
+            jCheckBox44, jCheckBox41, jCheckBox43, jCheckBox42,
+            jCheckBox48, jCheckBox47, jCheckBox45, jCheckBox46,
+            jCheckBox49, jCheckBox50, jCheckBox52, jCheckBox51
+        };
+    }
+
+    private void bindCheckboxesByIndex() {
+        JCheckBox[] C = allCbx();
+        if (FEATURES.size() * 4 != C.length) {
+            throw new IllegalStateException("Số checkbox không khớp số chức năng × 4");
+        }
+        cbxMatrix.clear();
+        for (int i = 0; i < FEATURES.size(); i++) {
+            cbxMatrix.put(FEATURES.get(i),
+                    row(C[i * 4], C[i * 4 + 1], C[i * 4 + 2], C[i * 4 + 3]));
+        }
+    }
+
+    private void loadGroupData() {
+        try {
+            String ten = dao.getTenNhomQuyenById(manhomquyen);
+            if (ten != null) {
+                txtTenNhomQuyen.setText(ten);
+            }
+
+            Map<String, java.util.Set<String>> mx = dao.getRightsMatrixByGroup(manhomquyen);
+            for (Map.Entry<String, java.util.Set<String>> e : mx.entrySet()) {
+                Map<String, JCheckBox> row = cbxMatrix.get(e.getKey());
+                if (row == null) {
+                    continue;
+                }
+                for (String a : e.getValue()) {
+                    JCheckBox cb = row.get(a);
+                    if (cb != null) {
+                        cb.setSelected(true);
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                    "Không tải được dữ liệu nhóm: " + ex.getMessage());
+        }
+    }
+
+    private void lockAsReadOnly() {
+        txtTenNhomQuyen.setEditable(false);
+        for (JCheckBox cb : allCbx()) {
+            cb.setEnabled(false);
         }
     }
 
