@@ -374,6 +374,7 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
         }
         int id = (int) tblPhieuXuat.getValueAt(select, 0);
         String trangthai = (String) tblPhieuXuat.getValueAt(select, 4);
+        
         if (trangthai.equalsIgnoreCase("duyệt")) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không được xóa phiếu có trạng thái duyệt!");
             return;

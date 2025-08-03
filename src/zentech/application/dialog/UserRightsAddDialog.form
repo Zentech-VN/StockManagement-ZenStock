@@ -29,7 +29,7 @@
                   <Group type="102" attributes="0">
                       <Component id="btnCancel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnAdd" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnThem" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jPanel3" max="32767" attributes="0"/>
               </Group>
@@ -44,7 +44,7 @@
               <Component id="jPanel3" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnAdd" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnThem" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnCancel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -105,95 +105,95 @@
                                                   <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkThongKeView" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox2" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkThongKeCreate" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkThongKeUpdate" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jCheckBox5" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkTaiKhoanView" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox6" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkTaiKhoanCreate" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox7" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkTaiKhoanUpdate" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jCheckBox11" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkNhanVienView" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox9" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkNhanVienCreate" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox12" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkNhanVienUpdate" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jCheckBox15" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkNhomQuyenView" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox16" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkNhomQuyenCreate" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox13" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkNhomQuyenUpdate" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jCheckBox18" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkNhatKyView" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox19" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkNhatKyCreate" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox20" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkNhatKyUpdate" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jCheckBox24" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkSanPhamView" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox21" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkSanPhamCreate" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox22" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkSanPhamUpdate" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jCheckBox28" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkKhuVucKhoView" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox25" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkKhuVucKhoCreate" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox26" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkKhuVucKhoUpdate" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jCheckBox32" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkPhieuNhapView" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox31" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkPhieuNhapCreate" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox30" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkPhieuNhapUpdate" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jCheckBox36" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkPhieuXuatView" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox34" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkPhieuXuatCreate" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox33" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkPhieuXuatUpdate" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jCheckBox39" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkDuyetPhieuView" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox38" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkDuyetPhieuCreate" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox37" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkDuyetPhieuUpdate" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jCheckBox44" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkThuocTinhView" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox41" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkThuocTinhCreate" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox43" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkThuocTinhUpdate" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jCheckBox48" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkKhachHangView" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox47" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkKhachHangCreate" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox45" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkKhachHangUpdate" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jCheckBox49" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkNhaCungCapView" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox50" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkNhaCungCapCreate" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox52" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkNhaCungCapUpdate" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -201,20 +201,20 @@
                                   </Group>
                                   <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jCheckBox51" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox46" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox42" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox40" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox35" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox29" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox27" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox23" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox17" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox14" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox8" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox4" min="-2" max="-2" attributes="0"/>
+                                      <Component id="chkNhaCungCapDelete" min="-2" max="-2" attributes="0"/>
+                                      <Component id="chkKhachHangDelete" min="-2" max="-2" attributes="0"/>
+                                      <Component id="chkThuocTinhDelete" min="-2" max="-2" attributes="0"/>
+                                      <Component id="chkDuyetPhieuDelete" min="-2" max="-2" attributes="0"/>
+                                      <Component id="chkPhieuXuatDelete" min="-2" max="-2" attributes="0"/>
+                                      <Component id="chkPhieuNhapDelete" min="-2" max="-2" attributes="0"/>
+                                      <Component id="chkKhuVucKhoDelete" min="-2" max="-2" attributes="0"/>
+                                      <Component id="chkSanPhamDelete" min="-2" max="-2" attributes="0"/>
+                                      <Component id="chkNhatKyDelete" min="-2" max="-2" attributes="0"/>
+                                      <Component id="chkNhomQuyenDelete" min="-2" max="-2" attributes="0"/>
+                                      <Component id="chkTaiKhoanDelete" min="-2" max="-2" attributes="0"/>
+                                      <Component id="chkThongKeDelete" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox10" min="-2" max="-2" attributes="0"/>
+                                      <Component id="chkNhanVienDelete" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -232,10 +232,10 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                          <Component id="jCheckBox49" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jCheckBox52" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="chkNhaCungCapView" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="chkNhaCungCapUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jCheckBox50" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Component id="chkNhaCungCapCreate" alignment="1" min="-2" max="-2" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
@@ -278,144 +278,144 @@
                                                                                                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                                                                                                           <Group type="103" groupAlignment="0" attributes="0">
                                                                                                                               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                                                                                                              <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
-                                                                                                                              <Component id="jCheckBox3" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                                                              <Component id="jCheckBox4" min="-2" max="-2" attributes="0"/>
+                                                                                                                              <Component id="chkThongKeView" min="-2" max="-2" attributes="0"/>
+                                                                                                                              <Component id="chkThongKeUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                                                              <Component id="chkThongKeDelete" min="-2" max="-2" attributes="0"/>
                                                                                                                           </Group>
                                                                                                                       </Group>
-                                                                                                                      <Component id="jCheckBox2" min="-2" max="-2" attributes="0"/>
+                                                                                                                      <Component id="chkThongKeCreate" min="-2" max="-2" attributes="0"/>
                                                                                                                   </Group>
                                                                                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                                                                                   <Group type="103" groupAlignment="0" attributes="0">
                                                                                                                       <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                                                                                                                      <Component id="jCheckBox8" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                                                      <Component id="chkTaiKhoanDelete" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                                                                   </Group>
                                                                                                               </Group>
                                                                                                               <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                                                                  <Component id="jCheckBox5" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                                                  <Component id="jCheckBox7" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                                                  <Component id="chkTaiKhoanView" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                                                  <Component id="chkTaiKhoanUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                                                               </Group>
-                                                                                                              <Component id="jCheckBox6" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                                                                              <Component id="chkTaiKhoanCreate" alignment="1" min="-2" max="-2" attributes="0"/>
                                                                                                           </Group>
                                                                                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                                                                                           <Group type="103" groupAlignment="0" attributes="0">
                                                                                                               <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                                                                                                              <Component id="jCheckBox10" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                                              <Component id="chkNhanVienDelete" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                                                           </Group>
                                                                                                       </Group>
                                                                                                       <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                                                          <Component id="jCheckBox11" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                                          <Component id="jCheckBox12" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                                          <Component id="chkNhanVienView" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                                          <Component id="chkNhanVienUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                                                       </Group>
-                                                                                                      <Component id="jCheckBox9" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                                                                      <Component id="chkNhanVienCreate" alignment="1" min="-2" max="-2" attributes="0"/>
                                                                                                   </Group>
                                                                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                                                                   <Group type="103" groupAlignment="0" attributes="0">
                                                                                                       <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
-                                                                                                      <Component id="jCheckBox14" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                                      <Component id="chkNhomQuyenDelete" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                                                   </Group>
                                                                                               </Group>
                                                                                               <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                                                  <Component id="jCheckBox15" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                                  <Component id="jCheckBox13" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                                  <Component id="chkNhomQuyenView" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                                  <Component id="chkNhomQuyenUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                                               </Group>
-                                                                                              <Component id="jCheckBox16" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                                                              <Component id="chkNhomQuyenCreate" alignment="1" min="-2" max="-2" attributes="0"/>
                                                                                           </Group>
                                                                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                                                                           <Group type="103" groupAlignment="0" attributes="0">
                                                                                               <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
-                                                                                              <Component id="jCheckBox17" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                              <Component id="chkNhatKyDelete" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                                           </Group>
                                                                                       </Group>
                                                                                       <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                                          <Component id="jCheckBox18" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                          <Component id="jCheckBox20" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                          <Component id="chkNhatKyView" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                          <Component id="chkNhatKyUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                                       </Group>
-                                                                                      <Component id="jCheckBox19" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                                                      <Component id="chkNhatKyCreate" alignment="1" min="-2" max="-2" attributes="0"/>
                                                                                   </Group>
                                                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                                                   <Group type="103" groupAlignment="0" attributes="0">
                                                                                       <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
-                                                                                      <Component id="jCheckBox23" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                      <Component id="chkSanPhamDelete" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                                   </Group>
                                                                               </Group>
                                                                               <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                                  <Component id="jCheckBox24" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                  <Component id="jCheckBox22" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                  <Component id="chkSanPhamView" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                  <Component id="chkSanPhamUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                               </Group>
-                                                                              <Component id="jCheckBox21" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                                              <Component id="chkSanPhamCreate" alignment="1" min="-2" max="-2" attributes="0"/>
                                                                           </Group>
                                                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                                                           <Group type="103" groupAlignment="0" attributes="0">
                                                                               <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
-                                                                              <Component id="jCheckBox27" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                              <Component id="chkKhuVucKhoDelete" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                           </Group>
                                                                       </Group>
                                                                       <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                          <Component id="jCheckBox28" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                          <Component id="jCheckBox26" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                          <Component id="chkKhuVucKhoView" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                          <Component id="chkKhuVucKhoUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                       </Group>
-                                                                      <Component id="jCheckBox25" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                                      <Component id="chkKhuVucKhoCreate" alignment="1" min="-2" max="-2" attributes="0"/>
                                                                   </Group>
                                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                                   <Group type="103" groupAlignment="0" attributes="0">
                                                                       <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
-                                                                      <Component id="jCheckBox29" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                      <Component id="chkPhieuNhapDelete" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                   </Group>
                                                               </Group>
                                                               <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                  <Component id="jCheckBox32" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                  <Component id="jCheckBox30" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                  <Component id="chkPhieuNhapView" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                  <Component id="chkPhieuNhapUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
                                                               </Group>
-                                                              <Component id="jCheckBox31" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                              <Component id="chkPhieuNhapCreate" alignment="1" min="-2" max="-2" attributes="0"/>
                                                           </Group>
                                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                                           <Group type="103" groupAlignment="0" attributes="0">
                                                               <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
-                                                              <Component id="jCheckBox35" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                              <Component id="chkPhieuXuatDelete" alignment="0" min="-2" max="-2" attributes="0"/>
                                                           </Group>
                                                       </Group>
                                                       <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                          <Component id="jCheckBox36" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="jCheckBox33" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="chkPhieuXuatView" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="chkPhieuXuatUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
                                                       </Group>
-                                                      <Component id="jCheckBox34" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="chkPhieuXuatCreate" alignment="1" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
                                                       <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jCheckBox40" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="chkDuyetPhieuDelete" alignment="0" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                               <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                  <Component id="jCheckBox39" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox37" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkDuyetPhieuView" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkDuyetPhieuUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
                                               </Group>
-                                              <Component id="jCheckBox38" alignment="1" min="-2" max="-2" attributes="0"/>
+                                              <Component id="chkDuyetPhieuCreate" alignment="1" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jCheckBox42" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="chkThuocTinhDelete" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                          <Component id="jCheckBox44" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jCheckBox43" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="chkThuocTinhView" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="chkThuocTinhUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="jCheckBox41" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="chkThuocTinhCreate" alignment="1" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox46" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="chkKhachHangDelete" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                  <Component id="jCheckBox48" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox45" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="chkKhachHangView" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="chkKhachHangUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jCheckBox47" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="chkKhachHangCreate" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
@@ -424,7 +424,7 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox51" min="-2" max="-2" attributes="0"/>
+                                  <Component id="chkNhaCungCapDelete" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -600,118 +600,118 @@
             <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; Nh&#xe0; cung c&#x1ea5;p"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox1">
+        <Component class="javax.swing.JCheckBox" name="chkThongKeView">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox2">
+        <Component class="javax.swing.JCheckBox" name="chkThongKeCreate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox3">
+        <Component class="javax.swing.JCheckBox" name="chkThongKeUpdate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox4">
+        <Component class="javax.swing.JCheckBox" name="chkThongKeDelete">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox5">
+        <Component class="javax.swing.JCheckBox" name="chkTaiKhoanView">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox6">
+        <Component class="javax.swing.JCheckBox" name="chkTaiKhoanCreate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox7">
+        <Component class="javax.swing.JCheckBox" name="chkTaiKhoanUpdate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox8">
+        <Component class="javax.swing.JCheckBox" name="chkTaiKhoanDelete">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox9">
+        <Component class="javax.swing.JCheckBox" name="chkNhanVienCreate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox10">
+        <Component class="javax.swing.JCheckBox" name="chkNhanVienDelete">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox11">
+        <Component class="javax.swing.JCheckBox" name="chkNhanVienView">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox12">
+        <Component class="javax.swing.JCheckBox" name="chkNhanVienUpdate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox13">
+        <Component class="javax.swing.JCheckBox" name="chkNhomQuyenUpdate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox14">
+        <Component class="javax.swing.JCheckBox" name="chkNhomQuyenDelete">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox15">
+        <Component class="javax.swing.JCheckBox" name="chkNhomQuyenView">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox16">
+        <Component class="javax.swing.JCheckBox" name="chkNhomQuyenCreate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox17">
+        <Component class="javax.swing.JCheckBox" name="chkNhatKyDelete">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox18">
+        <Component class="javax.swing.JCheckBox" name="chkNhatKyView">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox19">
+        <Component class="javax.swing.JCheckBox" name="chkNhatKyCreate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox20">
+        <Component class="javax.swing.JCheckBox" name="chkNhatKyUpdate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox21">
+        <Component class="javax.swing.JCheckBox" name="chkSanPhamCreate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox22">
+        <Component class="javax.swing.JCheckBox" name="chkSanPhamUpdate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox23">
+        <Component class="javax.swing.JCheckBox" name="chkSanPhamDelete">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox24">
+        <Component class="javax.swing.JCheckBox" name="chkSanPhamView">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox25">
+        <Component class="javax.swing.JCheckBox" name="chkKhuVucKhoCreate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox26">
+        <Component class="javax.swing.JCheckBox" name="chkKhuVucKhoUpdate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox27">
+        <Component class="javax.swing.JCheckBox" name="chkKhuVucKhoDelete">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox28">
+        <Component class="javax.swing.JCheckBox" name="chkKhuVucKhoView">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox29">
+        <Component class="javax.swing.JCheckBox" name="chkPhieuNhapDelete">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox30">
+        <Component class="javax.swing.JCheckBox" name="chkPhieuNhapUpdate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox31">
+        <Component class="javax.swing.JCheckBox" name="chkPhieuNhapCreate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox32">
+        <Component class="javax.swing.JCheckBox" name="chkPhieuNhapView">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox33">
+        <Component class="javax.swing.JCheckBox" name="chkPhieuXuatUpdate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox34">
+        <Component class="javax.swing.JCheckBox" name="chkPhieuXuatCreate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox35">
+        <Component class="javax.swing.JCheckBox" name="chkPhieuXuatDelete">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox36">
+        <Component class="javax.swing.JCheckBox" name="chkPhieuXuatView">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox37">
+        <Component class="javax.swing.JCheckBox" name="chkDuyetPhieuUpdate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox38">
+        <Component class="javax.swing.JCheckBox" name="chkDuyetPhieuCreate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox39">
+        <Component class="javax.swing.JCheckBox" name="chkDuyetPhieuView">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox40">
+        <Component class="javax.swing.JCheckBox" name="chkDuyetPhieuDelete">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox41">
+        <Component class="javax.swing.JCheckBox" name="chkThuocTinhCreate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox42">
+        <Component class="javax.swing.JCheckBox" name="chkThuocTinhDelete">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox43">
+        <Component class="javax.swing.JCheckBox" name="chkThuocTinhUpdate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox44">
+        <Component class="javax.swing.JCheckBox" name="chkThuocTinhView">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox45">
+        <Component class="javax.swing.JCheckBox" name="chkKhachHangUpdate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox46">
+        <Component class="javax.swing.JCheckBox" name="chkKhachHangDelete">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox47">
+        <Component class="javax.swing.JCheckBox" name="chkKhachHangCreate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox48">
+        <Component class="javax.swing.JCheckBox" name="chkKhachHangView">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox49">
+        <Component class="javax.swing.JCheckBox" name="chkNhaCungCapView">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox50">
+        <Component class="javax.swing.JCheckBox" name="chkNhaCungCapCreate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox51">
+        <Component class="javax.swing.JCheckBox" name="chkNhaCungCapDelete">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox52">
+        <Component class="javax.swing.JCheckBox" name="chkNhaCungCapUpdate">
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="btnAdd">
+    <Component class="javax.swing.JButton" name="btnThem">
       <Properties>
         <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThemActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnCancel">

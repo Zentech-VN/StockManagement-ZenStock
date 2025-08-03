@@ -1,18 +1,179 @@
 package zentech.application.dialog;
 
+import dao.UserRightsDAO;
+import dao.UserRightsDAO.ActionRecord;
 import java.awt.Dialog;
 import java.awt.Window;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import javax.swing.JCheckBox;
+
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import zentech.application.form.other.UserRightsForm;
 
 public class UserRightsUpdateDialog extends JDialog {
 
-    public UserRightsUpdateDialog(Window parent, UserRightsForm userRightsForm) {
+    private final int manhomquyen;
+    private final UserRightsDAO dao = new UserRightsDAO();
+
+    private UserRightsForm parentForm;
+
+    // Ma trận checkbox: feature -> (read/create/update/delete)
+    private final Map<String, Map<String, JCheckBox>> cbxMatrix = new LinkedHashMap<>();
+
+    public UserRightsUpdateDialog(Window parent, UserRightsForm userRightsForm, int id) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
+        this.manhomquyen = id;
+        this.parentForm = userRightsForm;
         initComponents();
+        bindCheckboxesByIndex();            // ánh xạ jCheckBox1..52 theo thứ tự
+        wireRules();                         // tick create/update/delete thì auto tick read
+        loadGroupData();             // nạp tên + tick quyền từ DB
+
     }
 
-    
+    private Map<String, JCheckBox> row(JCheckBox v, JCheckBox c, JCheckBox u, JCheckBox d) {
+        Map<String, JCheckBox> m = new LinkedHashMap<>();
+        m.put("read", v);
+        m.put("create", c);
+        m.put("update", u);
+        m.put("delete", d);
+        return m;
+    }
+
+    // Danh sách mã chức năng theo đúng thứ tự hiển thị (13 hàng)
+    private static final java.util.List<String> FEATURES = java.util.Arrays.asList(
+            "thongke", "taikhoan", "nhanvien", "quyenhan", "nhatky",
+            "sanpham", "khuvuckho", "phieunhap", "phieuxuat",
+            "duyetphieu", "thuoctinh", "khachhang", "nhacungcap"
+    );
+
+    // Gom 52 checkbox có sẵn vào một mảng để truy theo index
+    private JCheckBox[] allCbx() {
+        return new JCheckBox[]{
+            jCheckBox1, jCheckBox2, jCheckBox3, jCheckBox4,
+            jCheckBox5, jCheckBox6, jCheckBox7, jCheckBox8,
+            jCheckBox11, jCheckBox9, jCheckBox12, jCheckBox10,
+            jCheckBox15, jCheckBox16, jCheckBox13, jCheckBox14,
+            jCheckBox18, jCheckBox19, jCheckBox20, jCheckBox17,
+            jCheckBox24, jCheckBox21, jCheckBox22, jCheckBox23,
+            jCheckBox28, jCheckBox25, jCheckBox26, jCheckBox27,
+            jCheckBox32, jCheckBox31, jCheckBox30, jCheckBox29,
+            jCheckBox36, jCheckBox34, jCheckBox33, jCheckBox35,
+            jCheckBox39, jCheckBox38, jCheckBox37, jCheckBox40,
+            jCheckBox44, jCheckBox41, jCheckBox43, jCheckBox42,
+            jCheckBox48, jCheckBox47, jCheckBox45, jCheckBox46,
+            jCheckBox49, jCheckBox50, jCheckBox52, jCheckBox51
+        };
+    }
+
+    private void bindCheckboxesByIndex() {
+        JCheckBox[] C = allCbx();
+        if (FEATURES.size() * 4 != C.length) {
+            throw new IllegalStateException("Số checkbox không khớp số chức năng × 4");
+        }
+        cbxMatrix.clear();
+        for (int i = 0; i < FEATURES.size(); i++) {
+            cbxMatrix.put(FEATURES.get(i),
+                    row(C[i * 4], C[i * 4 + 1], C[i * 4 + 2], C[i * 4 + 3]));
+        }
+    }
+
+    /* ========= QUY TẮC UI ========= */
+    private void wireRules() {
+        for (Map<String, JCheckBox> row : cbxMatrix.values()) {
+            JCheckBox v = row.get("read");
+            JCheckBox c = row.get("create");
+            JCheckBox u = row.get("update");
+            JCheckBox d = row.get("delete");
+            if (v == null) continue;
+
+            java.awt.event.ItemListener ensureView = e -> {
+                if ((c != null && c.isSelected()) ||
+                    (u != null && u.isSelected()) ||
+                    (d != null && d.isSelected())) {
+                    v.setSelected(true);
+                }
+            };
+            if (c != null) c.addItemListener(ensureView);
+            if (u != null) u.addItemListener(ensureView);
+            if (d != null) d.addItemListener(ensureView);
+        }
+    }
+
+    /* ========= NẠP DỮ LIỆU NHÓM HIỆN CÓ ========= */
+    private void loadGroupData() {
+        try {
+            String ten = dao.getTenNhomQuyenById(manhomquyen);
+            if (ten != null) {
+                txtTenNhomQuyen.setText(ten);
+            }
+
+            Map<String, java.util.Set<String>> mx = dao.getRightsMatrixByGroup(manhomquyen);
+            for (Map.Entry<String, java.util.Set<String>> e : mx.entrySet()) {
+                Map<String, JCheckBox> row = cbxMatrix.get(e.getKey());
+                if (row == null) continue;
+                for (String a : e.getValue()) {
+                    JCheckBox cb = row.get(a); // a = read|create|update|delete
+                    if (cb != null) cb.setSelected(true);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Không tải được dữ liệu nhóm: " + ex.getMessage());
+        }
+    }
+
+    /* ========= THU THẬP QUYỀN TỪ UI ========= */
+    private void addIfSelected(java.util.List<ActionRecord> out, String feature, String action, JCheckBox cb) {
+        if (cb != null && cb.isSelected()) {
+            out.add(new ActionRecord(feature, action));
+        }
+    }
+
+    private java.util.List<ActionRecord> collectRightsFromUI() {
+        java.util.List<ActionRecord> rights = new java.util.ArrayList<>();
+        for (Map.Entry<String, Map<String, JCheckBox>> e : cbxMatrix.entrySet()) {
+            String feature = e.getKey();
+            Map<String, JCheckBox> row = e.getValue();
+            addIfSelected(rights, feature, "read",   row.get("read"));
+            addIfSelected(rights, feature, "create", row.get("create"));
+            addIfSelected(rights, feature, "update", row.get("update"));
+            addIfSelected(rights, feature, "delete", row.get("delete"));
+        }
+        return rights;
+    }
+
+    /* ========= XỬ LÝ NÚT SỬA ========= */
+    private void onUpdate() {   // ★ bỏ tham số, dùng field parentForm
+        String ten = txtTenNhomQuyen.getText().trim();
+        if (ten.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên nhóm quyền!");
+            return;
+        }
+
+        java.util.List<ActionRecord> rights = collectRightsFromUI();
+        if (rights.isEmpty()) {
+            int r = JOptionPane.showConfirmDialog(this,
+                    "Nhóm quyền chưa có quyền nào. Bạn vẫn muốn lưu chứ?",
+                    "Xác nhận", JOptionPane.YES_NO_OPTION);
+            if (r != JOptionPane.YES_OPTION) return;
+        }
+
+        try {
+            dao.replaceGroupRights(manhomquyen, ten, rights);
+            JOptionPane.showMessageDialog(this, "Đã cập nhật nhóm quyền thành công!");
+            if (parentForm != null) parentForm.LoadDataTable();   // ★ reload bảng
+            dispose();
+        } catch (SQLIntegrityConstraintViolationException dup) {
+            JOptionPane.showMessageDialog(this, "Tên nhóm quyền đã tồn tại. Vui lòng chọn tên khác.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi khi cập nhật: " + ex.getMessage());
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -492,6 +653,7 @@ public class UserRightsUpdateDialog extends JDialog {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
+        onUpdate();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed

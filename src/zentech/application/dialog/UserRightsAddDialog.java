@@ -1,17 +1,142 @@
 package zentech.application.dialog;
 
+import dao.UserRightsDAO;
+import dao.UserRightsDAO.ActionRecord;
 import java.awt.Dialog;
 import java.awt.Window;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import zentech.application.form.other.UserRightsForm;
 
 public class UserRightsAddDialog extends JDialog {
 
+    private final Map<String, Map<String, JCheckBox>> cbxMatrix = new LinkedHashMap<>();
+
+// DAO dùng để thêm nhóm và quyền
+    private final UserRightsDAO userRightsDAO = new UserRightsDAO();
+
     public UserRightsAddDialog(Window parent, UserRightsForm userRightsForm) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         initComponents();
+
+        bindExistingCheckboxes();
+        wireRules();
+
     }
-    
+
+    private Map<String, JCheckBox> row(JCheckBox v, JCheckBox c, JCheckBox u, JCheckBox d) {
+        Map<String, JCheckBox> m = new LinkedHashMap<>();
+        m.put("read", v);
+        m.put("create", c);
+        m.put("update", u);
+        m.put("delete", d);
+        return m;
+    }
+
+    private void bindExistingCheckboxes() {
+
+        cbxMatrix.put("thongke", row(chkThongKeView, chkThongKeCreate, chkThongKeUpdate, chkThongKeDelete));
+        cbxMatrix.put("taikhoan", row(chkTaiKhoanView, chkTaiKhoanCreate, chkTaiKhoanUpdate, chkTaiKhoanDelete));
+        cbxMatrix.put("nhanvien", row(chkNhanVienView, chkNhanVienCreate, chkNhanVienUpdate, chkNhanVienDelete));
+        cbxMatrix.put("quyenhan", row(chkNhomQuyenView, chkNhomQuyenCreate, chkNhomQuyenUpdate, chkNhomQuyenDelete));
+        cbxMatrix.put("nhatky", row(chkNhatKyView, chkNhatKyCreate, chkNhatKyUpdate, chkNhatKyDelete));
+        cbxMatrix.put("sanpham", row(chkSanPhamView, chkSanPhamCreate, chkSanPhamUpdate, chkSanPhamDelete));
+        cbxMatrix.put("khuvuckho", row(chkKhuVucKhoView, chkKhuVucKhoCreate, chkKhuVucKhoUpdate, chkKhuVucKhoDelete));
+        cbxMatrix.put("phieunhap", row(chkPhieuNhapView, chkPhieuNhapCreate, chkPhieuNhapUpdate, chkPhieuNhapDelete));
+        cbxMatrix.put("phieuxuat", row(chkPhieuXuatView, chkPhieuXuatCreate, chkPhieuXuatUpdate, chkPhieuXuatDelete));
+        cbxMatrix.put("duyetphieu", row(chkDuyetPhieuView, chkDuyetPhieuCreate, chkDuyetPhieuUpdate, chkDuyetPhieuDelete));
+        cbxMatrix.put("thuoctinh", row(chkThuocTinhView, chkThuocTinhCreate, chkThuocTinhUpdate, chkThuocTinhDelete));
+        cbxMatrix.put("khachhang", row(chkKhachHangView, chkKhachHangCreate, chkKhachHangUpdate, chkKhachHangDelete));
+        cbxMatrix.put("nhacungcap", row(chkNhaCungCapView, chkNhaCungCapCreate, chkNhaCungCapUpdate, chkNhaCungCapDelete));
+
+        // Thêm/bớt theo đúng danh sách chức năng trong bảng danhmucchucnang của bạn
+    }
+
+    private void addIfSelected(List<ActionRecord> out, String feature, String action, JCheckBox cb) {
+        if (cb != null && cb.isSelected()) {
+            out.add(new ActionRecord(feature, action));
+        }
+    }
+
+    private List<ActionRecord> collectRightsFromUI() {
+        List<ActionRecord> rights = new ArrayList<>();
+        for (Map.Entry<String, Map<String, JCheckBox>> e : cbxMatrix.entrySet()) {
+            String feature = e.getKey();
+            Map<String, JCheckBox> row = e.getValue();
+            addIfSelected(rights, feature, "read", row.get("read"));
+            addIfSelected(rights, feature, "create", row.get("create"));
+            addIfSelected(rights, feature, "update", row.get("update"));
+            addIfSelected(rights, feature, "delete", row.get("delete"));
+        }
+        return rights;
+    }
+
+    private void wireRules() {
+        for (Map<String, JCheckBox> row : cbxMatrix.values()) {
+            JCheckBox v = row.get("read");
+            JCheckBox c = row.get("create");
+            JCheckBox u = row.get("update");
+            JCheckBox d = row.get("delete");
+            if (v == null) {
+                continue;
+            }
+
+            java.awt.event.ItemListener ensureView = e -> {
+                if ((c != null && c.isSelected()) || (u != null && u.isSelected()) || (d != null && d.isSelected())) {
+                    v.setSelected(true);
+                }
+            };
+            if (c != null) {
+                c.addItemListener(ensureView);
+            }
+            if (u != null) {
+                u.addItemListener(ensureView);
+            }
+            if (d != null) {
+                d.addItemListener(ensureView);
+            }
+        }
+    }
+
+    private void onSave() {
+        String ten = txtTenNhomQuyen.getText().trim(); // đổi tên biến đúng với form bạn
+        if (ten.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên nhóm quyền!");
+            return;
+        }
+
+        List<ActionRecord> rights = collectRightsFromUI();
+        if (rights.isEmpty()) {
+            int r = JOptionPane.showConfirmDialog(this,
+                    "Nhóm quyền chưa có quyền nào. Bạn vẫn muốn tạo chứ?",
+                    "Xác nhận", JOptionPane.YES_NO_OPTION);
+            if (r != JOptionPane.YES_OPTION) {
+                return;
+            }
+        }
+
+        // Cách 1: dùng transaction gói sẵn trong DAO (đơn giản nhất)
+        try {
+            int maNhom = userRightsDAO.createGroupAndAssignRights(ten, 1, rights); // 1 = hoạt động
+            JOptionPane.showMessageDialog(this, "Đã tạo nhóm quyền mới (#" + maNhom + ") và lưu quyền thành công!");
+            dispose();
+            return;
+        } catch (SQLIntegrityConstraintViolationException dup) {
+            JOptionPane.showMessageDialog(this, "Tên nhóm quyền đã tồn tại. Vui lòng chọn tên khác.");
+            return;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Có lỗi khi lưu nhóm quyền: " + ex.getMessage());
+            return;
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -38,59 +163,59 @@ public class UserRightsAddDialog extends JDialog {
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
-        jCheckBox7 = new javax.swing.JCheckBox();
-        jCheckBox8 = new javax.swing.JCheckBox();
-        jCheckBox9 = new javax.swing.JCheckBox();
-        jCheckBox10 = new javax.swing.JCheckBox();
-        jCheckBox11 = new javax.swing.JCheckBox();
-        jCheckBox12 = new javax.swing.JCheckBox();
-        jCheckBox13 = new javax.swing.JCheckBox();
-        jCheckBox14 = new javax.swing.JCheckBox();
-        jCheckBox15 = new javax.swing.JCheckBox();
-        jCheckBox16 = new javax.swing.JCheckBox();
-        jCheckBox17 = new javax.swing.JCheckBox();
-        jCheckBox18 = new javax.swing.JCheckBox();
-        jCheckBox19 = new javax.swing.JCheckBox();
-        jCheckBox20 = new javax.swing.JCheckBox();
-        jCheckBox21 = new javax.swing.JCheckBox();
-        jCheckBox22 = new javax.swing.JCheckBox();
-        jCheckBox23 = new javax.swing.JCheckBox();
-        jCheckBox24 = new javax.swing.JCheckBox();
-        jCheckBox25 = new javax.swing.JCheckBox();
-        jCheckBox26 = new javax.swing.JCheckBox();
-        jCheckBox27 = new javax.swing.JCheckBox();
-        jCheckBox28 = new javax.swing.JCheckBox();
-        jCheckBox29 = new javax.swing.JCheckBox();
-        jCheckBox30 = new javax.swing.JCheckBox();
-        jCheckBox31 = new javax.swing.JCheckBox();
-        jCheckBox32 = new javax.swing.JCheckBox();
-        jCheckBox33 = new javax.swing.JCheckBox();
-        jCheckBox34 = new javax.swing.JCheckBox();
-        jCheckBox35 = new javax.swing.JCheckBox();
-        jCheckBox36 = new javax.swing.JCheckBox();
-        jCheckBox37 = new javax.swing.JCheckBox();
-        jCheckBox38 = new javax.swing.JCheckBox();
-        jCheckBox39 = new javax.swing.JCheckBox();
-        jCheckBox40 = new javax.swing.JCheckBox();
-        jCheckBox41 = new javax.swing.JCheckBox();
-        jCheckBox42 = new javax.swing.JCheckBox();
-        jCheckBox43 = new javax.swing.JCheckBox();
-        jCheckBox44 = new javax.swing.JCheckBox();
-        jCheckBox45 = new javax.swing.JCheckBox();
-        jCheckBox46 = new javax.swing.JCheckBox();
-        jCheckBox47 = new javax.swing.JCheckBox();
-        jCheckBox48 = new javax.swing.JCheckBox();
-        jCheckBox49 = new javax.swing.JCheckBox();
-        jCheckBox50 = new javax.swing.JCheckBox();
-        jCheckBox51 = new javax.swing.JCheckBox();
-        jCheckBox52 = new javax.swing.JCheckBox();
-        btnAdd = new javax.swing.JButton();
+        chkThongKeView = new javax.swing.JCheckBox();
+        chkThongKeCreate = new javax.swing.JCheckBox();
+        chkThongKeUpdate = new javax.swing.JCheckBox();
+        chkThongKeDelete = new javax.swing.JCheckBox();
+        chkTaiKhoanView = new javax.swing.JCheckBox();
+        chkTaiKhoanCreate = new javax.swing.JCheckBox();
+        chkTaiKhoanUpdate = new javax.swing.JCheckBox();
+        chkTaiKhoanDelete = new javax.swing.JCheckBox();
+        chkNhanVienCreate = new javax.swing.JCheckBox();
+        chkNhanVienDelete = new javax.swing.JCheckBox();
+        chkNhanVienView = new javax.swing.JCheckBox();
+        chkNhanVienUpdate = new javax.swing.JCheckBox();
+        chkNhomQuyenUpdate = new javax.swing.JCheckBox();
+        chkNhomQuyenDelete = new javax.swing.JCheckBox();
+        chkNhomQuyenView = new javax.swing.JCheckBox();
+        chkNhomQuyenCreate = new javax.swing.JCheckBox();
+        chkNhatKyDelete = new javax.swing.JCheckBox();
+        chkNhatKyView = new javax.swing.JCheckBox();
+        chkNhatKyCreate = new javax.swing.JCheckBox();
+        chkNhatKyUpdate = new javax.swing.JCheckBox();
+        chkSanPhamCreate = new javax.swing.JCheckBox();
+        chkSanPhamUpdate = new javax.swing.JCheckBox();
+        chkSanPhamDelete = new javax.swing.JCheckBox();
+        chkSanPhamView = new javax.swing.JCheckBox();
+        chkKhuVucKhoCreate = new javax.swing.JCheckBox();
+        chkKhuVucKhoUpdate = new javax.swing.JCheckBox();
+        chkKhuVucKhoDelete = new javax.swing.JCheckBox();
+        chkKhuVucKhoView = new javax.swing.JCheckBox();
+        chkPhieuNhapDelete = new javax.swing.JCheckBox();
+        chkPhieuNhapUpdate = new javax.swing.JCheckBox();
+        chkPhieuNhapCreate = new javax.swing.JCheckBox();
+        chkPhieuNhapView = new javax.swing.JCheckBox();
+        chkPhieuXuatUpdate = new javax.swing.JCheckBox();
+        chkPhieuXuatCreate = new javax.swing.JCheckBox();
+        chkPhieuXuatDelete = new javax.swing.JCheckBox();
+        chkPhieuXuatView = new javax.swing.JCheckBox();
+        chkDuyetPhieuUpdate = new javax.swing.JCheckBox();
+        chkDuyetPhieuCreate = new javax.swing.JCheckBox();
+        chkDuyetPhieuView = new javax.swing.JCheckBox();
+        chkDuyetPhieuDelete = new javax.swing.JCheckBox();
+        chkThuocTinhCreate = new javax.swing.JCheckBox();
+        chkThuocTinhDelete = new javax.swing.JCheckBox();
+        chkThuocTinhUpdate = new javax.swing.JCheckBox();
+        chkThuocTinhView = new javax.swing.JCheckBox();
+        chkKhachHangUpdate = new javax.swing.JCheckBox();
+        chkKhachHangDelete = new javax.swing.JCheckBox();
+        chkKhachHangCreate = new javax.swing.JCheckBox();
+        chkKhachHangView = new javax.swing.JCheckBox();
+        chkNhaCungCapView = new javax.swing.JCheckBox();
+        chkNhaCungCapCreate = new javax.swing.JCheckBox();
+        chkNhaCungCapDelete = new javax.swing.JCheckBox();
+        chkNhaCungCapUpdate = new javax.swing.JCheckBox();
+        btnThem = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -196,100 +321,100 @@ public class UserRightsAddDialog extends JDialog {
                                                 .addGap(90, 90, 90)
                                                 .addComponent(jLabel6))
                                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(jCheckBox1)
+                                                .addComponent(chkThongKeView)
                                                 .addGap(112, 112, 112)
-                                                .addComponent(jCheckBox2)
+                                                .addComponent(chkThongKeCreate)
                                                 .addGap(122, 122, 122)
-                                                .addComponent(jCheckBox3))
+                                                .addComponent(chkThongKeUpdate))
                                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(jCheckBox5)
+                                                .addComponent(chkTaiKhoanView)
                                                 .addGap(112, 112, 112)
-                                                .addComponent(jCheckBox6)
+                                                .addComponent(chkTaiKhoanCreate)
                                                 .addGap(122, 122, 122)
-                                                .addComponent(jCheckBox7))
+                                                .addComponent(chkTaiKhoanUpdate))
                                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(jCheckBox11)
+                                                .addComponent(chkNhanVienView)
                                                 .addGap(112, 112, 112)
-                                                .addComponent(jCheckBox9)
+                                                .addComponent(chkNhanVienCreate)
                                                 .addGap(122, 122, 122)
-                                                .addComponent(jCheckBox12))
+                                                .addComponent(chkNhanVienUpdate))
                                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(jCheckBox15)
+                                                .addComponent(chkNhomQuyenView)
                                                 .addGap(112, 112, 112)
-                                                .addComponent(jCheckBox16)
+                                                .addComponent(chkNhomQuyenCreate)
                                                 .addGap(122, 122, 122)
-                                                .addComponent(jCheckBox13))
+                                                .addComponent(chkNhomQuyenUpdate))
                                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(jCheckBox18)
+                                                .addComponent(chkNhatKyView)
                                                 .addGap(112, 112, 112)
-                                                .addComponent(jCheckBox19)
+                                                .addComponent(chkNhatKyCreate)
                                                 .addGap(122, 122, 122)
-                                                .addComponent(jCheckBox20))
+                                                .addComponent(chkNhatKyUpdate))
                                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(jCheckBox24)
+                                                .addComponent(chkSanPhamView)
                                                 .addGap(112, 112, 112)
-                                                .addComponent(jCheckBox21)
+                                                .addComponent(chkSanPhamCreate)
                                                 .addGap(122, 122, 122)
-                                                .addComponent(jCheckBox22))
+                                                .addComponent(chkSanPhamUpdate))
                                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(jCheckBox28)
+                                                .addComponent(chkKhuVucKhoView)
                                                 .addGap(112, 112, 112)
-                                                .addComponent(jCheckBox25)
+                                                .addComponent(chkKhuVucKhoCreate)
                                                 .addGap(122, 122, 122)
-                                                .addComponent(jCheckBox26))
+                                                .addComponent(chkKhuVucKhoUpdate))
                                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(jCheckBox32)
+                                                .addComponent(chkPhieuNhapView)
                                                 .addGap(112, 112, 112)
-                                                .addComponent(jCheckBox31)
+                                                .addComponent(chkPhieuNhapCreate)
                                                 .addGap(122, 122, 122)
-                                                .addComponent(jCheckBox30))
+                                                .addComponent(chkPhieuNhapUpdate))
                                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(jCheckBox36)
+                                                .addComponent(chkPhieuXuatView)
                                                 .addGap(112, 112, 112)
-                                                .addComponent(jCheckBox34)
+                                                .addComponent(chkPhieuXuatCreate)
                                                 .addGap(122, 122, 122)
-                                                .addComponent(jCheckBox33))
+                                                .addComponent(chkPhieuXuatUpdate))
                                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(jCheckBox39)
+                                                .addComponent(chkDuyetPhieuView)
                                                 .addGap(112, 112, 112)
-                                                .addComponent(jCheckBox38)
+                                                .addComponent(chkDuyetPhieuCreate)
                                                 .addGap(122, 122, 122)
-                                                .addComponent(jCheckBox37))
+                                                .addComponent(chkDuyetPhieuUpdate))
                                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(jCheckBox44)
+                                                .addComponent(chkThuocTinhView)
                                                 .addGap(112, 112, 112)
-                                                .addComponent(jCheckBox41)
+                                                .addComponent(chkThuocTinhCreate)
                                                 .addGap(122, 122, 122)
-                                                .addComponent(jCheckBox43))
+                                                .addComponent(chkThuocTinhUpdate))
                                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(jCheckBox48)
+                                                .addComponent(chkKhachHangView)
                                                 .addGap(112, 112, 112)
-                                                .addComponent(jCheckBox47)
+                                                .addComponent(chkKhachHangCreate)
                                                 .addGap(122, 122, 122)
-                                                .addComponent(jCheckBox45))
+                                                .addComponent(chkKhachHangUpdate))
                                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(jCheckBox49)
+                                                .addComponent(chkNhaCungCapView)
                                                 .addGap(112, 112, 112)
-                                                .addComponent(jCheckBox50)
+                                                .addComponent(chkNhaCungCapCreate)
                                                 .addGap(122, 122, 122)
-                                                .addComponent(jCheckBox52))))
+                                                .addComponent(chkNhaCungCapUpdate))))
                                     .addComponent(jLabel9))
                                 .addGap(90, 90, 90)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCheckBox51)
-                                    .addComponent(jCheckBox46)
-                                    .addComponent(jCheckBox42)
-                                    .addComponent(jCheckBox40)
-                                    .addComponent(jCheckBox35)
-                                    .addComponent(jCheckBox29)
-                                    .addComponent(jCheckBox27)
-                                    .addComponent(jCheckBox23)
-                                    .addComponent(jCheckBox17)
-                                    .addComponent(jCheckBox14)
-                                    .addComponent(jCheckBox8)
-                                    .addComponent(jCheckBox4)
+                                    .addComponent(chkNhaCungCapDelete)
+                                    .addComponent(chkKhachHangDelete)
+                                    .addComponent(chkThuocTinhDelete)
+                                    .addComponent(chkDuyetPhieuDelete)
+                                    .addComponent(chkPhieuXuatDelete)
+                                    .addComponent(chkPhieuNhapDelete)
+                                    .addComponent(chkKhuVucKhoDelete)
+                                    .addComponent(chkSanPhamDelete)
+                                    .addComponent(chkNhatKyDelete)
+                                    .addComponent(chkNhomQuyenDelete)
+                                    .addComponent(chkTaiKhoanDelete)
+                                    .addComponent(chkThongKeDelete)
                                     .addComponent(jLabel7)
-                                    .addComponent(jCheckBox10))))
+                                    .addComponent(chkNhanVienDelete))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel16)))
                 .addGap(15, 15, 15))
@@ -300,9 +425,9 @@ public class UserRightsAddDialog extends JDialog {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jCheckBox49)
-                        .addComponent(jCheckBox52))
-                    .addComponent(jCheckBox50)
+                        .addComponent(chkNhaCungCapView)
+                        .addComponent(chkNhaCungCapUpdate))
+                    .addComponent(chkNhaCungCapCreate)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(5, 5, 5)
@@ -343,112 +468,112 @@ public class UserRightsAddDialog extends JDialog {
                                                                                                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                                                                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                                                                             .addComponent(jLabel2)
-                                                                                                                            .addComponent(jCheckBox1)
-                                                                                                                            .addComponent(jCheckBox3)
-                                                                                                                            .addComponent(jCheckBox4)))
-                                                                                                                    .addComponent(jCheckBox2))
+                                                                                                                            .addComponent(chkThongKeView)
+                                                                                                                            .addComponent(chkThongKeUpdate)
+                                                                                                                            .addComponent(chkThongKeDelete)))
+                                                                                                                    .addComponent(chkThongKeCreate))
                                                                                                                 .addGap(18, 18, 18)
                                                                                                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                                                                     .addComponent(jLabel8)
-                                                                                                                    .addComponent(jCheckBox8)))
+                                                                                                                    .addComponent(chkTaiKhoanDelete)))
                                                                                                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                                .addComponent(jCheckBox5)
-                                                                                                                .addComponent(jCheckBox7))
-                                                                                                            .addComponent(jCheckBox6))
+                                                                                                                .addComponent(chkTaiKhoanView)
+                                                                                                                .addComponent(chkTaiKhoanUpdate))
+                                                                                                            .addComponent(chkTaiKhoanCreate))
                                                                                                         .addGap(18, 18, 18)
                                                                                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                                                             .addComponent(jLabel9)
-                                                                                                            .addComponent(jCheckBox10)))
+                                                                                                            .addComponent(chkNhanVienDelete)))
                                                                                                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                        .addComponent(jCheckBox11)
-                                                                                                        .addComponent(jCheckBox12))
-                                                                                                    .addComponent(jCheckBox9))
+                                                                                                        .addComponent(chkNhanVienView)
+                                                                                                        .addComponent(chkNhanVienUpdate))
+                                                                                                    .addComponent(chkNhanVienCreate))
                                                                                                 .addGap(18, 18, 18)
                                                                                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                                                     .addComponent(jLabel10)
-                                                                                                    .addComponent(jCheckBox14)))
+                                                                                                    .addComponent(chkNhomQuyenDelete)))
                                                                                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                .addComponent(jCheckBox15)
-                                                                                                .addComponent(jCheckBox13))
-                                                                                            .addComponent(jCheckBox16))
+                                                                                                .addComponent(chkNhomQuyenView)
+                                                                                                .addComponent(chkNhomQuyenUpdate))
+                                                                                            .addComponent(chkNhomQuyenCreate))
                                                                                         .addGap(18, 18, 18)
                                                                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                                             .addComponent(jLabel11)
-                                                                                            .addComponent(jCheckBox17)))
+                                                                                            .addComponent(chkNhatKyDelete)))
                                                                                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                        .addComponent(jCheckBox18)
-                                                                                        .addComponent(jCheckBox20))
-                                                                                    .addComponent(jCheckBox19))
+                                                                                        .addComponent(chkNhatKyView)
+                                                                                        .addComponent(chkNhatKyUpdate))
+                                                                                    .addComponent(chkNhatKyCreate))
                                                                                 .addGap(18, 18, 18)
                                                                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                                     .addComponent(jLabel12)
-                                                                                    .addComponent(jCheckBox23)))
+                                                                                    .addComponent(chkSanPhamDelete)))
                                                                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                .addComponent(jCheckBox24)
-                                                                                .addComponent(jCheckBox22))
-                                                                            .addComponent(jCheckBox21))
+                                                                                .addComponent(chkSanPhamView)
+                                                                                .addComponent(chkSanPhamUpdate))
+                                                                            .addComponent(chkSanPhamCreate))
                                                                         .addGap(18, 18, 18)
                                                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                             .addComponent(jLabel13)
-                                                                            .addComponent(jCheckBox27)))
+                                                                            .addComponent(chkKhuVucKhoDelete)))
                                                                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                        .addComponent(jCheckBox28)
-                                                                        .addComponent(jCheckBox26))
-                                                                    .addComponent(jCheckBox25))
+                                                                        .addComponent(chkKhuVucKhoView)
+                                                                        .addComponent(chkKhuVucKhoUpdate))
+                                                                    .addComponent(chkKhuVucKhoCreate))
                                                                 .addGap(18, 18, 18)
                                                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                     .addComponent(jLabel14)
-                                                                    .addComponent(jCheckBox29)))
+                                                                    .addComponent(chkPhieuNhapDelete)))
                                                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                .addComponent(jCheckBox32)
-                                                                .addComponent(jCheckBox30))
-                                                            .addComponent(jCheckBox31))
+                                                                .addComponent(chkPhieuNhapView)
+                                                                .addComponent(chkPhieuNhapUpdate))
+                                                            .addComponent(chkPhieuNhapCreate))
                                                         .addGap(18, 18, 18)
                                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                             .addComponent(jLabel15)
-                                                            .addComponent(jCheckBox35)))
+                                                            .addComponent(chkPhieuXuatDelete)))
                                                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jCheckBox36)
-                                                        .addComponent(jCheckBox33))
-                                                    .addComponent(jCheckBox34))
+                                                        .addComponent(chkPhieuXuatView)
+                                                        .addComponent(chkPhieuXuatUpdate))
+                                                    .addComponent(chkPhieuXuatCreate))
                                                 .addGap(18, 18, 18)
                                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(jLabel17)
-                                                    .addComponent(jCheckBox40)))
+                                                    .addComponent(chkDuyetPhieuDelete)))
                                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jCheckBox39)
-                                                .addComponent(jCheckBox37))
-                                            .addComponent(jCheckBox38))
+                                                .addComponent(chkDuyetPhieuView)
+                                                .addComponent(chkDuyetPhieuUpdate))
+                                            .addComponent(chkDuyetPhieuCreate))
                                         .addGap(18, 18, 18)
                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel18)
-                                            .addComponent(jCheckBox42)))
+                                            .addComponent(chkThuocTinhDelete)))
                                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jCheckBox44)
-                                        .addComponent(jCheckBox43))
-                                    .addComponent(jCheckBox41))
+                                        .addComponent(chkThuocTinhView)
+                                        .addComponent(chkThuocTinhUpdate))
+                                    .addComponent(chkThuocTinhCreate))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel19)
-                                    .addComponent(jCheckBox46)))
+                                    .addComponent(chkKhachHangDelete)))
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jCheckBox48)
-                                .addComponent(jCheckBox45))
-                            .addComponent(jCheckBox47))
+                                .addComponent(chkKhachHangView)
+                                .addComponent(chkKhachHangUpdate))
+                            .addComponent(chkKhachHangCreate))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel20))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(19, 19, 19)
-                                .addComponent(jCheckBox51)))))
+                                .addComponent(chkNhaCungCapDelete)))))
                 .addGap(15, 15, 15))
         );
 
-        btnAdd.setText("Thêm");
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+        btnThem.setText("Thêm");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
+                btnThemActionPerformed(evt);
             }
         });
 
@@ -469,7 +594,7 @@ public class UserRightsAddDialog extends JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnCancel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAdd))
+                        .addComponent(btnThem))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(15, 15, 15))
         );
@@ -480,7 +605,7 @@ public class UserRightsAddDialog extends JDialog {
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdd)
+                    .addComponent(btnThem)
                     .addComponent(btnCancel))
                 .addContainerGap())
         );
@@ -489,9 +614,10 @@ public class UserRightsAddDialog extends JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnAddActionPerformed
+        onSave();
+    }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         this.dispose();
@@ -499,62 +625,60 @@ public class UserRightsAddDialog extends JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCancel;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox10;
-    private javax.swing.JCheckBox jCheckBox11;
-    private javax.swing.JCheckBox jCheckBox12;
-    private javax.swing.JCheckBox jCheckBox13;
-    private javax.swing.JCheckBox jCheckBox14;
-    private javax.swing.JCheckBox jCheckBox15;
-    private javax.swing.JCheckBox jCheckBox16;
-    private javax.swing.JCheckBox jCheckBox17;
-    private javax.swing.JCheckBox jCheckBox18;
-    private javax.swing.JCheckBox jCheckBox19;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox20;
-    private javax.swing.JCheckBox jCheckBox21;
-    private javax.swing.JCheckBox jCheckBox22;
-    private javax.swing.JCheckBox jCheckBox23;
-    private javax.swing.JCheckBox jCheckBox24;
-    private javax.swing.JCheckBox jCheckBox25;
-    private javax.swing.JCheckBox jCheckBox26;
-    private javax.swing.JCheckBox jCheckBox27;
-    private javax.swing.JCheckBox jCheckBox28;
-    private javax.swing.JCheckBox jCheckBox29;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox30;
-    private javax.swing.JCheckBox jCheckBox31;
-    private javax.swing.JCheckBox jCheckBox32;
-    private javax.swing.JCheckBox jCheckBox33;
-    private javax.swing.JCheckBox jCheckBox34;
-    private javax.swing.JCheckBox jCheckBox35;
-    private javax.swing.JCheckBox jCheckBox36;
-    private javax.swing.JCheckBox jCheckBox37;
-    private javax.swing.JCheckBox jCheckBox38;
-    private javax.swing.JCheckBox jCheckBox39;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox40;
-    private javax.swing.JCheckBox jCheckBox41;
-    private javax.swing.JCheckBox jCheckBox42;
-    private javax.swing.JCheckBox jCheckBox43;
-    private javax.swing.JCheckBox jCheckBox44;
-    private javax.swing.JCheckBox jCheckBox45;
-    private javax.swing.JCheckBox jCheckBox46;
-    private javax.swing.JCheckBox jCheckBox47;
-    private javax.swing.JCheckBox jCheckBox48;
-    private javax.swing.JCheckBox jCheckBox49;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox50;
-    private javax.swing.JCheckBox jCheckBox51;
-    private javax.swing.JCheckBox jCheckBox52;
-    private javax.swing.JCheckBox jCheckBox6;
-    private javax.swing.JCheckBox jCheckBox7;
-    private javax.swing.JCheckBox jCheckBox8;
-    private javax.swing.JCheckBox jCheckBox9;
+    private javax.swing.JButton btnThem;
+    private javax.swing.JCheckBox chkDuyetPhieuCreate;
+    private javax.swing.JCheckBox chkDuyetPhieuDelete;
+    private javax.swing.JCheckBox chkDuyetPhieuUpdate;
+    private javax.swing.JCheckBox chkDuyetPhieuView;
+    private javax.swing.JCheckBox chkKhachHangCreate;
+    private javax.swing.JCheckBox chkKhachHangDelete;
+    private javax.swing.JCheckBox chkKhachHangUpdate;
+    private javax.swing.JCheckBox chkKhachHangView;
+    private javax.swing.JCheckBox chkKhuVucKhoCreate;
+    private javax.swing.JCheckBox chkKhuVucKhoDelete;
+    private javax.swing.JCheckBox chkKhuVucKhoUpdate;
+    private javax.swing.JCheckBox chkKhuVucKhoView;
+    private javax.swing.JCheckBox chkNhaCungCapCreate;
+    private javax.swing.JCheckBox chkNhaCungCapDelete;
+    private javax.swing.JCheckBox chkNhaCungCapUpdate;
+    private javax.swing.JCheckBox chkNhaCungCapView;
+    private javax.swing.JCheckBox chkNhanVienCreate;
+    private javax.swing.JCheckBox chkNhanVienDelete;
+    private javax.swing.JCheckBox chkNhanVienUpdate;
+    private javax.swing.JCheckBox chkNhanVienView;
+    private javax.swing.JCheckBox chkNhatKyCreate;
+    private javax.swing.JCheckBox chkNhatKyDelete;
+    private javax.swing.JCheckBox chkNhatKyUpdate;
+    private javax.swing.JCheckBox chkNhatKyView;
+    private javax.swing.JCheckBox chkNhomQuyenCreate;
+    private javax.swing.JCheckBox chkNhomQuyenDelete;
+    private javax.swing.JCheckBox chkNhomQuyenUpdate;
+    private javax.swing.JCheckBox chkNhomQuyenView;
+    private javax.swing.JCheckBox chkPhieuNhapCreate;
+    private javax.swing.JCheckBox chkPhieuNhapDelete;
+    private javax.swing.JCheckBox chkPhieuNhapUpdate;
+    private javax.swing.JCheckBox chkPhieuNhapView;
+    private javax.swing.JCheckBox chkPhieuXuatCreate;
+    private javax.swing.JCheckBox chkPhieuXuatDelete;
+    private javax.swing.JCheckBox chkPhieuXuatUpdate;
+    private javax.swing.JCheckBox chkPhieuXuatView;
+    private javax.swing.JCheckBox chkSanPhamCreate;
+    private javax.swing.JCheckBox chkSanPhamDelete;
+    private javax.swing.JCheckBox chkSanPhamUpdate;
+    private javax.swing.JCheckBox chkSanPhamView;
+    private javax.swing.JCheckBox chkTaiKhoanCreate;
+    private javax.swing.JCheckBox chkTaiKhoanDelete;
+    private javax.swing.JCheckBox chkTaiKhoanUpdate;
+    private javax.swing.JCheckBox chkTaiKhoanView;
+    private javax.swing.JCheckBox chkThongKeCreate;
+    private javax.swing.JCheckBox chkThongKeDelete;
+    private javax.swing.JCheckBox chkThongKeUpdate;
+    private javax.swing.JCheckBox chkThongKeView;
+    private javax.swing.JCheckBox chkThuocTinhCreate;
+    private javax.swing.JCheckBox chkThuocTinhDelete;
+    private javax.swing.JCheckBox chkThuocTinhUpdate;
+    private javax.swing.JCheckBox chkThuocTinhView;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
