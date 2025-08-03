@@ -15,9 +15,9 @@ public class DataSourceFactory {
         config.setPassword(props.getProperty("db.password"));
         
         //Cấu hình connection pool từ props
-        config.setMaximumPoolSize(Integer.parseInt(props.getProperty("db.pool.maxSize", "20")));
-        config.setMinimumIdle(Integer.parseInt(props.getProperty("db.pool.minIdle", "5")));
-        config.setIdleTimeout(Long.parseLong(props.getProperty("db.pool.idleTimeout", "300000")));
+        config.setMaximumPoolSize(Integer.parseInt(props.getProperty("db.pool.maxSize", "50")));
+        config.setMinimumIdle(Integer.parseInt(props.getProperty("db.pool.minIdle", "10")));
+        config.setIdleTimeout(Long.parseLong(props.getProperty("db.pool.idleTimeout", "10000")));
         config.setMaxLifetime(Long.parseLong(props.getProperty("db.pool.maxLifetime", "1800000")));
         config.setConnectionTimeout(Long.parseLong(props.getProperty("db.pool.connectionTimeout", "30000")));
         config.setLeakDetectionThreshold(Long.parseLong(props.getProperty("db.pool.leakDetectionThreshold", "60000")));
