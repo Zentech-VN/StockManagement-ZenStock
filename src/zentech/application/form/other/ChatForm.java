@@ -207,6 +207,7 @@ public class ChatForm extends javax.swing.JPanel {
         return panel;
     }
 
+
     private JTextArea createMessageBubble(String sender, String message, String time) {
         String text = message + "\n" + time;
         JTextArea bubble = new JTextArea(text);
@@ -252,6 +253,7 @@ public class ChatForm extends javax.swing.JPanel {
         chatPanel.revalidate();
         chatPanel.repaint();
 
+
         // Tự động cuộn xuống dòng cuối
         SwingUtilities.invokeLater(() -> {
             JScrollBar vBar = scrollPane.getVerticalScrollBar();
@@ -267,11 +269,11 @@ public class ChatForm extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 775, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 487, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

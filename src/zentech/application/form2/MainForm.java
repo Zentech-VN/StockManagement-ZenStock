@@ -29,6 +29,7 @@ import zentech.application.form.other.SupplierForm;
 import zentech.application.form.other.WarehouseManagementForm;
 import zentech.application.form.other.WarehouseReceiptForm;
 import zentech.application.form.other.Chart;
+import zentech.application.form.other.ChatForm;
 import zentech.application.form.other.ReceiptApprovalForm;
 import zentech.application.form.other.WarehouseDeliveryForm;
 import zentech.menu2.Menu;
