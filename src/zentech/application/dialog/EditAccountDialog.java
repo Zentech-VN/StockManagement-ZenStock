@@ -2,11 +2,14 @@ package zentech.application.dialog;
 
 import entity.Account;
 import entity.PermGroup;
+import java.awt.Dialog;
+import java.awt.Window;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import service.EditAccountDialogService;
 
-public class EditAccountDialog extends javax.swing.JFrame {
+public class EditAccountDialog extends JDialog {
 
     private EditAccountDialogService accountService;
     private Object taiKhoan;
@@ -18,7 +21,8 @@ public class EditAccountDialog extends javax.swing.JFrame {
     }
 
     //edit
-    public EditAccountDialog(Object taiKhoan, int manv, Account account) {
+    public EditAccountDialog(Window parent, Object taiKhoan, int manv, Account account) {
+        super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         this.taiKhoan = taiKhoan;
         this.manv = manv;
         this.currentAccount = account;

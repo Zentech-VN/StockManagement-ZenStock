@@ -1,10 +1,9 @@
 package zentech.application.changepassword;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import dao.AccountDAO;
+import dao.AccountDAO_ChangePassword;
 import helper.BCrypt;
 import javax.swing.JOptionPane;
-import zentech.application.Login;
 
 public class ChangePassword extends javax.swing.JFrame {
 
@@ -111,8 +110,8 @@ public class ChangePassword extends javax.swing.JFrame {
         }
 
         String password = BCrypt.hashpw(pass, BCrypt.gensalt(12));
-        AccountDAO.getInstance().updatePass(this.email, password);
-        AccountDAO.getInstance().sendOpt(pass, "null");
+        AccountDAO_ChangePassword.getInstance().updatePass(this.email, password);
+        AccountDAO_ChangePassword.getInstance().sendOpt(pass, "null");
         JOptionPane.showMessageDialog(this, "Thay đổi mật khẩu thành công!");
         this.dispose();
 

@@ -1,22 +1,34 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.UserRightsDAO;
+import entity.NhomQuyen;
 import java.awt.Window;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.swing.BorderFactory;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import raven.toast.Notifications;
 import zentech.application.dialog.UserRightsAddDialog;
 import zentech.application.dialog.UserRightsDetailsDialog;
 import zentech.application.dialog.UserRightsUpdateDialog;
 
 public class UserRightsForm extends javax.swing.JPanel {
 
+    UserRightsDAO urd = new UserRightsDAO();
+
     public UserRightsForm() {
         initComponents();
         initalUI(tblRole);
+        LoadDataTable();
     }
-    
+
     private void initalUI(JTable table) {
 
         JScrollPane scroll = (JScrollPane) table.getParent().getParent();
@@ -28,6 +40,15 @@ public class UserRightsForm extends javax.swing.JPanel {
 
         table.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
         table.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
+
+    }
+
+    public void LoadDataTable() {
+        DefaultTableModel model = (DefaultTableModel) tblRole.getModel();
+        model.setRowCount(0);
+        for (NhomQuyen nq : urd.getAllNhomQuyen()) {
+            model.addRow(new Object[]{nq.getManhomquyen(), nq.getTennhomquyen()});
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -124,18 +145,20 @@ public class UserRightsForm extends javax.swing.JPanel {
                 "Mã nhóm quyền", "Tên nhóm quyền"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class
+            boolean[] canEdit = new boolean [] {
+                false, false
             };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         tblRole.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblRole);
         if (tblRole.getColumnModel().getColumnCount() > 0) {
+            tblRole.getColumnModel().getColumn(0).setResizable(false);
             tblRole.getColumnModel().getColumn(0).setPreferredWidth(1);
+            tblRole.getColumnModel().getColumn(1).setResizable(false);
             tblRole.getColumnModel().getColumn(1).setPreferredWidth(50);
         }
 
@@ -163,22 +186,61 @@ public class UserRightsForm extends javax.swing.JPanel {
         Window parent = SwingUtilities.getWindowAncestor(this);
         UserRightsAddDialog userRightsAddDialog = new UserRightsAddDialog(parent, this);
         userRightsAddDialog.setVisible(true);
+        LoadDataTable();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        int select = tblRole.getSelectedRow();
+        if (select == -1) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng chọn nhóm quyền muốn sửa!");
+            return;
+        }
+        int id = (int) tblRole.getValueAt(select, 0);
         Window parent = SwingUtilities.getWindowAncestor(this);
-        UserRightsUpdateDialog userRightsUpdateDialog = new UserRightsUpdateDialog(parent, this);
+        UserRightsUpdateDialog userRightsUpdateDialog = new UserRightsUpdateDialog(parent, this, id);
         userRightsUpdateDialog.setVisible(true);
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
+        int select = tblRole.getSelectedRow();
+        if (select == -1) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng chọn nhóm quyền muốn sửa!");
+            return;
+        }
+        int id = (int) tblRole.getSelectedRow();
+        try {
+            int result = urd.xoaNhomQuyen(id);
+            if (result == 1) {
+                Notifications.getInstance().show(Notifications.Type.SUCCESS,
+                        Notifications.Location.TOP_CENTER, "Đã xoá nhóm quyền!");
+                LoadDataTable();
+            } else if (result == -1) {
+
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không thể xoá vì vẫn còn tài khoản đang thuộc nhóm này.\n"
+                        + "Hãy chuyển các tài khoản sang nhóm khác trước.");
+            } else {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không tìm thấy nhóm để xoá.");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Lỗi khi xoá: " + ex.getMessage());
+        }
+        LoadDataTable();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailsActionPerformed
+        int select = tblRole.getSelectedRow();
+        if (select == -1) {
+            Notifications.getInstance().show(Notifications.Type.WARNING,
+                    Notifications.Location.TOP_CENTER,
+                    "Vui lòng chọn nhóm quyền muốn xem chi tiết!");
+            return;
+        }
+        int id = (int) tblRole.getValueAt(select, 0);   // <-- LẤY MÃ NHÓM Ở CỘT 0
         Window parent = SwingUtilities.getWindowAncestor(this);
-        UserRightsDetailsDialog userRightsDetailsDialog = new UserRightsDetailsDialog(parent, this);
-        userRightsDetailsDialog.setVisible(true);
+        UserRightsDetailsDialog dlg = new UserRightsDetailsDialog(parent, this, id);
+        dlg.setVisible(true);
     }//GEN-LAST:event_btnDetailsActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

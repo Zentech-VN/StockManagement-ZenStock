@@ -1,11 +1,11 @@
 package zentech.application.form.other;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.time.LocalTime;
@@ -16,7 +16,9 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
@@ -26,6 +28,7 @@ import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -36,8 +39,8 @@ public class ChatForm extends javax.swing.JPanel {
     private DefaultListModel<String> userListModel;
     private JPanel chatPanelContainer;
     private CardLayout cardLayout;
-    private Map<String, JPanel> chatAreas;      // Chứa từng khung tin nhắn theo người dùng
-    private Map<String, JScrollPane> scrollPanes; // Chứa scrollPane tương ứng cho mỗi khung chat
+    private Map<String, JPanel> chatAreas;
+    private Map<String, JScrollPane> scrollPanes;
 
     public ChatForm() {
         initComponents();
@@ -47,19 +50,17 @@ public class ChatForm extends javax.swing.JPanel {
     private void initializeChatUI() {
         setLayout(new BorderLayout());
 
-        // Danh sách người dùng giả lập
         String[] users = {"Nguyễn Văn A", "Trần Thị B", "Lê Văn C"};
         userListModel = new DefaultListModel<>();
         for (String user : users) {
             userListModel.addElement(user);
         }
 
-        // --- Left Panel: Danh sách người dùng ---
         userList = new JList<>(userListModel);
         userList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         userList.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        userList.setForeground(Color.WHITE);
-        userList.setBackground(new Color(45, 45, 45));
+        userList.setForeground(Color.BLACK);
+        userList.setBackground(new Color(240, 240, 240));
         userList.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         JScrollPane userScroll = new JScrollPane(userList);
@@ -67,7 +68,6 @@ public class ChatForm extends javax.swing.JPanel {
         userScroll.setBorder(BorderFactory.createEmptyBorder());
         add(userScroll, BorderLayout.WEST);
 
-        // --- Center Panel: Khung chat động ---
         chatPanelContainer = new JPanel();
         cardLayout = new CardLayout();
         chatPanelContainer.setLayout(cardLayout);
@@ -80,7 +80,6 @@ public class ChatForm extends javax.swing.JPanel {
         }
         add(chatPanelContainer, BorderLayout.CENTER);
 
-        // --- Xử lý chuyển người dùng ---
         userList.addListSelectionListener(e -> {
             String selectedUser = userList.getSelectedValue();
             if (selectedUser != null) {
@@ -88,24 +87,21 @@ public class ChatForm extends javax.swing.JPanel {
             }
         });
 
-        // --- Tin nhắn mẫu ---
         addMessage("Nguyễn Văn A", "Nguyễn Văn A", "Chào bạn, bạn khỏe không?", "09:01");
         addMessage("Nguyễn Văn A", "Me", "Mình ổn, cảm ơn bạn nhé!", "09:02");
     }
 
-    // Tạo khung chat cho từng người dùng
     private JPanel createChatPanel(String username) {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(new Color(30, 30, 30));
+        panel.setBackground(Color.WHITE);
 
-        // Khung chứa tin nhắn
         JPanel messageArea = new JPanel();
         messageArea.setLayout(new BoxLayout(messageArea, BoxLayout.Y_AXIS));
-        messageArea.setBackground(new Color(30, 30, 30));
+        messageArea.setBackground(Color.WHITE);
 
         JScrollPane scrollPane = new JScrollPane(new JPanel(new BorderLayout()) {
             {
-                setBackground(new Color(30, 30, 30));
+                setBackground(Color.WHITE);
                 add(messageArea, BorderLayout.NORTH);
             }
         });
@@ -113,27 +109,26 @@ public class ChatForm extends javax.swing.JPanel {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setBorder(null);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.getViewport().setBackground(Color.WHITE);
 
         panel.add(scrollPane, BorderLayout.CENTER);
         chatAreas.put(username, messageArea);
         scrollPanes.put(username, scrollPane);
 
-        // Input Panel
         JPanel inputPanel = new JPanel(new BorderLayout(5, 0));
         inputPanel.setBorder(new EmptyBorder(8, 10, 8, 10));
-        inputPanel.setBackground(new Color(30, 30, 30));
+        inputPanel.setBackground(Color.WHITE);
         inputPanel.setPreferredSize(new Dimension(0, 80));
 
-        // Ô nhập tin nhắn
         JTextArea messageField = new JTextArea(3, 20);
         messageField.setLineWrap(true);
         messageField.setWrapStyleWord(true);
         messageField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        messageField.setForeground(Color.WHITE);
-        messageField.setBackground(new Color(43, 45, 48));
-        messageField.setCaretColor(Color.WHITE);
+        messageField.setForeground(Color.BLACK);
+        messageField.setBackground(new Color(245, 245, 245));
+        messageField.setCaretColor(Color.BLACK);
         messageField.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(100, 100, 100), 1, true),
+                BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true),
                 BorderFactory.createEmptyBorder(10, 14, 10, 14)
         ));
         messageField.getDocument().addDocumentListener(new DocumentListener() {
@@ -157,12 +152,11 @@ public class ChatForm extends javax.swing.JPanel {
         JScrollPane messageScroll = new JScrollPane(messageField);
         messageScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         messageScroll.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
-        messageScroll.setViewportBorder(BorderFactory.createLineBorder(new Color(100, 100, 100), 1, true));
+        messageScroll.setViewportBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
 
-        // Nút gửi + emoji + ảnh
         JButton sendButton = new JButton("Gửi");
         sendButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        sendButton.setBackground(new Color(30, 144, 255));
+        sendButton.setBackground(new Color(0, 120, 215));
         sendButton.setForeground(Color.WHITE);
         sendButton.setFocusPainted(false);
         sendButton.setPreferredSize(new Dimension(40, 40));
@@ -171,7 +165,6 @@ public class ChatForm extends javax.swing.JPanel {
         inputPanel.add(sendButton, BorderLayout.EAST);
         panel.add(inputPanel, BorderLayout.SOUTH);
 
-        // Phím tắt: Enter để gửi
         messageField.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "sendMessage");
         messageField.getInputMap().put(KeyStroke.getKeyStroke("shift ENTER"), "insert-newline");
         messageField.getActionMap().put("sendMessage", new AbstractAction() {
@@ -207,29 +200,37 @@ public class ChatForm extends javax.swing.JPanel {
         return panel;
     }
 
-
     private JTextArea createMessageBubble(String sender, String message, String time) {
         String text = message + "\n" + time;
         JTextArea bubble = new JTextArea(text);
         bubble.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        bubble.setForeground(Color.WHITE);
-        bubble.setBackground("Me".equals(sender) ? new Color(30, 144, 255) : new Color(60, 60, 60));
+        bubble.setForeground("Me".equals(sender) ? Color.WHITE : Color.BLACK);
         bubble.setLineWrap(true);
         bubble.setWrapStyleWord(true);
         bubble.setEditable(false);
         bubble.setOpaque(true);
         bubble.setFocusable(false);
         bubble.setHighlighter(null);
-        bubble.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(80, 80, 80), 1, true),
-                BorderFactory.createEmptyBorder(8, 12, 8, 12)
-        ));
+
+        if ("Me".equals(sender)) {
+            bubble.setBackground(new Color(0x005EB8)); // xanh dương đậm
+            bubble.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(new Color(0x005EB8), 1, true),
+                    BorderFactory.createEmptyBorder(10, 16, 10, 16)
+            ));
+        } else {
+            bubble.setBackground(new Color(240, 240, 240));
+            bubble.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(new Color(210, 210, 210), 1, true),
+                    BorderFactory.createEmptyBorder(10, 16, 10, 16)
+            ));
+        }
+
         bubble.setAlignmentX(Component.LEFT_ALIGNMENT);
         bubble.setMaximumSize(new Dimension(600, Integer.MAX_VALUE));
         return bubble;
     }
 
-    // Thêm tin nhắn mới vào khung chat
     private void addMessage(String username, String sender, String message, String time) {
         JPanel chatPanel = chatAreas.get(username);
         JScrollPane scrollPane = scrollPanes.get(username);
@@ -253,15 +254,12 @@ public class ChatForm extends javax.swing.JPanel {
         chatPanel.revalidate();
         chatPanel.repaint();
 
-
-        // Tự động cuộn xuống dòng cuối
         SwingUtilities.invokeLater(() -> {
             JScrollBar vBar = scrollPane.getVerticalScrollBar();
             vBar.setValue(vBar.getMaximum());
         });
     }
-
-    @SuppressWarnings("unchecked")
+@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

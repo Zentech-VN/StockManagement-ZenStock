@@ -1,18 +1,25 @@
 package zentech.application.dialog;
 
 import entity.Staff;
+import java.awt.Dialog;
+import java.awt.Window;
 import java.util.ArrayList;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import service.StaffListDialogService;
 
-public class StaffListDialog extends javax.swing.JFrame {
+public class StaffListDialog extends JDialog {
 
     static ArrayList<Staff> lists = new ArrayList<>();
     static StaffListDialogService ssv = new StaffListDialogService();
 
-    public StaffListDialog() {
+    public StaffListDialog(Window parent) {
+        super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         initComponents();
         setLocationRelativeTo(null);
+        lists = ssv.search(""); 
+        ssv.loadTable(lists, jTable1);
     }
 
     public int getRow() {
@@ -111,7 +118,8 @@ public class StaffListDialog extends javax.swing.JFrame {
             JOptionPane.showConfirmDialog(null,
                     "Vui lòng chọn nhân viên!", "Thông báo", JOptionPane.DEFAULT_OPTION);
         } else {
-            AccountDialog acd = new AccountDialog(this, lists.get(getRow()).getManv(), zentech.application.Application.getCurrentUserLog());
+            Window parent = SwingUtilities.getWindowAncestor(this);
+            AccountDialog acd = new AccountDialog(parent, this, lists.get(getRow()).getManv(), zentech.application.Application.getCurrentUserLog());
             acd.setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed

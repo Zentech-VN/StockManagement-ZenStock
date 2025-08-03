@@ -6,11 +6,15 @@ import dao.PermGroupDAO;
 import java.util.ArrayList;
 import entity.Account;
 import entity.PermGroup;
+import java.awt.Window;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 import service.AccountService;
@@ -39,33 +43,18 @@ public class AccountForm extends javax.swing.JPanel {
         SwingWorker<DefaultTableModel, Void> worker = new SwingWorker<DefaultTableModel, Void>() {
             @Override
             protected DefaultTableModel doInBackground() {
-                String[] title = {"Mã nhân viên", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"};
-                DefaultTableModel model = new DefaultTableModel(title, 0);
+                String[] columns = {"Mã nhân viên", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"};
+                DefaultTableModel model = new DefaultTableModel(columns, 0);
 
                 for (Account account : accounts) {
-                    String trangthaiString;
-                    switch (account.getTrangthai()) {
-                        case 1:
-                            trangthaiString = "Hoạt động";
-                            break;
-                        case 0:
-                            trangthaiString = "Ngưng hoạt động";
-                            break;
-                        default:
-                            trangthaiString = "Không xác định";
-                            break;
-                    }
-
-                    String tenNhomQuyen = getPermGroup(account.getManhomquyen()).getTennhomquyen();
-
                     model.addRow(new Object[]{
                         account.getManv(),
                         account.getUsername(),
-                        tenNhomQuyen,
-                        trangthaiString
+                        getPermGroupCached(account.getManhomquyen()),
+                        getStatusText(account.getTrangthai())
                     });
                 }
-
+                jTable1.setModel(model);
                 return model;
             }
 
@@ -81,19 +70,34 @@ public class AccountForm extends javax.swing.JPanel {
 
         worker.execute();
     }
+    
+    private Map<Integer, String> permGroupCache = new HashMap<>();
+
+    private String getPermGroupCached(int manhomquyen) {
+        return permGroupCache.computeIfAbsent(manhomquyen, 
+            id -> getPermGroup(id).getTennhomquyen());
+    }
+
+    private String getStatusText(int status) {
+        switch (status) {
+            case 1: 
+                return "Hoạt động";
+            case 0: 
+                return "Ngưng hoạt động";
+            default: 
+                return "Không xác định";
+        }
+    }
 
     public static PermGroup getPermGroup(int manhom) {
         return PermGroupDAO.selectById(manhom + "");
     }
 
     public int getRowSelected() {
-        int index = tblList.getSelectedRow();
-        if (index == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản");
-        }
-        return index;
+        int viewIndex = tblList.getSelectedRow();
+        return tblList.convertRowIndexToModel(viewIndex);
     }
-
+    
     private void initalUI(JTable table) {
         table.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
         table.setRowHeight(30);
@@ -116,7 +120,7 @@ public class AccountForm extends javax.swing.JPanel {
 
         crazyPanel1 = new raven.crazypanel.CrazyPanel();
         crazyPanel2 = new raven.crazypanel.CrazyPanel();
-        txtSearcha = new javax.swing.JTextField();
+        txtSearch = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -157,17 +161,17 @@ public class AccountForm extends javax.swing.JPanel {
             }
         ));
 
-        txtSearcha.addActionListener(new java.awt.event.ActionListener() {
+        txtSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSearchaActionPerformed(evt);
+                txtSearchActionPerformed(evt);
             }
         });
-        txtSearcha.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSearchaKeyReleased(evt);
+                txtSearchKeyReleased(evt);
             }
         });
-        crazyPanel2.add(txtSearcha);
+        crazyPanel2.add(txtSearch);
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton1.setText("Thêm");
@@ -238,7 +242,8 @@ public class AccountForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        StaffListDialog sl = new StaffListDialog();
+        Window parent = SwingUtilities.getWindowAncestor(this);
+        StaffListDialog sl = new StaffListDialog(parent);
         sl.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -248,7 +253,8 @@ public class AccountForm extends javax.swing.JPanel {
         //Kiểm tra index hợp lệ và danh sách không rỗng
         if (index != -1 && lista != null && index < lista.size()) {
             Account selectedAccount = lista.get(index);
-            EditAccountDialog ead = new EditAccountDialog(this, selectedAccount.getManv(), selectedAccount);
+            Window parent = SwingUtilities.getWindowAncestor(this);
+            EditAccountDialog ead = new EditAccountDialog(parent, this, selectedAccount.getManv(), selectedAccount);
             ead.setVisible(true);
         } else {
             if (lista == null || lista.isEmpty()) {
@@ -262,32 +268,41 @@ public class AccountForm extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        int index = getRowSelected();
-        String user = appCurrentUser;
-        String hoTen = tblList.getValueAt(index, 1).toString();
+        int selectedRow = tblList.getSelectedRow();
+    
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một tài khoản để xóa!",
+                    "Thông báo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-        if (index != -1) {
+        // chuyển đổi chỉ mục từ view sang model
+        int modelRowIndex = tblList.convertRowIndexToModel(selectedRow);
+
+        try {
+            String user = appCurrentUser;
+            String hoTen = tblList.getValueAt(selectedRow, 1).toString();
+
             int input = JOptionPane.showConfirmDialog(null,
-                    "Bạn có chắc chắn muốn xóa tài khoản!", "Xóa tài khoản",
-                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-            if (input == 0) {
-                //xóa trong database
-                int result = AccountDAO.getInstance().delete(lista.get(index).getManv() + "");
+                    "Bạn có chắc chắn muốn xóa tài khoản \"" + hoTen + "\"?", 
+                    "Xóa tài khoản",
+                    JOptionPane.OK_CANCEL_OPTION, 
+                    JOptionPane.QUESTION_MESSAGE);
+
+            if (input == JOptionPane.OK_OPTION) {
+                int result = AccountDAO.getInstance().delete(lista.get(modelRowIndex).getManv() + "");
 
                 if (result > 0) {
-                    //Cập nhật lại danh sách lista từ database
                     lista = asv.getTaiKhoanAll();
-
-                    //reload table
                     loadTable(lista, tblList);
-
-                    JOptionPane.showMessageDialog(this, "Xóa tài khoản thành công!",
-                            "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Xóa tài khoản thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(this, "Xóa tài khoản thất bại!",
-                            "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Xóa tài khoản thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi xóa tài khoản: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -296,14 +311,14 @@ public class AccountForm extends javax.swing.JPanel {
         loadTable(lista, tblList);
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void txtSearchaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchaKeyReleased
-        String txt = txtSearcha.getText();
-        asv.LoadTableWithSearch(txt, tblList);
-    }//GEN-LAST:event_txtSearchaKeyReleased
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        String txt = txtSearch.getText();
+        asv.Search(txtSearch, tblList);
+    }//GEN-LAST:event_txtSearchKeyReleased
 
-    private void txtSearchaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchaActionPerformed
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
 
-    }//GEN-LAST:event_txtSearchaActionPerformed
+    }//GEN-LAST:event_txtSearchActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -315,6 +330,6 @@ public class AccountForm extends javax.swing.JPanel {
     private javax.swing.JButton jButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblList;
-    private javax.swing.JTextField txtSearcha;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }

@@ -620,8 +620,11 @@ public class EmployeeForm extends javax.swing.JPanel {
             txtTenDangNhap.setText(employeeAccout.hasAccount() ? employeeAccout.getUsername() : "Chưa có");
             txtQuyenHan.setText(
                     employeeAccout.hasAccount()
-                    ? (employeeAccout.getRoleId() == 1 ? "Quản lý kho"
-                    : employeeAccout.getRoleId() == 2 ? "Nhân viên nhập hàng"
+                    ? (employeeAccout.getRoleId() == 1 ? "Quản trị hệ thống"
+                    : employeeAccout.getRoleId() == 2 ? "Quản lý kho"
+                    : employeeAccout.getRoleId() == 3 ? "Thủ kho"
+                    : employeeAccout.getRoleId() == 4 ? "Nhân viên Nhập kho"
+                    : employeeAccout.getRoleId() == 5 ? "Nhân viên Xuất kho"
                     : "") //Không tìm thấy
                     : ""
             );

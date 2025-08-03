@@ -23,26 +23,23 @@ public class Staff {
     int gioitinh;
     String sdt;
     Date ngaysinh;
-    int trangthai;
     String email;
 
 
-    public Staff(int manv, String hoten, int gioitinh, Date ngaysinh, String sdt, int trangthai, String email) {
+    public Staff(int manv, String hoten, int gioitinh, Date ngaysinh, String sdt, String email) {
         this.manv = manv;
         this.hoten = hoten;
         this.gioitinh = gioitinh;
         this.ngaysinh = ngaysinh;
         this.sdt = sdt;
-        this.trangthai = trangthai;
         this.email = email;
     }
 
-    public Staff(String hoten, int gioitinh, Date ngaysinh, String sdt, int trangthai) {
+    public Staff(String hoten, int gioitinh, Date ngaysinh, String sdt) {
         this.hoten = hoten;
         this.gioitinh = gioitinh;
         this.ngaysinh = ngaysinh;
         this.sdt = sdt;
-        this.trangthai = trangthai;
         this.email = email;
     }
 
