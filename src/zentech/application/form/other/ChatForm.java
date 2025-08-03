@@ -207,17 +207,10 @@ public class ChatForm extends javax.swing.JPanel {
         return panel;
     }
 
-    // Thêm tin nhắn mới vào khung chat
-    private void addMessage(String username, String sender, String message, String time) {
-        JPanel chatPanel = chatAreas.get(username);
-        JScrollPane scrollPane = scrollPanes.get(username);
 
-        JPanel outerWrapper = new JPanel();
-        outerWrapper.setLayout(new BoxLayout(outerWrapper, BoxLayout.X_AXIS));
-        outerWrapper.setOpaque(false);
-        outerWrapper.setBorder(new EmptyBorder(6, 14, 6, 14));
-
-        JTextArea bubble = new JTextArea("Bạn: " + message + "\n" + time);
+    private JTextArea createMessageBubble(String sender, String message, String time) {
+        String text = message + "\n" + time;
+        JTextArea bubble = new JTextArea(text);
         bubble.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         bubble.setForeground(Color.WHITE);
         bubble.setBackground("Me".equals(sender) ? new Color(30, 144, 255) : new Color(60, 60, 60));
@@ -233,6 +226,20 @@ public class ChatForm extends javax.swing.JPanel {
         ));
         bubble.setAlignmentX(Component.LEFT_ALIGNMENT);
         bubble.setMaximumSize(new Dimension(600, Integer.MAX_VALUE));
+        return bubble;
+    }
+
+    // Thêm tin nhắn mới vào khung chat
+    private void addMessage(String username, String sender, String message, String time) {
+        JPanel chatPanel = chatAreas.get(username);
+        JScrollPane scrollPane = scrollPanes.get(username);
+
+        JPanel outerWrapper = new JPanel();
+        outerWrapper.setLayout(new BoxLayout(outerWrapper, BoxLayout.X_AXIS));
+        outerWrapper.setOpaque(false);
+        outerWrapper.setBorder(new EmptyBorder(6, 14, 6, 14));
+
+        JTextArea bubble = createMessageBubble(sender, message, time);
 
         if ("Me".equals(sender)) {
             outerWrapper.add(Box.createHorizontalGlue());
@@ -246,7 +253,8 @@ public class ChatForm extends javax.swing.JPanel {
         chatPanel.revalidate();
         chatPanel.repaint();
 
-        // Cuộn xuống dòng cuối
+
+        // Tự động cuộn xuống dòng cuối
         SwingUtilities.invokeLater(() -> {
             JScrollBar vBar = scrollPane.getVerticalScrollBar();
             vBar.setValue(vBar.getMaximum());
