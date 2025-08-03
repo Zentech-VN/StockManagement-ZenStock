@@ -268,32 +268,41 @@ public class AccountForm extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        int index = getRowSelected();
-        String user = appCurrentUser;
-        String hoTen = tblList.getValueAt(index, 1).toString();
+        int selectedRow = tblList.getSelectedRow();
+    
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một tài khoản để xóa!",
+                    "Thông báo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-        if (index != -1) {
+        // chuyển đổi chỉ mục từ view sang model
+        int modelRowIndex = tblList.convertRowIndexToModel(selectedRow);
+
+        try {
+            String user = appCurrentUser;
+            String hoTen = tblList.getValueAt(selectedRow, 1).toString();
+
             int input = JOptionPane.showConfirmDialog(null,
-                    "Bạn có chắc chắn muốn xóa tài khoản!", "Xóa tài khoản",
-                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-            if (input == 0) {
-                //xóa trong database
-                int result = AccountDAO.getInstance().delete(lista.get(index).getManv() + "");
+                    "Bạn có chắc chắn muốn xóa tài khoản \"" + hoTen + "\"?", 
+                    "Xóa tài khoản",
+                    JOptionPane.OK_CANCEL_OPTION, 
+                    JOptionPane.QUESTION_MESSAGE);
+
+            if (input == JOptionPane.OK_OPTION) {
+                int result = AccountDAO.getInstance().delete(lista.get(modelRowIndex).getManv() + "");
 
                 if (result > 0) {
-                    //Cập nhật lại danh sách lista từ database
                     lista = asv.getTaiKhoanAll();
-
-                    //reload table
                     loadTable(lista, tblList);
-
-                    JOptionPane.showMessageDialog(this, "Xóa tài khoản thành công!",
-                            "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Xóa tài khoản thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(this, "Xóa tài khoản thất bại!",
-                            "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Xóa tài khoản thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi xóa tài khoản: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
