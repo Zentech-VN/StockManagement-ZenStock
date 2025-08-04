@@ -28,38 +28,38 @@ public class WarehouseReceiptService {
         }
     }
 
-    public void loadDataTable(JTable table) {
-        SwingWorker<List<PhieuNhap>, Void> worker = new SwingWorker<List<PhieuNhap>, Void>() {
-            @Override
-            protected List<PhieuNhap> doInBackground() throws Exception {
-                return wrd.getAllentries();
-            }
-
-            @Override
-            protected void done() {
-                try {
-                    List<PhieuNhap> list = get();
-                    DefaultTableModel model = (DefaultTableModel) table.getModel();
-                    model.setRowCount(0);
-
-                    for (PhieuNhap p : list) {
-                        model.addRow(new Object[]{
-                            p.getMaphieunhap(),
-                            p.getS().getTenNhaCungCap(),
-                            p.getE().getHoten(),
-                            p.getNgaytao(),
-                            settrangthai(p.getTrangthai())
-                        });
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(table, "Lỗi khi load dữ liệu: " + e.getMessage());
-                }
-            }
-        };
-        worker.execute();
-    }
+//    public void loadDataTable(JTable table) {
+//        SwingWorker<List<PhieuNhap>, Void> worker = new SwingWorker<List<PhieuNhap>, Void>() {
+//            @Override
+//            protected List<PhieuNhap> doInBackground() throws Exception {
+//                return wrd.getAllentries();
+//            }
+//
+//            @Override
+//            protected void done() {
+//                try {
+//                    List<PhieuNhap> list = get();
+//                    DefaultTableModel model = (DefaultTableModel) table.getModel();
+//                    model.setRowCount(0);
+//
+//                    for (PhieuNhap p : list) {
+//                        model.addRow(new Object[]{
+//                            p.getMaphieunhap(),
+//                            p.getS().getTenNhaCungCap(),
+//                            p.getE().getHoten(),
+//                            p.getNgaytao(),
+//                            settrangthai(p.getTrangthai())
+//                        });
+//                    }
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    JOptionPane.showMessageDialog(table, "Lỗi khi load dữ liệu: " + e.getMessage());
+//                }
+//            }
+//        };
+//        worker.execute();
+//    }
 
     public void loadDataCbo1(JComboBox<String> nhacungcap) {
         SwingWorker<List<Supplier>, Void> worker = new SwingWorker<List<Supplier>, Void>() {

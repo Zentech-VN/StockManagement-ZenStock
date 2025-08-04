@@ -55,20 +55,30 @@ public class WarehouseReceiptDAO {
         }
     }
 
-    public List<PhieuNhap> getAllentries() {
+    public List<PhieuNhap> getAllentries(int page, int pageSize) {
         List<PhieuNhap> listp = new ArrayList<>();
-        String sql = "select * from phieunhap join nhanvien on phieunhap.nguoitao = nhanvien.manv join nhacungcap on phieunhap.manhacungcap = nhacungcap.manhacungcap";
-        try (Connection conn = ConnectionHelper.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
-            while (rs.next()) {
-                PhieuNhap p = new PhieuNhap();
-                p.setMaphieunhap(rs.getInt("maphieunhap"));
-                p.getS().setMaNhaCungCap(rs.getInt("manhacungcap"));
-                p.getS().setTenNhaCungCap(rs.getString("nhacungcap.tennhacungcap"));
-                p.getE().setHoten(rs.getString("nhanvien.hoten"));
-                p.setNgaytao(rs.getDate("thoigian"));
-                p.setTrangthai(rs.getString("trangthai"));
-                listp.add(p);
+        String sql = "select * from phieunhap join nhanvien on phieunhap.nguoitao = nhanvien.manv join nhacungcap on phieunhap.manhacungcap = nhacungcap.manhacungcap LIMIT ? OFFSET ?";
+
+        int offset = (page - 1) * pageSize;
+
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, pageSize);
+            ps.setInt(2, offset);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    PhieuNhap p = new PhieuNhap();
+                    p.setMaphieunhap(rs.getInt("maphieunhap"));
+                    p.getS().setMaNhaCungCap(rs.getInt("manhacungcap"));
+                    p.getS().setTenNhaCungCap(rs.getString("nhacungcap.tennhacungcap"));
+                    p.getE().setHoten(rs.getString("nhanvien.hoten"));
+                    p.setNgaytao(rs.getDate("thoigian"));
+                    p.setTrangthai(rs.getString("trangthai"));
+                    listp.add(p);
+                }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -307,4 +317,21 @@ public class WarehouseReceiptDAO {
         }
     }
 
+    public int getReciptCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM phieunhap";
+
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+    
 }
