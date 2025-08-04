@@ -44,7 +44,12 @@ public class AccountForm extends javax.swing.JPanel {
             @Override
             protected DefaultTableModel doInBackground() {
                 String[] columns = {"Mã nhân viên", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"};
-                DefaultTableModel model = new DefaultTableModel(columns, 0);
+                DefaultTableModel model = new DefaultTableModel(columns, 0){
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
 
                 for (Account account : accounts) {
                     model.addRow(new Object[]{
