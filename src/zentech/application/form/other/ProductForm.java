@@ -147,10 +147,12 @@ public class ProductForm extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblSanPham.getModel();
         sorter = new TableRowSorter<>(model);
 
-        sorter.setComparator(5, (o1, o2) -> {
-            int v1 = getTrangThaiOrder(o1.toString());
-            int v2 = getTrangThaiOrder(o2.toString());
-            return Integer.compare(v1, v2);
+        sorter.setComparator(0, (o1, o2) -> {
+            try {
+                return Integer.compare(Integer.parseInt(o1.toString()), Integer.parseInt(o2.toString()));
+            } catch (NumberFormatException e) {
+                return o1.toString().compareTo(o2.toString());
+            }
         });
 
         int choice = cbbSapXep.getSelectedIndex();
