@@ -11,12 +11,17 @@ public class ProductServiceMain implements ProductDAO {
 
     private List<Product> product = new ArrayList<>();
 
-    public List<Product> getAllProductViewService() {
-        return product = getAllProduct();
+    public int getTotalPages(int pageSize) {
+        int totalProducts = getProductCount();
+        return (int) Math.ceil((double) totalProducts / pageSize);
+    }
+    
+    public List<Product> getProductsByPage(int page, int pageSize) {
+        return getAllProduct(page, pageSize);
     }
 
-    public List<Product> getBasicProductService() {
-        return product = getBasicProduct();
+    public List<Product> getBasicProductService(int page, int pageSize) {
+        return product = getBasicProduct(page, pageSize);
     }
 
     public int getProductCountService() {
