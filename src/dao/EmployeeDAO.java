@@ -15,25 +15,33 @@ import raven.toast.Notifications;
 
 public interface EmployeeDAO {
 
-    default List<Employee> getAllEmployee() {
+    default List<Employee> getAllEmployee(int page, int pageSize) {
         List<Employee> list = new ArrayList<>();
-        String sql = "SELECT * FROM vw_nhanvien_toan_bo";
+        
+        int offset = (page - 1) * pageSize;
+
+        String sql = "SELECT manv, hoten, gioitinh, ngaysinh, sdt, email, trangthai FROM nhanvien ORDER BY manv ASC LIMIT ? OFFSET ?";
 
         try (
-                Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Employee e = new Employee();
-                e.setManv(rs.getInt("manv"));
-                e.setHoten(rs.getString("hoten"));
-                e.setGioitinh(rs.getInt("gioitinh"));
-                e.setNgaysinh(rs.getDate("ngaysinh"));
-                e.setSdt(rs.getString("sdt"));
-                e.setEmail(rs.getString("email"));
-                e.setTrangthai(rs.getInt("trangthai"));
-                list.add(e);
+                Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, pageSize);
+            ps.setInt(2, offset);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Employee e = new Employee();
+                    e.setManv(rs.getInt("manv"));
+                    e.setHoten(rs.getString("hoten"));
+                    e.setGioitinh(rs.getInt("gioitinh"));
+                    e.setNgaysinh(rs.getDate("ngaysinh"));
+                    e.setSdt(rs.getString("sdt"));
+                    e.setEmail(rs.getString("email"));
+                    e.setTrangthai(rs.getInt("trangthai"));
+                    list.add(e);
+                }
             }
         } catch (SQLException ex) {
-            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Error while get employee.");
+            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi khi lấy dữ liệu tài khoản");
             ex.printStackTrace();
         }
 
