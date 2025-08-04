@@ -17,7 +17,7 @@ import jdbc.ConnectionHelper;
 public class WarehouseDeliveryDAO {
 
     int maphieuxuatvuatao = 0;
-    
+
     public int getMaSanPhambyTen(String tensanpham) {
         String sql = "select masanpham from sanpham where tensp = ?";
         int id = 0;
@@ -35,24 +35,34 @@ public class WarehouseDeliveryDAO {
         }
     }
 
-    public List<PhieuXuat> getAllPhieuNhap() {
+    public List<PhieuXuat> getAllPhieuNhap(int page, int pageSize) {
         List<PhieuXuat> list = new ArrayList<>();
-        String sql = "select * from phieuxuat join khachhang on phieuxuat.makhachhang = khachhang.makhachhang join nhanvien on phieuxuat.nguoitao = nhanvien.manv";
-        try (Connection conn = ConnectionHelper.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
-            while (rs.next()) {
-                PhieuXuat px = new PhieuXuat();
-                px.setMaphieuxuat(rs.getInt("maphieuxuat"));
-                px.getKhachhang().setTenKhacHang(rs.getString("khachhang.tenkhachhang"));
-                px.getNhanvien().setHoten(rs.getString("nhanvien.hoten"));
-                px.setThoigian(rs.getDate("thoigian"));
-                px.setTrangthai(rs.getString("trangthai"));
-                list.add(px);
+        String sql = "select * from phieuxuat join khachhang on phieuxuat.makhachhang = khachhang.makhachhang join nhanvien on phieuxuat.nguoitao = nhanvien.manv LIMIT ? OFFSET ?";
+
+        int offset = (page - 1) * pageSize;
+
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, pageSize);
+            ps.setInt(2, offset);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    PhieuXuat px = new PhieuXuat();
+                    px.setMaphieuxuat(rs.getInt("maphieuxuat"));
+                    px.getKhachhang().setTenKhacHang(rs.getString("khachhang.tenkhachhang"));
+                    px.getNhanvien().setHoten(rs.getString("nhanvien.hoten"));
+                    px.setThoigian(rs.getDate("thoigian"));
+                    px.setTrangthai(rs.getString("trangthai"));
+                    list.add(px);
+                }
             }
-            return list;
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+        return list;
     }
 
     public List<ProductArea> GetProducArea() {
@@ -336,6 +346,23 @@ public class WarehouseDeliveryDAO {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public int getDeliveryCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM phieuxuat";
+
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return count;
     }
 
 }
