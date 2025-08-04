@@ -6,17 +6,22 @@ import dao.PermGroupDAO;
 import java.util.ArrayList;
 import entity.Account;
 import entity.PermGroup;
+import java.awt.Component;
 import java.awt.Window;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import service.AccountService;
 import zentech.application.dialog.EditAccountDialog;
 import zentech.application.dialog.StaffListDialog;
@@ -33,16 +38,56 @@ public class AccountForm extends javax.swing.JPanel {
 
     public AccountForm() {
         initComponents();
-        initalUI(tblList);
+        initalUI(tblTaikhoan);
         currentPage = 1;
         loadTablePage();
     }
 
     public AccountForm(Account currentUser) {
         initComponents();
-        initalUI(tblList);
+        initalUI(tblTaikhoan);
         currentPage = 1;
         loadTablePage();
+    }
+    
+    private void initalUI(JTable table) {
+        table.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
+        table.setRowHeight(30);
+        table.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
+
+        JScrollPane scroll = (JScrollPane) table.getParent().getParent();
+        scroll.setBorder(BorderFactory.createEmptyBorder());
+        scroll.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, ""
+                + "background:$Table.background;"
+                + "track:$Table.background;"
+                + "trackArc:999");
+
+        table.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
+        table.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
+        table.getTableHeader().setDefaultRenderer(getAlignmentCellRender(table.getTableHeader().getDefaultRenderer(), true));
+        table.setDefaultRenderer(Object.class, getAlignmentCellRender(table.getDefaultRenderer(Object.class), false));
+    }
+    
+    private TableCellRenderer getAlignmentCellRender(TableCellRenderer oldRender, boolean header) {
+        return new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component com = oldRender.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (com instanceof JLabel) {
+                    JLabel label = (JLabel) com;
+                    if (column == 2 || column == 3 || column == 4) {
+                        label.setHorizontalAlignment(SwingConstants.CENTER); //Căn giữa
+                    } else if (column == 0 || column == 1 || column == 5) {
+                        label.setHorizontalAlignment(SwingConstants.LEFT); //Căn trái
+                    } else if (column == 6) {
+                        label.setHorizontalAlignment(SwingConstants.RIGHT); //Căn phải
+                    } else {
+                        label.setHorizontalAlignment(SwingConstants.CENTER);
+                    }
+                }
+                return com;
+            }
+        };
     }
 
     public void loadTable(List<Account> accounts, JTable jTable1) {
@@ -50,7 +95,12 @@ public class AccountForm extends javax.swing.JPanel {
             @Override
             protected DefaultTableModel doInBackground() {
                 String[] columns = {"Mã nhân viên", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"};
-                DefaultTableModel model = new DefaultTableModel(columns, 0);
+                DefaultTableModel model = new DefaultTableModel(columns, 0){
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
 
                 for (Account account : accounts) {
                     model.addRow(new Object[]{
@@ -161,21 +211,6 @@ public class AccountForm extends javax.swing.JPanel {
         return tblList.convertRowIndexToModel(viewIndex);
     }
 
-    private void initalUI(JTable table) {
-        table.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
-        table.setRowHeight(30);
-        table.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
-
-        JScrollPane scroll = (JScrollPane) table.getParent().getParent();
-        scroll.setBorder(BorderFactory.createEmptyBorder());
-        scroll.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, ""
-                + "background:$Table.background;"
-                + "track:$Table.background;"
-                + "trackArc:999");
-
-        table.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
-        table.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
-    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -189,7 +224,7 @@ public class AccountForm extends javax.swing.JPanel {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblList = new javax.swing.JTable();
+        tblTaikhoan = new javax.swing.JTable();
         crazyPanel6 = new raven.crazypanel.CrazyPanel();
         btnFirst = new javax.swing.JButton();
         btnPrevious = new javax.swing.JButton();
@@ -280,7 +315,7 @@ public class AccountForm extends javax.swing.JPanel {
 
         crazyPanel1.add(crazyPanel2);
 
-        tblList.setModel(new javax.swing.table.DefaultTableModel(
+        tblTaikhoan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -288,7 +323,7 @@ public class AccountForm extends javax.swing.JPanel {
                 "Mã nhân viên", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"
             }
         ));
-        jScrollPane1.setViewportView(tblList);
+        jScrollPane1.setViewportView(tblTaikhoan);
 
         crazyPanel1.add(jScrollPane1);
 
@@ -398,8 +433,8 @@ public class AccountForm extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        int selectedRow = tblList.getSelectedRow();
-
+        int selectedRow = tblTaikhoan.getSelectedRow();
+      
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn một tài khoản để xóa!",
                     "Thông báo", JOptionPane.WARNING_MESSAGE);
@@ -407,11 +442,11 @@ public class AccountForm extends javax.swing.JPanel {
         }
 
         // chuyển đổi chỉ mục từ view sang model
-        int modelRowIndex = tblList.convertRowIndexToModel(selectedRow);
+        int modelRowIndex = tblTaikhoan.convertRowIndexToModel(selectedRow);
 
         try {
             String user = appCurrentUser;
-            String hoTen = tblList.getValueAt(selectedRow, 1).toString();
+            String hoTen = tblTaikhoan.getValueAt(selectedRow, 1).toString();
 
             int input = JOptionPane.showConfirmDialog(null,
                     "Bạn có chắc chắn muốn xóa tài khoản \"" + hoTen + "\"?",
@@ -424,7 +459,7 @@ public class AccountForm extends javax.swing.JPanel {
 
                 if (result > 0) {
                     lista = asv.getTaiKhoanAll();
-                    loadTable(lista, tblList);
+                    loadTable(lista, tblTaikhoan);
                     JOptionPane.showMessageDialog(this, "Xóa tài khoản thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(this, "Xóa tài khoản thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -438,12 +473,12 @@ public class AccountForm extends javax.swing.JPanel {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         lista = asv.getTaiKhoanAll();
-        loadTable(lista, tblList);
+        loadTable(lista, tblTaikhoan);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         String txt = txtSearch.getText();
-        asv.Search(txtSearch, tblList);
+        asv.Search(txtSearch, tblTaikhoan);
     }//GEN-LAST:event_txtSearchKeyReleased
 
     private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
@@ -497,7 +532,7 @@ public class AccountForm extends javax.swing.JPanel {
     private javax.swing.JButton jButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCurrentPage;
-    private javax.swing.JTable tblList;
+    private javax.swing.JTable tblTaikhoan;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
