@@ -71,6 +71,32 @@ public class AccountDAO {
         }
         return result;
     }
+    
+    public ArrayList<Account> selectPaged(int pageIndex, int pageSize) {
+        ArrayList<Account> result = new ArrayList<>();
+        try {
+            Connection con = ConnectionHelper.getConnection();
+            String sql = "SELECT manv, tendangnhap, manhomquyen, trangthai FROM taikhoan WHERE trangthai = '0' OR trangthai = '1' LIMIT ? OFFSET ?";
+            
+            PreparedStatement pst = con.prepareStatement(sql);
+            int offset = (pageIndex - 1) * pageSize;
+            pst.setInt(1, pageSize); 
+            pst.setInt(2, offset);
+
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                int manv = rs.getInt("manv");
+                String username = rs.getString("tendangnhap");
+                int manhomquyen = rs.getInt("manhomquyen");
+                int trangthai = rs.getInt("trangthai");
+                result.add(new Account(manv, username, manhomquyen, trangthai));
+            }
+            ConnectionHelper.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
     public Account selectByUser(String t) {
         Account result = null;
