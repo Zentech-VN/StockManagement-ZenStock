@@ -1,8 +1,10 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.PermGroupDAO;
 import entity.Employee;
 import entity.EmployeeAccout;
+import entity.PermGroup;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Window;
@@ -177,7 +179,7 @@ public class EmployeeForm extends javax.swing.JPanel {
     private void initSorter() {
         DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
         sorter = new TableRowSorter<>(model);
-        
+
         sorter.setComparator(0, (o1, o2) -> {
             try {
                 return Integer.compare(Integer.parseInt(o1.toString()), Integer.parseInt(o2.toString()));
@@ -705,16 +707,14 @@ public class EmployeeForm extends javax.swing.JPanel {
             EmployeeAccout employeeAccout = employeeService.fetchAccountInfo(manv);
 
             txtTenDangNhap.setText(employeeAccout.hasAccount() ? employeeAccout.getUsername() : "Chưa có");
-            txtQuyenHan.setText(
-                    employeeAccout.hasAccount()
-                    ? (employeeAccout.getRoleId() == 1 ? "Quản trị hệ thống"
-                    : employeeAccout.getRoleId() == 2 ? "Quản lý kho"
-                    : employeeAccout.getRoleId() == 3 ? "Thủ kho"
-                    : employeeAccout.getRoleId() == 4 ? "Nhân viên Nhập kho"
-                    : employeeAccout.getRoleId() == 5 ? "Nhân viên Xuất kho"
-                    : "") //Không tìm thấy
-                    : ""
-            );
+            if (employeeAccout.hasAccount()) {
+                int roleId = employeeAccout.getRoleId();
+                PermGroupDAO permGroupDAO = new PermGroupDAO();
+                PermGroup group = permGroupDAO.getById(roleId);
+                txtQuyenHan.setText(group != null ? group.getTennhomquyen() : "Chưa có quyền");
+            } else {
+                txtQuyenHan.setText("");
+            }
 
             txtMa.setText(ma);
             txtHoTen.setText(hoTen);
