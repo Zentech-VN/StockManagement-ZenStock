@@ -322,7 +322,15 @@ public class AccountForm extends javax.swing.JPanel {
             new String [] {
                 "Mã nhân viên", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblTaikhoan);
 
         crazyPanel1.add(jScrollPane1);
