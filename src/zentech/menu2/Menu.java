@@ -4,7 +4,9 @@ import zentech.menu.mode.LightDarkMode;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.ui.FlatUIUtils;
 import com.formdev.flatlaf.util.UIScale;
+import dao.PermGroupDAO;
 import entity.Employee;
+import entity.PermGroup;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -91,30 +93,42 @@ public class Menu extends JPanel {
 
     }
 
+//    public void checklogin(Employee acc) {
+//        String username = acc.getHoten();
+//        int ma = acc.getAcc().getManhomquyen();
+//        String tenquyen = "";
+//        switch (ma) {
+//            case 1:
+//                tenquyen = "Quản trị hệ thống";
+//                break;
+//            case 2:
+//                tenquyen = "Quản lý kho";
+//                break;
+//            case 3:
+//                tenquyen = "Thủ kho";
+//                break;
+//            case 4:
+//                tenquyen = "Nhân viên Nhập kho";
+//                break;
+//            case 5:
+//                tenquyen = "Nhân viên Xuất kho";
+//                break;
+//            default:
+//                tenquyen = "Chưa có quyền";
+//                break;
+//        }
+//        this.ten = username;
+//        this.tenquyen = tenquyen;
+//    }
     public void checklogin(Employee acc) {
         String username = acc.getHoten();
         int ma = acc.getAcc().getManhomquyen();
-        String tenquyen = "";
-        switch (ma) {
-            case 1:
-                tenquyen = "Quản trị hệ thống";
-                break;
-            case 2:
-                tenquyen = "Quản lý kho";
-                break;
-            case 3:
-                tenquyen = "Thủ kho";
-                break;
-            case 4:
-                tenquyen = "Nhân viên Nhập kho";
-                break;
-            case 5:
-                tenquyen = "Nhân viên Xuất kho";
-                break;
-            default:
-                tenquyen = "Chưa có quyền";
-                break;
-        }
+
+        // Lấy tên nhóm quyền từ DB qua DAO
+        PermGroupDAO permGroupDAO = new PermGroupDAO();
+        PermGroup group = permGroupDAO.getById(ma);
+        String tenquyen = (group != null) ? group.getTennhomquyen() : "Chưa có quyền";
+
         this.ten = username;
         this.tenquyen = tenquyen;
     }

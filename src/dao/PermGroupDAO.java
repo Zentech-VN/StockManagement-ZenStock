@@ -100,6 +100,23 @@ public class PermGroupDAO {
         return result;
     }
 
+    public PermGroup getById(int manhomquyen) {
+        String sql = "SELECT * FROM nhomquyen WHERE manhomquyen = ?";
+        try (Connection con = (Connection) ConnectionHelper.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, manhomquyen);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                PermGroup group = new PermGroup();
+                group.setManhomquyen(rs.getInt("manhomquyen"));
+                group.setTennhomquyen(rs.getString("tennhomquyen"));
+                return group;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public int getAutoIncrement() {
         int result = -1;
         try {
