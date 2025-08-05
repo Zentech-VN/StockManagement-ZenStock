@@ -90,43 +90,6 @@ public class AccountForm extends javax.swing.JPanel {
         };
     }
 
-    public void loadTable(List<Account> accounts, JTable jTable1) {
-        SwingWorker<DefaultTableModel, Void> worker = new SwingWorker<DefaultTableModel, Void>() {
-            @Override
-            protected DefaultTableModel doInBackground() {
-                String[] columns = {"Mã nhân viên", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"};
-                DefaultTableModel model = new DefaultTableModel(columns, 0){
-                    @Override
-                    public boolean isCellEditable(int row, int column) {
-                        return false;
-                    }
-                };
-
-                for (Account account : accounts) {
-                    model.addRow(new Object[]{
-                        account.getManv(),
-                        account.getUsername(),
-                        getPermGroupCached(account.getManhomquyen()),
-                        getStatusText(account.getTrangthai())
-                    });
-                }
-                jTable1.setModel(model);
-                return model;
-            }
-
-            @Override
-            protected void done() {
-                try {
-                    jTable1.setModel(get());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        worker.execute();
-    }
-
     public void loadTablePage() {
         SwingWorker<List<Object[]>, Void> worker = new SwingWorker<List<Object[]>, Void>() {
             @Override
@@ -467,7 +430,7 @@ public class AccountForm extends javax.swing.JPanel {
 
                 if (result > 0) {
                     lista = asv.getTaiKhoanAll();
-                    loadTable(lista, tblTaikhoan);
+                    loadTablePage();
                     JOptionPane.showMessageDialog(this, "Xóa tài khoản thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(this, "Xóa tài khoản thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -481,7 +444,7 @@ public class AccountForm extends javax.swing.JPanel {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         lista = asv.getTaiKhoanAll();
-        loadTable(lista, tblTaikhoan);
+        loadTablePage();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
