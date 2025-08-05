@@ -236,7 +236,7 @@ public class Chart extends javax.swing.JPanel {
             @Override
             protected List<Chart_Revenue> doInBackground() throws Exception {
                 // Lấy dữ liệu trong background
-                return service.getRevenue10MonthService();
+                return service.getRevenue6MonthService();
             }
 
             @Override
@@ -1881,8 +1881,6 @@ public class Chart extends javax.swing.JPanel {
     }//GEN-LAST:event_btnNgayActionPerformed
 
     private void btnLamMoiNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiNamActionPerformed
-        initalChart(chartRevenueYears, "Thống kê theo năm", "Doanh thu", "Vốn", "Lợi nhuận");
-
         txtThongKeTheoNam_TuNam.setText("");
         txtThongKeTheoNam_DenNam.setText("");
 
@@ -1891,8 +1889,6 @@ public class Chart extends javax.swing.JPanel {
     }//GEN-LAST:event_btnLamMoiNamActionPerformed
 
     private void btnLamMoiThangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiThangActionPerformed
-        initalChart(chartRevenueMonths, "Thống kê theo tháng", "Doanh thu", "Vốn", "Lợi nhuận");
-
         txtThongKeTheoThang_Nam.setText("");
         txtThongKeTheoThang_Nam.setText("");
 
@@ -1901,8 +1897,6 @@ public class Chart extends javax.swing.JPanel {
     }//GEN-LAST:event_btnLamMoiThangActionPerformed
 
     private void btnLamMoiNgayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiNgayActionPerformed
-        initalChart(chartRevenueDays, "Thống kê theo ngày", "Doanh thu", "Vốn", "Lợi nhuận");
-
         txtThongKeTheoNgay_Nam.setText("");
         txtThongKeTheoNgay_Thang.setText("");
 

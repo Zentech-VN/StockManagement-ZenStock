@@ -51,26 +51,39 @@ public interface ChartDAO {
         return list;
     }
 
-    default List<Chart_Revenue> getRevenue10Month() {
+    default List<Chart_Revenue> getRevenue6Month() {
         List<Chart_Revenue> list = new ArrayList<>();
 
-        String sql = "SELECT  "
-                + "DATE_FORMAT(px.thoigian, '%Y-%m') AS thang, "
-                + "ROUND(SUM(ctx.soluong * ctx.dongia), 0) AS doanh_thu, "
-                + "ROUND(SUM(ctx.soluong * IFNULL(nhap.gia_von_tb, 0)), 0) AS gia_von, "
-                + "ROUND(SUM(ctx.soluong * ctx.dongia) - SUM(ctx.soluong * IFNULL(nhap.gia_von_tb, 0)), 0) AS loi_nhuan "
-                + "FROM phieuxuat px "
-                + "JOIN ctphieuxuat ctx ON ctx.maphieuxuat = px.maphieuxuat "
+        String sql
+                = "SELECT  "
+                + "    m.thang, "
+                + "    IFNULL(SUM(ctx.soluong * ctx.dongia), 0) AS doanh_thu, "
+                + "    IFNULL(SUM(ctx.soluong * IFNULL(nhap.gia_von_tb, 0)), 0) AS gia_von, "
+                + "    IFNULL(SUM(ctx.soluong * ctx.dongia), 0) "
+                + "        - IFNULL(SUM(ctx.soluong * IFNULL(nhap.gia_von_tb, 0)), 0) AS loi_nhuan "
+                + "FROM ( "
+                + "    SELECT DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 5 MONTH), '%Y-%m') AS thang UNION ALL "
+                + "    SELECT DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 4 MONTH), '%Y-%m') UNION ALL "
+                + "    SELECT DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 3 MONTH), '%Y-%m') UNION ALL "
+                + "    SELECT DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 2 MONTH), '%Y-%m') UNION ALL "
+                + "    SELECT DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m') UNION ALL "
+                + "    SELECT DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 0 MONTH), '%Y-%m') "
+                + ") m "
+                + "LEFT JOIN phieuxuat px  "
+                + "    ON DATE_FORMAT(px.thoigian, '%Y-%m') = m.thang "
+                + "    AND px.trangthai = 'Duyet' "
+                + "LEFT JOIN ctphieuxuat ctx  "
+                + "    ON ctx.maphieuxuat = px.maphieuxuat "
                 + "LEFT JOIN ( "
-                + "    SELECT masanpham, AVG(dongia) AS gia_von_tb "
+                + "    SELECT  "
+                + "        masanpham,  "
+                + "        AVG(dongia) AS gia_von_tb "
                 + "    FROM ctphieunhap "
                 + "    GROUP BY masanpham "
-                + ") nhap ON nhap.masanpham = ctx.masanpham "
-                + "WHERE px.trangthai = 'Duyet' "
-                + "GROUP BY DATE_FORMAT(px.thoigian, '%Y-%m') "
-                + "ORDER BY DATE_FORMAT(px.thoigian, '%Y-%m') DESC "
-                //Chỉ lấy 10 tháng gần nhất
-                + "LIMIT 10";
+                + ") nhap  "
+                + "    ON nhap.masanpham = ctx.masanpham "
+                + "GROUP BY m.thang "
+                + "ORDER BY m.thang DESC;";
 
         try (
                 Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
@@ -101,7 +114,7 @@ public interface ChartDAO {
                 + "LEFT JOIN ctphieuxuat ctx ON ctx.maphieuxuat = px.maphieuxuat "
                 + "LEFT JOIN (SELECT masanpham, AVG(dongia) AS avg_cost FROM ctphieunhap GROUP BY masanpham) nhap ON nhap.masanpham = ctx.masanpham "
                 + "WHERE y.nam BETWEEN ? AND ? "
-                + "GROUP BY y.nam ORDER BY y.nam;";
+                + "GROUP BY y.nam ORDER BY y.nam DESC;";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             for (int i = 0; i < 5; i++) {
                 ps.setInt(i + 1, fromYear);
@@ -134,7 +147,7 @@ public interface ChartDAO {
                 + "LEFT JOIN phieuxuat px ON MONTH(px.thoigian) = t.thang AND YEAR(px.thoigian) = ? AND px.trangthai = 'Duyet' "
                 + "LEFT JOIN ctphieuxuat ctx ON ctx.maphieuxuat = px.maphieuxuat "
                 + "LEFT JOIN (SELECT masanpham, AVG(dongia) AS avg_cost FROM ctphieunhap GROUP BY masanpham) nhap ON nhap.masanpham = ctx.masanpham "
-                + "GROUP BY t.thang ORDER BY t.thang;";
+                + "GROUP BY t.thang ORDER BY t.thang DESC;";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, year);
             ResultSet rs = ps.executeQuery();
@@ -167,7 +180,7 @@ public interface ChartDAO {
                 + "LEFT JOIN phieuxuat px ON DAY(px.thoigian) = d.ngay AND MONTH(px.thoigian) = ? AND YEAR(px.thoigian) = ? AND px.trangthai = 'Duyet' "
                 + "LEFT JOIN ctphieuxuat ctx ON ctx.maphieuxuat = px.maphieuxuat "
                 + "LEFT JOIN (SELECT masanpham, AVG(dongia) AS avg_cost FROM ctphieunhap GROUP BY masanpham) nhap ON nhap.masanpham = ctx.masanpham "
-                + "GROUP BY d.ngay ORDER BY d.ngay;";
+                + "GROUP BY d.ngay ORDER BY d.ngay DESC;";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, month);
             ps.setInt(2, year);

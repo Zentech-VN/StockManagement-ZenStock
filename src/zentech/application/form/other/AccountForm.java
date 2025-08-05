@@ -157,7 +157,7 @@ public class AccountForm extends javax.swing.JPanel {
                     List<Object[]> rows = get();
 
                     // Lấy model hiện tại và xóa dữ liệu cũ
-                    DefaultTableModel model = (DefaultTableModel) tblList.getModel();
+                    DefaultTableModel model = (DefaultTableModel) tblTaikhoan.getModel();
                     model.setRowCount(0);
 
                     // Đổ dữ liệu mới vào bảng
@@ -207,8 +207,8 @@ public class AccountForm extends javax.swing.JPanel {
     }
 
     public int getRowSelected() {
-        int viewIndex = tblList.getSelectedRow();
-        return tblList.convertRowIndexToModel(viewIndex);
+        int viewIndex = tblTaikhoan.getSelectedRow();
+        return tblTaikhoan.convertRowIndexToModel(viewIndex);
     }
 
 
