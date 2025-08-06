@@ -7,6 +7,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import raven.toast.Notifications;
 
@@ -42,6 +44,16 @@ public class EmployeeService implements EmployeeDAO {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             java.util.Date utilDate = sdf.parse(ngaySinh);
             ngaySinhDate = new java.sql.Date(utilDate.getTime());
+
+            LocalDate birthDate = ngaySinhDate.toLocalDate();
+            LocalDate now = LocalDate.now();
+            Period age = Period.between(birthDate, now);
+
+            if (age.getYears() < 18) {
+                Notifications.getInstance().show(Notifications.Type.WARNING,Notifications.Location.TOP_CENTER, "Người dùng phải đủ 18 tuổi trở lên");
+                return false;
+            }
+
         } catch (ParseException e) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Ngày sinh năm sinh không hợp lệ");
             return false;
@@ -94,6 +106,16 @@ public class EmployeeService implements EmployeeDAO {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             java.util.Date utilDate = sdf.parse(ngaySinh);
             ngaySinhDate = new java.sql.Date(utilDate.getTime());
+            
+            LocalDate birthDate = ngaySinhDate.toLocalDate();
+            LocalDate now = LocalDate.now();
+            Period age = Period.between(birthDate, now);
+
+            if (age.getYears() < 18) {
+                Notifications.getInstance().show(Notifications.Type.WARNING,Notifications.Location.TOP_CENTER, "Người dùng phải đủ 18 tuổi trở lên");
+                return false;
+            }
+            
         } catch (ParseException e) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Ngày sinh năm sinh không hợp lệ");
             return false;
