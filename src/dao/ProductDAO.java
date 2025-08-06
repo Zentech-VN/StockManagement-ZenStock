@@ -305,7 +305,7 @@ public interface ProductDAO {
 
     default int getProductCount() {
         int count = 0;
-        String sql = "SELECT COUNT(*) FROM sanpham";
+        String sql = "SELECT COUNT(*) FROM sanpham WHERE is_delete = 0";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 

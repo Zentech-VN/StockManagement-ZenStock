@@ -159,7 +159,7 @@ public interface EmployeeDAO {
 
     default int getEmployeeCount() {
         int count = 0;
-        String sql = "SELECT COUNT(*) FROM nhanvien";
+        String sql = "SELECT COUNT(*) FROM nhanvien WHERE is_delete = 0";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
