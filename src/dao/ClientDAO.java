@@ -13,7 +13,7 @@ public class ClientDAO {
 
     public List<Client> getAllCilent() {
         List<Client> listc = new ArrayList<>();
-        String sql = "select makhachhang, tenkhachhang, diachi, email, sdt, trangthai from khachhang";
+        String sql = "select makhachhang, tenkhachhang, diachi, email, sdt, trangthai from khachhang where is_delete = 0";
         try (Connection conn = ConnectionHelper.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 Client cl = new Client();
@@ -50,12 +50,10 @@ public class ClientDAO {
     }
 
     public int delete(int id) {
-        String sql = "delete from khachhang where makhachhang = ?";
-        int rs = 0;
+        String sql = "UPDATE khachhang SET is_delete = 1 WHERE makhachhang = ?";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setInt(1, id);
-            rs = pst.executeUpdate();
-            return rs;
+            return pst.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
@@ -93,9 +91,9 @@ public class ClientDAO {
             pst.setString(2, cl.getDiaChi());
             pst.setString(3, cl.getEmail());
             pst.setString(4, cl.getSoDienThoai());
-             pst.setString(5, cl.getTrangThai());
+            pst.setString(5, cl.getTrangThai());
             pst.setInt(6, cl.getMaKhacHang());
-           
+
             rs = pst.executeUpdate();
             return rs;
         } catch (Exception e) {
