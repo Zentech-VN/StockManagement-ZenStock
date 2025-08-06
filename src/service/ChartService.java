@@ -18,8 +18,8 @@ public class ChartService implements ChartDAO {
     private final String YEAR_REGEX = "^[0-9]{4}$";
     private final String MONTH_REGEX = "^(0?[1-9]|1[0-2])$";
 
-    public List<Chart_Revenue> getRevenue10MonthService() {
-        return list = getRevenue10Month();
+    public List<Chart_Revenue> getRevenue6MonthService() {
+        return list = getRevenue6Month();
     }
 
     public List<Chart_Revenue> getRevenueService() {

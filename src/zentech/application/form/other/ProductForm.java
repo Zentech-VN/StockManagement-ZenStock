@@ -30,59 +30,74 @@ import zentech.application.dialog.ProductUpdateDialog;
 
 public class ProductForm extends javax.swing.JPanel {
 
-    private ProductServiceMain productService;
+    private ProductServiceMain productService = new ProductServiceMain();
     private TableRowSorter<DefaultTableModel> sorter;
+
+    private int currentPage = 1;
+    private final int pageSize = 50;  // số dòng mỗi trang
+    private int totalPages = 1;
 
     public ProductForm() {
         initComponents();
         initalUI(tblSanPham);
+        currentPage = 1;
         loadProductData();
         initSorter();
         initSearchListener();
     }
 
     public void loadProductData() {
-        DefaultTableModel model = (DefaultTableModel) tblSanPham.getModel();
-        model.setRowCount(0);
-
-        SwingWorker<List<Product>, Product> worker = new SwingWorker<List<Product>, Product>() {
+        SwingWorker<List<Object[]>, Void> worker = new SwingWorker<List<Object[]>, Void>() {
             @Override
-            protected List<Product> doInBackground() {
-                productService = new ProductServiceMain();
-                return productService.getBasicProduct();
+            protected List<Object[]> doInBackground() throws Exception {
+                
+                List<Product> products = productService.getBasicProduct(currentPage, pageSize);
+                int totalProducts = productService.getProductCount();
+                totalPages = (int) Math.ceil((double) totalProducts / pageSize);
+
+                List<Object[]> rows = new ArrayList<>();
+                for (Product p : products) {
+                    rows.add(new Object[]{
+                        p.getMaSanPham(),
+                        p.getTenSanPham(),
+                        p.getTenThuongHieu(),
+                        p.getTenHeDieuHanh(),
+                        p.getTenXuatXu(),
+                        p.getGia(),
+                        p.getTrangThai()
+                    });
+                }
+                return rows;
             }
 
             @Override
             protected void done() {
                 try {
-                    List<Product> products = get();
+                    List<Object[]> rows = get();
+
                     DefaultTableModel model = (DefaultTableModel) tblSanPham.getModel();
-                    model.setRowCount(0);
+                    model.setRowCount(0); // Xóa dữ liệu cũ
 
-                    for (Product p : products) {
-                        model.addRow(new Object[]{
-                            p.getMaSanPham(),
-                            p.getTenSanPham(),
-                            p.getTenThuongHieu(),
-                            p.getGia(),
-                            p.getTenHeDieuHanh(),
-                            p.getTenXuatXu(),
-                            p.getTrangThai()
-                        });
+                    for (Object[] row : rows) {
+                        model.addRow(row);
                     }
 
-                    if (sorter == null) {
-                        initSorter();
-                    } else {
-                        sorter.sort();
-                    }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+                    // Cập nhật trạng thái nút
+                    btnPrevious.setEnabled(currentPage > 1);
+                    btnFirst.setEnabled(currentPage > 1);
+                    btnNext.setEnabled(currentPage < totalPages);
+                    btnLast.setEnabled(currentPage < totalPages);
+
+                    // Hiển thị số trang
+                    lblCurrentPage.setText("Trang " + currentPage + " / " + totalPages);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         };
-        worker.execute();
 
+        worker.execute();
     }
 
     private void initalUI(JTable table) {
@@ -132,10 +147,12 @@ public class ProductForm extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblSanPham.getModel();
         sorter = new TableRowSorter<>(model);
 
-        sorter.setComparator(5, (o1, o2) -> {
-            int v1 = getTrangThaiOrder(o1.toString());
-            int v2 = getTrangThaiOrder(o2.toString());
-            return Integer.compare(v1, v2);
+        sorter.setComparator(0, (o1, o2) -> {
+            try {
+                return Integer.compare(Integer.parseInt(o1.toString()), Integer.parseInt(o2.toString()));
+            } catch (NumberFormatException e) {
+                return o1.toString().compareTo(o2.toString());
+            }
         });
 
         int choice = cbbSapXep.getSelectedIndex();
@@ -242,6 +259,12 @@ public class ProductForm extends javax.swing.JPanel {
         btnAdd1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSanPham = new javax.swing.JTable();
+        crazyPanel6 = new raven.crazypanel.CrazyPanel();
+        btnFirst = new javax.swing.JButton();
+        btnPrevious = new javax.swing.JButton();
+        lblCurrentPage = new javax.swing.JLabel();
+        btnNext = new javax.swing.JButton();
+        btnLast = new javax.swing.JButton();
 
         jButton5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton5.setText("Làm mới");
@@ -267,7 +290,7 @@ public class ProductForm extends javax.swing.JPanel {
         crazyPanel1.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
             "wrap,fill,insets 15",
             "[fill]",
-            "[grow 0][fill]",
+            "[grow 0][fill][grow 0]",
             new String[]{
                 ""
             }
@@ -359,6 +382,67 @@ public class ProductForm extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tblSanPham);
 
         crazyPanel1.add(jScrollPane1);
+
+        crazyPanel6.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
+            "background:$Table:background",
+            new String[]{
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                ""
+            }
+        ));
+        crazyPanel6.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
+            "",
+            "push[][][][][]push",
+            "",
+            null
+        ));
+
+        btnFirst.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnFirst.setText("<<");
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnFirst);
+
+        btnPrevious.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnPrevious.setText("< Trước");
+        btnPrevious.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreviousActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnPrevious);
+
+        lblCurrentPage.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblCurrentPage.setText("...");
+        crazyPanel6.add(lblCurrentPage);
+
+        btnNext.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnNext.setText("Sau >");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnNext);
+
+        btnLast.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnLast.setText(">>");
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnLast);
+
+        crazyPanel1.add(crazyPanel6);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -463,18 +547,56 @@ public class ProductForm extends javax.swing.JPanel {
         productDetailsDialog.setVisible(true);
     }//GEN-LAST:event_btnAdd1ActionPerformed
 
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        btnFirst.addActionListener(e -> {
+            if (currentPage != 1) {
+                currentPage = 1;
+                loadProductData();
+            }
+        });
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
+        if (currentPage > 1) {
+            currentPage--;
+            loadProductData();
+        }
+    }//GEN-LAST:event_btnPreviousActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        if (currentPage < totalPages) {
+            currentPage++;
+            loadProductData();
+        }
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        btnLast.addActionListener(e -> {
+            if (currentPage != totalPages) {
+                currentPage = totalPages;
+                loadProductData();
+            }
+        });
+    }//GEN-LAST:event_btnLastActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnAdd1;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnFirst;
+    private javax.swing.JButton btnLast;
+    private javax.swing.JButton btnNext;
+    private javax.swing.JButton btnPrevious;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cbbSapXep;
     private raven.crazypanel.CrazyPanel crazyPanel1;
     private raven.crazypanel.CrazyPanel crazyPanel2;
+    private raven.crazypanel.CrazyPanel crazyPanel6;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblCurrentPage;
     private javax.swing.JTable tblSanPham;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables

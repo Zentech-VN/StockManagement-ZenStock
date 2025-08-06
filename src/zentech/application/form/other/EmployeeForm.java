@@ -1,8 +1,10 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.PermGroupDAO;
 import entity.Employee;
 import entity.EmployeeAccout;
+import entity.PermGroup;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Window;
@@ -33,13 +35,18 @@ import zentech.application.dialog.EmployeeUpdateDialog;
 
 public class EmployeeForm extends javax.swing.JPanel {
 
-    private EmployeeService employeeService;
+    private EmployeeService employeeService = new EmployeeService();
     private List<Employee> employeeList = new ArrayList<>();
     private TableRowSorter<DefaultTableModel> sorter;
     private EmployeeUpdateDialog updateDialog;
 
+    private int currentPage = 1;
+    private int pageSize = 50;
+    private int totalPages = 1;
+
     public EmployeeForm() {
         initComponents();
+        currentPage = 1;
         loadEmployeeData();
         initalUI(tblNhanVien);
         initSearchListener();
@@ -111,18 +118,22 @@ public class EmployeeForm extends javax.swing.JPanel {
         SwingWorker<List<Object[]>, Void> worker = new SwingWorker<List<Object[]>, Void>() {
             @Override
             protected List<Object[]> doInBackground() throws Exception {
-                employeeService = new EmployeeService();
-                List<Object[]> rows = new ArrayList<>();
+                // Lấy danh sách nhân viên theo trang
+                List<Employee> employees = employeeService.getAllEmployee(currentPage, pageSize);
+                int totalEmployees = employeeService.getEmployeeCountService();
+                totalPages = (int) Math.ceil((double) totalEmployees / pageSize);
 
-                for (Employee x : employeeService.getAllEmployeeService()) {
+                // Chuyển sang dạng Object[] để đưa vào TableModel
+                List<Object[]> rows = new ArrayList<>();
+                for (Employee e : employees) {
                     rows.add(new Object[]{
-                        x.getManv(),
-                        x.getHoten(),
-                        x.getGioiTinhText(),
-                        x.getNgaysinh(),
-                        x.getSdt(),
-                        x.getEmail(),
-                        x.getTrangThaiText()
+                        e.getManv(),
+                        e.getHoten(),
+                        e.getGioiTinhText(),
+                        e.getNgaysinh(),
+                        e.getSdt(),
+                        e.getEmail(),
+                        e.getTrangThaiText()
                     });
                 }
                 return rows;
@@ -132,14 +143,24 @@ public class EmployeeForm extends javax.swing.JPanel {
             protected void done() {
                 try {
                     List<Object[]> rows = get();
+
                     DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
-                    model.setRowCount(0); // clear dữ liệu cũ
+                    model.setRowCount(0); // Xóa dữ liệu cũ
 
                     for (Object[] row : rows) {
                         model.addRow(row);
                     }
-                    tblNhanVien.setModel(model);
 
+                    // Cập nhật trạng thái nút phân trang
+                    btnPrevious.setEnabled(currentPage > 1);
+                    btnFirst.setEnabled(currentPage > 1);
+                    btnNext.setEnabled(currentPage < totalPages);
+                    btnLast.setEnabled(currentPage < totalPages);
+
+                    // Hiển thị số trang
+                    lblCurrentPage.setText("Trang " + currentPage + " / " + totalPages);
+
+                    // Khởi tạo hoặc refresh sorter
                     if (sorter == null) {
                         initSorter();
                     } else {
@@ -159,14 +180,15 @@ public class EmployeeForm extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
         sorter = new TableRowSorter<>(model);
 
-        sorter.setComparator(6, (o1, o2) -> {
-            int v1 = "Đang làm".equals(o1) ? 0 : 1;
-            int v2 = "Đang làm".equals(o2) ? 0 : 1;
-            return Integer.compare(v1, v2);
+        sorter.setComparator(0, (o1, o2) -> {
+            try {
+                return Integer.compare(Integer.parseInt(o1.toString()), Integer.parseInt(o2.toString()));
+            } catch (NumberFormatException e) {
+                return o1.toString().compareTo(o2.toString());
+            }
         });
 
         tblNhanVien.setRowSorter(sorter);
-        applySort();
     }
 
     private void applySort() {
@@ -254,6 +276,12 @@ public class EmployeeForm extends javax.swing.JPanel {
         btnDelete = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblNhanVien = new javax.swing.JTable();
+        crazyPanel6 = new raven.crazypanel.CrazyPanel();
+        btnFirst = new javax.swing.JButton();
+        btnPrevious = new javax.swing.JButton();
+        lblCurrentPage = new javax.swing.JLabel();
+        btnNext = new javax.swing.JButton();
+        btnLast = new javax.swing.JButton();
         crazyPanel3 = new raven.crazypanel.CrazyPanel();
         jLabel1 = new javax.swing.JLabel();
         txtMa = new javax.swing.JTextField();
@@ -293,7 +321,7 @@ public class EmployeeForm extends javax.swing.JPanel {
         jButton7.setText("Xuất File");
 
         cbbSapXep.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        cbbSapXep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mặc định", "Họ tên", "Ngày sinh", "Trạng thái" }));
+        cbbSapXep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã", "Họ tên", "Ngày sinh", "Trạng thái" }));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel9.setText("Sắp xếp theo:");
@@ -305,7 +333,7 @@ public class EmployeeForm extends javax.swing.JPanel {
         crazyPanel1.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
             "wrap,fill,insets 15",
             "[fill]",
-            "[grow 0][fill]",
+            "[grow 0][fill][grow 0]",
             new String[]{
                 ""
             }
@@ -396,6 +424,67 @@ public class EmployeeForm extends javax.swing.JPanel {
         }
 
         crazyPanel1.add(jScrollPane1);
+
+        crazyPanel6.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
+            "background:$Table:background",
+            new String[]{
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                ""
+            }
+        ));
+        crazyPanel6.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
+            "",
+            "push[][][][][]push",
+            "",
+            null
+        ));
+
+        btnFirst.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnFirst.setText("<<");
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnFirst);
+
+        btnPrevious.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnPrevious.setText("< Trước");
+        btnPrevious.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreviousActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnPrevious);
+
+        lblCurrentPage.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblCurrentPage.setText("...");
+        crazyPanel6.add(lblCurrentPage);
+
+        btnNext.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnNext.setText("Sau >");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnNext);
+
+        btnLast.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnLast.setText(">>");
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnLast);
+
+        crazyPanel1.add(crazyPanel6);
 
         crazyPanel3.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
             "background:$Info.background;[light]border:0,0,0,0,shade(@background,5%),,20;[dark]border:0,0,0,0,tint(@background,5%),,20",
@@ -618,16 +707,14 @@ public class EmployeeForm extends javax.swing.JPanel {
             EmployeeAccout employeeAccout = employeeService.fetchAccountInfo(manv);
 
             txtTenDangNhap.setText(employeeAccout.hasAccount() ? employeeAccout.getUsername() : "Chưa có");
-            txtQuyenHan.setText(
-                    employeeAccout.hasAccount()
-                    ? (employeeAccout.getRoleId() == 1 ? "Quản trị hệ thống"
-                    : employeeAccout.getRoleId() == 2 ? "Quản lý kho"
-                    : employeeAccout.getRoleId() == 3 ? "Thủ kho"
-                    : employeeAccout.getRoleId() == 4 ? "Nhân viên Nhập kho"
-                    : employeeAccout.getRoleId() == 5 ? "Nhân viên Xuất kho"
-                    : "") //Không tìm thấy
-                    : ""
-            );
+            if (employeeAccout.hasAccount()) {
+                int roleId = employeeAccout.getRoleId();
+                PermGroupDAO permGroupDAO = new PermGroupDAO();
+                PermGroup group = permGroupDAO.getById(roleId);
+                txtQuyenHan.setText(group != null ? group.getTennhomquyen() : "Chưa có quyền");
+            } else {
+                txtQuyenHan.setText("");
+            }
 
             txtMa.setText(ma);
             txtHoTen.setText(hoTen);
@@ -639,15 +726,52 @@ public class EmployeeForm extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tblNhanVienMouseClicked
 
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        btnFirst.addActionListener(e -> {
+            if (currentPage != 1) {
+                currentPage = 1;
+                loadEmployeeData();
+            }
+        });
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
+        if (currentPage > 1) {
+            currentPage--;
+            loadEmployeeData();
+        }
+    }//GEN-LAST:event_btnPreviousActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        if (currentPage < totalPages) {
+            currentPage++;
+            loadEmployeeData();
+        }
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        btnLast.addActionListener(e -> {
+            if (currentPage != totalPages) {
+                currentPage = totalPages;
+                loadEmployeeData();
+            }
+        });
+    }//GEN-LAST:event_btnLastActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnFirst;
+    private javax.swing.JButton btnLast;
+    private javax.swing.JButton btnNext;
+    private javax.swing.JButton btnPrevious;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cbbSapXep;
     private raven.crazypanel.CrazyPanel crazyPanel1;
     private raven.crazypanel.CrazyPanel crazyPanel2;
     private raven.crazypanel.CrazyPanel crazyPanel3;
     private raven.crazypanel.CrazyPanel crazyPanel4;
+    private raven.crazypanel.CrazyPanel crazyPanel6;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
@@ -661,6 +785,7 @@ public class EmployeeForm extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblCurrentPage;
     private javax.swing.JTable tblNhanVien;
     private javax.swing.JTextField txtDienThoai;
     private javax.swing.JTextField txtEmail;

@@ -3,17 +3,22 @@ package zentech.application.form.other;
 import com.formdev.flatlaf.FlatClientProperties;
 import dao.WarehouseReceiptDAO;
 import entity.Employee;
+import entity.PhieuNhap;
 
 import java.awt.Component;
 import java.awt.Window;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import raven.toast.Notifications;
 import service.WarehouseReceiptService;
@@ -28,11 +33,15 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
     private Employee CurrentAcc;
     private WarehouseReceiptDAO wrd = new WarehouseReceiptDAO();
 
+    private int currentPage = 1;
+    private final int pageSize = 50;  // số dòng mỗi trang
+    private int totalPages = 1;
+    
     public WarehouseReceiptForm(Employee acc) {
         this.CurrentAcc = acc;
         initComponents();
         initalUI(tblPhieuNhap);
-        wrs.loadDataTable(tblPhieuNhap);
+        loadDataTable();
     }
 
     private void initalUI(JTable table) {
@@ -74,6 +83,67 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
             }
         };
     }
+    
+    public String settrangthai(String trangthai) {
+        if (trangthai.equalsIgnoreCase("choduyet")) {
+            return "Chờ duyệt";
+        } else if (trangthai.equalsIgnoreCase("duyet")) {
+            return "Duyệt";
+        } else {
+            return "Hủy";
+        }
+    }
+    
+    public void loadDataTable() {
+        SwingWorker<List<Object[]>, Void> worker = new SwingWorker<List<Object[]>, Void>() {
+            @Override
+            protected List<Object[]> doInBackground() throws Exception {
+                List<PhieuNhap> list = wrd.getAllentries(currentPage, pageSize);
+
+                int totalEntries = wrd.getReciptCount();
+                totalPages = (int) Math.ceil((double) totalEntries / pageSize);
+
+                List<Object[]> rows = new ArrayList<>();
+                for (PhieuNhap p : list) {
+                    rows.add(new Object[]{
+                        p.getMaphieunhap(),
+                        p.getS().getTenNhaCungCap(),
+                        p.getE().getHoten(),
+                        p.getNgaytao(),
+                        settrangthai(p.getTrangthai())
+                    });
+                }
+                return rows;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    List<Object[]> rows = get();
+
+                    DefaultTableModel model = (DefaultTableModel) tblPhieuNhap.getModel();
+                    model.setRowCount(0); // Xóa dữ liệu cũ
+
+                    for (Object[] row : rows) {
+                        model.addRow(row);
+                    }
+
+                    btnPrevious.setEnabled(currentPage > 1);
+                    btnFirst.setEnabled(currentPage > 1);
+                    btnNext.setEnabled(currentPage < totalPages);
+                    btnLast.setEnabled(currentPage < totalPages);
+
+                    lblCurrentPage.setText("Trang " + currentPage + " / " + totalPages);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(tblPhieuNhap, "Lỗi khi load dữ liệu: " + e.getMessage());
+                }
+            }
+        };
+
+        worker.execute();
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -86,10 +156,16 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
         txtSearch = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
-        btnDetails = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        btnDetails = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPhieuNhap = new javax.swing.JTable();
+        crazyPanel6 = new raven.crazypanel.CrazyPanel();
+        btnFirst = new javax.swing.JButton();
+        btnPrevious = new javax.swing.JButton();
+        lblCurrentPage = new javax.swing.JLabel();
+        btnNext = new javax.swing.JButton();
+        btnLast = new javax.swing.JButton();
 
         btnLamMoi.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLamMoi.setText("Làm mới");
@@ -109,7 +185,7 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
         crazyPanel1.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
             "wrap,fill,insets 15",
             "[fill]",
-            "[grow 0][fill]",
+            "[grow 0][fill][grow 0]",
             new String[]{
                 ""
             }
@@ -161,15 +237,6 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
         });
         crazyPanel2.add(btnUpdate);
 
-        btnDetails.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnDetails.setText("Chi tiết");
-        btnDetails.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDetailsActionPerformed(evt);
-            }
-        });
-        crazyPanel2.add(btnDetails);
-
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton1.setText("Xóa");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -178,6 +245,15 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
             }
         });
         crazyPanel2.add(jButton1);
+
+        btnDetails.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDetails.setText("Chi tiết");
+        btnDetails.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDetailsActionPerformed(evt);
+            }
+        });
+        crazyPanel2.add(btnDetails);
 
         crazyPanel1.add(crazyPanel2);
 
@@ -206,6 +282,67 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tblPhieuNhap);
 
         crazyPanel1.add(jScrollPane1);
+
+        crazyPanel6.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
+            "background:$Table:background",
+            new String[]{
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                ""
+            }
+        ));
+        crazyPanel6.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
+            "",
+            "push[][][][][]push",
+            "",
+            null
+        ));
+
+        btnFirst.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnFirst.setText("<<");
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnFirst);
+
+        btnPrevious.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnPrevious.setText("< Trước");
+        btnPrevious.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreviousActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnPrevious);
+
+        lblCurrentPage.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblCurrentPage.setText("...");
+        crazyPanel6.add(lblCurrentPage);
+
+        btnNext.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnNext.setText("Sau >");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnNext);
+
+        btnLast.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnLast.setText(">>");
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnLast);
+
+        crazyPanel1.add(crazyPanel6);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -236,14 +373,14 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
-        wrs.loadDataTable(tblPhieuNhap);
+        loadDataTable();
     }//GEN-LAST:event_btnLamMoiActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         Window parent = SwingUtilities.getWindowAncestor(this);
         WarehouseReceiptAddDialog warehouseReceiptAddDialog = new WarehouseReceiptAddDialog(parent, this, this.CurrentAcc);
         warehouseReceiptAddDialog.setVisible(true);
-        wrs.loadDataTable(tblPhieuNhap);
+        loadDataTable();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -265,7 +402,7 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
         Window parent = SwingUtilities.getWindowAncestor(this);
         WarehouseReceiptUpdateDialog warehouseReceiptUpdateDialog = new WarehouseReceiptUpdateDialog(parent, this, id, tennhacungcap);
         warehouseReceiptUpdateDialog.setVisible(true);
-        wrs.loadDataTable(tblPhieuNhap);
+        loadDataTable();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void tblPhieuNhapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPhieuNhapMouseClicked
@@ -282,7 +419,7 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
         Window parent = SwingUtilities.getWindowAncestor(this);
         WarehouseReceiptDetailsDialog warehouseReceiptDetailsDialog = new WarehouseReceiptDetailsDialog(parent, this, maphieunhap);
         warehouseReceiptDetailsDialog.setVisible(true);
-        wrs.loadDataTable(tblPhieuNhap);
+        loadDataTable();
     }//GEN-LAST:event_btnDetailsActionPerformed
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
@@ -310,19 +447,57 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
         if (rs > 0) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Xóa thành công phiếu nhập có mã " + id + "!");
         }
-        wrs.loadDataTable(tblPhieuNhap);
+        loadDataTable();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        btnFirst.addActionListener(e -> {
+            if (currentPage != 1) {
+                currentPage = 1;
+                loadDataTable();
+            }
+        });
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
+        if (currentPage > 1) {
+            currentPage--;
+            loadDataTable();
+        }
+    }//GEN-LAST:event_btnPreviousActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        if (currentPage < totalPages) {
+            currentPage++;
+            loadDataTable();
+        }
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        btnLast.addActionListener(e -> {
+            if (currentPage != totalPages) {
+                currentPage = totalPages;
+                loadDataTable();
+            }
+        });
+    }//GEN-LAST:event_btnLastActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDetails;
+    private javax.swing.JButton btnFirst;
     private javax.swing.JButton btnLamMoi;
+    private javax.swing.JButton btnLast;
+    private javax.swing.JButton btnNext;
+    private javax.swing.JButton btnPrevious;
     private javax.swing.JButton btnUpdate;
     private raven.crazypanel.CrazyPanel crazyPanel1;
     private raven.crazypanel.CrazyPanel crazyPanel2;
+    private raven.crazypanel.CrazyPanel crazyPanel6;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblCurrentPage;
     private javax.swing.JTable tblPhieuNhap;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables

@@ -25,9 +25,14 @@ public class FormHomePage extends javax.swing.JPanel {
     private ProductServiceMain productService = new ProductServiceMain();
     private AccountService accountService = new AccountService();
 
+    private int currentPage = 1;
+    private final int pageSize = 15;  // số dòng mỗi trang
+    private int totalPages = 1;
+
     public FormHomePage() {
         initComponents();
         initalUI(tblSanPham);
+        currentPage = 1;
         loadDataTable();
     }
 
@@ -67,8 +72,8 @@ public class FormHomePage extends javax.swing.JPanel {
                 Component com = oldRender.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 if (com instanceof JLabel) {
                     JLabel label = (JLabel) com;
-                    if (column == 1) {
-                        label.setHorizontalAlignment(SwingConstants.CENTER); //Căn giữa
+                    if (column == 0) {
+                        label.setHorizontalAlignment(SwingConstants.LEFT);
                     } else {
                         label.setHorizontalAlignment(SwingConstants.CENTER);
                     }
@@ -82,14 +87,20 @@ public class FormHomePage extends javax.swing.JPanel {
         SwingWorker<List<Object[]>, Void> worker = new SwingWorker<List<Object[]>, Void>() {
             @Override
             protected List<Object[]> doInBackground() throws Exception {
-                ProductDAO pd = new ProductDAO() {
-                };
+                
+                List<Product> products = productService.getAllProduct(currentPage, pageSize);
+                int totalProducts = productService.getProductCount();
+                totalPages = (int) Math.ceil((double) totalProducts / pageSize);
+
                 List<Object[]> rows = new ArrayList<>();
-
-                for (Product p : pd.getAllProduct()) {
-                    rows.add(new Object[]{p.getTenSanPham()});
+                for (Product p : products) {
+                    rows.add(new Object[]{
+                        p.getTenSanPham(),
+                        p.getTenThuongHieu(),
+                        p.getTenXuatXu(),
+                        p.getGia()
+                    });
                 }
-
                 return rows;
             }
 
@@ -98,15 +109,19 @@ public class FormHomePage extends javax.swing.JPanel {
                 try {
                     List<Object[]> rows = get();
 
-                    String[] title = {"Tên sản phẩm"};
-                    DefaultTableModel model = new DefaultTableModel(title, 0);
+                    DefaultTableModel model = (DefaultTableModel) tblSanPham.getModel();
+                    model.setRowCount(0);
 
                     for (Object[] row : rows) {
                         model.addRow(row);
                     }
 
-                    tblSanPham.setModel(model);
-                    tblSanPham.setDefaultEditor(Object.class, null);
+                    //Trạng thái của nút
+                    btnPrevious.setEnabled(currentPage > 1);
+                    btnNext.setEnabled(currentPage < totalPages);
+
+                    //Trang hiện tại
+                    lblCurrentPage.setText("Trang " + currentPage + " / " + totalPages);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -151,7 +166,6 @@ public class FormHomePage extends javax.swing.JPanel {
     private void initComponents() {
 
         lb = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         crazyPanel3 = new raven.crazypanel.CrazyPanel();
         panel1 = new raven.crazypanel.CrazyPanel();
         crazyPanel4 = new raven.crazypanel.CrazyPanel();
@@ -177,16 +191,16 @@ public class FormHomePage extends javax.swing.JPanel {
         crazyPanel1 = new raven.crazypanel.CrazyPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSanPham = new javax.swing.JTable();
-        panel4 = new raven.crazypanel.CrazyPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        crazyPanel6 = new raven.crazypanel.CrazyPanel();
+        btnFirst = new javax.swing.JButton();
+        btnPrevious = new javax.swing.JButton();
+        lblCurrentPage = new javax.swing.JLabel();
+        btnNext = new javax.swing.JButton();
+        btnLast = new javax.swing.JButton();
 
         lb.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lb.setText("PHẦN MỀM QUẢN LÝ ĐIỆN THOẠI THEO MÃ IMEI");
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        jLabel8.setText("Zentech");
 
         crazyPanel3.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
             "background:$Info.background;[light]border:0,0,0,0,shade(@background,5%),,20;[dark]border:0,0,0,0,tint(@background,5%),,20",
@@ -322,7 +336,7 @@ public class FormHomePage extends javax.swing.JPanel {
         crazyPanel1.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
             "wrap,fill,insets 15",
             "[fill]",
-            "[fill]",
+            "[fill][grow 0]",
             new String[]{
                 ""
             }
@@ -334,11 +348,11 @@ public class FormHomePage extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Sản phẩm"
+                "Tên sản phẩm", "Thương hiệu", "Xuất xứ", "Giá"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -349,23 +363,66 @@ public class FormHomePage extends javax.swing.JPanel {
 
         crazyPanel1.add(jScrollPane1);
 
-        panel4.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
-            "background:$Info.background;[light]border:0,0,0,0,shade(@background,5%),,20;[dark]border:0,0,0,0,tint(@background,5%),,20",
-            null
+        crazyPanel6.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
+            "background:$Table:background",
+            new String[]{
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                ""
+            }
         ));
-        panel4.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
-            "wrap,fill,insets 15",
-            "[fill]",
-            "[fill]",
+        crazyPanel6.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
+            "",
+            "push[][][][][]push",
+            "",
             null
         ));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("Phần mềm Quản lý Kho Hàng là giải pháp hỗ trợ doanh\nnghiệp kiểm soát toàn bộ quá trình nhập – xuất – tồn kho\nmột cách chính xác, hiệu quả và minh bạch, giúp tối ưu\nvận hành và nâng cao hiệu quả quản lý kho hàng trong\nthực tế.");
-        jScrollPane2.setViewportView(jTextArea1);
+        btnFirst.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnFirst.setText("<<");
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnFirst);
 
-        panel4.add(jScrollPane2);
+        btnPrevious.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnPrevious.setText("< Trước");
+        btnPrevious.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreviousActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnPrevious);
+
+        lblCurrentPage.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblCurrentPage.setText("...");
+        crazyPanel6.add(lblCurrentPage);
+
+        btnNext.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnNext.setText("Sau >");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnNext);
+
+        btnLast.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnLast.setText(">>");
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnLast);
+
+        crazyPanel1.add(crazyPanel6);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -375,20 +432,14 @@ public class FormHomePage extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(crazyPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(crazyPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lb, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(56, 56, 56))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel8)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(crazyPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(panel4, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addGap(56, 56, 56))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -397,25 +448,55 @@ public class FormHomePage extends javax.swing.JPanel {
                 .addComponent(lb)
                 .addGap(18, 18, 18)
                 .addComponent(crazyPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(panel4, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(crazyPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8)
+                .addGap(12, 12, 12)
+                .addComponent(crazyPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        btnLast.addActionListener(e -> {
+            if (currentPage != totalPages) {
+                currentPage = totalPages;
+                loadDataTable();
+            }
+        });
+    }//GEN-LAST:event_btnLastActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        if (currentPage < totalPages) {
+            currentPage++;
+            loadDataTable();
+        }
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
+        if (currentPage > 1) {
+            currentPage--;
+            loadDataTable();
+        }
+    }//GEN-LAST:event_btnPreviousActionPerformed
+
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        btnFirst.addActionListener(e -> {
+            if (currentPage != 1) {
+                currentPage = 1;
+                loadDataTable();
+            }
+        });
+    }//GEN-LAST:event_btnFirstActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFirst;
+    private javax.swing.JButton btnLast;
+    private javax.swing.JButton btnNext;
+    private javax.swing.JButton btnPrevious;
     private raven.crazypanel.CrazyPanel crazyPanel1;
     private raven.crazypanel.CrazyPanel crazyPanel2;
     private raven.crazypanel.CrazyPanel crazyPanel3;
     private raven.crazypanel.CrazyPanel crazyPanel4;
     private raven.crazypanel.CrazyPanel crazyPanel5;
+    private raven.crazypanel.CrazyPanel crazyPanel6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -427,19 +508,16 @@ public class FormHomePage extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lb;
     private javax.swing.JLabel lblAccountCount;
+    private javax.swing.JLabel lblCurrentPage;
     private javax.swing.JLabel lblProductCount;
     private javax.swing.JLabel lblUserCount;
     private raven.crazypanel.CrazyPanel panel1;
     private raven.crazypanel.CrazyPanel panel2;
     private raven.crazypanel.CrazyPanel panel3;
-    private raven.crazypanel.CrazyPanel panel4;
     private javax.swing.JTable tblSanPham;
     // End of variables declaration//GEN-END:variables
 }

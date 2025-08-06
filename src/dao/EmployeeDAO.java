@@ -15,25 +15,33 @@ import raven.toast.Notifications;
 
 public interface EmployeeDAO {
 
-    default List<Employee> getAllEmployee() {
+    default List<Employee> getAllEmployee(int page, int pageSize) {
         List<Employee> list = new ArrayList<>();
-        String sql = "SELECT * FROM vw_nhanvien_toan_bo";
+
+        int offset = (page - 1) * pageSize;
+
+        String sql = "SELECT manv, hoten, gioitinh, ngaysinh, sdt, email, trangthai FROM nhanvien WHERE is_delete = 0 ORDER BY manv ASC LIMIT ? OFFSET ?";
 
         try (
-                Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Employee e = new Employee();
-                e.setManv(rs.getInt("manv"));
-                e.setHoten(rs.getString("hoten"));
-                e.setGioitinh(rs.getInt("gioitinh"));
-                e.setNgaysinh(rs.getDate("ngaysinh"));
-                e.setSdt(rs.getString("sdt"));
-                e.setEmail(rs.getString("email"));
-                e.setTrangthai(rs.getInt("trangthai"));
-                list.add(e);
+                Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, pageSize);
+            ps.setInt(2, offset);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Employee e = new Employee();
+                    e.setManv(rs.getInt("manv"));
+                    e.setHoten(rs.getString("hoten"));
+                    e.setGioitinh(rs.getInt("gioitinh"));
+                    e.setNgaysinh(rs.getDate("ngaysinh"));
+                    e.setSdt(rs.getString("sdt"));
+                    e.setEmail(rs.getString("email"));
+                    e.setTrangthai(rs.getInt("trangthai"));
+                    list.add(e);
+                }
             }
         } catch (SQLException ex) {
-            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Error while get employee.");
+            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi khi lấy dữ liệu tài khoản");
             ex.printStackTrace();
         }
 
@@ -41,7 +49,7 @@ public interface EmployeeDAO {
     }
 
     default EmployeeAccout getAccountInfoByEmployeeId(int manv) {
-        String sql = "SELECT tendangnhap, manhomquyen FROM vw_nhanvien_taikhoan WHERE manv =  ? ";
+        String sql = "SELECT tendangnhap, manhomquyen FROM taikhoan WHERE manv = ?";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -64,18 +72,19 @@ public interface EmployeeDAO {
     }
 
     default boolean addEmployee(String hoTen, int gioiTinh, Date ngaySinh, String dienThoai, String email) {
-        String sql = "{CALL sp_nhanvien_add(?, ?, ?, ?, ?, ?)}";
+        String sql = "INSERT INTO nhanvien (hoten, gioitinh, ngaysinh, sdt, email, trangthai, is_delete) "
+                + "VALUES (?, ?, ?, ?, ?, ?, 0)";
 
         try (
-                Connection conn = ConnectionHelper.getConnection(); CallableStatement cs = conn.prepareCall(sql)) {
-            cs.setString(1, hoTen);
-            cs.setInt(2, gioiTinh);
-            cs.setDate(3, ngaySinh);
-            cs.setString(4, dienThoai);
-            cs.setString(5, email);
-            cs.setInt(6, 1);
+                Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, hoTen);
+            ps.setInt(2, gioiTinh);
+            ps.setDate(3, ngaySinh);
+            ps.setString(4, dienThoai);
+            ps.setString(5, email);
+            ps.setInt(6, 1);
 
-            return cs.executeUpdate() > 0;
+            return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
             Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi khi thêm nhân viên");
             ex.printStackTrace();
@@ -84,19 +93,21 @@ public interface EmployeeDAO {
     }
 
     default boolean updateEmployee(int ma, String hoTen, int gioiTinh, Date ngaySinh, String dienThoai, String email, int trangThai) {
-        String sql = "{CALL sp_nhanvien_update(?, ?, ?, ?, ?, ?, ?)}";
+        String sql = "UPDATE nhanvien "
+                + "SET hoten = ?, gioitinh = ?, ngaysinh = ?, sdt = ?, email = ?, trangthai = ? "
+                + "WHERE manv = ? AND is_delete = 0";
 
         try (
-                Connection conn = ConnectionHelper.getConnection(); CallableStatement cs = conn.prepareCall(sql)) {
-            cs.setInt(1, ma);
-            cs.setString(2, hoTen);
-            cs.setInt(3, gioiTinh);
-            cs.setDate(4, ngaySinh);
-            cs.setString(5, dienThoai);
-            cs.setString(6, email);
-            cs.setInt(7, trangThai);
+                Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, hoTen);
+            ps.setInt(2, gioiTinh);
+            ps.setDate(3, ngaySinh);
+            ps.setString(4, dienThoai);
+            ps.setString(5, email);
+            ps.setInt(6, trangThai);
+            ps.setInt(7, ma);
 
-            return cs.executeUpdate() > 0;
+            return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
             Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi khi sửa nhân viên");
             ex.printStackTrace();
@@ -105,13 +116,14 @@ public interface EmployeeDAO {
     }
 
     default boolean deleteEmployee(int manv) {
-        String sql = "{CALL sp_nhanvien_delete(?)}";
-
+        String sql = "UPDATE nhanvien "
+                + "SET is_delete = 1 "
+                + "WHERE manv = ?";
         try (
-                Connection conn = ConnectionHelper.getConnection(); CallableStatement cs = conn.prepareCall(sql)) {
-            cs.setInt(1, manv);
+                Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, manv);
 
-            return cs.executeUpdate() > 0;
+            return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
             Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Lỗi khi xoá nhân viên");
             ex.printStackTrace();
@@ -147,7 +159,7 @@ public interface EmployeeDAO {
 
     default int getEmployeeCount() {
         int count = 0;
-        String sql = "SELECT COUNT(*) FROM nhanvien";
+        String sql = "SELECT COUNT(*) FROM nhanvien WHERE is_delete = 0";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 

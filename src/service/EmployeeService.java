@@ -14,8 +14,8 @@ public class EmployeeService implements EmployeeDAO {
 
     private List<Employee> employeeList = new ArrayList<>();
 
-    public List<Employee> getAllEmployeeService() {
-        return employeeList = getAllEmployee();
+    public List<Employee> getAllEmployeeService(int page, int pageSize) {
+        return employeeList = getAllEmployee(page, pageSize);
     }
 
     public EmployeeAccout fetchAccountInfo(int manv) {

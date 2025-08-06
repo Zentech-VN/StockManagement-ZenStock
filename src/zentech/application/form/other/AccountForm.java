@@ -6,17 +6,22 @@ import dao.PermGroupDAO;
 import java.util.ArrayList;
 import entity.Account;
 import entity.PermGroup;
+import java.awt.Component;
 import java.awt.Window;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import service.AccountService;
 import zentech.application.dialog.EditAccountDialog;
 import zentech.application.dialog.StaffListDialog;
@@ -27,75 +32,22 @@ public class AccountForm extends javax.swing.JPanel {
     private ArrayList<Account> lista = asv.getTaiKhoanAll();
     String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
 
+    private int currentPage = 1;
+    private final int pageSize = 50;  // số dòng mỗi trang
+    private int totalPages = 1;
+
     public AccountForm() {
         initComponents();
-        initalUI(tblList);
-        loadTable(lista, tblList);
+        initalUI(tblTaikhoan);
+        currentPage = 1;
+        loadTablePage();
     }
 
     public AccountForm(Account currentUser) {
         initComponents();
-        initalUI(tblList);
-        loadTable(lista, tblList);
-    }
-
-    public void loadTable(List<Account> accounts, JTable jTable1) {
-        SwingWorker<DefaultTableModel, Void> worker = new SwingWorker<DefaultTableModel, Void>() {
-            @Override
-            protected DefaultTableModel doInBackground() {
-                String[] columns = {"Mã nhân viên", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"};
-                DefaultTableModel model = new DefaultTableModel(columns, 0);
-
-                for (Account account : accounts) {
-                    model.addRow(new Object[]{
-                        account.getManv(),
-                        account.getUsername(),
-                        getPermGroupCached(account.getManhomquyen()),
-                        getStatusText(account.getTrangthai())
-                    });
-                }
-                jTable1.setModel(model);
-                return model;
-            }
-
-            @Override
-            protected void done() {
-                try {
-                    jTable1.setModel(get());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        worker.execute();
-    }
-    
-    private Map<Integer, String> permGroupCache = new HashMap<>();
-
-    private String getPermGroupCached(int manhomquyen) {
-        return permGroupCache.computeIfAbsent(manhomquyen, 
-            id -> getPermGroup(id).getTennhomquyen());
-    }
-
-    private String getStatusText(int status) {
-        switch (status) {
-            case 1: 
-                return "Hoạt động";
-            case 0: 
-                return "Ngưng hoạt động";
-            default: 
-                return "Không xác định";
-        }
-    }
-
-    public static PermGroup getPermGroup(int manhom) {
-        return PermGroupDAO.selectById(manhom + "");
-    }
-
-    public int getRowSelected() {
-        int viewIndex = tblList.getSelectedRow();
-        return tblList.convertRowIndexToModel(viewIndex);
+        initalUI(tblTaikhoan);
+        currentPage = 1;
+        loadTablePage();
     }
     
     private void initalUI(JTable table) {
@@ -112,7 +64,116 @@ public class AccountForm extends javax.swing.JPanel {
 
         table.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
         table.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
+        table.getTableHeader().setDefaultRenderer(getAlignmentCellRender(table.getTableHeader().getDefaultRenderer(), true));
+        table.setDefaultRenderer(Object.class, getAlignmentCellRender(table.getDefaultRenderer(Object.class), false));
     }
+    
+    private TableCellRenderer getAlignmentCellRender(TableCellRenderer oldRender, boolean header) {
+        return new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component com = oldRender.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (com instanceof JLabel) {
+                    JLabel label = (JLabel) com;
+                    if (column == 2 || column == 3 || column == 4) {
+                        label.setHorizontalAlignment(SwingConstants.CENTER); //Căn giữa
+                    } else if (column == 0 || column == 1 || column == 5) {
+                        label.setHorizontalAlignment(SwingConstants.LEFT); //Căn trái
+                    } else if (column == 6) {
+                        label.setHorizontalAlignment(SwingConstants.RIGHT); //Căn phải
+                    } else {
+                        label.setHorizontalAlignment(SwingConstants.CENTER);
+                    }
+                }
+                return com;
+            }
+        };
+    }
+
+    public void loadTablePage() {
+        SwingWorker<List<Object[]>, Void> worker = new SwingWorker<List<Object[]>, Void>() {
+            @Override
+            protected List<Object[]> doInBackground() throws Exception {
+                // Lấy danh sách account theo trang
+                List<Account> accounts = asv.getAccountsPaged(currentPage, pageSize);
+
+                // Tính tổng số trang
+                int totalAccounts = asv.getAccountCountService();
+                totalPages = (int) Math.ceil((double) totalAccounts / pageSize);
+
+                // Chuyển dữ liệu thành Object[] cho JTable
+                List<Object[]> rows = new ArrayList<>();
+                for (Account acc : accounts) {
+                    rows.add(new Object[]{
+                        acc.getManv(),
+                        acc.getUsername(),
+                        getPermGroupCached(acc.getManhomquyen()),
+                        getStatusText(acc.getTrangthai())
+                    });
+                }
+                return rows;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    List<Object[]> rows = get();
+
+                    // Lấy model hiện tại và xóa dữ liệu cũ
+                    DefaultTableModel model = (DefaultTableModel) tblTaikhoan.getModel();
+                    model.setRowCount(0);
+
+                    // Đổ dữ liệu mới vào bảng
+                    for (Object[] row : rows) {
+                        model.addRow(row);
+                    }
+
+                    // Cập nhật trạng thái nút điều hướng
+                    btnPrevious.setEnabled(currentPage > 1);
+                    btnFirst.setEnabled(currentPage > 1);
+                    btnNext.setEnabled(currentPage < totalPages);
+                    btnLast.setEnabled(currentPage < totalPages);
+
+                    // Hiển thị số trang
+                    lblCurrentPage.setText("Trang " + currentPage + " / " + totalPages);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        // Thực thi worker
+        worker.execute();
+    }
+
+    private Map<Integer, String> permGroupCache = new HashMap<>();
+
+    private String getPermGroupCached(int manhomquyen) {
+        return permGroupCache.computeIfAbsent(manhomquyen,
+                id -> getPermGroup(id).getTennhomquyen());
+    }
+
+    private String getStatusText(int status) {
+        switch (status) {
+            case 1:
+                return "Hoạt động";
+            case 0:
+                return "Ngưng hoạt động";
+            default:
+                return "Không xác định";
+        }
+    }
+
+    public static PermGroup getPermGroup(int manhom) {
+        return PermGroupDAO.selectById(manhom + "");
+    }
+
+    public int getRowSelected() {
+        int viewIndex = tblTaikhoan.getSelectedRow();
+        return tblTaikhoan.convertRowIndexToModel(viewIndex);
+    }
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -126,7 +187,13 @@ public class AccountForm extends javax.swing.JPanel {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblList = new javax.swing.JTable();
+        tblTaikhoan = new javax.swing.JTable();
+        crazyPanel6 = new raven.crazypanel.CrazyPanel();
+        btnFirst = new javax.swing.JButton();
+        btnPrevious = new javax.swing.JButton();
+        lblCurrentPage = new javax.swing.JLabel();
+        btnNext = new javax.swing.JButton();
+        btnLast = new javax.swing.JButton();
 
         crazyPanel1.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
             "background:$Table.background;[light]border:0,0,0,0,shade(@background,5%),,20;[dark]border:0,0,0,0,tint(@background,5%),,20",
@@ -135,7 +202,7 @@ public class AccountForm extends javax.swing.JPanel {
         crazyPanel1.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
             "wrap,fill,insets 15",
             "[fill]",
-            "[grow 0][fill]",
+            "[grow 0][fill][grow 0]",
             new String[]{
                 ""
             }
@@ -211,17 +278,86 @@ public class AccountForm extends javax.swing.JPanel {
 
         crazyPanel1.add(crazyPanel2);
 
-        tblList.setModel(new javax.swing.table.DefaultTableModel(
+        tblTaikhoan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
                 "Mã nhân viên", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"
             }
-        ));
-        jScrollPane1.setViewportView(tblList);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblTaikhoan);
 
         crazyPanel1.add(jScrollPane1);
+
+        crazyPanel6.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
+            "background:$Table:background",
+            new String[]{
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                ""
+            }
+        ));
+        crazyPanel6.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
+            "",
+            "push[][][][][]push",
+            "",
+            null
+        ));
+
+        btnFirst.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnFirst.setText("<<");
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnFirst);
+
+        btnPrevious.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnPrevious.setText("< Trước");
+        btnPrevious.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreviousActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnPrevious);
+
+        lblCurrentPage.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblCurrentPage.setText("...");
+        crazyPanel6.add(lblCurrentPage);
+
+        btnNext.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnNext.setText("Sau >");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnNext);
+
+        btnLast.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnLast.setText(">>");
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnLast);
+
+        crazyPanel1.add(crazyPanel6);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -268,8 +404,8 @@ public class AccountForm extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        int selectedRow = tblList.getSelectedRow();
-    
+        int selectedRow = tblTaikhoan.getSelectedRow();
+      
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn một tài khoản để xóa!",
                     "Thông báo", JOptionPane.WARNING_MESSAGE);
@@ -277,16 +413,16 @@ public class AccountForm extends javax.swing.JPanel {
         }
 
         // chuyển đổi chỉ mục từ view sang model
-        int modelRowIndex = tblList.convertRowIndexToModel(selectedRow);
+        int modelRowIndex = tblTaikhoan.convertRowIndexToModel(selectedRow);
 
         try {
             String user = appCurrentUser;
-            String hoTen = tblList.getValueAt(selectedRow, 1).toString();
+            String hoTen = tblTaikhoan.getValueAt(selectedRow, 1).toString();
 
             int input = JOptionPane.showConfirmDialog(null,
-                    "Bạn có chắc chắn muốn xóa tài khoản \"" + hoTen + "\"?", 
+                    "Bạn có chắc chắn muốn xóa tài khoản \"" + hoTen + "\"?",
                     "Xóa tài khoản",
-                    JOptionPane.OK_CANCEL_OPTION, 
+                    JOptionPane.OK_CANCEL_OPTION,
                     JOptionPane.QUESTION_MESSAGE);
 
             if (input == JOptionPane.OK_OPTION) {
@@ -294,7 +430,7 @@ public class AccountForm extends javax.swing.JPanel {
 
                 if (result > 0) {
                     lista = asv.getTaiKhoanAll();
-                    loadTable(lista, tblList);
+                    loadTablePage();
                     JOptionPane.showMessageDialog(this, "Xóa tài khoản thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(this, "Xóa tài khoản thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -308,28 +444,66 @@ public class AccountForm extends javax.swing.JPanel {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         lista = asv.getTaiKhoanAll();
-        loadTable(lista, tblList);
+        loadTablePage();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         String txt = txtSearch.getText();
-        asv.Search(txtSearch, tblList);
+        asv.Search(txtSearch, tblTaikhoan);
     }//GEN-LAST:event_txtSearchKeyReleased
 
     private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
 
     }//GEN-LAST:event_txtSearchActionPerformed
 
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        btnFirst.addActionListener(e -> {
+            if (currentPage != 1) {
+                currentPage = 1;
+                loadTablePage();
+            }
+        });
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
+        if (currentPage > 1) {
+            currentPage--;
+            loadTablePage();
+        }
+    }//GEN-LAST:event_btnPreviousActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        if (currentPage < totalPages) {
+            currentPage++;
+            loadTablePage();
+        }
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        btnLast.addActionListener(e -> {
+            if (currentPage != totalPages) {
+                currentPage = totalPages;
+                loadTablePage();
+            }
+        });
+    }//GEN-LAST:event_btnLastActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFirst;
+    private javax.swing.JButton btnLast;
+    private javax.swing.JButton btnNext;
+    private javax.swing.JButton btnPrevious;
     private raven.crazypanel.CrazyPanel crazyPanel1;
     private raven.crazypanel.CrazyPanel crazyPanel2;
+    private raven.crazypanel.CrazyPanel crazyPanel6;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblList;
+    private javax.swing.JLabel lblCurrentPage;
+    private javax.swing.JTable tblTaikhoan;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }

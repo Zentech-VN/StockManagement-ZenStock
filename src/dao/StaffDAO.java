@@ -21,7 +21,7 @@ public class StaffDAO {
         int result = 0;
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
-            String sql = "INSERT INTO `nhanvien`(`hoten`, `gioitinh`,`sdt`,`ngaysinh`,`trangthai`,`email`) VALUES (?,?,?,?,?,?)";
+            String sql = "INSERT INTO `nhanvien`(`hoten`, `gioitinh`,`sdt`,`ngaysinh`,`trangthai`,`email`, `is_delete`) VALUES (?,?,?,?,?,?,0)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t.getHoten());
             pst.setInt(2, t.getGioitinh());
@@ -40,7 +40,7 @@ public class StaffDAO {
         int result = 0;
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
-            String sql = "UPDATE `nhanvien` SET`hoten`=?,`gioitinh`=?,`ngaysinh`=?,`sdt`=?, `trangthai`=?, `email`=?  WHERE `manv`=?";
+            String sql = "UPDATE `nhanvien` SET`hoten`=?,`gioitinh`=?,`ngaysinh`=?,`sdt`=?, `trangthai`=?, `email`=?  WHERE `manv`=? AND is_delete = 0";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t.getHoten());
             pst.setInt(2, t.getGioitinh());
@@ -60,7 +60,7 @@ public class StaffDAO {
         int result = 0;
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
-            String sql = "Update nhanvien set `trangthai` = -1 WHERE manv = ?";
+            String sql = "UPDATE nhanvien SET is_delete = 1 WHERE manv = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, t);
             result = pst.executeUpdate();
@@ -75,7 +75,7 @@ public class StaffDAO {
         ArrayList<Staff> result = new ArrayList<Staff>();
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
-            String sql = "SELECT manv, hoten, gioitinh, ngaysinh, sdt, email FROM nhanvien WHERE trangthai = '1'";
+            String sql = "SELECT manv, hoten, gioitinh, ngaysinh, sdt, email FROM nhanvien WHERE trangthai = '1' AND is_delete = 0";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while (rs.next()) {
@@ -99,7 +99,10 @@ public class StaffDAO {
         ArrayList<Staff> result = new ArrayList<Staff>();
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
-            String sql = "SELECT manv, hoten, gioitinh, ngaysinh, sdt, email FROM nhanvien nv where nv.trangthai = 1 and not EXISTS(SELECT * FROM taikhoan tk WHERE nv.manv=tk.manv)";
+            String sql = "SELECT nv.manv, nv.hoten, nv.gioitinh, nv.ngaysinh, nv.sdt, nv.email " +
+                        "FROM nhanvien nv " +
+                        "WHERE nv.trangthai = 1 AND nv.is_delete = 0 " +
+                        "AND nv.manv NOT IN (SELECT tk.manv FROM taikhoan tk WHERE tk.is_delete = 0)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while (rs.next()) {

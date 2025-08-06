@@ -6,6 +6,7 @@ import entity.Employee;
 import entity.PhieuXuat;
 import java.awt.Component;
 import java.awt.Window;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -29,15 +30,15 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
     private Employee CurrentAcc;
     private WarehouseDeliveryDAO wdd = new WarehouseDeliveryDAO();
 
+    private int currentPage = 1;
+    private final int pageSize = 50;  // số dòng mỗi trang
+    private int totalPages = 1;
+
     public WarehouseDeliveryForm(Employee acc) {
         this.CurrentAcc = acc;
         initComponents();
         initalUI(tblPhieuXuat);
-        LoadDataTable();
-        cbbSapXep.addActionListener(e -> {
-            String selected = (String) cbbSapXep.getSelectedItem();
-            sortTableData(selected);
-        });
+        loadDataTable();
     }
 
     private void initalUI(JTable table) {
@@ -80,43 +81,59 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
         };
     }
 
-    public void LoadDataTable() {
-        SwingWorker<List<PhieuXuat>, Void> worker = new SwingWorker<List<PhieuXuat>, Void>() {
+    public void loadDataTable() {
+        SwingWorker<List<Object[]>, Void> worker = new SwingWorker<List<Object[]>, Void>() {
             @Override
-            protected List<PhieuXuat> doInBackground() throws Exception {
-                // Chạy dưới background thread
-                return wdd.getAllPhieuNhap();
+            protected List<Object[]> doInBackground() throws Exception {
+                List<PhieuXuat> list = wdd.getAllPhieuNhap(currentPage, pageSize);
+
+                int totalEntries = wdd.getDeliveryCount();
+                totalPages = (int) Math.ceil((double) totalEntries / pageSize);
+
+                List<Object[]> rows = new ArrayList<>();
+                for (PhieuXuat px : list) {
+                    String trangthai;
+                    switch (px.getTrangthai().toLowerCase()) {
+                        case "duyet":
+                            trangthai = "Duyệt";
+                            break;
+                        case "choduyet":
+                            trangthai = "Chờ duyệt";
+                            break;
+                        default:
+                            trangthai = "Hủy";
+                            break;
+                    }
+
+                    rows.add(new Object[]{
+                        px.getMaphieuxuat(),
+                        px.getKhachhang().getTenKhacHang(),
+                        px.getNhanvien().getHoten(),
+                        px.getThoigian(),
+                        trangthai
+                    });
+                }
+                return rows;
             }
 
             @Override
             protected void done() {
                 try {
-                    List<PhieuXuat> list = get();
+                    List<Object[]> rows = get();
+
                     DefaultTableModel model = (DefaultTableModel) tblPhieuXuat.getModel();
                     model.setRowCount(0);
 
-                    for (PhieuXuat px : list) {
-                        String trangthai;
-                        switch (px.getTrangthai().toLowerCase()) {
-                            case "duyet":
-                                trangthai = "Duyệt";
-                                break;
-                            case "choduyet":
-                                trangthai = "Chờ duyệt";
-                                break;
-                            default:
-                                trangthai = "Hủy";
-                                break;
-                        }
-
-                        model.addRow(new Object[]{
-                            px.getMaphieuxuat(),
-                            px.getKhachhang().getTenKhacHang(),
-                            px.getNhanvien().getHoten(),
-                            px.getThoigian(),
-                            trangthai
-                        });
+                    for (Object[] row : rows) {
+                        model.addRow(row);
                     }
+                    
+                    btnPrevious.setEnabled(currentPage > 1);
+                    btnFirst.setEnabled(currentPage > 1);
+                    btnNext.setEnabled(currentPage < totalPages);
+                    btnLast.setEnabled(currentPage < totalPages);
+
+                    lblCurrentPage.setText("Trang " + currentPage + " / " + totalPages);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -133,40 +150,12 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
         worker.execute();
     }
 
-    private void sortTableData(String criteria) {
-        DefaultTableModel model = (DefaultTableModel) tblPhieuXuat.getModel();
-        model.setRowCount(0);
-
-        List<PhieuXuat> list = wdd.getAllPhieuNhap();
-        if (criteria.equals("Mã phiếu xuất")) {
-            list.sort((a, b) -> Integer.compare(a.getMaphieuxuat(), b.getMaphieuxuat()));
-        } else if (criteria.equals("Người tạo")) {
-            list.sort((a, b) -> a.getNhanvien().getHoten().compareToIgnoreCase(b.getNhanvien().getHoten()));
-        } else if (criteria.equals("Thời gian")) {
-            list.sort((a, b) -> a.getThoigian().compareTo(b.getThoigian()));
-        } else if (criteria.equals("Trạng thái")) {
-            list.sort((a, b) -> a.getTrangthai().compareToIgnoreCase(b.getTrangthai()));
-        }
-
-        for (PhieuXuat px : list) {
-            model.addRow(new Object[]{
-                px.getMaphieuxuat(),
-                px.getKhachhang().getTenKhacHang(),
-                px.getNhanvien().getHoten(),
-                px.getThoigian(),
-                px.getTrangthai()
-            });
-        }
-    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         btnLamMoi = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        cbbSapXep = new javax.swing.JComboBox<>();
-        jLabel9 = new javax.swing.JLabel();
         crazyPanel1 = new raven.crazypanel.CrazyPanel();
         crazyPanel2 = new raven.crazypanel.CrazyPanel();
         txtSearch = new javax.swing.JTextField();
@@ -176,6 +165,12 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
         btnDetails = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPhieuXuat = new javax.swing.JTable();
+        crazyPanel6 = new raven.crazypanel.CrazyPanel();
+        btnFirst = new javax.swing.JButton();
+        btnPrevious = new javax.swing.JButton();
+        lblCurrentPage = new javax.swing.JLabel();
+        btnNext = new javax.swing.JButton();
+        btnLast = new javax.swing.JButton();
 
         btnLamMoi.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLamMoi.setText("Làm mới");
@@ -188,12 +183,6 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
         jButton7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton7.setText("Xuất File");
 
-        cbbSapXep.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        cbbSapXep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã phiếu xuất", "Người tạo", "Thời gian", "Trạng thái" }));
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel9.setText("Sắp xếp theo:");
-
         crazyPanel1.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
             "background:$Table.background;[light]border:0,0,0,0,shade(@background,5%),,20;[dark]border:0,0,0,0,tint(@background,5%),,20",
             null
@@ -201,7 +190,7 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
         crazyPanel1.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
             "wrap,fill,insets 15",
             "[fill]",
-            "[grow 0][fill]",
+            "[grow 0][fill][grow 0]",
             new String[]{
                 ""
             }
@@ -299,16 +288,73 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
 
         crazyPanel1.add(jScrollPane1);
 
+        crazyPanel6.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
+            "background:$Table:background",
+            new String[]{
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                "background:lighten(@background,8%);borderWidth:1",
+                ""
+            }
+        ));
+        crazyPanel6.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
+            "",
+            "push[][][][][]push",
+            "",
+            null
+        ));
+
+        btnFirst.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnFirst.setText("<<");
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnFirst);
+
+        btnPrevious.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnPrevious.setText("< Trước");
+        btnPrevious.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreviousActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnPrevious);
+
+        lblCurrentPage.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblCurrentPage.setText("...");
+        crazyPanel6.add(lblCurrentPage);
+
+        btnNext.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnNext.setText("Sau >");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnNext);
+
+        btnLast.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnLast.setText(">>");
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
+        crazyPanel6.add(btnLast);
+
+        crazyPanel1.add(crazyPanel6);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbbSapXep, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnLamMoi)
@@ -326,22 +372,20 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLamMoi)
-                    .addComponent(jButton7)
-                    .addComponent(jLabel9)
-                    .addComponent(cbbSapXep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton7))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
-        LoadDataTable();
+        loadDataTable();
     }//GEN-LAST:event_btnLamMoiActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         Window parent = SwingUtilities.getWindowAncestor(this);
         WarehouseDeliveryAddForm wdaf = new WarehouseDeliveryAddForm(parent, this, CurrentAcc);
         wdaf.setVisible(true);
-        LoadDataTable();
+        loadDataTable();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -363,7 +407,7 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
         Window parent = SwingUtilities.getWindowAncestor(this);
         WarehouseDeliveryUpdateForm warehousedeliveryupdateform = new WarehouseDeliveryUpdateForm(parent, this, id, tenkhachhang);
         warehousedeliveryupdateform.setVisible(true);
-        LoadDataTable();
+        loadDataTable();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -374,7 +418,7 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
         }
         int id = (int) tblPhieuXuat.getValueAt(select, 0);
         String trangthai = (String) tblPhieuXuat.getValueAt(select, 4);
-        
+
         if (trangthai.equalsIgnoreCase("duyệt")) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không được xóa phiếu có trạng thái duyệt!");
             return;
@@ -388,7 +432,7 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
             int rs = wdd.xoaphieuxuat(id);
             if (rs > 0) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Xóa thành công phiễu xuất có mã " + id + ".");
-                LoadDataTable();
+                loadDataTable();
             }
         }
 
@@ -418,18 +462,54 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
         obj.setRowFilter(javax.swing.RowFilter.regexFilter(txtSearch.getText()));
     }//GEN-LAST:event_txtSearchKeyReleased
 
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        btnFirst.addActionListener(e -> {
+            if (currentPage != 1) {
+                currentPage = 1;
+                loadDataTable();
+            }
+        });
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
+        if (currentPage > 1) {
+            currentPage--;
+            loadDataTable();
+        }
+    }//GEN-LAST:event_btnPreviousActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        if (currentPage < totalPages) {
+            currentPage++;
+            loadDataTable();
+        }
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        btnLast.addActionListener(e -> {
+            if (currentPage != totalPages) {
+                currentPage = totalPages;
+                loadDataTable();
+            }
+        });
+    }//GEN-LAST:event_btnLastActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDetails;
+    private javax.swing.JButton btnFirst;
     private javax.swing.JButton btnLamMoi;
+    private javax.swing.JButton btnLast;
+    private javax.swing.JButton btnNext;
+    private javax.swing.JButton btnPrevious;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JComboBox<String> cbbSapXep;
     private raven.crazypanel.CrazyPanel crazyPanel1;
     private raven.crazypanel.CrazyPanel crazyPanel2;
+    private raven.crazypanel.CrazyPanel crazyPanel6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblCurrentPage;
     private javax.swing.JTable tblPhieuXuat;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables

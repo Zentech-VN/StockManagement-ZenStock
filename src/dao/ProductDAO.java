@@ -15,47 +15,38 @@ import jdbc.ConnectionHelper;
 
 public interface ProductDAO {
 
-    default List<Product> getAllProduct() {
+    default List<Product> getAllProduct(int page, int pageSize) {
         List<Product> list = new ArrayList<>();
+
+        int offset = (page - 1) * pageSize;
+
         String sql = "SELECT "
-                + "sp.masanpham, "
                 + "sp.tensp, "
-                + "sp.hinhanh, "
-                + "sp.chipxuly, "
-                + "sp.cameratruoc, "
-                + "sp.camerasau, "
                 + "sp.gia, "
-                + "sp.trangthai, "
-                + "sp.dungluongpin, "
-                + "sp.kichthuocmanhinh, "
-                + "sp.thoigianbaohanh, "
                 + "xx.tenxuatxu, "
-                + "hdh.tenhedieuhanh, "
                 + "th.tenthuonghieu "
                 + "FROM sanpham sp "
                 + "JOIN xuatxu xx ON sp.xuatxu = xx.maxuatxu "
                 + "JOIN hedieuhanh hdh ON sp.hedieuhanh = hdh.mahedieuhanh "
-                + "JOIN thuonghieu th ON sp.thuonghieu = th.mathuonghieu";
+                + "JOIN thuonghieu th ON sp.thuonghieu = th.mathuonghieu "
+                + "WHERE sp.is_delete = 0 "
+                + "ORDER BY sp.masanpham ASC "
+                + "LIMIT ? OFFSET ?";
 
-        try (
-                Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Product p = new Product();
-                p.setMaSanPham(rs.getInt("masanpham"));
-                p.setTenSanPham(rs.getString("tensp"));
-                p.setHinhAnh(rs.getString("hinhanh"));
-                p.setChipXuLy(rs.getString("chipxuly"));
-                p.setCameraTruoc(rs.getString("cameratruoc"));
-                p.setCameraSau(rs.getString("camerasau"));
-                p.setGia(rs.getBigDecimal("gia"));
-                p.setTrangThai(rs.getString("trangthai"));
-                p.setDungLuongPin(rs.getString("dungluongpin"));
-                p.setKichThuocManHinh(rs.getString("kichthuocmanhinh"));
-                p.setThoiGianBaoHanh(rs.getString("thoigianbaohanh"));
-                p.setTenXuatXu(rs.getString("tenxuatxu"));
-                p.setTenHeDieuHanh(rs.getString("tenhedieuhanh"));
-                p.setTenThuongHieu(rs.getString("tenthuonghieu"));
-                list.add(p);
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, pageSize);
+            ps.setInt(2, offset);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Product p = new Product();
+                    p.setTenSanPham(rs.getString("tensp"));
+                    p.setGia(rs.getBigDecimal("gia"));
+                    p.setTenXuatXu(rs.getString("tenxuatxu"));
+                    p.setTenThuongHieu(rs.getString("tenthuonghieu"));
+                    list.add(p);
+                }
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -65,8 +56,10 @@ public interface ProductDAO {
         return list;
     }
 
-    default List<Product> getBasicProduct() {
+    default List<Product> getBasicProduct(int page, int pageSize) {
         List<Product> list = new ArrayList<>();
+
+        int offset = (page - 1) * pageSize;
 
         String sql = "SELECT "
                 + "sp.masanpham, "
@@ -79,21 +72,30 @@ public interface ProductDAO {
                 + "FROM sanpham sp "
                 + "JOIN thuonghieu th ON sp.thuonghieu = th.mathuonghieu "
                 + "JOIN hedieuhanh hdh ON sp.hedieuhanh = hdh.mahedieuhanh "
-                + "JOIN xuatxu xx ON sp.xuatxu = xx.maxuatxu";
+                + "JOIN xuatxu xx ON sp.xuatxu = xx.maxuatxu "
+                + "WHERE sp.is_delete = 0 "
+                + "ORDER BY sp.masanpham ASC "
+                + "LIMIT ? OFFSET ?";
 
         try (
-                Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Product p = new Product();
-                p.setMaSanPham(rs.getInt("masanpham"));
-                p.setTenSanPham(rs.getString("tensp"));
-                p.setGia(rs.getBigDecimal("gia"));
-                p.setTrangThai(rs.getString("trangthai"));
-                p.setTenThuongHieu(rs.getString("tenthuonghieu"));
-                p.setTenHeDieuHanh(rs.getString("tenhedieuhanh"));
-                p.setTenXuatXu(rs.getString("tenxuatxu"));
+                Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
-                list.add(p);
+            ps.setInt(1, pageSize);
+            ps.setInt(2, offset);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Product p = new Product();
+                    p.setMaSanPham(rs.getInt("masanpham"));
+                    p.setTenSanPham(rs.getString("tensp"));
+                    p.setGia(rs.getBigDecimal("gia"));
+                    p.setTrangThai(rs.getString("trangthai"));
+                    p.setTenThuongHieu(rs.getString("tenthuonghieu"));
+                    p.setTenHeDieuHanh(rs.getString("tenhedieuhanh"));
+                    p.setTenXuatXu(rs.getString("tenxuatxu"));
+
+                    list.add(p);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -107,8 +109,8 @@ public interface ProductDAO {
             int maHeDieuHanh, int maXuatXu, String trangThai, int maKhuVuc, int soLuong) {
 
         String sqlInsertProduct = "INSERT INTO sanpham "
-                + "(tensp, hinhanh, xuatxu, chipxuly, hedieuhanh, cameratruoc, camerasau, thoigianbaohanh, gia, trangthai, thuonghieu, dungluongpin, kichthuocmanhinh) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "(tensp, hinhanh, xuatxu, chipxuly, hedieuhanh, cameratruoc, camerasau, thoigianbaohanh, gia, trangthai, thuonghieu, dungluongpin, kichthuocmanhinh, is_delete) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)";
 
         String sqlInsertKho = "INSERT INTO khuvuckho_sanpham (makhuvuc, masanpham, soluong) VALUES (?, ?, ?)";
 
@@ -145,8 +147,8 @@ public interface ProductDAO {
                     PreparedStatement psKho = conn.prepareStatement(sqlInsertKho);
                     psKho.setInt(1, maKhuVuc);
                     psKho.setInt(2, masanpham);
-                    psKho.setInt(3, soLuong);    
-                    
+                    psKho.setInt(3, soLuong);
+
                     int rowsKho = psKho.executeUpdate();
 
                     if (rowsKho > 0) {
@@ -170,7 +172,7 @@ public interface ProductDAO {
             int maHeDieuHanh, int maXuatXu, String trangThai) {
 
         String sql = "UPDATE sanpham SET tensp=?, hinhanh=?, xuatxu=?, chipxuly=?, hedieuhanh=?, "
-                + "cameratruoc=?, camerasau=?, thoigianbaohanh=?, gia=?, trangthai=?, thuonghieu=?, dungluongpin=?, kichthuocmanhinh=? "
+                + "cameratruoc=?, camerasau=?, thoigianbaohanh=?, gia=?, trangthai=?, thuonghieu=?, dungluongpin=?, kichthuocmanhinh=?, is_delete = 0 "
                 + "WHERE masanpham=?";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -203,7 +205,7 @@ public interface ProductDAO {
                 + "JOIN xuatxu xx ON sp.xuatxu = xx.maxuatxu "
                 + "JOIN hedieuhanh hdh ON sp.hedieuhanh = hdh.mahedieuhanh "
                 + "JOIN thuonghieu th ON sp.thuonghieu = th.mathuonghieu "
-                + "WHERE sp.masanpham = ?";
+                + "WHERE sp.masanpham = ? AND sp.is_delete = 0";
 
         try (
                 Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -242,7 +244,7 @@ public interface ProductDAO {
 
     default boolean deleteProduct(int maSanPham) {
         String sqlDeleteFromKho = "DELETE FROM khuvuckho_sanpham WHERE masanpham = ?";
-        String sqlDeleteProduct = "DELETE FROM sanpham WHERE masanpham = ?";
+        String sqlDeleteProduct = "UPDATE sanpham SET is_delete = 1 WHERE masanpham = ?";
 
         try (Connection conn = ConnectionHelper.getConnection()) {
             conn.setAutoCommit(false); // Bắt đầu transaction
@@ -275,7 +277,7 @@ public interface ProductDAO {
                 + "JOIN thuonghieu th ON sp.thuonghieu = th.mathuonghieu "
                 + "JOIN hedieuhanh hdh ON sp.hedieuhanh = hdh.mahedieuhanh "
                 + "JOIN xuatxu xx ON sp.xuatxu = xx.maxuatxu "
-                + "WHERE sp.tensp LIKE ?";
+                + "WHERE sp.tensp LIKE ? AND is_delete = 0";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -303,7 +305,7 @@ public interface ProductDAO {
 
     default int getProductCount() {
         int count = 0;
-        String sql = "SELECT COUNT(*) FROM sanpham";
+        String sql = "SELECT COUNT(*) FROM sanpham WHERE is_delete = 0";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
@@ -317,8 +319,8 @@ public interface ProductDAO {
 
         return count;
     }
-    
-     default List<Product> getProductsByWarehouse(int maKho) throws SQLException {
+
+    default List<Product> getProductsByWarehouse(int maKho) throws SQLException {
         List<Product> list = new ArrayList<>();
 
         String sql = "select \n"
@@ -332,8 +334,7 @@ public interface ProductDAO {
                 + "join hedieuhanh on sanpham.mahedieuhanh = hedieuhanh.mahedieuhanh\n"
                 + "join xuatxu on sanpham.maxuatxu = xuatxu.maxuatxu\n"
                 + "join thuonghieu on sanpham.mathuonghieu = thuonghieu.mathuonghieu\n"
-                + "where khuvuc_sanpham.makhuvuc = ?;";
-              
+                + "where khuvuc_sanpham.makhuvuc = ? sanpham.is_delete = 0;";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 

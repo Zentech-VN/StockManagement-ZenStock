@@ -30,6 +30,10 @@ public class AccountService {
         }
     }
     
+    public List<Account> getAccountsPaged(int pageIndex, int pageSize) {
+        return acc.selectPaged(pageIndex, pageSize);
+    }
+    
     public PermGroup getPermGroup(int manhom) {
         return permGroupDAO.selectById(manhom + "");
     }
