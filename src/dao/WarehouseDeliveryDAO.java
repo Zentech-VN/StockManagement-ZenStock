@@ -151,7 +151,7 @@ public class WarehouseDeliveryDAO {
                     pst_ctphieuxuat.setInt(2, pxct.getSanpham().getMaSanPham());
                     pst_ctphieuxuat.setBigDecimal(3, pxct.getDongia());
                     pst_ctphieuxuat.setInt(4, pxct.getSoluong());
-                    pst_ctphieuxuat.setInt(5, pxct.getSanpham().getMaSanPham());
+                    pst_ctphieuxuat.setString(5, pxct.getGhichu());
                     pst_ctphieuxuat.addBatch();
                 }
 

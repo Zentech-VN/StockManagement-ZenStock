@@ -291,26 +291,42 @@ public class WarehouseReceiptDAO {
     }
 
     public int xoaphieunhap(int id) {
-        String sql_phieunhap = "delete from phieunhap where maphieunhap = ?";
-        String sql_ctphieunhap = "delete from ctphieunhap where maphieunhap = ?";
-        int rs_phieunhap = 0;
-        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst_ctphieunhap = conn.prepareStatement(sql_ctphieunhap)) {
+        String checkSql = "SELECT trangthai FROM phieunhap WHERE maphieunhap = ?";
+        String deleteCTPhieuNhapSql = "DELETE FROM ctphieunhap WHERE maphieunhap = ?";
+        String deletePhieuNhapSql = "DELETE FROM phieunhap WHERE maphieunhap = ?";
+
+        try (Connection conn = ConnectionHelper.getConnection()) {
+            // Bước 1: Kiểm tra trạng thái
+            try (PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
+                checkStmt.setInt(1, id);
+                ResultSet rs = checkStmt.executeQuery();
+                if (rs.next()) {
+                    String status = rs.getString("trangthai");
+                    if (!"ChoDuyet".equalsIgnoreCase(status)) {
+                        JOptionPane.showMessageDialog(null, "Chỉ được xóa phiếu có trạng thái 'ChoDuyet'");
+                        return 0;
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Không tìm thấy phiếu nhập với ID: " + id);
+                    return 0;
+                }
+            }
+
+            // Bước 2: Thực hiện xóa
             conn.setAutoCommit(false);
-            pst_ctphieunhap.setInt(1, id);
-            int rs_ctphieunhap = pst_ctphieunhap.executeUpdate();
-            if (rs_ctphieunhap == -1) {
-                JOptionPane.showMessageDialog(null, "Xóa phiếu nhập chi tiết không thành công!");
-                conn.rollback();
-                return 0;
+
+            try (PreparedStatement deleteCTStmt = conn.prepareStatement(deleteCTPhieuNhapSql)) {
+                deleteCTStmt.setInt(1, id);
+                deleteCTStmt.executeUpdate();
             }
-            try (PreparedStatement pst_phieunhap = conn.prepareStatement(sql_phieunhap)) {
-                pst_phieunhap.setInt(1, id);
-                rs_phieunhap = pst_phieunhap.executeUpdate();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return 0;
+
+            try (PreparedStatement deleteStmt = conn.prepareStatement(deletePhieuNhapSql)) {
+                deleteStmt.setInt(1, id);
+                int result = deleteStmt.executeUpdate();
+                conn.commit();
+                return result;
             }
-            return rs_phieunhap;
+
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
@@ -333,5 +349,5 @@ public class WarehouseReceiptDAO {
 
         return count;
     }
-    
+
 }

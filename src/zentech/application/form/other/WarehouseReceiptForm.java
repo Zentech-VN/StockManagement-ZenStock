@@ -156,7 +156,7 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
         txtSearch = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnXoa = new javax.swing.JButton();
         btnDetails = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPhieuNhap = new javax.swing.JTable();
@@ -237,14 +237,14 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
         });
         crazyPanel2.add(btnUpdate);
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setText("Xóa");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnXoa.setText("Xóa");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnXoaActionPerformed(evt);
             }
         });
-        crazyPanel2.add(jButton1);
+        crazyPanel2.add(btnXoa);
 
         btnDetails.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnDetails.setText("Chi tiết");
@@ -427,7 +427,7 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
         wrs.search(tblPhieuNhap, txtSearch);
     }//GEN-LAST:event_txtSearchKeyReleased
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
         int select = tblPhieuNhap.getSelectedRow();
         if (select == -1) {
@@ -448,7 +448,7 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Xóa thành công phiếu nhập có mã " + id + "!");
         }
         loadDataTable();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
         btnFirst.addActionListener(e -> {
@@ -491,10 +491,10 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnPrevious;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JButton btnXoa;
     private raven.crazypanel.CrazyPanel crazyPanel1;
     private raven.crazypanel.CrazyPanel crazyPanel2;
     private raven.crazypanel.CrazyPanel crazyPanel6;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCurrentPage;
