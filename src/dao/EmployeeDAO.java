@@ -49,7 +49,7 @@ public interface EmployeeDAO {
     }
 
     default EmployeeAccout getAccountInfoByEmployeeId(int manv) {
-        String sql = "SELECT tendangnhap, manhomquyen FROM taikhoan WHERE manv = ?";
+        String sql = "SELECT tendangnhap, manhomquyen FROM taikhoan WHERE manv = ? AND is_delete = 0";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
