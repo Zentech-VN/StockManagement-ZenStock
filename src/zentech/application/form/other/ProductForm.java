@@ -1,6 +1,9 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.UserRightsDAO;
+import entity.ChiTietQuyen;
+import entity.Employee;
 import entity.Product;
 import java.awt.Component;
 import java.awt.Window;
@@ -36,21 +39,48 @@ public class ProductForm extends javax.swing.JPanel {
     private int currentPage = 1;
     private final int pageSize = 50;  // số dòng mỗi trang
     private int totalPages = 1;
+    private Employee CurrentAcc;
+    private UserRightsDAO usd = new UserRightsDAO();
 
-    public ProductForm() {
+    public ProductForm(Employee acc) {
         initComponents();
+        this.CurrentAcc = acc;
         initalUI(tblSanPham);
         currentPage = 1;
         loadProductData();
         initSorter();
         initSearchListener();
+        load();
+    }
+    
+    public boolean check(List<ChiTietQuyen> list, String hanhdong, String machucnang) {
+        for (ChiTietQuyen chitietquyen : list) {
+            if (chitietquyen.getHanhdong() != null && chitietquyen.getHanhdong().equals(hanhdong)
+                    && chitietquyen.getDanhmuc_chucnang().getMachucnang() != null && chitietquyen.getDanhmuc_chucnang().getMachucnang().equals(machucnang)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void load() {
+        List<ChiTietQuyen> list = usd.getALLCTQbyMaNHomQuyen(this.CurrentAcc.getAcc().getManhomquyen());
+        if (check(list, "create", "sanpham") == false) {
+            btnAdd.setEnabled(false);
+        }
+        if (check(list, "delete", "sanpham") == false) {
+            btnDelete.setEnabled(false);
+        }
+        if (check(list, "update", "sanpham") == false) {
+            btnUpdate.setEnabled(false);
+        }
     }
 
     public void loadProductData() {
         SwingWorker<List<Object[]>, Void> worker = new SwingWorker<List<Object[]>, Void>() {
             @Override
             protected List<Object[]> doInBackground() throws Exception {
-                
+
                 List<Product> products = productService.getBasicProduct(currentPage, pageSize);
                 int totalProducts = productService.getProductCount();
                 totalPages = (int) Math.ceil((double) totalProducts / pageSize);

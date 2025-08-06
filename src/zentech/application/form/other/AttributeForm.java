@@ -1,7 +1,10 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.UserRightsDAO;
 import entity.Brand;
+import entity.ChiTietQuyen;
+import entity.Employee;
 import entity.MadeIn;
 import entity.OS;
 import java.util.List;
@@ -21,9 +24,12 @@ public class AttributeForm extends javax.swing.JPanel {
     private BrandService brandService = new BrandService();
     private MadeInService madeInService = new MadeInService();
     private OSService oSService = new OSService();
+    private Employee CurrentAcc;
+    private UserRightsDAO urd = new UserRightsDAO();
 
-    public AttributeForm() {
+    public AttributeForm(Employee acc) {
         initComponents();
+        this.CurrentAcc = acc;
         initalUI(tblBrand);
         initalUI(tblMadeIn);
         initalUI(tblOS);
@@ -31,6 +37,36 @@ public class AttributeForm extends javax.swing.JPanel {
         loadToTableBrand(tblBrand);
         loadToTableMadeIn(tblMadeIn);
         loadToTableOS(tblOS);
+        load();
+    }
+    
+    public boolean check(List<ChiTietQuyen> list, String hanhdong, String machucnang) {
+        for (ChiTietQuyen chitietquyen : list) {
+            if (chitietquyen.getHanhdong() != null && chitietquyen.getHanhdong().equals(hanhdong)
+                    && chitietquyen.getDanhmuc_chucnang().getMachucnang() != null && chitietquyen.getDanhmuc_chucnang().getMachucnang().equals(machucnang)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void load() {
+        List<ChiTietQuyen> list = urd.getALLCTQbyMaNHomQuyen(this.CurrentAcc.getAcc().getManhomquyen());
+        if (check(list, "create", "thuoctinh") == false) {
+            btnSave1.setEnabled(false);
+            btnSave3.setEnabled(false);
+            btnSave4.setEnabled(false);
+        }
+        if (check(list, "delete", "thuoctinh") == false) {
+           btnDelete4.setEnabled(false);
+           btnDelete1.setEnabled(false);
+           btnDelete3.setEnabled(false);
+        }
+        if (check(list, "update", "thuoctinh") == false) {
+            btnUpdate1.setEnabled(false);
+            btnUpdate3.setEnabled(false);
+            btnUpdate4.setEnabled(false);
+        }
     }
 
     public void loadToTableBrand(JTable tbl) {

@@ -1,9 +1,13 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.UserRightsDAO;
 import dao.WarehouseDAO;
+import entity.ChiTietQuyen;
+import entity.Employee;
 import entity.Warehouse;
 import java.awt.Component;
+import java.util.List;
 import javax.swing.JLabel;
 
 import javax.swing.JOptionPane;
@@ -28,14 +32,40 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
             throw new UnsupportedOperationException("Not supported yet.");
         }
     };
+    private UserRightsDAO urd = new UserRightsDAO();
+        private Employee CurrentAcc;
 
-    public WarehouseManagementForm() {
+    public WarehouseManagementForm(Employee acc) {
         initComponents();
-
+        this.CurrentAcc = acc;
         jTextField1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
         ws.LoadDataKho(tbl10);
         initUITable1(tbl10);
         initUITable2(tblSanPham);
+        load();
+    }
+    
+    public boolean check(List<ChiTietQuyen> list, String hanhdong, String machucnang) {
+        for (ChiTietQuyen chitietquyen : list) {
+            if (chitietquyen.getHanhdong() != null && chitietquyen.getHanhdong().equals(hanhdong)
+                    && chitietquyen.getDanhmuc_chucnang().getMachucnang() != null && chitietquyen.getDanhmuc_chucnang().getMachucnang().equals(machucnang)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void load() {
+        List<ChiTietQuyen> list = urd.getALLCTQbyMaNHomQuyen(this.CurrentAcc.getAcc().getManhomquyen());
+        if (check(list, "create", "khuvuckho") == false) {
+            jButton6.setEnabled(false);
+        }
+        if (check(list, "delete", "khuvuckho") == false) {
+            jButton8.setEnabled(false);
+        }
+        if (check(list, "update", "khuvuckho") == false) {
+            jButton7.setEnabled(false);
+        }
     }
 
     public void initUITable1(JTable table) {

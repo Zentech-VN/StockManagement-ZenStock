@@ -1,6 +1,9 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.UserRightsDAO;
+import entity.ChiTietQuyen;
+import entity.Employee;
 import entity.Supplier;
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -25,11 +28,38 @@ public class SupplierForm extends javax.swing.JPanel {
     private final int[] SIZE_MAP = {12, 14, 18};
     private final String[] FONT_MAP = {"Segoe UI", "Arial", "Serif"};
     private final SupplierService service = new SupplierService();
+    private UserRightsDAO urd = new UserRightsDAO();
+    private Employee CurrentAcc;
 
-    public SupplierForm() {
+    public SupplierForm(Employee acc) {
         initComponents();
+        this.CurrentAcc = acc;
         initalUI();
         loadTable();
+        load();
+    }
+
+    public boolean check(List<ChiTietQuyen> list, String hanhdong, String machucnang) {
+        for (ChiTietQuyen chitietquyen : list) {
+            if (chitietquyen.getHanhdong() != null && chitietquyen.getHanhdong().equals(hanhdong)
+                    && chitietquyen.getDanhmuc_chucnang().getMachucnang() != null && chitietquyen.getDanhmuc_chucnang().getMachucnang().equals(machucnang)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void load() {
+        List<ChiTietQuyen> list = urd.getALLCTQbyMaNHomQuyen(this.CurrentAcc.getAcc().getManhomquyen());
+        if (check(list, "create", "nhacungcap") == false) {
+            btnAdd.setEnabled(false);
+        }
+        if (check(list, "delete", "nhacungcap") == false) {
+            btnDelete.setEnabled(false);
+        }
+        if (check(list, "update", "nhacungcap") == false) {
+            btnUpdate.setEnabled(false);
+        }
     }
 
     private void initalUI() {
@@ -153,7 +183,7 @@ public class SupplierForm extends javax.swing.JPanel {
                             s.getEmail(),
                             s.getSdt(),
                             trangThaiText,
-                            s 
+                            s
                         });
                     }
 

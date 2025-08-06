@@ -36,7 +36,7 @@ public class UserRightsDetailsDialog extends JDialog {
     }
 
     private static final java.util.List<String> FEATURES = java.util.Arrays.asList(
-            "thongke", "taikhoan", "nhanvien", "quyenhan", "nhatky",
+            "thongke", "taikhoan", "nhanvien", "nhomquyen", "nhatky",
             "sanpham", "khuvuckho", "phieunhap", "phieuxuat",
             "duyetphieu", "thuoctinh", "khachhang", "nhacungcap"
     );

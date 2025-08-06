@@ -3,8 +3,11 @@ package zentech.application.form.other;
 import com.formdev.flatlaf.FlatClientProperties;
 import dao.AccountDAO;
 import dao.PermGroupDAO;
+import dao.UserRightsDAO;
 import java.util.ArrayList;
 import entity.Account;
+import entity.ChiTietQuyen;
+import entity.Employee;
 import entity.PermGroup;
 import java.awt.Component;
 import java.awt.Window;
@@ -31,16 +34,51 @@ public class AccountForm extends javax.swing.JPanel {
     private AccountService asv = new AccountService();
     private ArrayList<Account> lista = asv.getTaiKhoanAll();
     String appCurrentUser = zentech.application.Application.getAppInstance().getCurrentUser();
+    private UserRightsDAO usd = new UserRightsDAO();
 
     private int currentPage = 1;
-    private final int pageSize = 50;  // số dòng mỗi trang
+    private final int pageSize = 50;
     private int totalPages = 1;
+    private Employee CurrentAcc;
 
     public AccountForm() {
         initComponents();
         initalUI(tblTaikhoan);
         currentPage = 1;
         loadTablePage();
+        load();
+    }
+
+    public AccountForm(Employee acc) {
+        initComponents();
+        initalUI(tblTaikhoan);
+        currentPage = 1;
+        loadTablePage();
+        this.CurrentAcc = acc;
+        load();
+    }
+
+    public boolean check(List<ChiTietQuyen> list, String hanhdong, String machucnang) {
+        for (ChiTietQuyen chitietquyen : list) {
+            if (chitietquyen.getHanhdong() != null && chitietquyen.getHanhdong().equals(hanhdong)
+                    && chitietquyen.getDanhmuc_chucnang().getMachucnang() != null && chitietquyen.getDanhmuc_chucnang().getMachucnang().equals(machucnang)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void load() {
+        List<ChiTietQuyen> list = usd.getALLCTQbyMaNHomQuyen(this.CurrentAcc.getAcc().getManhomquyen());
+        if (check(list, "create", "taikhoan") == false) {
+            jButton1.setEnabled(false);
+        }
+        if (check(list, "delete", "taikhoan") == false) {
+            jButton3.setEnabled(false);
+        }
+        if (check(list, "update", "taikhoan") == false) {
+            jButton2.setEnabled(false);
+        }
     }
 
     public AccountForm(Account currentUser) {
@@ -48,8 +86,9 @@ public class AccountForm extends javax.swing.JPanel {
         initalUI(tblTaikhoan);
         currentPage = 1;
         loadTablePage();
+        load();
     }
-    
+
     private void initalUI(JTable table) {
         table.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
         table.setRowHeight(30);
@@ -67,7 +106,7 @@ public class AccountForm extends javax.swing.JPanel {
         table.getTableHeader().setDefaultRenderer(getAlignmentCellRender(table.getTableHeader().getDefaultRenderer(), true));
         table.setDefaultRenderer(Object.class, getAlignmentCellRender(table.getDefaultRenderer(Object.class), false));
     }
-    
+
     private TableCellRenderer getAlignmentCellRender(TableCellRenderer oldRender, boolean header) {
         return new DefaultTableCellRenderer() {
             @Override
@@ -173,7 +212,6 @@ public class AccountForm extends javax.swing.JPanel {
         int viewIndex = tblTaikhoan.getSelectedRow();
         return tblTaikhoan.convertRowIndexToModel(viewIndex);
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -405,7 +443,7 @@ public class AccountForm extends javax.swing.JPanel {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         int selectedRow = tblTaikhoan.getSelectedRow();
-      
+
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn một tài khoản để xóa!",
                     "Thông báo", JOptionPane.WARNING_MESSAGE);

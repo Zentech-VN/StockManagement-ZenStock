@@ -1,7 +1,9 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.UserRightsDAO;
 import dao.WarehouseReceiptDAO;
+import entity.ChiTietQuyen;
 import entity.Employee;
 import entity.PhieuNhap;
 
@@ -32,6 +34,7 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
     WarehouseReceiptService wrs = new WarehouseReceiptService();
     private Employee CurrentAcc;
     private WarehouseReceiptDAO wrd = new WarehouseReceiptDAO();
+    private UserRightsDAO urd = new UserRightsDAO();
 
     private int currentPage = 1;
     private final int pageSize = 50;  // số dòng mỗi trang
@@ -42,6 +45,30 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
         initComponents();
         initalUI(tblPhieuNhap);
         loadDataTable();
+        load();
+    }
+    
+    public boolean check(List<ChiTietQuyen> list, String hanhdong, String machucnang) {
+        for (ChiTietQuyen chitietquyen : list) {
+            if (chitietquyen.getHanhdong() != null && chitietquyen.getHanhdong().equals(hanhdong)
+                    && chitietquyen.getDanhmuc_chucnang().getMachucnang() != null && chitietquyen.getDanhmuc_chucnang().getMachucnang().equals(machucnang)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void load() {
+        List<ChiTietQuyen> list = urd.getALLCTQbyMaNHomQuyen(this.CurrentAcc.getAcc().getManhomquyen());
+        if (check(list, "create", "phieunhap") == false) {
+            btnAdd.setEnabled(false);
+        }
+        if (check(list, "delete", "phieunhap") == false) {
+            jButton1.setEnabled(false);
+        }
+        if (check(list, "update", "phieunhap") == false) {
+            btnUpdate.setEnabled(false);
+        }
     }
 
     private void initalUI(JTable table) {

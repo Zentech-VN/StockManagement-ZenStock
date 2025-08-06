@@ -2,6 +2,8 @@ package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import dao.PermGroupDAO;
+import dao.UserRightsDAO;
+import entity.ChiTietQuyen;
 import entity.Employee;
 import entity.EmployeeAccout;
 import entity.PermGroup;
@@ -39,17 +41,44 @@ public class EmployeeForm extends javax.swing.JPanel {
     private List<Employee> employeeList = new ArrayList<>();
     private TableRowSorter<DefaultTableModel> sorter;
     private EmployeeUpdateDialog updateDialog;
+    private UserRightsDAO usd = new UserRightsDAO();
 
     private int currentPage = 1;
     private int pageSize = 50;
     private int totalPages = 1;
+    private Employee CurrentAcc;
 
-    public EmployeeForm() {
+    public EmployeeForm(Employee acc) {
         initComponents();
+        this.CurrentAcc = acc;
         currentPage = 1;
         loadEmployeeData();
         initalUI(tblNhanVien);
         initSearchListener();
+        load();
+    }
+
+    public boolean check(List<ChiTietQuyen> list, String hanhdong, String machucnang) {
+        for (ChiTietQuyen chitietquyen : list) {
+            if (chitietquyen.getHanhdong() != null && chitietquyen.getHanhdong().equals(hanhdong)
+                    && chitietquyen.getDanhmuc_chucnang().getMachucnang() != null && chitietquyen.getDanhmuc_chucnang().getMachucnang().equals(machucnang)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void load() {
+        List<ChiTietQuyen> list = usd.getALLCTQbyMaNHomQuyen(this.CurrentAcc.getAcc().getManhomquyen());
+        if (check(list, "create", "nhanvien") == false) {
+            btnAdd.setEnabled(false);
+        }
+        if (check(list, "delete", "nhanvien") == false) {
+            btnUpdate.setEnabled(false);
+        }
+        if (check(list, "update", "nhanvien") == false) {
+            btnDelete.setEnabled(false);
+        }
     }
 
     private void initalUI(JTable table) {
