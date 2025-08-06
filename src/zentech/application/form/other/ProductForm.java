@@ -60,11 +60,11 @@ public class ProductForm extends javax.swing.JPanel {
                     rows.add(new Object[]{
                         p.getMaSanPham(),
                         p.getTenSanPham(),
-                        p.getGia(),
-                        p.getTrangThai(),
                         p.getTenThuongHieu(),
                         p.getTenHeDieuHanh(),
-                        p.getTenXuatXu()
+                        p.getTenXuatXu(),
+                        p.getGia(),
+                        p.getTrangThai()
                     });
                 }
                 return rows;
