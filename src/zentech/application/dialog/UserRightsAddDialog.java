@@ -44,7 +44,7 @@ public class UserRightsAddDialog extends JDialog {
         cbxMatrix.put("thongke", row(chkThongKeView, chkThongKeCreate, chkThongKeUpdate, chkThongKeDelete));
         cbxMatrix.put("taikhoan", row(chkTaiKhoanView, chkTaiKhoanCreate, chkTaiKhoanUpdate, chkTaiKhoanDelete));
         cbxMatrix.put("nhanvien", row(chkNhanVienView, chkNhanVienCreate, chkNhanVienUpdate, chkNhanVienDelete));
-        cbxMatrix.put("quyenhan", row(chkNhomQuyenView, chkNhomQuyenCreate, chkNhomQuyenUpdate, chkNhomQuyenDelete));
+        cbxMatrix.put("nhomquyen", row(chkNhomQuyenView, chkNhomQuyenCreate, chkNhomQuyenUpdate, chkNhomQuyenDelete));
         cbxMatrix.put("nhatky", row(chkNhatKyView, chkNhatKyCreate, chkNhatKyUpdate, chkNhatKyDelete));
         cbxMatrix.put("sanpham", row(chkSanPhamView, chkSanPhamCreate, chkSanPhamUpdate, chkSanPhamDelete));
         cbxMatrix.put("khuvuckho", row(chkKhuVucKhoView, chkKhuVucKhoCreate, chkKhuVucKhoUpdate, chkKhuVucKhoDelete));

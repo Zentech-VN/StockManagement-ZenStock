@@ -2,9 +2,12 @@ package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import dao.UserRightsDAO;
+import entity.ChiTietQuyen;
+import entity.Employee;
 import entity.NhomQuyen;
 import java.awt.Window;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,11 +25,37 @@ import zentech.application.dialog.UserRightsUpdateDialog;
 public class UserRightsForm extends javax.swing.JPanel {
 
     UserRightsDAO urd = new UserRightsDAO();
+    private Employee CurrentAcc;
 
-    public UserRightsForm() {
+    public UserRightsForm(Employee acc) {
         initComponents();
+        this.CurrentAcc = acc;
         initalUI(tblRole);
         LoadDataTable();
+        load();
+    }
+
+    public boolean check(List<ChiTietQuyen> list, String hanhdong, String machucnang) {
+        for (ChiTietQuyen chitietquyen : list) {
+            if (chitietquyen.getHanhdong() != null && chitietquyen.getHanhdong().equals(hanhdong)
+                    && chitietquyen.getDanhmuc_chucnang().getMachucnang() != null && chitietquyen.getDanhmuc_chucnang().getMachucnang().equals(machucnang)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void load() {
+        List<ChiTietQuyen> list = urd.getALLCTQbyMaNHomQuyen(this.CurrentAcc.getAcc().getManhomquyen());
+        if (check(list, "create", "nhomquyen") == false) {
+            btnAdd.setEnabled(false);
+        }
+        if (check(list, "delete", "nhomquyen") == false) {
+            btnDelete.setEnabled(false);
+        }
+        if (check(list, "update", "nhomquyen") == false) {
+            btnUpdate.setEnabled(false);
+        }
     }
 
     private void initalUI(JTable table) {
@@ -51,7 +80,6 @@ public class UserRightsForm extends javax.swing.JPanel {
         }
     }
 
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

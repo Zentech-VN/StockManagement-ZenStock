@@ -1,5 +1,6 @@
 package dao;
 
+import entity.ChiTietQuyen;
 import entity.NhomQuyen;
 import jdbc.ConnectionHelper;
 
@@ -300,6 +301,25 @@ public class UserRightsDAO {
                 conn.setAutoCommit(old);
                 throw e;
             }
+        }
+    }
+    
+    public List<ChiTietQuyen> getALLCTQbyMaNHomQuyen(int manhomquyen){
+        List<ChiTietQuyen> list = new ArrayList<>();
+        String sql = "select hanhdong,machucnang from ctquyen where manhomquyen = ?";
+        try(Connection conn = ConnectionHelper.getConnection();PreparedStatement pst = conn.prepareStatement(sql)){
+            pst.setInt(1, manhomquyen);
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){
+                ChiTietQuyen chitietquyen = new ChiTietQuyen();
+                chitietquyen.setHanhdong(rs.getString("hanhdong"));
+                chitietquyen.getDanhmuc_chucnang().setMachucnang(rs.getString("machucnang"));
+                list.add(chitietquyen);
+            }
+            return list;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 }

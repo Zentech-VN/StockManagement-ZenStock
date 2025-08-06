@@ -1,7 +1,10 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.UserRightsDAO;
+import entity.ChiTietQuyen;
 import entity.Client;
+import entity.Employee;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -17,13 +20,40 @@ import zentech.application.dialog.CustomerManagementUpdateDialog;
 public class CustomerManagement extends javax.swing.JPanel {
 
     ClientService cls = new ClientService();
+    private Employee CurrentAcc;
+    private UserRightsDAO urd = new UserRightsDAO();
 
-    public CustomerManagement() {
+    public CustomerManagement(Employee acc) {
         initComponents();
+        this.CurrentAcc = acc;
         initalUI(jTable1);
         initalUI(jTable2);
         loadDataTable(jTable1, jTable2, true);
         loadDataTable(jTable1, jTable2, false);
+        load();
+    }
+
+    public boolean check(List<ChiTietQuyen> list, String hanhdong, String machucnang) {
+        for (ChiTietQuyen chitietquyen : list) {
+            if (chitietquyen.getHanhdong() != null && chitietquyen.getHanhdong().equals(hanhdong)
+                    && chitietquyen.getDanhmuc_chucnang().getMachucnang() != null && chitietquyen.getDanhmuc_chucnang().getMachucnang().equals(machucnang)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void load() {
+        List<ChiTietQuyen> list = urd.getALLCTQbyMaNHomQuyen(this.CurrentAcc.getAcc().getManhomquyen());
+        if (check(list, "create", "khachhang") == false) {
+            jButton3.setEnabled(false);
+        }
+        if (check(list, "delete", "khachhang") == false) {
+            jButton2.setEnabled(false);
+        }
+        if (check(list, "update", "khachhang") == false) {
+            jButton1.setEnabled(false);
+        }
     }
 
     public void loadDataTable(JTable table1, JTable table2, boolean check) {

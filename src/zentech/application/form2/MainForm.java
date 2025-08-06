@@ -3,6 +3,8 @@ package zentech.application.form2;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.util.UIScale;
+import dao.UserRightsDAO;
+import entity.ChiTietQuyen;
 import entity.Employee;
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -12,10 +14,12 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import raven.toast.Notifications;
 import zentech.application.Application;
 import zentech.application.form.other.AccountForm;
 import zentech.application.form.other.AttributeForm;
@@ -39,6 +43,7 @@ public class MainForm extends JLayeredPane {
 
     private Menu menu;
     Employee acc;
+    private UserRightsDAO urd = new UserRightsDAO();
 
     public MainForm(Employee acc) {
         this.acc = acc;
@@ -81,35 +86,94 @@ public class MainForm extends JLayeredPane {
         menuButton.setIcon(new FlatSVGIcon("zentech/icon/svg/" + icon, 0.8f));
     }
 
+    public boolean check(List<ChiTietQuyen> list, String machucnang) {
+        for (ChiTietQuyen chitietquyen : list) {
+            if (chitietquyen.getDanhmuc_chucnang().getMachucnang() != null && chitietquyen.getDanhmuc_chucnang().getMachucnang().equals(machucnang)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void initMenuEvent() {
+        List<ChiTietQuyen> list = urd.getALLCTQbyMaNHomQuyen(this.acc.getAcc().getManhomquyen());
+
         menu.addMenuEvent((int index, int subIndex, MenuAction action) -> {
             // Application.mainForm.showForm(new DefaultForm("Form : " + index + " " + subIndex));
             if (index == 0) {
                 Application.showForm(new FormHomePage());
             } else if (index == 1) {
-                Application.showForm(new Chart()); 
+                if (check(list, "thongke") == false) {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Bạn không có quyền sài chức năng này!");
+                    return;
+                }
+                Application.showForm(new Chart());
             } else if (index == 2) {
-                Application.showForm(new AccountForm()); 
+                if (check(list, "taikhoan") == false) {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Bạn không có quyền sài chức năng này!");
+                    return;
+                }
+                Application.showForm(new AccountForm(acc));
             } else if (index == 3) {
-                Application.showForm(new EmployeeForm()); 
+                if (check(list, "nhanvien") == false) {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Bạn không có quyền sài chức năng này!");
+                    return;
+                }
+                Application.showForm(new EmployeeForm(acc));
             } else if (index == 4) {
-                Application.showForm(new UserRightsForm()); 
+                if (check(list, "nhomquyen") == false) {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Bạn không có quyền sài chức năng này!");
+                    return;
+                }
+                Application.showForm(new UserRightsForm(acc));
             } else if (index == 5) {
-                Application.showForm(new ProductForm()); 
+                if (check(list, "sanpham") == false) {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Bạn không có quyền sài chức năng này!");
+                    return;
+                }
+                Application.showForm(new ProductForm(acc));
             } else if (index == 6) {
-                Application.showForm(new WarehouseManagementForm()); 
+                if (check(list, "khuvuckho") == false) {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Bạn không có quyền sài chức năng này!");
+                    return;
+                }
+                Application.showForm(new WarehouseManagementForm(acc));
             } else if (index == 7) {
-                Application.showForm(new WarehouseReceiptForm(acc)); 
+                if (check(list, "phieunhap") == false) {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Bạn không có quyền sài chức năng này!");
+                    return;
+                }
+                Application.showForm(new WarehouseReceiptForm(acc));
             } else if (index == 8) {
-                Application.showForm(new WarehouseDeliveryForm(acc)); 
+                if (check(list, "phieuxuat") == false) {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Bạn không có quyền sài chức năng này!");
+                    return;
+                }
+                Application.showForm(new WarehouseDeliveryForm(acc));
             } else if (index == 9) {
-                Application.showForm(new ReceiptApprovalForm()); 
+                if (check(list, "duyetphieu") == false) {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Bạn không có quyền sài chức năng này!");
+                    return;
+                }
+                Application.showForm(new ReceiptApprovalForm());
             } else if (index == 10) {
-                Application.showForm(new AttributeForm()); 
+                if (check(list, "thuoctinh") == false) {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Bạn không có quyền sài chức năng này!");
+                    return;
+                }
+                Application.showForm(new AttributeForm(acc));
             } else if (index == 11) {
-                Application.showForm(new CustomerManagement()); 
+                if (check(list, "khachhang") == false) {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Bạn không có quyền sài chức năng này!");
+                    return;
+                }
+                Application.showForm(new CustomerManagement(acc));
             } else if (index == 12) {
-                Application.showForm(new SupplierForm()); 
+                if (check(list, "nhacungcap") == false) {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Bạn không có quyền sài chức năng này!");
+                    return;
+                }
+                Application.showForm(new SupplierForm(acc));
             } else if (index == 13) {
                 Application.showForm(new ChatForm());
             } else if (index == 14) {
