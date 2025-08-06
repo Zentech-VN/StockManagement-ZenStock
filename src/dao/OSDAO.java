@@ -11,9 +11,10 @@ import jdbc.ConnectionHelper;
 
 public interface OSDAO {
 
+    // Lấy danh sách hệ điều hành chưa bị xóa
     default List<OS> getAllOS() {
         List<OS> list = new ArrayList<>();
-        String sql = "SELECT mahedieuhanh, tenhedieuhanh FROM hedieuhanh";
+        String sql = "SELECT mahedieuhanh, tenhedieuhanh FROM hedieuhanh WHERE is_delete = 0";
 
         try (
                 Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
@@ -29,10 +30,11 @@ public interface OSDAO {
         return list;
     }
 
+    // Thêm mới, mặc định is_delete = 0
     default boolean insertOS(OS os) {
-        try (Connection conn = ConnectionHelper.getConnection()) {
-            String sql = "INSERT INTO hedieuhanh (tenhedieuhanh) VALUES (?)";
-            PreparedStatement ps = conn.prepareStatement(sql);
+        String sql = "INSERT INTO hedieuhanh (tenhedieuhanh, is_delete) VALUES (?, 0)";
+        try (
+                Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, os.getTen());
 
             int rows = ps.executeUpdate();
@@ -43,10 +45,11 @@ public interface OSDAO {
         return false;
     }
 
+    // Xóa mềm
     default boolean deleteOSById(int id) {
-        try (Connection conn = ConnectionHelper.getConnection()) {
-            String sql = "DELETE FROM hedieuhanh WHERE mahedieuhanh = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
+        String sql = "UPDATE hedieuhanh SET is_delete = 1 WHERE mahedieuhanh = ?";
+        try (
+                Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
 
             int rows = ps.executeUpdate();
@@ -57,10 +60,11 @@ public interface OSDAO {
         return false;
     }
 
+    // Cập nhật tên nếu chưa bị xóa
     default boolean updateOSById(int id, String newName) {
-        try (Connection conn = ConnectionHelper.getConnection()) {
-            String sql = "UPDATE hedieuhanh SET tenhedieuhanh = ? WHERE mahedieuhanh = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
+        String sql = "UPDATE hedieuhanh SET tenhedieuhanh = ? WHERE mahedieuhanh = ? AND is_delete = 0";
+        try (
+                Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newName);
             ps.setInt(2, id);
 
@@ -72,13 +76,16 @@ public interface OSDAO {
         return false;
     }
 
+    // Kiểm tra trùng tên nếu chưa bị xóa
     default boolean isOSNameExists(String ten) {
-        String sql = "SELECT COUNT(*) FROM hedieuhanh WHERE LOWER(tenhedieuhanh) = ?";
-        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        String sql = "SELECT COUNT(*) FROM hedieuhanh WHERE LOWER(tenhedieuhanh) = ? AND is_delete = 0";
+        try (
+                Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, ten.toLowerCase());
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1) > 0;
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
