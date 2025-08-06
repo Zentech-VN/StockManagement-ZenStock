@@ -10,11 +10,12 @@ public class DataSourceFactory {
     public static DataSource createDataSource(Properties props) {
         HikariConfig config = new HikariConfig();
         
-        config.setJdbcUrl(props.getProperty("db.url"));
+        String jdbcUrl = props.getProperty("db.url");
+        config.setJdbcUrl(jdbcUrl);
         config.setUsername(props.getProperty("db.user"));
         config.setPassword(props.getProperty("db.password"));
         
-        //Cấu hình connection pool từ props
+        // Cấu hình connection pool từ props
         config.setMaximumPoolSize(Integer.parseInt(props.getProperty("db.pool.maxSize", "20")));
         config.setMinimumIdle(Integer.parseInt(props.getProperty("db.pool.minIdle", "10")));
         config.setIdleTimeout(Long.parseLong(props.getProperty("db.pool.idleTimeout", "30000")));
@@ -22,7 +23,7 @@ public class DataSourceFactory {
         config.setConnectionTimeout(Long.parseLong(props.getProperty("db.pool.connectionTimeout", "30000")));
         config.setLeakDetectionThreshold(Long.parseLong(props.getProperty("db.pool.leakDetectionThreshold", "5000")));
         
-        // Cấu hình MySQL 
+        // Cấu hình MySQL Performance
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
@@ -33,7 +34,10 @@ public class DataSourceFactory {
         config.addDataSourceProperty("cacheServerConfiguration", "true");
         config.addDataSourceProperty("elideSetAutoCommits", "true");
         config.addDataSourceProperty("maintainTimeStats", "false");
+
+        config.setPoolName(props.getProperty("db.pool.name", "HikariPool"));
         
         return new HikariDataSource(config);
     }
+
 }
