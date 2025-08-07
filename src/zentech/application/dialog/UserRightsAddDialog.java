@@ -18,7 +18,6 @@ public class UserRightsAddDialog extends JDialog {
 
     private final Map<String, Map<String, JCheckBox>> cbxMatrix = new LinkedHashMap<>();
 
-// DAO dùng để thêm nhóm và quyền
     private final UserRightsDAO userRightsDAO = new UserRightsDAO();
 
     public UserRightsAddDialog(Window parent, UserRightsForm userRightsForm) {
@@ -45,7 +44,6 @@ public class UserRightsAddDialog extends JDialog {
         cbxMatrix.put("taikhoan", row(chkTaiKhoanView, chkTaiKhoanCreate, chkTaiKhoanUpdate, chkTaiKhoanDelete));
         cbxMatrix.put("nhanvien", row(chkNhanVienView, chkNhanVienCreate, chkNhanVienUpdate, chkNhanVienDelete));
         cbxMatrix.put("nhomquyen", row(chkNhomQuyenView, chkNhomQuyenCreate, chkNhomQuyenUpdate, chkNhomQuyenDelete));
-        cbxMatrix.put("nhatky", row(chkNhatKyView, chkNhatKyCreate, chkNhatKyUpdate, chkNhatKyDelete));
         cbxMatrix.put("sanpham", row(chkSanPhamView, chkSanPhamCreate, chkSanPhamUpdate, chkSanPhamDelete));
         cbxMatrix.put("khuvuckho", row(chkKhuVucKhoView, chkKhuVucKhoCreate, chkKhuVucKhoUpdate, chkKhuVucKhoDelete));
         cbxMatrix.put("phieunhap", row(chkPhieuNhapView, chkPhieuNhapCreate, chkPhieuNhapUpdate, chkPhieuNhapDelete));
@@ -105,7 +103,7 @@ public class UserRightsAddDialog extends JDialog {
     }
 
     private void onSave() {
-        String ten = txtTenNhomQuyen.getText().trim(); // đổi tên biến đúng với form bạn
+        String ten = txtTenNhomQuyen.getText().trim();
         if (ten.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập tên nhóm quyền!");
             return;
@@ -121,9 +119,8 @@ public class UserRightsAddDialog extends JDialog {
             }
         }
 
-        // Cách 1: dùng transaction gói sẵn trong DAO (đơn giản nhất)
         try {
-            int maNhom = userRightsDAO.createGroupAndAssignRights(ten, 1, rights); // 1 = hoạt động
+            int maNhom = userRightsDAO.createGroupAndAssignRights(ten, 1, rights);
             JOptionPane.showMessageDialog(this, "Đã tạo nhóm quyền mới (#" + maNhom + ") và lưu quyền thành công!");
             dispose();
             return;
@@ -154,7 +151,6 @@ public class UserRightsAddDialog extends JDialog {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -179,10 +175,6 @@ public class UserRightsAddDialog extends JDialog {
         chkNhomQuyenDelete = new javax.swing.JCheckBox();
         chkNhomQuyenView = new javax.swing.JCheckBox();
         chkNhomQuyenCreate = new javax.swing.JCheckBox();
-        chkNhatKyDelete = new javax.swing.JCheckBox();
-        chkNhatKyView = new javax.swing.JCheckBox();
-        chkNhatKyCreate = new javax.swing.JCheckBox();
-        chkNhatKyUpdate = new javax.swing.JCheckBox();
         chkSanPhamCreate = new javax.swing.JCheckBox();
         chkSanPhamUpdate = new javax.swing.JCheckBox();
         chkSanPhamDelete = new javax.swing.JCheckBox();
@@ -257,9 +249,6 @@ public class UserRightsAddDialog extends JDialog {
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel10.setText("Quản lý Quyền hạn");
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel11.setText("Xem Nhật ký hoạt động");
-
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel12.setText("Quản lý Sản phẩm");
 
@@ -299,7 +288,6 @@ public class UserRightsAddDialog extends JDialog {
                     .addComponent(jLabel14)
                     .addComponent(jLabel13)
                     .addComponent(jLabel12)
-                    .addComponent(jLabel11)
                     .addComponent(jLabel10)
                     .addComponent(jLabel8)
                     .addComponent(jLabel3)
@@ -344,12 +332,6 @@ public class UserRightsAddDialog extends JDialog {
                                                 .addComponent(chkNhomQuyenCreate)
                                                 .addGap(122, 122, 122)
                                                 .addComponent(chkNhomQuyenUpdate))
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(chkNhatKyView)
-                                                .addGap(112, 112, 112)
-                                                .addComponent(chkNhatKyCreate)
-                                                .addGap(122, 122, 122)
-                                                .addComponent(chkNhatKyUpdate))
                                             .addGroup(jPanel3Layout.createSequentialGroup()
                                                 .addComponent(chkSanPhamView)
                                                 .addGap(112, 112, 112)
@@ -409,7 +391,6 @@ public class UserRightsAddDialog extends JDialog {
                                     .addComponent(chkPhieuNhapDelete)
                                     .addComponent(chkKhuVucKhoDelete)
                                     .addComponent(chkSanPhamDelete)
-                                    .addComponent(chkNhatKyDelete)
                                     .addComponent(chkNhomQuyenDelete)
                                     .addComponent(chkTaiKhoanDelete)
                                     .addComponent(chkThongKeDelete)
@@ -453,57 +434,47 @@ public class UserRightsAddDialog extends JDialog {
                                                                                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                                                                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                                                                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                                                                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                                                                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                                                                                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                                                                            .addComponent(txtTenNhomQuyen, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                                            .addComponent(jLabel16))
-                                                                                                                        .addGap(15, 15, 15)
-                                                                                                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                                                                            .addComponent(jLabel1)
-                                                                                                                            .addComponent(jLabel4)
-                                                                                                                            .addComponent(jLabel5)
-                                                                                                                            .addComponent(jLabel6)
-                                                                                                                            .addComponent(jLabel7))
-                                                                                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                                                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                                            .addComponent(jLabel2)
-                                                                                                                            .addComponent(chkThongKeView)
-                                                                                                                            .addComponent(chkThongKeUpdate)
-                                                                                                                            .addComponent(chkThongKeDelete)))
-                                                                                                                    .addComponent(chkThongKeCreate))
-                                                                                                                .addGap(18, 18, 18)
+                                                                                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                                                                    .addComponent(txtTenNhomQuyen, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                    .addComponent(jLabel16))
+                                                                                                                .addGap(15, 15, 15)
+                                                                                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                                                                    .addComponent(jLabel1)
+                                                                                                                    .addComponent(jLabel4)
+                                                                                                                    .addComponent(jLabel5)
+                                                                                                                    .addComponent(jLabel6)
+                                                                                                                    .addComponent(jLabel7))
+                                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                                                                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                                    .addComponent(jLabel8)
-                                                                                                                    .addComponent(chkTaiKhoanDelete)))
-                                                                                                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                                .addComponent(chkTaiKhoanView)
-                                                                                                                .addComponent(chkTaiKhoanUpdate))
-                                                                                                            .addComponent(chkTaiKhoanCreate))
+                                                                                                                    .addComponent(jLabel2)
+                                                                                                                    .addComponent(chkThongKeView)
+                                                                                                                    .addComponent(chkThongKeUpdate)
+                                                                                                                    .addComponent(chkThongKeDelete)))
+                                                                                                            .addComponent(chkThongKeCreate))
                                                                                                         .addGap(18, 18, 18)
                                                                                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                            .addComponent(jLabel9)
-                                                                                                            .addComponent(chkNhanVienDelete)))
+                                                                                                            .addComponent(jLabel8)
+                                                                                                            .addComponent(chkTaiKhoanDelete)))
                                                                                                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                        .addComponent(chkNhanVienView)
-                                                                                                        .addComponent(chkNhanVienUpdate))
-                                                                                                    .addComponent(chkNhanVienCreate))
+                                                                                                        .addComponent(chkTaiKhoanView)
+                                                                                                        .addComponent(chkTaiKhoanUpdate))
+                                                                                                    .addComponent(chkTaiKhoanCreate))
                                                                                                 .addGap(18, 18, 18)
                                                                                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                    .addComponent(jLabel10)
-                                                                                                    .addComponent(chkNhomQuyenDelete)))
+                                                                                                    .addComponent(jLabel9)
+                                                                                                    .addComponent(chkNhanVienDelete)))
                                                                                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                .addComponent(chkNhomQuyenView)
-                                                                                                .addComponent(chkNhomQuyenUpdate))
-                                                                                            .addComponent(chkNhomQuyenCreate))
+                                                                                                .addComponent(chkNhanVienView)
+                                                                                                .addComponent(chkNhanVienUpdate))
+                                                                                            .addComponent(chkNhanVienCreate))
                                                                                         .addGap(18, 18, 18)
                                                                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                            .addComponent(jLabel11)
-                                                                                            .addComponent(chkNhatKyDelete)))
+                                                                                            .addComponent(jLabel10)
+                                                                                            .addComponent(chkNhomQuyenDelete)))
                                                                                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                        .addComponent(chkNhatKyView)
-                                                                                        .addComponent(chkNhatKyUpdate))
-                                                                                    .addComponent(chkNhatKyCreate))
+                                                                                        .addComponent(chkNhomQuyenView)
+                                                                                        .addComponent(chkNhomQuyenUpdate))
+                                                                                    .addComponent(chkNhomQuyenCreate))
                                                                                 .addGap(18, 18, 18)
                                                                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                                     .addComponent(jLabel12)
@@ -647,10 +618,6 @@ public class UserRightsAddDialog extends JDialog {
     private javax.swing.JCheckBox chkNhanVienDelete;
     private javax.swing.JCheckBox chkNhanVienUpdate;
     private javax.swing.JCheckBox chkNhanVienView;
-    private javax.swing.JCheckBox chkNhatKyCreate;
-    private javax.swing.JCheckBox chkNhatKyDelete;
-    private javax.swing.JCheckBox chkNhatKyUpdate;
-    private javax.swing.JCheckBox chkNhatKyView;
     private javax.swing.JCheckBox chkNhomQuyenCreate;
     private javax.swing.JCheckBox chkNhomQuyenDelete;
     private javax.swing.JCheckBox chkNhomQuyenUpdate;
@@ -681,7 +648,6 @@ public class UserRightsAddDialog extends JDialog {
     private javax.swing.JCheckBox chkThuocTinhView;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;

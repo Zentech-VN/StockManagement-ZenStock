@@ -17,9 +17,6 @@ import java.util.Set;
 
 public class UserRightsDAO {
 
-    /* ==========================
-       Truy vấn danh sách nhóm quyền
-       ========================== */
     public List<NhomQuyen> getAllNhomQuyen() {
         List<NhomQuyen> list = new ArrayList<>();
         final String sql = "SELECT manhomquyen, tennhomquyen, trangthai "
@@ -35,7 +32,7 @@ public class UserRightsDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            // giữ list rỗng thay vì trả null
+            return null;
         }
         return list;
     }
@@ -91,7 +88,6 @@ public class UserRightsDAO {
         }
     }
 
-    // Đảm bảo tất cả mã chức năng trong danh sách quyền đều tồn tại
     private void ensureFeaturesExist(Connection conn, Collection<ActionRecord> rights) throws SQLException {
         if (rights == null || rights.isEmpty()) {
             return;
@@ -108,15 +104,11 @@ public class UserRightsDAO {
         }
     }
 
-    /* ===========================================================
-       Ghi chi tiết quyền (batch) cho 1 nhóm – 1 dòng / 1 hành động
-       =========================================================== */
     public void insertCtQuyenPerAction(Connection conn, int maNhom, List<ActionRecord> records) throws SQLException {
         if (records == null || records.isEmpty()) {
             return;
         }
 
-        // Cột chính xác là "hanhdong"
         final String sql = "INSERT INTO ctquyen(manhomquyen, machucnang, hanhdong) VALUES(?,?,?)";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -132,7 +124,6 @@ public class UserRightsDAO {
                     continue;
                 }
 
-                // lọc hành động hợp lệ
                 if (!("read".equals(action) || "create".equals(action) || "update".equals(action) || "delete".equals(action))) {
                     continue;
                 }
@@ -146,19 +137,16 @@ public class UserRightsDAO {
         }
     }
 
-    /* ===========================================================
-       Tạo NHÓM + LƯU QUYỀN trong 1 transaction
-       =========================================================== */
     public int createGroupAndAssignRights(String tenNhomQuyen, int trangThai, List<ActionRecord> rights) throws SQLException {
         try (Connection conn = ConnectionHelper.getConnection()) {
             boolean oldAuto = conn.getAutoCommit();
             conn.setAutoCommit(false);
             try {
-                // 1) đảm bảo mã chức năng tồn tại
+
                 ensureFeaturesExist(conn, rights);
-                // 2) tạo nhóm
+
                 int maNhom = insertNhomQuyenAndGetId(conn, tenNhomQuyen, trangThai);
-                // 3) ghi quyền
+
                 insertCtQuyenPerAction(conn, maNhom, rights);
 
                 conn.commit();
@@ -175,10 +163,6 @@ public class UserRightsDAO {
         }
     }
 
-    /* ===========================================================
-       Dùng cho màn hình SỬA
-       =========================================================== */
-    // Lấy tên nhóm theo ID
     public String getTenNhomQuyenById(int maNhom) throws SQLException {
         final String sql = "SELECT tennhomquyen FROM nhomquyen WHERE manhomquyen = ?";
         try (Connection c = ConnectionHelper.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
@@ -189,7 +173,6 @@ public class UserRightsDAO {
         }
     }
 
-    // Lấy quyền của nhóm: feature -> set(action)
     public java.util.Map<String, java.util.Set<String>> getRightsMatrixByGroup(int maNhom) throws SQLException {
         java.util.Map<String, java.util.Set<String>> m = new java.util.LinkedHashMap<>();
         final String sql = "SELECT machucnang, hanhdong FROM ctquyen WHERE manhomquyen = ?";
@@ -211,7 +194,6 @@ public class UserRightsDAO {
         return m;
     }
 
-    // Cập nhật tên nhóm
     private void updateNhomQuyen(Connection conn, int maNhom, String tenMoi) throws SQLException {
         final String sql = "UPDATE nhomquyen SET tennhomquyen = ? WHERE manhomquyen = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -221,7 +203,6 @@ public class UserRightsDAO {
         }
     }
 
-    // Xoá toàn bộ chi tiết quyền của nhóm
     private void deleteCtQuyenByGroup(Connection conn, int maNhom) throws SQLException {
         try (PreparedStatement ps = conn.prepareStatement("DELETE FROM ctquyen WHERE manhomquyen = ?")) {
             ps.setInt(1, maNhom);
@@ -229,13 +210,11 @@ public class UserRightsDAO {
         }
     }
 
-    // Thay thế toàn bộ quyền cho nhóm (transaction)
     public void replaceGroupRights(int maNhom, String tenMoi, List<ActionRecord> rights) throws SQLException {
         try (Connection conn = ConnectionHelper.getConnection()) {
             boolean old = conn.getAutoCommit();
             conn.setAutoCommit(false);
             try {
-                // nếu muốn chắc chắn không lỗi FK khi thêm quyền mới:
                 ensureFeaturesExist(conn, rights);
 
                 updateNhomQuyen(conn, maNhom, tenMoi);
@@ -303,21 +282,21 @@ public class UserRightsDAO {
             }
         }
     }
-    
-    public List<ChiTietQuyen> getALLCTQbyMaNHomQuyen(int manhomquyen){
+
+    public List<ChiTietQuyen> getALLCTQbyMaNHomQuyen(int manhomquyen) {
         List<ChiTietQuyen> list = new ArrayList<>();
         String sql = "select hanhdong,machucnang from ctquyen where manhomquyen = ?";
-        try(Connection conn = ConnectionHelper.getConnection();PreparedStatement pst = conn.prepareStatement(sql)){
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setInt(1, manhomquyen);
             ResultSet rs = pst.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 ChiTietQuyen chitietquyen = new ChiTietQuyen();
                 chitietquyen.setHanhdong(rs.getString("hanhdong"));
                 chitietquyen.getDanhmuc_chucnang().setMachucnang(rs.getString("machucnang"));
                 list.add(chitietquyen);
             }
             return list;
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
