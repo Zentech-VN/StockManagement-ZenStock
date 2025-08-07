@@ -170,6 +170,9 @@ public class AttributeForm extends javax.swing.JPanel {
         txtMaKH1.setEditable(false);
         txtMaKH2.setEditable(false);
         txtMaKH3.setEditable(false);
+        txtTenKH1.setEditable(true);
+        txtTenKH2.setEditable(true);
+        txtTenKH3.setEditable(true);
     }
 
     private void initalUI(JTable table) {
@@ -295,9 +298,16 @@ public class AttributeForm extends javax.swing.JPanel {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         tblBrand.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -469,9 +479,16 @@ public class AttributeForm extends javax.swing.JPanel {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         tblMadeIn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -643,9 +660,16 @@ public class AttributeForm extends javax.swing.JPanel {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         tblOS.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -821,7 +845,7 @@ public class AttributeForm extends javax.swing.JPanel {
 
     private void tblMadeInMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMadeInMouseClicked
         // TODO add your handling code here:
-        madeInService.showSelectedMadeIn(tblMadeIn, txtMaKH2, txtMaKH1);
+        madeInService.showSelectedMadeIn(tblMadeIn, txtMaKH2, txtTenKH2);
     }//GEN-LAST:event_tblMadeInMouseClicked
 
     private void txtSearch8KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearch8KeyReleased
@@ -859,18 +883,22 @@ public class AttributeForm extends javax.swing.JPanel {
 
     private void btnSave4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave4ActionPerformed
         // TODO add your handling code here:
+        madeInService.saveMadeIn(txtTenKH2, tblMadeIn, txtMaKH2);
     }//GEN-LAST:event_btnSave4ActionPerformed
 
     private void btnUpdate4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdate4ActionPerformed
         // TODO add your handling code here:
+        madeInService.updateMadeIn(txtMaKH2, txtTenKH2, tblMadeIn);
     }//GEN-LAST:event_btnUpdate4ActionPerformed
 
     private void btnDelete4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelete4ActionPerformed
         // TODO add your handling code here:
+        madeInService.deleteMadeIn(txtMaKH2, tblMadeIn, txtTenKH2);
     }//GEN-LAST:event_btnDelete4ActionPerformed
 
     private void btnClear4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClear4ActionPerformed
         // TODO add your handling code here:
+        madeInService.clearForm(txtMaKH2, txtTenKH2, tblMadeIn);
     }//GEN-LAST:event_btnClear4ActionPerformed
 
 

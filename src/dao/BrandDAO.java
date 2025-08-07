@@ -13,7 +13,7 @@ public interface BrandDAO {
 
     default List<Brand> getAllBrands() {
         List<Brand> list = new ArrayList<>();
-        String sql = "SELECT mathuonghieu, tenthuonghieu FROM thuonghieu";
+        String sql = "SELECT mathuonghieu, tenthuonghieu FROM thuonghieu WHERE is_delete = 0";
 
         try (
                 Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
@@ -31,7 +31,7 @@ public interface BrandDAO {
 
     default boolean insertBrand(Brand brand) {
         try (Connection conn = ConnectionHelper.getConnection()) {
-            String sql = "INSERT INTO thuonghieu (tenthuonghieu) VALUES (?)";
+            String sql = "INSERT INTO thuonghieu (tenthuonghieu, is_delete) VALUES (?, 0)";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, brand.getTen());
 
@@ -43,9 +43,10 @@ public interface BrandDAO {
         return false;
     }
 
+    // 🔵 CHỈ SỬA HÀM NÀY thành xóa mềm
     default boolean deleteBrandById(int id) {
         try (Connection conn = ConnectionHelper.getConnection()) {
-            String sql = "DELETE FROM thuonghieu WHERE mathuonghieu = ?";
+            String sql = "UPDATE thuonghieu SET is_delete = 1 WHERE mathuonghieu = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
 
@@ -59,7 +60,7 @@ public interface BrandDAO {
 
     default boolean updateBrandById(int id, String newName) {
         try (Connection conn = ConnectionHelper.getConnection()) {
-            String sql = "UPDATE thuonghieu SET tenthuonghieu = ? WHERE mathuonghieu = ?";
+            String sql = "UPDATE thuonghieu SET tenthuonghieu = ? WHERE mathuonghieu = ? AND is_delete = 0";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, newName);
             ps.setInt(2, id);
@@ -73,7 +74,7 @@ public interface BrandDAO {
     }
 
     default boolean isBrandNameExists(String ten) {
-        String sql = "SELECT COUNT(*) FROM thuonghieu WHERE LOWER(tenthuonghieu) = ?";
+        String sql = "SELECT COUNT(*) FROM thuonghieu WHERE LOWER(tenthuonghieu) = ? AND is_delete = 0";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, ten.toLowerCase());
             ResultSet rs = ps.executeQuery();
