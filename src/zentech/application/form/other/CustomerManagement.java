@@ -131,20 +131,20 @@ public class CustomerManagement extends javax.swing.JPanel {
         crazyPanel3 = new raven.crazypanel.CrazyPanel();
         crazyPanel4 = new raven.crazypanel.CrazyPanel();
         jTextField3 = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
         crazyPanel1 = new raven.crazypanel.CrazyPanel();
         crazyPanel2 = new raven.crazypanel.CrazyPanel();
         jTextField4 = new javax.swing.JTextField();
-        jButton9 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
 
@@ -184,10 +184,6 @@ public class CustomerManagement extends javax.swing.JPanel {
         jTextField3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         crazyPanel4.add(jTextField3);
 
-        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton4.setText("Làm mới");
-        crazyPanel4.add(jButton4);
-
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton3.setText("Thêm");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -214,6 +210,10 @@ public class CustomerManagement extends javax.swing.JPanel {
             }
         });
         crazyPanel4.add(jButton1);
+
+        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton4.setText("Làm mới");
+        crazyPanel4.add(jButton4);
 
         crazyPanel3.add(crazyPanel4);
 
@@ -304,10 +304,6 @@ public class CustomerManagement extends javax.swing.JPanel {
         jTextField4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         crazyPanel2.add(jTextField4);
 
-        jButton9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton9.setText("Làm mới");
-        crazyPanel2.add(jButton9);
-
         jButton8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton8.setText("Thêm");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -334,6 +330,15 @@ public class CustomerManagement extends javax.swing.JPanel {
             }
         });
         crazyPanel2.add(jButton6);
+
+        jButton9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton9.setText("Làm mới");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+        crazyPanel2.add(jButton9);
 
         crazyPanel1.add(crazyPanel2);
 
@@ -419,6 +424,7 @@ public class CustomerManagement extends javax.swing.JPanel {
         String ten = (String) jTable2.getValueAt(select, 1);
         cls.delete(id, ten);
         loadDataTable(jTable1, jTable2, true);
+        loadDataTable(jTable1, jTable2, false);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -460,6 +466,11 @@ public class CustomerManagement extends javax.swing.JPanel {
         loadDataTable(jTable1, jTable2, true);
         loadDataTable(jTable1, jTable2, false);
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        loadDataTable(jTable1, jTable2, true);
+        loadDataTable(jTable1, jTable2, false);
+    }//GEN-LAST:event_jButton9ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
