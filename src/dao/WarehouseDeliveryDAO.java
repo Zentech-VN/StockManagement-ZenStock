@@ -91,7 +91,7 @@ public class WarehouseDeliveryDAO {
 
     public List<Client> getAllKhachHang() {
         List<Client> list = new ArrayList<>();
-        String sql = "select * from khachhang Where is_delete = 0 and trangthai= 'Khoa'";
+        String sql = "select * from khachhang Where is_delete = 0 and trangthai= 'MoKhoa'";
         try (Connection conn = ConnectionHelper.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 Client c = new Client();
