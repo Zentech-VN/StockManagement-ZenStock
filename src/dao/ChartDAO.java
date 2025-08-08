@@ -1,14 +1,18 @@
 package dao;
 
+import entity.Chart_Customer;
+import entity.Chart_Employee;
 import entity.Chart_Inventory;
 import entity.Chart_ProductOutOfStock;
 import entity.Chart_ProductTopSelling;
 import entity.Chart_Revenue;
+import entity.Chart_Supplier;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import jdbc.ConnectionHelper;
 
@@ -240,7 +244,7 @@ public interface ChartDAO {
                 + "        AND px.thoigian BETWEEN ? AND ? "
                 + "    ), 0) AS xuat_trong_ky "
                 + "FROM sanpham sp "
-                + "WHERE sp.tensp LIKE ?";
+                + "WHERE sp.tensp LIKE ? AND sp.is_delete = 0 ";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, fromDate);
@@ -294,7 +298,7 @@ public interface ChartDAO {
                 + "    0 AS nhap_trong_ky, "
                 + "    0 AS xuat_trong_ky "
                 + "FROM sanpham sp "
-                + "WHERE sp.tensp LIKE ?";
+                + "WHERE sp.tensp LIKE ? AND sp.is_delete = 0";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, "%" + keyword + "%");
@@ -326,7 +330,7 @@ public interface ChartDAO {
                 + "FROM phieuxuat px "
                 + "JOIN ctphieuxuat ctpx ON px.maphieuxuat = ctpx.maphieuxuat "
                 + "JOIN sanpham sp ON ctpx.masanpham = sp.masanpham "
-                + "WHERE px.trangthai = 'Duyet' "
+                + "WHERE px.trangthai = 'Duyet' AND sp.is_delete = 0"
                 + "GROUP BY sp.masanpham, sp.tensp "
                 + "ORDER BY so_luong_ban DESC "
                 + "LIMIT 100";
@@ -355,7 +359,7 @@ public interface ChartDAO {
                 + "FROM phieuxuat px "
                 + "JOIN ctphieuxuat ctpx ON px.maphieuxuat = ctpx.maphieuxuat "
                 + "JOIN sanpham sp ON ctpx.masanpham = sp.masanpham "
-                + "WHERE px.trangthai = 'Duyet' "
+                + "WHERE px.trangthai = 'Duyet' AND sp.is_delete = 0 "
                 + "AND px.thoigian BETWEEN ? AND ? "
                 + "GROUP BY sp.masanpham, sp.tensp "
                 + "ORDER BY so_luong_ban DESC "
@@ -389,7 +393,7 @@ public interface ChartDAO {
                 + "JOIN sanpham sp ON ctpx.masanpham = sp.masanpham "
                 + "WHERE px.trangthai = 'Duyet' "
                 + "AND px.thoigian BETWEEN ? AND ? "
-                + "AND sp.tensp LIKE ? "
+                + "AND sp.tensp LIKE ? AND sp.is_delete = 0 "
                 + "GROUP BY sp.masanpham, sp.tensp "
                 + "ORDER BY so_luong_ban DESC "
                 + "LIMIT 100";
@@ -425,7 +429,7 @@ public interface ChartDAO {
                 + "SUM(kvs.soluong) AS so_luong_ton "
                 + "FROM sanpham sp "
                 + "JOIN khuvuckho_sanpham kvs ON sp.masanpham = kvs.masanpham "
-                + "WHERE sp.tensp LIKE ? "
+                + "WHERE sp.tensp LIKE ? AND sp.is_delete = 0 "
                 + "GROUP BY sp.masanpham, sp.tensp "
                 + "HAVING so_luong_ton <= ? "
                 + "ORDER BY so_luong_ton ASC";
@@ -446,6 +450,198 @@ public interface ChartDAO {
             e.printStackTrace();
         }
 
+        return list;
+    }
+
+    default List<Chart_Employee> getTopEmployeesExport(Date startDate, Date endDate, String keyword, int quantity) {
+        List<Chart_Employee> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT nv.manv AS manhanvien, nv.hoten, SUM(ctpx.soluong) AS tong_soluong ")
+                .append("FROM nhanvien nv ")
+                .append("JOIN phieuxuat px ON nv.manv = px.nguoitao ")
+                .append("JOIN ctphieuxuat ctpx ON px.maphieuxuat = ctpx.maphieuxuat ")
+                .append("WHERE nv.is_delete = 0 ");
+
+        if (startDate != null && endDate != null) {
+            sql.append("AND px.thoigian BETWEEN ? AND ? ");
+        }
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql.append("AND nv.hoten LIKE ? ");
+        }
+        sql.append("GROUP BY nv.manv, nv.hoten ")
+                .append("ORDER BY tong_soluong DESC ");
+        if (quantity > 0) {
+            sql.append("LIMIT ? ");
+        }
+
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+            int index = 1;
+            if (startDate != null && endDate != null) {
+                ps.setDate(index++, new java.sql.Date(startDate.getTime()));
+                ps.setDate(index++, new java.sql.Date(endDate.getTime()));
+            }
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                ps.setString(index++, "%" + keyword + "%");
+            }
+            if (quantity > 0) {
+                ps.setInt(index++, quantity);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Chart_Employee item = new Chart_Employee();
+                item.setMaNhanVien(rs.getInt("manhanvien"));
+                item.setHoTen(rs.getString("hoten"));
+                item.setTongSoLuong(rs.getInt("tong_soluong"));
+                list.add(item);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    default List<Chart_Employee> getTopEmployeesImport(Date startDate, Date endDate, String keyword, int quantity) {
+        List<Chart_Employee> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT nv.manv AS manhanvien, nv.hoten, SUM(ctpn.soluong) AS tong_soluong ")
+                .append("FROM nhanvien nv ")
+                .append("JOIN phieunhap pn ON nv.manv = pn.nguoitao ")
+                .append("JOIN ctphieunhap ctpn ON pn.maphieunhap = ctpn.maphieunhap ")
+                .append("WHERE nv.is_delete = 0 ");
+
+        if (startDate != null && endDate != null) {
+            sql.append("AND pn.thoigian BETWEEN ? AND ? ");
+        }
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql.append("AND nv.hoten LIKE ? ");
+        }
+        sql.append("GROUP BY nv.manv, nv.hoten ")
+                .append("ORDER BY tong_soluong DESC ");
+        if (quantity > 0) {
+            sql.append("LIMIT ? ");
+        }
+
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+            int index = 1;
+            if (startDate != null && endDate != null) {
+                ps.setDate(index++, new java.sql.Date(startDate.getTime()));
+                ps.setDate(index++, new java.sql.Date(endDate.getTime()));
+            }
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                ps.setString(index++, "%" + keyword + "%");
+            }
+            if (quantity > 0) {
+                ps.setInt(index++, quantity);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Chart_Employee item = new Chart_Employee();
+                item.setMaNhanVien(rs.getInt("manhanvien"));
+                item.setHoTen(rs.getString("hoten"));
+                item.setTongSoLuong(rs.getInt("tong_soluong"));
+                list.add(item);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    default List<Chart_Customer> getTopCustomers(Date startDate, Date endDate, String keyword, int quantity) {
+        List<Chart_Customer> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT kh.makhachhang AS makhachhang, kh.tenkhachhang, SUM(ctpx.soluong) AS tong_soluong ")
+                .append("FROM khachhang kh ")
+                .append("JOIN phieuxuat px ON kh.makhachhang = px.makhachhang ")
+                .append("JOIN ctphieuxuat ctpx ON px.maphieuxuat = ctpx.maphieuxuat ")
+                .append("WHERE kh.is_delete = 0 ");
+
+        if (startDate != null && endDate != null) {
+            sql.append("AND px.thoigian BETWEEN ? AND ? ");
+        }
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql.append("AND kh.tenkhachhang LIKE ? ");
+        }
+        sql.append("GROUP BY kh.makhachhang, kh.tenkhachhang ")
+                .append("ORDER BY tong_soluong DESC ");
+        if (quantity > 0) {
+            sql.append("LIMIT ? ");
+        }
+
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+            int index = 1;
+            if (startDate != null && endDate != null) {
+                ps.setDate(index++, new java.sql.Date(startDate.getTime()));
+                ps.setDate(index++, new java.sql.Date(endDate.getTime()));
+            }
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                ps.setString(index++, "%" + keyword + "%");
+            }
+            if (quantity > 0) {
+                ps.setInt(index++, quantity);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Chart_Customer item = new Chart_Customer();
+                item.setMaKhachHang(rs.getInt("makhachhang"));
+                item.setTenKhachHang(rs.getString("tenkhachhang"));
+                item.setTongSoLuong(rs.getInt("tong_soluong"));
+                list.add(item);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    default List<Chart_Supplier> getTopSuppliers(Date startDate, Date endDate, String keyword, int quantity) {
+        List<Chart_Supplier> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT ncc.manhacungcap AS manhacungcap, ncc.tennhacungcap, SUM(ctpn.soluong) AS tong_soluong ")
+                .append("FROM nhacungcap ncc ")
+                .append("JOIN phieunhap pn ON ncc.manhacungcap = pn.manhacungcap ")
+                .append("JOIN ctphieunhap ctpn ON pn.maphieunhap = ctpn.maphieunhap ")
+                .append("WHERE ncc.is_delete = 0 ");
+
+        if (startDate != null && endDate != null) {
+            sql.append("AND pn.thoigian BETWEEN ? AND ? ");
+        }
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql.append("AND ncc.tennhacungcap LIKE ? ");
+        }
+        sql.append("GROUP BY ncc.manhacungcap, ncc.tennhacungcap ")
+                .append("ORDER BY tong_soluong DESC ");
+        if (quantity > 0) {
+            sql.append("LIMIT ? ");
+        }
+
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+            int index = 1;
+            if (startDate != null && endDate != null) {
+                ps.setDate(index++, new java.sql.Date(startDate.getTime()));
+                ps.setDate(index++, new java.sql.Date(endDate.getTime()));
+            }
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                ps.setString(index++, "%" + keyword + "%");
+            }
+            if (quantity > 0) {
+                ps.setInt(index++, quantity);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Chart_Supplier item = new Chart_Supplier();
+                item.setMaNhaCungCap(rs.getInt("manhacungcap"));
+                item.setTenNhaCungCap(rs.getString("tennhacungcap"));
+                item.setTongSoLuong(rs.getInt("tong_soluong"));
+                list.add(item);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return list;
     }
 
