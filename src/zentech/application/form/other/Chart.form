@@ -1584,6 +1584,680 @@
             </Container>
           </SubComponents>
         </Container>
+        <Container class="javax.swing.JPanel" name="jPanel13">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Nh&#xe2;n vi&#xea;n">
+                <Property name="tabTitle" type="java.lang.String" value="Nh&#xe2;n vi&#xea;n"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="materialTabbed5" alignment="0" max="32767" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="materialTabbed5" alignment="0" max="32767" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Container class="zentech.application.tabbed.MaterialTabbed" name="materialTabbed5">
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
+              <SubComponents>
+                <Container class="javax.swing.JPanel" name="jPanel14">
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+                      <JTabbedPaneConstraints tabName="Xu&#x1ea5;t kho">
+                        <Property name="tabTitle" type="java.lang.String" value="Xu&#x1ea5;t kho"/>
+                      </JTabbedPaneConstraints>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout>
+                    <DimensionLayout dim="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="crazyPanel30" min="-2" pref="319" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="crazyPanel31" pref="774" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                    <DimensionLayout dim="1">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="crazyPanel30" alignment="0" pref="687" max="32767" attributes="0"/>
+                                  <Component id="crazyPanel31" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                  </Layout>
+                  <SubComponents>
+                    <Container class="raven.crazypanel.CrazyPanel" name="crazyPanel30">
+                      <Properties>
+                        <Property name="flatLafStyleComponent" type="raven.crazypanel.FlatLafStyleComponent" editor="raven.crazypanel.bean.editor.FlatLafStyleEditor">
+                          <SerializedValue value="-84,-19,0,5,115,114,0,38,114,97,118,101,110,46,99,114,97,122,121,112,97,110,101,108,46,70,108,97,116,76,97,102,83,116,121,108,101,67,111,109,112,111,110,101,110,116,-45,-56,5,104,-120,-26,26,62,2,0,2,76,0,8,111,119,110,83,116,121,108,101,116,0,18,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,91,0,6,115,116,121,108,101,115,116,0,19,91,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,120,112,116,0,122,98,97,99,107,103,114,111,117,110,100,58,36,84,97,98,108,101,46,98,97,99,107,103,114,111,117,110,100,59,91,108,105,103,104,116,93,98,111,114,100,101,114,58,48,44,48,44,48,44,48,44,115,104,97,100,101,40,64,98,97,99,107,103,114,111,117,110,100,44,53,37,41,44,44,50,48,59,91,100,97,114,107,93,98,111,114,100,101,114,58,48,44,48,44,48,44,48,44,116,105,110,116,40,64,98,97,99,107,103,114,111,117,110,100,44,53,37,41,44,44,50,48,117,114,0,19,91,76,106,97,118,97,46,108,97,110,103,46,83,116,114,105,110,103,59,-83,-46,86,-25,-23,29,123,71,2,0,0,120,112,0,0,0,14,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,0,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49"/>
+                        </Property>
+                        <Property name="migLayoutConstraints" type="raven.crazypanel.MigLayoutConstraints" editor="raven.crazypanel.bean.editor.MigPanelEditor">
+                          <SerializedValue value="-84,-19,0,5,115,114,0,37,114,97,118,101,110,46,99,114,97,122,121,112,97,110,101,108,46,77,105,103,76,97,121,111,117,116,67,111,110,115,116,114,97,105,110,116,115,7,-4,-14,44,102,-86,-49,42,2,0,4,76,0,17,99,111,108,117,109,110,67,111,110,115,116,114,97,105,110,116,115,116,0,18,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,91,0,19,99,111,109,112,111,110,101,110,116,67,111,110,115,116,114,97,105,110,116,116,0,19,91,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,76,0,17,108,97,121,111,117,116,67,111,110,115,116,114,97,105,110,116,115,113,0,126,0,1,76,0,14,114,111,119,67,111,110,115,116,114,97,105,110,116,115,113,0,126,0,1,120,112,116,0,6,91,102,105,108,108,93,117,114,0,19,91,76,106,97,118,97,46,108,97,110,103,46,83,116,114,105,110,103,59,-83,-46,86,-25,-23,29,123,71,2,0,0,120,112,0,0,0,12,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,0,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,104,101,105,103,104,116,32,53,48,116,0,9,104,101,105,103,104,116,32,53,48,116,0,14,119,114,97,112,44,105,110,115,101,116,115,32,49,53,116,0,64,91,103,114,111,119,32,48,93,91,93,91,93,91,102,105,108,108,93,91,103,114,111,119,32,48,93,91,102,105,108,108,93,91,103,114,111,119,32,48,93,91,102,105,108,108,93,91,103,114,111,119,32,48,93,91,93,91,93,91,102,105,108,108,93"/>
+                        </Property>
+                      </Properties>
+                      <SubComponents>
+                        <Component class="javax.swing.JLabel" name="jLabel34">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m Nh&#xe2;n vi&#xea;n"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JTextField" name="txtNhanVienXuatKho_TimKiem">
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel35">
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel36">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="T&#x1eeb; ng&#xe0;y (yyyy-MM-dd)"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JTextField" name="txtNhanVienXuatKho_TuNgay">
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel37">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="&#x110;&#x1ebf;n ng&#xe0;y (yyyy-MM-dd)"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JTextField" name="txtNhanVienXuatKho_DenNgay">
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel40">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="S&#x1ed1; l&#x1b0;&#x1ee3;ng"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JTextField" name="txtNhanVienXuatKho_SoLuong">
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel38">
+                        </Component>
+                        <Component class="javax.swing.JButton" name="btnNhanVienXuatKho_TimKiem">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNhanVienXuatKho_TimKiemActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="btnNhanVienXuatKho_LamMoi">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="L&#xe0;m m&#x1edb;i"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNhanVienXuatKho_LamMoiActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel39">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="B&#x1ea1;n &#x111;ang xem th&#xf4;ng tin t&#x1eeb; ng&#xe0;y"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="lblNhanVienXuatKho_ThoiGian">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="&lt;yyyy-MM-dd -  yyyy-MM-dd&gt;"/>
+                          </Properties>
+                        </Component>
+                      </SubComponents>
+                    </Container>
+                    <Container class="raven.crazypanel.CrazyPanel" name="crazyPanel31">
+                      <Properties>
+                        <Property name="flatLafStyleComponent" type="raven.crazypanel.FlatLafStyleComponent" editor="raven.crazypanel.bean.editor.FlatLafStyleEditor">
+                          <SerializedValue value="-84,-19,0,5,115,114,0,38,114,97,118,101,110,46,99,114,97,122,121,112,97,110,101,108,46,70,108,97,116,76,97,102,83,116,121,108,101,67,111,109,112,111,110,101,110,116,-45,-56,5,104,-120,-26,26,62,2,0,2,76,0,8,111,119,110,83,116,121,108,101,116,0,18,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,91,0,6,115,116,121,108,101,115,116,0,19,91,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,120,112,116,0,122,98,97,99,107,103,114,111,117,110,100,58,36,84,97,98,108,101,46,98,97,99,107,103,114,111,117,110,100,59,91,108,105,103,104,116,93,98,111,114,100,101,114,58,48,44,48,44,48,44,48,44,115,104,97,100,101,40,64,98,97,99,107,103,114,111,117,110,100,44,53,37,41,44,44,50,48,59,91,100,97,114,107,93,98,111,114,100,101,114,58,48,44,48,44,48,44,48,44,116,105,110,116,40,64,98,97,99,107,103,114,111,117,110,100,44,53,37,41,44,44,50,48,117,114,0,19,91,76,106,97,118,97,46,108,97,110,103,46,83,116,114,105,110,103,59,-83,-46,86,-25,-23,29,123,71,2,0,0,120,112,0,0,0,0"/>
+                        </Property>
+                        <Property name="migLayoutConstraints" type="raven.crazypanel.MigLayoutConstraints" editor="raven.crazypanel.bean.editor.MigPanelEditor">
+                          <SerializedValue value="-84,-19,0,5,115,114,0,37,114,97,118,101,110,46,99,114,97,122,121,112,97,110,101,108,46,77,105,103,76,97,121,111,117,116,67,111,110,115,116,114,97,105,110,116,115,7,-4,-14,44,102,-86,-49,42,2,0,4,76,0,17,99,111,108,117,109,110,67,111,110,115,116,114,97,105,110,116,115,116,0,18,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,91,0,19,99,111,109,112,111,110,101,110,116,67,111,110,115,116,114,97,105,110,116,116,0,19,91,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,76,0,17,108,97,121,111,117,116,67,111,110,115,116,114,97,105,110,116,115,113,0,126,0,1,76,0,14,114,111,119,67,111,110,115,116,114,97,105,110,116,115,113,0,126,0,1,120,112,116,0,6,91,102,105,108,108,93,117,114,0,19,91,76,106,97,118,97,46,108,97,110,103,46,83,116,114,105,110,103,59,-83,-46,86,-25,-23,29,123,71,2,0,0,120,112,0,0,0,0,116,0,19,119,114,97,112,44,102,105,108,108,44,105,110,115,101,116,115,32,49,53,116,0,6,91,102,105,108,108,93"/>
+                        </Property>
+                      </Properties>
+                      <SubComponents>
+                        <Container class="javax.swing.JScrollPane" name="jScrollPane6">
+                          <AuxValues>
+                            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                          </AuxValues>
+
+                          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                          <SubComponents>
+                            <Component class="javax.swing.JTable" name="tblNhanVienXuatKho">
+                              <Properties>
+                                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                                  <Table columnCount="3" rowCount="4">
+                                    <Column editable="false" title="M&#xe3;" type="java.lang.Object"/>
+                                    <Column editable="false" title="T&#xea;n Nh&#xe2;n vi&#xea;n" type="java.lang.Object"/>
+                                    <Column editable="false" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng xu&#x1ea5;t" type="java.lang.Object"/>
+                                  </Table>
+                                </Property>
+                                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                                  <TableColumnModel selectionModel="0">
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
+                                  </TableColumnModel>
+                                </Property>
+                                <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                                  <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
+                                </Property>
+                              </Properties>
+                            </Component>
+                          </SubComponents>
+                        </Container>
+                      </SubComponents>
+                    </Container>
+                  </SubComponents>
+                </Container>
+                <Container class="javax.swing.JPanel" name="jPanel15">
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+                      <JTabbedPaneConstraints tabName="Nh&#x1ead;p kho">
+                        <Property name="tabTitle" type="java.lang.String" value="Nh&#x1ead;p kho"/>
+                      </JTabbedPaneConstraints>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout>
+                    <DimensionLayout dim="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="crazyPanel33" min="-2" pref="319" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="crazyPanel32" pref="774" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                    <DimensionLayout dim="1">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="crazyPanel33" alignment="0" pref="687" max="32767" attributes="0"/>
+                                  <Component id="crazyPanel32" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                  </Layout>
+                  <SubComponents>
+                    <Container class="raven.crazypanel.CrazyPanel" name="crazyPanel32">
+                      <Properties>
+                        <Property name="flatLafStyleComponent" type="raven.crazypanel.FlatLafStyleComponent" editor="raven.crazypanel.bean.editor.FlatLafStyleEditor">
+                          <SerializedValue value="-84,-19,0,5,115,114,0,38,114,97,118,101,110,46,99,114,97,122,121,112,97,110,101,108,46,70,108,97,116,76,97,102,83,116,121,108,101,67,111,109,112,111,110,101,110,116,-45,-56,5,104,-120,-26,26,62,2,0,2,76,0,8,111,119,110,83,116,121,108,101,116,0,18,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,91,0,6,115,116,121,108,101,115,116,0,19,91,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,120,112,116,0,122,98,97,99,107,103,114,111,117,110,100,58,36,84,97,98,108,101,46,98,97,99,107,103,114,111,117,110,100,59,91,108,105,103,104,116,93,98,111,114,100,101,114,58,48,44,48,44,48,44,48,44,115,104,97,100,101,40,64,98,97,99,107,103,114,111,117,110,100,44,53,37,41,44,44,50,48,59,91,100,97,114,107,93,98,111,114,100,101,114,58,48,44,48,44,48,44,48,44,116,105,110,116,40,64,98,97,99,107,103,114,111,117,110,100,44,53,37,41,44,44,50,48,117,114,0,19,91,76,106,97,118,97,46,108,97,110,103,46,83,116,114,105,110,103,59,-83,-46,86,-25,-23,29,123,71,2,0,0,120,112,0,0,0,0"/>
+                        </Property>
+                        <Property name="migLayoutConstraints" type="raven.crazypanel.MigLayoutConstraints" editor="raven.crazypanel.bean.editor.MigPanelEditor">
+                          <SerializedValue value="-84,-19,0,5,115,114,0,37,114,97,118,101,110,46,99,114,97,122,121,112,97,110,101,108,46,77,105,103,76,97,121,111,117,116,67,111,110,115,116,114,97,105,110,116,115,7,-4,-14,44,102,-86,-49,42,2,0,4,76,0,17,99,111,108,117,109,110,67,111,110,115,116,114,97,105,110,116,115,116,0,18,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,91,0,19,99,111,109,112,111,110,101,110,116,67,111,110,115,116,114,97,105,110,116,116,0,19,91,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,76,0,17,108,97,121,111,117,116,67,111,110,115,116,114,97,105,110,116,115,113,0,126,0,1,76,0,14,114,111,119,67,111,110,115,116,114,97,105,110,116,115,113,0,126,0,1,120,112,116,0,6,91,102,105,108,108,93,117,114,0,19,91,76,106,97,118,97,46,108,97,110,103,46,83,116,114,105,110,103,59,-83,-46,86,-25,-23,29,123,71,2,0,0,120,112,0,0,0,0,116,0,19,119,114,97,112,44,102,105,108,108,44,105,110,115,101,116,115,32,49,53,116,0,6,91,102,105,108,108,93"/>
+                        </Property>
+                      </Properties>
+                      <SubComponents>
+                        <Container class="javax.swing.JScrollPane" name="jScrollPane7">
+                          <AuxValues>
+                            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                          </AuxValues>
+
+                          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                          <SubComponents>
+                            <Component class="javax.swing.JTable" name="tblNhanVienNhapKho">
+                              <Properties>
+                                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                                  <Table columnCount="3" rowCount="4">
+                                    <Column editable="false" title="M&#xe3;" type="java.lang.Object"/>
+                                    <Column editable="false" title="T&#xea;n Nh&#xe2;n vi&#xea;n" type="java.lang.Object"/>
+                                    <Column editable="false" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng nh&#x1ead;p" type="java.lang.Object"/>
+                                  </Table>
+                                </Property>
+                                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                                  <TableColumnModel selectionModel="0">
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
+                                  </TableColumnModel>
+                                </Property>
+                                <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                                  <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
+                                </Property>
+                              </Properties>
+                            </Component>
+                          </SubComponents>
+                        </Container>
+                      </SubComponents>
+                    </Container>
+                    <Container class="raven.crazypanel.CrazyPanel" name="crazyPanel33">
+                      <Properties>
+                        <Property name="flatLafStyleComponent" type="raven.crazypanel.FlatLafStyleComponent" editor="raven.crazypanel.bean.editor.FlatLafStyleEditor">
+                          <SerializedValue value="-84,-19,0,5,115,114,0,38,114,97,118,101,110,46,99,114,97,122,121,112,97,110,101,108,46,70,108,97,116,76,97,102,83,116,121,108,101,67,111,109,112,111,110,101,110,116,-45,-56,5,104,-120,-26,26,62,2,0,2,76,0,8,111,119,110,83,116,121,108,101,116,0,18,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,91,0,6,115,116,121,108,101,115,116,0,19,91,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,120,112,116,0,122,98,97,99,107,103,114,111,117,110,100,58,36,84,97,98,108,101,46,98,97,99,107,103,114,111,117,110,100,59,91,108,105,103,104,116,93,98,111,114,100,101,114,58,48,44,48,44,48,44,48,44,115,104,97,100,101,40,64,98,97,99,107,103,114,111,117,110,100,44,53,37,41,44,44,50,48,59,91,100,97,114,107,93,98,111,114,100,101,114,58,48,44,48,44,48,44,48,44,116,105,110,116,40,64,98,97,99,107,103,114,111,117,110,100,44,53,37,41,44,44,50,48,117,114,0,19,91,76,106,97,118,97,46,108,97,110,103,46,83,116,114,105,110,103,59,-83,-46,86,-25,-23,29,123,71,2,0,0,120,112,0,0,0,14,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,0,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49"/>
+                        </Property>
+                        <Property name="migLayoutConstraints" type="raven.crazypanel.MigLayoutConstraints" editor="raven.crazypanel.bean.editor.MigPanelEditor">
+                          <SerializedValue value="-84,-19,0,5,115,114,0,37,114,97,118,101,110,46,99,114,97,122,121,112,97,110,101,108,46,77,105,103,76,97,121,111,117,116,67,111,110,115,116,114,97,105,110,116,115,7,-4,-14,44,102,-86,-49,42,2,0,4,76,0,17,99,111,108,117,109,110,67,111,110,115,116,114,97,105,110,116,115,116,0,18,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,91,0,19,99,111,109,112,111,110,101,110,116,67,111,110,115,116,114,97,105,110,116,116,0,19,91,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,76,0,17,108,97,121,111,117,116,67,111,110,115,116,114,97,105,110,116,115,113,0,126,0,1,76,0,14,114,111,119,67,111,110,115,116,114,97,105,110,116,115,113,0,126,0,1,120,112,116,0,6,91,102,105,108,108,93,117,114,0,19,91,76,106,97,118,97,46,108,97,110,103,46,83,116,114,105,110,103,59,-83,-46,86,-25,-23,29,123,71,2,0,0,120,112,0,0,0,12,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,0,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,104,101,105,103,104,116,32,53,48,116,0,9,104,101,105,103,104,116,32,53,48,116,0,14,119,114,97,112,44,105,110,115,101,116,115,32,49,53,116,0,64,91,103,114,111,119,32,48,93,91,93,91,93,91,102,105,108,108,93,91,103,114,111,119,32,48,93,91,102,105,108,108,93,91,103,114,111,119,32,48,93,91,102,105,108,108,93,91,103,114,111,119,32,48,93,91,93,91,93,91,102,105,108,108,93"/>
+                        </Property>
+                      </Properties>
+                      <SubComponents>
+                        <Component class="javax.swing.JLabel" name="jLabel41">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m Nh&#xe2;n vi&#xea;n"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JTextField" name="txtNhanVienNhapKho_TimKiem">
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel42">
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel43">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="T&#x1eeb; ng&#xe0;y (yyyy-MM-dd)"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JTextField" name="txtNhanVienNhapKho_TuNgay">
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel44">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="&#x110;&#x1ebf;n ng&#xe0;y (yyyy-MM-dd)"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JTextField" name="txtNhanVienNhapKho_DenNgay">
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel45">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="S&#x1ed1; l&#x1b0;&#x1ee3;ng"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JTextField" name="txtNhanVienNhapKho_SoLuong">
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel46">
+                        </Component>
+                        <Component class="javax.swing.JButton" name="btnNhanVienNhapKho_TimKiem">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNhanVienNhapKho_TimKiemActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="btnNhanVienNhapKho_LamMoi">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="L&#xe0;m m&#x1edb;i"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNhanVienNhapKho_LamMoiActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel47">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="B&#x1ea1;n &#x111;ang xem th&#xf4;ng tin t&#x1eeb; ng&#xe0;y"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="lblNhanVienNhapKho_ThoiGian">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="&lt;yyyy-MM-dd -  yyyy-MM-dd&gt;"/>
+                          </Properties>
+                        </Component>
+                      </SubComponents>
+                    </Container>
+                  </SubComponents>
+                </Container>
+              </SubComponents>
+            </Container>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="jPanel11">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Kh&#xe1;ch h&#xe0;ng">
+                <Property name="tabTitle" type="java.lang.String" value="Kh&#xe1;ch h&#xe0;ng"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="crazyPanel35" min="-2" pref="319" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="crazyPanel34" pref="779" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="crazyPanel35" alignment="0" pref="734" max="32767" attributes="0"/>
+                          <Component id="crazyPanel34" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Container class="raven.crazypanel.CrazyPanel" name="crazyPanel34">
+              <Properties>
+                <Property name="flatLafStyleComponent" type="raven.crazypanel.FlatLafStyleComponent" editor="raven.crazypanel.bean.editor.FlatLafStyleEditor">
+                  <SerializedValue value="-84,-19,0,5,115,114,0,38,114,97,118,101,110,46,99,114,97,122,121,112,97,110,101,108,46,70,108,97,116,76,97,102,83,116,121,108,101,67,111,109,112,111,110,101,110,116,-45,-56,5,104,-120,-26,26,62,2,0,2,76,0,8,111,119,110,83,116,121,108,101,116,0,18,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,91,0,6,115,116,121,108,101,115,116,0,19,91,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,120,112,116,0,122,98,97,99,107,103,114,111,117,110,100,58,36,84,97,98,108,101,46,98,97,99,107,103,114,111,117,110,100,59,91,108,105,103,104,116,93,98,111,114,100,101,114,58,48,44,48,44,48,44,48,44,115,104,97,100,101,40,64,98,97,99,107,103,114,111,117,110,100,44,53,37,41,44,44,50,48,59,91,100,97,114,107,93,98,111,114,100,101,114,58,48,44,48,44,48,44,48,44,116,105,110,116,40,64,98,97,99,107,103,114,111,117,110,100,44,53,37,41,44,44,50,48,117,114,0,19,91,76,106,97,118,97,46,108,97,110,103,46,83,116,114,105,110,103,59,-83,-46,86,-25,-23,29,123,71,2,0,0,120,112,0,0,0,0"/>
+                </Property>
+                <Property name="migLayoutConstraints" type="raven.crazypanel.MigLayoutConstraints" editor="raven.crazypanel.bean.editor.MigPanelEditor">
+                  <SerializedValue value="-84,-19,0,5,115,114,0,37,114,97,118,101,110,46,99,114,97,122,121,112,97,110,101,108,46,77,105,103,76,97,121,111,117,116,67,111,110,115,116,114,97,105,110,116,115,7,-4,-14,44,102,-86,-49,42,2,0,4,76,0,17,99,111,108,117,109,110,67,111,110,115,116,114,97,105,110,116,115,116,0,18,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,91,0,19,99,111,109,112,111,110,101,110,116,67,111,110,115,116,114,97,105,110,116,116,0,19,91,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,76,0,17,108,97,121,111,117,116,67,111,110,115,116,114,97,105,110,116,115,113,0,126,0,1,76,0,14,114,111,119,67,111,110,115,116,114,97,105,110,116,115,113,0,126,0,1,120,112,116,0,6,91,102,105,108,108,93,117,114,0,19,91,76,106,97,118,97,46,108,97,110,103,46,83,116,114,105,110,103,59,-83,-46,86,-25,-23,29,123,71,2,0,0,120,112,0,0,0,0,116,0,19,119,114,97,112,44,102,105,108,108,44,105,110,115,101,116,115,32,49,53,116,0,6,91,102,105,108,108,93"/>
+                </Property>
+              </Properties>
+              <SubComponents>
+                <Container class="javax.swing.JScrollPane" name="jScrollPane11">
+                  <AuxValues>
+                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                  </AuxValues>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JTable" name="tblKhachHang">
+                      <Properties>
+                        <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                          <Table columnCount="3" rowCount="4">
+                            <Column editable="false" title="M&#xe3;" type="java.lang.Object"/>
+                            <Column editable="false" title="T&#xea;n Nh&#xe2;n vi&#xea;n" type="java.lang.Object"/>
+                            <Column editable="false" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng mua" type="java.lang.Object"/>
+                          </Table>
+                        </Property>
+                        <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                          <TableColumnModel selectionModel="0">
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
+                          </TableColumnModel>
+                        </Property>
+                        <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                          <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
+                </Container>
+              </SubComponents>
+            </Container>
+            <Container class="raven.crazypanel.CrazyPanel" name="crazyPanel35">
+              <Properties>
+                <Property name="flatLafStyleComponent" type="raven.crazypanel.FlatLafStyleComponent" editor="raven.crazypanel.bean.editor.FlatLafStyleEditor">
+                  <SerializedValue value="-84,-19,0,5,115,114,0,38,114,97,118,101,110,46,99,114,97,122,121,112,97,110,101,108,46,70,108,97,116,76,97,102,83,116,121,108,101,67,111,109,112,111,110,101,110,116,-45,-56,5,104,-120,-26,26,62,2,0,2,76,0,8,111,119,110,83,116,121,108,101,116,0,18,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,91,0,6,115,116,121,108,101,115,116,0,19,91,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,120,112,116,0,122,98,97,99,107,103,114,111,117,110,100,58,36,84,97,98,108,101,46,98,97,99,107,103,114,111,117,110,100,59,91,108,105,103,104,116,93,98,111,114,100,101,114,58,48,44,48,44,48,44,48,44,115,104,97,100,101,40,64,98,97,99,107,103,114,111,117,110,100,44,53,37,41,44,44,50,48,59,91,100,97,114,107,93,98,111,114,100,101,114,58,48,44,48,44,48,44,48,44,116,105,110,116,40,64,98,97,99,107,103,114,111,117,110,100,44,53,37,41,44,44,50,48,117,114,0,19,91,76,106,97,118,97,46,108,97,110,103,46,83,116,114,105,110,103,59,-83,-46,86,-25,-23,29,123,71,2,0,0,120,112,0,0,0,14,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,0,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49"/>
+                </Property>
+                <Property name="migLayoutConstraints" type="raven.crazypanel.MigLayoutConstraints" editor="raven.crazypanel.bean.editor.MigPanelEditor">
+                  <SerializedValue value="-84,-19,0,5,115,114,0,37,114,97,118,101,110,46,99,114,97,122,121,112,97,110,101,108,46,77,105,103,76,97,121,111,117,116,67,111,110,115,116,114,97,105,110,116,115,7,-4,-14,44,102,-86,-49,42,2,0,4,76,0,17,99,111,108,117,109,110,67,111,110,115,116,114,97,105,110,116,115,116,0,18,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,91,0,19,99,111,109,112,111,110,101,110,116,67,111,110,115,116,114,97,105,110,116,116,0,19,91,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,76,0,17,108,97,121,111,117,116,67,111,110,115,116,114,97,105,110,116,115,113,0,126,0,1,76,0,14,114,111,119,67,111,110,115,116,114,97,105,110,116,115,113,0,126,0,1,120,112,116,0,6,91,102,105,108,108,93,117,114,0,19,91,76,106,97,118,97,46,108,97,110,103,46,83,116,114,105,110,103,59,-83,-46,86,-25,-23,29,123,71,2,0,0,120,112,0,0,0,12,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,0,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,104,101,105,103,104,116,32,53,48,116,0,9,104,101,105,103,104,116,32,53,48,116,0,14,119,114,97,112,44,105,110,115,101,116,115,32,49,53,116,0,64,91,103,114,111,119,32,48,93,91,93,91,93,91,102,105,108,108,93,91,103,114,111,119,32,48,93,91,102,105,108,108,93,91,103,114,111,119,32,48,93,91,102,105,108,108,93,91,103,114,111,119,32,48,93,91,93,91,93,91,102,105,108,108,93"/>
+                </Property>
+              </Properties>
+              <SubComponents>
+                <Component class="javax.swing.JLabel" name="jLabel48">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m Kh&#xe1;ch h&#xe0;ng"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtKhachHang_TimKiem">
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel49">
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel50">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="T&#x1eeb; ng&#xe0;y (yyyy-MM-dd)"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtKhachHang_TuNgay">
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel51">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&#x110;&#x1ebf;n ng&#xe0;y (yyyy-MM-dd)"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtKhachHang_DenNgay">
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel52">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="S&#x1ed1; l&#x1b0;&#x1ee3;ng"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtKhachHang_SoLuong">
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel53">
+                </Component>
+                <Component class="javax.swing.JButton" name="btnKhachHang_TimKiem">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnKhachHang_TimKiemActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="btnKhachHang_LamMoi">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="L&#xe0;m m&#x1edb;i"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnKhachHang_LamMoiActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel54">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="B&#x1ea1;n &#x111;ang xem th&#xf4;ng tin t&#x1eeb; ng&#xe0;y"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblKhachHang_ThoiGian">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&lt;yyyy-MM-dd -  yyyy-MM-dd&gt;"/>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="jPanel12">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Nh&#xe0; cung c&#x1ea5;p">
+                <Property name="tabTitle" type="java.lang.String" value="Nh&#xe0; cung c&#x1ea5;p"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="crazyPanel37" min="-2" pref="319" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="crazyPanel36" pref="779" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="crazyPanel37" alignment="0" pref="734" max="32767" attributes="0"/>
+                          <Component id="crazyPanel36" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Container class="raven.crazypanel.CrazyPanel" name="crazyPanel36">
+              <Properties>
+                <Property name="flatLafStyleComponent" type="raven.crazypanel.FlatLafStyleComponent" editor="raven.crazypanel.bean.editor.FlatLafStyleEditor">
+                  <SerializedValue value="-84,-19,0,5,115,114,0,38,114,97,118,101,110,46,99,114,97,122,121,112,97,110,101,108,46,70,108,97,116,76,97,102,83,116,121,108,101,67,111,109,112,111,110,101,110,116,-45,-56,5,104,-120,-26,26,62,2,0,2,76,0,8,111,119,110,83,116,121,108,101,116,0,18,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,91,0,6,115,116,121,108,101,115,116,0,19,91,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,120,112,116,0,122,98,97,99,107,103,114,111,117,110,100,58,36,84,97,98,108,101,46,98,97,99,107,103,114,111,117,110,100,59,91,108,105,103,104,116,93,98,111,114,100,101,114,58,48,44,48,44,48,44,48,44,115,104,97,100,101,40,64,98,97,99,107,103,114,111,117,110,100,44,53,37,41,44,44,50,48,59,91,100,97,114,107,93,98,111,114,100,101,114,58,48,44,48,44,48,44,48,44,116,105,110,116,40,64,98,97,99,107,103,114,111,117,110,100,44,53,37,41,44,44,50,48,117,114,0,19,91,76,106,97,118,97,46,108,97,110,103,46,83,116,114,105,110,103,59,-83,-46,86,-25,-23,29,123,71,2,0,0,120,112,0,0,0,0"/>
+                </Property>
+                <Property name="migLayoutConstraints" type="raven.crazypanel.MigLayoutConstraints" editor="raven.crazypanel.bean.editor.MigPanelEditor">
+                  <SerializedValue value="-84,-19,0,5,115,114,0,37,114,97,118,101,110,46,99,114,97,122,121,112,97,110,101,108,46,77,105,103,76,97,121,111,117,116,67,111,110,115,116,114,97,105,110,116,115,7,-4,-14,44,102,-86,-49,42,2,0,4,76,0,17,99,111,108,117,109,110,67,111,110,115,116,114,97,105,110,116,115,116,0,18,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,91,0,19,99,111,109,112,111,110,101,110,116,67,111,110,115,116,114,97,105,110,116,116,0,19,91,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,76,0,17,108,97,121,111,117,116,67,111,110,115,116,114,97,105,110,116,115,113,0,126,0,1,76,0,14,114,111,119,67,111,110,115,116,114,97,105,110,116,115,113,0,126,0,1,120,112,116,0,6,91,102,105,108,108,93,117,114,0,19,91,76,106,97,118,97,46,108,97,110,103,46,83,116,114,105,110,103,59,-83,-46,86,-25,-23,29,123,71,2,0,0,120,112,0,0,0,0,116,0,19,119,114,97,112,44,102,105,108,108,44,105,110,115,101,116,115,32,49,53,116,0,6,91,102,105,108,108,93"/>
+                </Property>
+              </Properties>
+              <SubComponents>
+                <Container class="javax.swing.JScrollPane" name="jScrollPane12">
+                  <AuxValues>
+                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                  </AuxValues>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JTable" name="tblNhaCungCap">
+                      <Properties>
+                        <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                          <Table columnCount="3" rowCount="4">
+                            <Column editable="false" title="M&#xe3;" type="java.lang.Object"/>
+                            <Column editable="false" title="T&#xea;n Nh&#xe2;n vi&#xea;n" type="java.lang.Object"/>
+                            <Column editable="false" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng nh&#x1ead;p" type="java.lang.Object"/>
+                          </Table>
+                        </Property>
+                        <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                          <TableColumnModel selectionModel="0">
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
+                          </TableColumnModel>
+                        </Property>
+                        <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                          <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
+                </Container>
+              </SubComponents>
+            </Container>
+            <Container class="raven.crazypanel.CrazyPanel" name="crazyPanel37">
+              <Properties>
+                <Property name="flatLafStyleComponent" type="raven.crazypanel.FlatLafStyleComponent" editor="raven.crazypanel.bean.editor.FlatLafStyleEditor">
+                  <SerializedValue value="-84,-19,0,5,115,114,0,38,114,97,118,101,110,46,99,114,97,122,121,112,97,110,101,108,46,70,108,97,116,76,97,102,83,116,121,108,101,67,111,109,112,111,110,101,110,116,-45,-56,5,104,-120,-26,26,62,2,0,2,76,0,8,111,119,110,83,116,121,108,101,116,0,18,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,91,0,6,115,116,121,108,101,115,116,0,19,91,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,120,112,116,0,122,98,97,99,107,103,114,111,117,110,100,58,36,84,97,98,108,101,46,98,97,99,107,103,114,111,117,110,100,59,91,108,105,103,104,116,93,98,111,114,100,101,114,58,48,44,48,44,48,44,48,44,115,104,97,100,101,40,64,98,97,99,107,103,114,111,117,110,100,44,53,37,41,44,44,50,48,59,91,100,97,114,107,93,98,111,114,100,101,114,58,48,44,48,44,48,44,48,44,116,105,110,116,40,64,98,97,99,107,103,114,111,117,110,100,44,53,37,41,44,44,50,48,117,114,0,19,91,76,106,97,118,97,46,108,97,110,103,46,83,116,114,105,110,103,59,-83,-46,86,-25,-23,29,123,71,2,0,0,120,112,0,0,0,14,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49,116,0,0,116,0,48,98,97,99,107,103,114,111,117,110,100,58,108,105,103,104,116,101,110,40,64,98,97,99,107,103,114,111,117,110,100,44,56,37,41,59,98,111,114,100,101,114,87,105,100,116,104,58,49"/>
+                </Property>
+                <Property name="migLayoutConstraints" type="raven.crazypanel.MigLayoutConstraints" editor="raven.crazypanel.bean.editor.MigPanelEditor">
+                  <SerializedValue value="-84,-19,0,5,115,114,0,37,114,97,118,101,110,46,99,114,97,122,121,112,97,110,101,108,46,77,105,103,76,97,121,111,117,116,67,111,110,115,116,114,97,105,110,116,115,7,-4,-14,44,102,-86,-49,42,2,0,4,76,0,17,99,111,108,117,109,110,67,111,110,115,116,114,97,105,110,116,115,116,0,18,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,91,0,19,99,111,109,112,111,110,101,110,116,67,111,110,115,116,114,97,105,110,116,116,0,19,91,76,106,97,118,97,47,108,97,110,103,47,83,116,114,105,110,103,59,76,0,17,108,97,121,111,117,116,67,111,110,115,116,114,97,105,110,116,115,113,0,126,0,1,76,0,14,114,111,119,67,111,110,115,116,114,97,105,110,116,115,113,0,126,0,1,120,112,116,0,6,91,102,105,108,108,93,117,114,0,19,91,76,106,97,118,97,46,108,97,110,103,46,83,116,114,105,110,103,59,-83,-46,86,-25,-23,29,123,71,2,0,0,120,112,0,0,0,12,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,119,105,100,116,104,32,52,48,48,116,0,0,116,0,9,119,105,100,116,104,32,52,48,48,116,0,9,104,101,105,103,104,116,32,53,48,116,0,9,104,101,105,103,104,116,32,53,48,116,0,14,119,114,97,112,44,105,110,115,101,116,115,32,49,53,116,0,64,91,103,114,111,119,32,48,93,91,93,91,93,91,102,105,108,108,93,91,103,114,111,119,32,48,93,91,102,105,108,108,93,91,103,114,111,119,32,48,93,91,102,105,108,108,93,91,103,114,111,119,32,48,93,91,93,91,93,91,102,105,108,108,93"/>
+                </Property>
+              </Properties>
+              <SubComponents>
+                <Component class="javax.swing.JLabel" name="jLabel55">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m Nh&#xe0; cung c&#x1ea5;p"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtNhaCungCap_TimKiem">
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel56">
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel57">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="T&#x1eeb; ng&#xe0;y (yyyy-MM-dd)"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtNhaCungCap_TuNgay">
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel58">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&#x110;&#x1ebf;n ng&#xe0;y (yyyy-MM-dd)"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtNhaCungCap_DenNgay">
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel59">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="S&#x1ed1; l&#x1b0;&#x1ee3;ng"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtNhaCungCap_SoLuong">
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel60">
+                </Component>
+                <Component class="javax.swing.JButton" name="btnNhaCungCap_TimKiem">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNhaCungCap_TimKiemActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="btnNhaCungCap_LamMoi">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="L&#xe0;m m&#x1edb;i"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNhaCungCap_LamMoiActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel61">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="B&#x1ea1;n &#x111;ang xem th&#xf4;ng tin t&#x1eeb; ng&#xe0;y"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblNhaCungCap_ThoiGian">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&lt;yyyy-MM-dd -  yyyy-MM-dd&gt;"/>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+          </SubComponents>
+        </Container>
       </SubComponents>
     </Container>
   </SubComponents>
