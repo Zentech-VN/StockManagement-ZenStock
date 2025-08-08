@@ -1,10 +1,13 @@
 package service;
 
 import dao.ChartDAO;
+import entity.Chart_Customer;
+import entity.Chart_Employee;
 import entity.Chart_Inventory;
 import entity.Chart_ProductOutOfStock;
 import entity.Chart_ProductTopSelling;
 import entity.Chart_Revenue;
+import entity.Chart_Supplier;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
@@ -239,6 +242,246 @@ public class ChartService implements ChartDAO {
         list = getProductOutOfStock(keyword, minQuantity);
 
         return list;
+    }
+
+    public List<Chart_Employee> getTopEmployeeExportService(String fromDate, String toDate, String keyword, String quantity) {
+        if (keyword == null) {
+            keyword = "";
+        }
+
+        java.util.Date fromDateObj = null;
+        java.util.Date toDateObj = null;
+
+        if (fromDate == null || fromDate.trim().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập ngày bắt đầu");
+            return new ArrayList<>();
+        }
+
+        if (!fromDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Định dạng ngày bắt đầu không hợp lệ (yyyy-MM-dd)");
+            return new ArrayList<>();
+        } else {
+            try {
+                fromDateObj = new java.text.SimpleDateFormat("yyyy-MM-dd").parse(fromDate);
+            } catch (java.text.ParseException e) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Ngày bắt đầu không thể chuyển đổi");
+                return new ArrayList<>();
+            }
+        }
+
+        if (toDate == null || toDate.trim().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập ngày kết thúc");
+            return new ArrayList<>();
+        }
+
+        if (!toDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Định dạng ngày kết thúc không hợp lệ (yyyy-MM-dd)");
+            return new ArrayList<>();
+        } else {
+            try {
+                toDateObj = new java.text.SimpleDateFormat("yyyy-MM-dd").parse(toDate);
+            } catch (java.text.ParseException e) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Ngày kết thúc không thể chuyển đổi");
+                return new ArrayList<>();
+            }
+        }
+
+        int intQuantity = 10;
+        try {
+            if (quantity != null && !quantity.isEmpty()) {
+                intQuantity = Integer.parseInt(quantity);
+            }
+        } catch (NumberFormatException e) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập Số lượng hợp lệ");
+            intQuantity = 10;
+        }
+
+        if (intQuantity <= 0) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập Số lượng lớn hơn 1");
+            return new ArrayList<>();
+        }
+
+        return getTopEmployeesExport(fromDateObj, toDateObj, keyword, intQuantity);
+    }
+
+    public List<Chart_Employee> getTopEmployeeImportService(String fromDate, String toDate, String keyword, String quantity) {
+        if (keyword == null) {
+            keyword = "";
+        }
+
+        java.util.Date fromDateObj = null;
+        java.util.Date toDateObj = null;
+
+        if (fromDate == null || fromDate.trim().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập ngày bắt đầu");
+            return new ArrayList<>();
+        }
+
+        if (!fromDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Định dạng ngày bắt đầu không hợp lệ (yyyy-MM-dd)");
+            return new ArrayList<>();
+        } else {
+            try {
+                fromDateObj = new java.text.SimpleDateFormat("yyyy-MM-dd").parse(fromDate);
+            } catch (java.text.ParseException e) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Ngày bắt đầu không thể chuyển đổi");
+                return new ArrayList<>();
+            }
+        }
+
+        if (toDate == null || toDate.trim().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập ngày kết thúc");
+            return new ArrayList<>();
+        }
+
+        if (!toDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Định dạng ngày kết thúc không hợp lệ (yyyy-MM-dd)");
+            return new ArrayList<>();
+        } else {
+            try {
+                toDateObj = new java.text.SimpleDateFormat("yyyy-MM-dd").parse(toDate);
+            } catch (java.text.ParseException e) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Ngày kết thúc không thể chuyển đổi");
+                return new ArrayList<>();
+            }
+        }
+
+        int intQuantity = 10;
+        try {
+            if (quantity != null && !quantity.isEmpty()) {
+                intQuantity = Integer.parseInt(quantity);
+            }
+        } catch (NumberFormatException e) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập Số lượng hợp lệ");
+            intQuantity = 10;
+        }
+
+        if (intQuantity <= 0) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập Số lượng lớn hơn 1");
+            return new ArrayList<>();
+        }
+
+        return getTopEmployeesImport(fromDateObj, toDateObj, keyword, intQuantity);
+    }
+
+    public List<Chart_Customer> getTopCustomerService(String fromDate, String toDate, String keyword, String quantity) {
+        if (keyword == null) {
+            keyword = "";
+        }
+
+        java.util.Date fromDateObj = null;
+        java.util.Date toDateObj = null;
+
+        if (fromDate == null || fromDate.trim().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập ngày bắt đầu");
+            return new ArrayList<>();
+        }
+
+        if (!fromDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Định dạng ngày bắt đầu không hợp lệ (yyyy-MM-dd)");
+            return new ArrayList<>();
+        } else {
+            try {
+                fromDateObj = new java.text.SimpleDateFormat("yyyy-MM-dd").parse(fromDate);
+            } catch (java.text.ParseException e) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Ngày bắt đầu không thể chuyển đổi");
+                return new ArrayList<>();
+            }
+        }
+
+        if (toDate == null || toDate.trim().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập ngày kết thúc");
+            return new ArrayList<>();
+        }
+
+        if (!toDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Định dạng ngày kết thúc không hợp lệ (yyyy-MM-dd)");
+            return new ArrayList<>();
+        } else {
+            try {
+                toDateObj = new java.text.SimpleDateFormat("yyyy-MM-dd").parse(toDate);
+            } catch (java.text.ParseException e) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Ngày kết thúc không thể chuyển đổi");
+                return new ArrayList<>();
+            }
+        }
+
+        int intQuantity = 10;
+        try {
+            if (quantity != null && !quantity.isEmpty()) {
+                intQuantity = Integer.parseInt(quantity);
+            }
+        } catch (NumberFormatException e) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập Số lượng hợp lệ");
+            intQuantity = 10;
+        }
+
+        if (intQuantity <= 0) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập Số lượng lớn hơn 1");
+            return new ArrayList<>();
+        }
+
+        return getTopCustomers(fromDateObj, toDateObj, keyword, intQuantity);
+    }
+
+    public List<Chart_Supplier> getTopSupplierService(String fromDate, String toDate, String keyword, String quantity) {
+        if (keyword == null) {
+            keyword = "";
+        }
+
+        java.util.Date fromDateObj = null;
+        java.util.Date toDateObj = null;
+
+        if (fromDate == null || fromDate.trim().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập ngày bắt đầu");
+            return new ArrayList<>();
+        }
+
+        if (!fromDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Định dạng ngày bắt đầu không hợp lệ (yyyy-MM-dd)");
+            return new ArrayList<>();
+        } else {
+            try {
+                fromDateObj = new java.text.SimpleDateFormat("yyyy-MM-dd").parse(fromDate);
+            } catch (java.text.ParseException e) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Ngày bắt đầu không thể chuyển đổi");
+                return new ArrayList<>();
+            }
+        }
+
+        if (toDate == null || toDate.trim().isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập ngày kết thúc");
+            return new ArrayList<>();
+        }
+
+        if (!toDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Định dạng ngày kết thúc không hợp lệ (yyyy-MM-dd)");
+            return new ArrayList<>();
+        } else {
+            try {
+                toDateObj = new java.text.SimpleDateFormat("yyyy-MM-dd").parse(toDate);
+            } catch (java.text.ParseException e) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Ngày kết thúc không thể chuyển đổi");
+                return new ArrayList<>();
+            }
+        }
+
+        int intQuantity = 10;
+        try {
+            if (quantity != null && !quantity.isEmpty()) {
+                intQuantity = Integer.parseInt(quantity);
+            }
+        } catch (NumberFormatException e) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập Số lượng hợp lệ");
+            intQuantity = 10;
+        }
+
+        if (intQuantity <= 0) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng nhập Số lượng lớn hơn 1");
+            return new ArrayList<>();
+        }
+
+        return getTopSuppliers(fromDateObj, toDateObj, keyword, intQuantity);
     }
 
 }
