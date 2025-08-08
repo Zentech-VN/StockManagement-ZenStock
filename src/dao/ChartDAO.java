@@ -240,7 +240,7 @@ public interface ChartDAO {
                 + "        AND px.thoigian BETWEEN ? AND ? "
                 + "    ), 0) AS xuat_trong_ky "
                 + "FROM sanpham sp "
-                + "WHERE sp.tensp LIKE ?";
+                + "WHERE sp.tensp LIKE ? AND sp.is_delete = 0 ";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, fromDate);
@@ -294,7 +294,7 @@ public interface ChartDAO {
                 + "    0 AS nhap_trong_ky, "
                 + "    0 AS xuat_trong_ky "
                 + "FROM sanpham sp "
-                + "WHERE sp.tensp LIKE ?";
+                + "WHERE sp.tensp LIKE ? AND sp.is_delete = 0";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, "%" + keyword + "%");
@@ -326,7 +326,7 @@ public interface ChartDAO {
                 + "FROM phieuxuat px "
                 + "JOIN ctphieuxuat ctpx ON px.maphieuxuat = ctpx.maphieuxuat "
                 + "JOIN sanpham sp ON ctpx.masanpham = sp.masanpham "
-                + "WHERE px.trangthai = 'Duyet' "
+                + "WHERE px.trangthai = 'Duyet' AND sp.is_delete = 0"
                 + "GROUP BY sp.masanpham, sp.tensp "
                 + "ORDER BY so_luong_ban DESC "
                 + "LIMIT 100";
@@ -355,7 +355,7 @@ public interface ChartDAO {
                 + "FROM phieuxuat px "
                 + "JOIN ctphieuxuat ctpx ON px.maphieuxuat = ctpx.maphieuxuat "
                 + "JOIN sanpham sp ON ctpx.masanpham = sp.masanpham "
-                + "WHERE px.trangthai = 'Duyet' "
+                + "WHERE px.trangthai = 'Duyet' AND sp.is_delete = 0 "
                 + "AND px.thoigian BETWEEN ? AND ? "
                 + "GROUP BY sp.masanpham, sp.tensp "
                 + "ORDER BY so_luong_ban DESC "
@@ -389,7 +389,7 @@ public interface ChartDAO {
                 + "JOIN sanpham sp ON ctpx.masanpham = sp.masanpham "
                 + "WHERE px.trangthai = 'Duyet' "
                 + "AND px.thoigian BETWEEN ? AND ? "
-                + "AND sp.tensp LIKE ? "
+                + "AND sp.tensp LIKE ? AND sp.is_delete = 0 "
                 + "GROUP BY sp.masanpham, sp.tensp "
                 + "ORDER BY so_luong_ban DESC "
                 + "LIMIT 100";
@@ -425,7 +425,7 @@ public interface ChartDAO {
                 + "SUM(kvs.soluong) AS so_luong_ton "
                 + "FROM sanpham sp "
                 + "JOIN khuvuckho_sanpham kvs ON sp.masanpham = kvs.masanpham "
-                + "WHERE sp.tensp LIKE ? "
+                + "WHERE sp.tensp LIKE ? AND sp.is_delete = 0 "
                 + "GROUP BY sp.masanpham, sp.tensp "
                 + "HAVING so_luong_ton <= ? "
                 + "ORDER BY so_luong_ton ASC";
