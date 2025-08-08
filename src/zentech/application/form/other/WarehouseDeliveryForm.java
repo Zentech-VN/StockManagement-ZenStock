@@ -458,7 +458,7 @@ public class WarehouseDeliveryForm extends javax.swing.JPanel {
         if (confrim == JOptionPane.YES_OPTION) {
             int rs = wdd.xoaphieuxuat(id);
             if (rs > 0) {
-                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Xóa thành công phiễu xuất có mã " + id + ".");
+                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Xóa thành công phiễu xuất có mã " + id + ".");
                 loadDataTable();
             }
         }
