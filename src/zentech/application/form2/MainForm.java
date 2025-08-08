@@ -155,7 +155,7 @@ public class MainForm extends JLayeredPane {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Bạn không có quyền sài chức năng này!");
                     return;
                 }
-                Application.showForm(new ReceiptApprovalForm());
+                Application.showForm(new ReceiptApprovalForm(acc));
             } else if (index == 10) {
                 if (check(list, "thuoctinh") == false) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Bạn không có quyền sài chức năng này!");

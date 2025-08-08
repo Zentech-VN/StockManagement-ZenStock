@@ -31,7 +31,10 @@
                   </Group>
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                      <Component id="jPanel3" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jPanel1" max="32767" attributes="0"/>
+                          <Component id="jPanel3" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
@@ -42,10 +45,12 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-              <Component id="jPanel3" max="32767" attributes="0"/>
+              <Component id="jPanel3" min="-2" pref="575" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btnCancel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -74,12 +79,10 @@
                       <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
@@ -97,10 +100,8 @@
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
-                                                  <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
-                                                  <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
+                                                  <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
@@ -131,13 +132,6 @@
                                                   <Component id="jCheckBox13" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jCheckBox18" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox19" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox20" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
                                                   <Component id="jCheckBox24" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
                                                   <Component id="jCheckBox21" min="-2" max="-2" attributes="0"/>
@@ -166,13 +160,6 @@
                                                   <Component id="jCheckBox33" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jCheckBox39" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox38" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox37" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
                                                   <Component id="jCheckBox44" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
                                                   <Component id="jCheckBox41" min="-2" max="-2" attributes="0"/>
@@ -197,30 +184,35 @@
                                       </Group>
                                       <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="111" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jCheckBox51" min="-2" max="-2" attributes="0"/>
                                       <Component id="jCheckBox46" min="-2" max="-2" attributes="0"/>
                                       <Component id="jCheckBox42" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox40" min="-2" max="-2" attributes="0"/>
                                       <Component id="jCheckBox35" min="-2" max="-2" attributes="0"/>
                                       <Component id="jCheckBox29" min="-2" max="-2" attributes="0"/>
                                       <Component id="jCheckBox27" min="-2" max="-2" attributes="0"/>
                                       <Component id="jCheckBox23" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox17" min="-2" max="-2" attributes="0"/>
                                       <Component id="jCheckBox14" min="-2" max="-2" attributes="0"/>
                                       <Component id="jCheckBox8" min="-2" max="-2" attributes="0"/>
                                       <Component id="jCheckBox4" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                                       <Component id="jCheckBox10" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jCheckBox51" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                           <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+              </Group>
+              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace pref="509" max="32767" attributes="0"/>
+                      <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="195" max="-2" attributes="0"/>
+                  </Group>
               </Group>
           </Group>
         </DimensionLayout>
@@ -257,141 +249,115 @@
                                                                                               <Group type="102" attributes="0">
                                                                                                   <Group type="103" groupAlignment="1" attributes="0">
                                                                                                       <Group type="102" attributes="0">
-                                                                                                          <Group type="103" groupAlignment="1" attributes="0">
-                                                                                                              <Group type="102" attributes="0">
-                                                                                                                  <Group type="103" groupAlignment="1" attributes="0">
-                                                                                                                      <Group type="102" attributes="0">
-                                                                                                                          <Group type="103" groupAlignment="3" attributes="0">
-                                                                                                                              <Component id="txtTenNhomQuyen" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                                                                                                                              <Component id="jLabel16" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                                                                                          </Group>
-                                                                                                                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                                                                                                                          <Group type="103" groupAlignment="3" attributes="0">
-                                                                                                                              <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                                                                                              <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                                                                                              <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                                                                                              <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                                                                                              <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                                                                                          </Group>
-                                                                                                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                                                                                          <Group type="103" groupAlignment="0" attributes="0">
-                                                                                                                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                                                                                                              <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
-                                                                                                                              <Component id="jCheckBox3" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                                                              <Component id="jCheckBox4" min="-2" max="-2" attributes="0"/>
-                                                                                                                          </Group>
-                                                                                                                      </Group>
-                                                                                                                      <Component id="jCheckBox2" min="-2" max="-2" attributes="0"/>
-                                                                                                                  </Group>
-                                                                                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                                                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                                                                                      <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                                                                                                                      <Component id="jCheckBox8" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                                                  </Group>
-                                                                                                              </Group>
-                                                                                                              <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                                                                  <Component id="jCheckBox5" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                                                  <Component id="jCheckBox7" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                                              </Group>
-                                                                                                              <Component id="jCheckBox6" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                                                                          <Group type="103" groupAlignment="3" attributes="0">
+                                                                                                              <Component id="txtTenNhomQuyen" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                                                                                                              <Component id="jLabel16" alignment="3" min="-2" max="-2" attributes="0"/>
                                                                                                           </Group>
-                                                                                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                                                                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                                                                                                          <Group type="103" groupAlignment="3" attributes="0">
+                                                                                                              <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                                                                              <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                                                                              <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                                                                          </Group>
+                                                                                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                                                                                           <Group type="103" groupAlignment="0" attributes="0">
-                                                                                                              <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                                                                                                              <Component id="jCheckBox10" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                                                                                                              <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
+                                                                                                              <Component id="jCheckBox3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                                              <Component id="jCheckBox4" min="-2" max="-2" attributes="0"/>
                                                                                                           </Group>
                                                                                                       </Group>
-                                                                                                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                                                          <Component id="jCheckBox11" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                                          <Component id="jCheckBox12" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                                      <Group type="102" attributes="0">
+                                                                                                          <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
+                                                                                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                                                                          <Component id="jCheckBox2" min="-2" max="-2" attributes="0"/>
                                                                                                       </Group>
-                                                                                                      <Component id="jCheckBox9" alignment="1" min="-2" max="-2" attributes="0"/>
                                                                                                   </Group>
                                                                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                                                                   <Group type="103" groupAlignment="0" attributes="0">
-                                                                                                      <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
-                                                                                                      <Component id="jCheckBox14" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                                      <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                                                                                                      <Component id="jCheckBox8" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                                                   </Group>
                                                                                               </Group>
                                                                                               <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                                                  <Component id="jCheckBox15" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                                  <Component id="jCheckBox13" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                                  <Component id="jCheckBox5" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                                  <Component id="jCheckBox7" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                                               </Group>
-                                                                                              <Component id="jCheckBox16" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                                                              <Component id="jCheckBox6" alignment="1" min="-2" max="-2" attributes="0"/>
                                                                                           </Group>
                                                                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                                                                           <Group type="103" groupAlignment="0" attributes="0">
-                                                                                              <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
-                                                                                              <Component id="jCheckBox17" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                              <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                                                                                              <Component id="jCheckBox10" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                                           </Group>
                                                                                       </Group>
                                                                                       <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                                          <Component id="jCheckBox18" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                          <Component id="jCheckBox20" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                          <Component id="jCheckBox11" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                          <Component id="jCheckBox12" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                                       </Group>
-                                                                                      <Component id="jCheckBox19" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                                                      <Component id="jCheckBox9" alignment="1" min="-2" max="-2" attributes="0"/>
                                                                                   </Group>
                                                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                                                   <Group type="103" groupAlignment="0" attributes="0">
-                                                                                      <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
-                                                                                      <Component id="jCheckBox23" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                      <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
+                                                                                      <Component id="jCheckBox14" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                                   </Group>
                                                                               </Group>
                                                                               <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                                  <Component id="jCheckBox24" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                  <Component id="jCheckBox22" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                  <Component id="jCheckBox15" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                  <Component id="jCheckBox13" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                               </Group>
-                                                                              <Component id="jCheckBox21" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                                              <Component id="jCheckBox16" alignment="1" min="-2" max="-2" attributes="0"/>
                                                                           </Group>
-                                                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                                                           <Group type="103" groupAlignment="0" attributes="0">
-                                                                              <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
-                                                                              <Component id="jCheckBox27" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                              <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
+                                                                              <Component id="jCheckBox23" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                           </Group>
                                                                       </Group>
                                                                       <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                          <Component id="jCheckBox28" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                          <Component id="jCheckBox26" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                          <Component id="jCheckBox24" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                          <Component id="jCheckBox22" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                       </Group>
-                                                                      <Component id="jCheckBox25" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                                      <Component id="jCheckBox21" alignment="1" min="-2" max="-2" attributes="0"/>
                                                                   </Group>
                                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                                   <Group type="103" groupAlignment="0" attributes="0">
-                                                                      <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
-                                                                      <Component id="jCheckBox29" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                      <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
+                                                                      <Component id="jCheckBox27" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                   </Group>
                                                               </Group>
                                                               <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                  <Component id="jCheckBox32" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                  <Component id="jCheckBox30" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                  <Component id="jCheckBox28" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                  <Component id="jCheckBox26" alignment="0" min="-2" max="-2" attributes="0"/>
                                                               </Group>
-                                                              <Component id="jCheckBox31" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                              <Component id="jCheckBox25" alignment="1" min="-2" max="-2" attributes="0"/>
                                                           </Group>
                                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                                           <Group type="103" groupAlignment="0" attributes="0">
-                                                              <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
-                                                              <Component id="jCheckBox35" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                              <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
+                                                              <Component id="jCheckBox29" alignment="0" min="-2" max="-2" attributes="0"/>
                                                           </Group>
                                                       </Group>
                                                       <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                          <Component id="jCheckBox36" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="jCheckBox33" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="jCheckBox32" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="jCheckBox30" alignment="0" min="-2" max="-2" attributes="0"/>
                                                       </Group>
-                                                      <Component id="jCheckBox34" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jCheckBox31" alignment="1" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jCheckBox40" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jCheckBox35" alignment="0" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                               <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                  <Component id="jCheckBox39" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBox37" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jCheckBox36" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jCheckBox33" alignment="0" min="-2" max="-2" attributes="0"/>
                                               </Group>
-                                              <Component id="jCheckBox38" alignment="1" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jCheckBox34" alignment="1" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
                                               <Component id="jCheckBox42" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -428,6 +394,13 @@
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+              </Group>
+              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
+                      <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="455" max="32767" attributes="0"/>
+                  </Group>
               </Group>
           </Group>
         </DimensionLayout>
@@ -481,22 +454,6 @@
             <Property name="text" type="java.lang.String" value="Xem"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel5">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="14" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="T&#x1ea1;o m&#x1edb;i"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel6">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="14" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="C&#x1ead;p nh&#x1ead;t"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -529,14 +486,6 @@
             <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; Quy&#x1ec1;n h&#x1ea1;n"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel11">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="14" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Xem Nh&#x1ead;t k&#xfd; ho&#x1ea1;t &#x111;&#x1ed9;ng"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="jLabel12">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -567,14 +516,6 @@
               <Font name="Segoe UI" size="14" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; Phi&#x1ebf;u xu&#x1ea5;t"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel17">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="14" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; Duy&#x1ec7;t phi&#x1ebf;u"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel18">
@@ -633,14 +574,6 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="jCheckBox16">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox17">
-        </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox18">
-        </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox19">
-        </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox20">
-        </Component>
         <Component class="javax.swing.JCheckBox" name="jCheckBox21">
         </Component>
         <Component class="javax.swing.JCheckBox" name="jCheckBox22">
@@ -673,14 +606,6 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="jCheckBox36">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox37">
-        </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox38">
-        </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox39">
-        </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox40">
-        </Component>
         <Component class="javax.swing.JCheckBox" name="jCheckBox41">
         </Component>
         <Component class="javax.swing.JCheckBox" name="jCheckBox42">
@@ -704,6 +629,115 @@
         <Component class="javax.swing.JCheckBox" name="jCheckBox51">
         </Component>
         <Component class="javax.swing.JCheckBox" name="jCheckBox52">
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel21">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="T&#x1ea1;o m&#x1edb;i"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel17">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="C&#x1ead;p nh&#x1ead;t"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="jPanel1">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder title="Qunar l&#xfd; duy&#x1ec7;t phi&#x1ebf;u">
+              <Font PropertyName="font" name="Segoe UI" size="18" style="1"/>
+            </TitledBorder>
+          </Border>
+        </Property>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jCheckBox39" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="104" max="-2" attributes="0"/>
+                          <Component id="jCheckBox38" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
+                          <Component id="jCheckBox37" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
+                          <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="94" max="-2" attributes="0"/>
+                          <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace min="-2" pref="201" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="24" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                          <Component id="jCheckBox39" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jCheckBox37" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="jCheckBox38" alignment="1" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JCheckBox" name="jCheckBox39">
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="jCheckBox38">
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="jCheckBox37">
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel11">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Xem"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel5">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Ki&#x1ec3;m tra"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel6">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Chi ti&#x1ebf;t"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

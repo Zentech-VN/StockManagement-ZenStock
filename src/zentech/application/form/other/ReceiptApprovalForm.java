@@ -1,6 +1,7 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.UserRightsDAO;
 import java.awt.Window;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
@@ -9,6 +10,8 @@ import zentech.application.dialog.CheckReceiptDialog;
 import zentech.application.dialog.ReceiptDetailsDialog;
 import service.WarehouseReceiptService;
 import dao.WarehouseReceiptDAO;
+import entity.ChiTietQuyen;
+import entity.Employee;
 import entity.Receipt;
 import java.util.List;
 import javax.swing.JTable;
@@ -20,12 +23,37 @@ public class ReceiptApprovalForm extends javax.swing.JPanel {
     private WarehouseReceiptService wrs = new WarehouseReceiptService();
     private WarehouseReceiptDAO wrd = new WarehouseReceiptDAO();
     private ReceiptService rs = new ReceiptService();
+    private Employee CurrentAcc;
+    private UserRightsDAO urd = new UserRightsDAO();
 
-    public ReceiptApprovalForm() {
+    public ReceiptApprovalForm(Employee acc) {
         initComponents();
+        this.CurrentAcc = acc;
         initalUI();
         setupTable();
         loadPendingReceipts(jTable1);
+        load();
+    }
+
+    public boolean check(List<ChiTietQuyen> list, String hanhdong, String machucnang) {
+        for (ChiTietQuyen chitietquyen : list) {
+            if (chitietquyen.getHanhdong() != null && chitietquyen.getHanhdong().equals(hanhdong)
+                    && chitietquyen.getDanhmuc_chucnang().getMachucnang() != null && chitietquyen.getDanhmuc_chucnang().getMachucnang().equals(machucnang)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void load() {
+        List<ChiTietQuyen> list = urd.getALLCTQbyMaNHomQuyen(this.CurrentAcc.getAcc().getManhomquyen());
+        if (check(list, "create", "duyetphieu") == false) {
+            jButton1.setEnabled(false);
+        }
+
+        if (check(list, "update", "duyetphieu") == false) {
+            jButton2.setEnabled(false);
+        }
     }
 
     private void initalUI() {
@@ -42,7 +70,7 @@ public class ReceiptApprovalForm extends javax.swing.JPanel {
         };
 
         jTable1.setModel(model);
-        
+
         jTable1.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
         jTable1.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
 

@@ -23,15 +23,21 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="1" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" attributes="0">
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="btnCancel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnThem" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jPanel3" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jPanel1" max="32767" attributes="0"/>
+                          <Component id="jPanel3" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
           </Group>
@@ -41,13 +47,15 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-              <Component id="jPanel3" max="32767" attributes="0"/>
+              <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnThem" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnCancel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -76,145 +84,132 @@
                       <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="txtTenNhomQuyen" min="-2" pref="687" max="-2" attributes="0"/>
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
-                                                  <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
-                                                  <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="txtTenNhomQuyen" min="-2" pref="687" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                                               </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="chkThongKeView" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="chkThongKeCreate" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="chkThongKeUpdate" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="chkTaiKhoanView" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="chkTaiKhoanCreate" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="chkTaiKhoanUpdate" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="chkNhanVienView" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="chkNhanVienCreate" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="chkNhanVienUpdate" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="chkNhomQuyenView" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="chkNhomQuyenCreate" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="chkNhomQuyenUpdate" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="chkNhatKyView" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="chkNhatKyCreate" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="chkNhatKyUpdate" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="chkSanPhamView" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="chkSanPhamCreate" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="chkSanPhamUpdate" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="chkKhuVucKhoView" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="chkKhuVucKhoCreate" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="chkKhuVucKhoUpdate" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="chkPhieuNhapView" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="chkPhieuNhapCreate" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="chkPhieuNhapUpdate" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="chkPhieuXuatView" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="chkPhieuXuatCreate" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="chkPhieuXuatUpdate" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="chkDuyetPhieuView" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="chkDuyetPhieuCreate" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="chkDuyetPhieuUpdate" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="chkThuocTinhView" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="chkThuocTinhCreate" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="chkThuocTinhUpdate" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="chkKhachHangView" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="chkKhachHangCreate" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="chkKhachHangUpdate" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="chkNhaCungCapView" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="chkNhaCungCapCreate" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="chkNhaCungCapUpdate" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
+                                                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
+                                                      <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="chkThongKeView" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
+                                                      <Component id="chkThongKeCreate" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
+                                                      <Component id="chkThongKeUpdate" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="chkTaiKhoanView" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
+                                                      <Component id="chkTaiKhoanCreate" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
+                                                      <Component id="chkTaiKhoanUpdate" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="chkNhanVienView" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
+                                                      <Component id="chkNhanVienCreate" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
+                                                      <Component id="chkNhanVienUpdate" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="chkNhomQuyenView" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
+                                                      <Component id="chkNhomQuyenCreate" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
+                                                      <Component id="chkNhomQuyenUpdate" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="chkSanPhamView" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
+                                                      <Component id="chkSanPhamCreate" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
+                                                      <Component id="chkSanPhamUpdate" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="chkKhuVucKhoView" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
+                                                      <Component id="chkKhuVucKhoCreate" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
+                                                      <Component id="chkKhuVucKhoUpdate" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="chkPhieuNhapView" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
+                                                      <Component id="chkPhieuNhapCreate" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
+                                                      <Component id="chkPhieuNhapUpdate" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="chkPhieuXuatView" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
+                                                      <Component id="chkPhieuXuatCreate" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
+                                                      <Component id="chkPhieuXuatUpdate" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="chkThuocTinhView" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
+                                                      <Component id="chkThuocTinhCreate" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
+                                                      <Component id="chkThuocTinhUpdate" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="chkKhachHangView" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
+                                                      <Component id="chkKhachHangCreate" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
+                                                      <Component id="chkKhachHangUpdate" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="chkNhaCungCapView" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
+                                                      <Component id="chkNhaCungCapCreate" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
+                                                      <Component id="chkNhaCungCapUpdate" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
                                               </Group>
                                           </Group>
+                                          <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="chkNhaCungCapDelete" min="-2" max="-2" attributes="0"/>
-                                      <Component id="chkKhachHangDelete" min="-2" max="-2" attributes="0"/>
-                                      <Component id="chkThuocTinhDelete" min="-2" max="-2" attributes="0"/>
-                                      <Component id="chkDuyetPhieuDelete" min="-2" max="-2" attributes="0"/>
-                                      <Component id="chkPhieuXuatDelete" min="-2" max="-2" attributes="0"/>
-                                      <Component id="chkPhieuNhapDelete" min="-2" max="-2" attributes="0"/>
-                                      <Component id="chkKhuVucKhoDelete" min="-2" max="-2" attributes="0"/>
-                                      <Component id="chkSanPhamDelete" min="-2" max="-2" attributes="0"/>
-                                      <Component id="chkNhatKyDelete" min="-2" max="-2" attributes="0"/>
-                                      <Component id="chkNhomQuyenDelete" min="-2" max="-2" attributes="0"/>
-                                      <Component id="chkTaiKhoanDelete" min="-2" max="-2" attributes="0"/>
-                                      <Component id="chkThongKeDelete" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                                      <Component id="chkNhanVienDelete" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="chkNhaCungCapDelete" min="-2" max="-2" attributes="0"/>
+                                          <Component id="chkKhachHangDelete" min="-2" max="-2" attributes="0"/>
+                                          <Component id="chkThuocTinhDelete" min="-2" max="-2" attributes="0"/>
+                                          <Component id="chkPhieuXuatDelete" min="-2" max="-2" attributes="0"/>
+                                          <Component id="chkPhieuNhapDelete" min="-2" max="-2" attributes="0"/>
+                                          <Component id="chkKhuVucKhoDelete" min="-2" max="-2" attributes="0"/>
+                                          <Component id="chkSanPhamDelete" min="-2" max="-2" attributes="0"/>
+                                          <Component id="chkNhomQuyenDelete" min="-2" max="-2" attributes="0"/>
+                                          <Component id="chkTaiKhoanDelete" min="-2" max="-2" attributes="0"/>
+                                          <Component id="chkThongKeDelete" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                                          <Component id="chkNhanVienDelete" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
                               </Group>
                           </Group>
@@ -229,7 +224,7 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="103" alignment="1" groupAlignment="0" attributes="0">
                           <Component id="chkNhaCungCapView" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -259,141 +254,113 @@
                                                                                               <Group type="102" attributes="0">
                                                                                                   <Group type="103" groupAlignment="1" attributes="0">
                                                                                                       <Group type="102" attributes="0">
-                                                                                                          <Group type="103" groupAlignment="1" attributes="0">
-                                                                                                              <Group type="102" attributes="0">
-                                                                                                                  <Group type="103" groupAlignment="1" attributes="0">
-                                                                                                                      <Group type="102" attributes="0">
-                                                                                                                          <Group type="103" groupAlignment="3" attributes="0">
-                                                                                                                              <Component id="txtTenNhomQuyen" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                                                                                                                              <Component id="jLabel16" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                                                                                          </Group>
-                                                                                                                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                                                                                                                          <Group type="103" groupAlignment="3" attributes="0">
-                                                                                                                              <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                                                                                              <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                                                                                              <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                                                                                              <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                                                                                              <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                                                                                          </Group>
-                                                                                                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                                                                                          <Group type="103" groupAlignment="0" attributes="0">
-                                                                                                                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                                                                                                              <Component id="chkThongKeView" min="-2" max="-2" attributes="0"/>
-                                                                                                                              <Component id="chkThongKeUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                                                              <Component id="chkThongKeDelete" min="-2" max="-2" attributes="0"/>
-                                                                                                                          </Group>
-                                                                                                                      </Group>
-                                                                                                                      <Component id="chkThongKeCreate" min="-2" max="-2" attributes="0"/>
-                                                                                                                  </Group>
-                                                                                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                                                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                                                                                      <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                                                                                                                      <Component id="chkTaiKhoanDelete" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                                                  </Group>
-                                                                                                              </Group>
-                                                                                                              <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                                                                  <Component id="chkTaiKhoanView" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                                                  <Component id="chkTaiKhoanUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                                              </Group>
-                                                                                                              <Component id="chkTaiKhoanCreate" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                                                                          <Group type="103" groupAlignment="3" attributes="0">
+                                                                                                              <Component id="txtTenNhomQuyen" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                                                                                                              <Component id="jLabel16" alignment="3" min="-2" max="-2" attributes="0"/>
                                                                                                           </Group>
-                                                                                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                                                                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                                                                                                          <Group type="103" groupAlignment="3" attributes="0">
+                                                                                                              <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                                                                              <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                                                                              <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                                                                              <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                                                                              <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                                                                          </Group>
+                                                                                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                                                                                           <Group type="103" groupAlignment="0" attributes="0">
-                                                                                                              <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                                                                                                              <Component id="chkNhanVienDelete" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                                                                                                              <Component id="chkThongKeView" min="-2" max="-2" attributes="0"/>
+                                                                                                              <Component id="chkThongKeUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                                              <Component id="chkThongKeDelete" min="-2" max="-2" attributes="0"/>
                                                                                                           </Group>
                                                                                                       </Group>
-                                                                                                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                                                          <Component id="chkNhanVienView" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                                          <Component id="chkNhanVienUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                                      </Group>
-                                                                                                      <Component id="chkNhanVienCreate" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                                                                      <Component id="chkThongKeCreate" min="-2" max="-2" attributes="0"/>
                                                                                                   </Group>
                                                                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                                                                   <Group type="103" groupAlignment="0" attributes="0">
-                                                                                                      <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
-                                                                                                      <Component id="chkNhomQuyenDelete" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                                      <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                                                                                                      <Component id="chkTaiKhoanDelete" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                                                   </Group>
                                                                                               </Group>
                                                                                               <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                                                  <Component id="chkNhomQuyenView" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                                  <Component id="chkNhomQuyenUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                                  <Component id="chkTaiKhoanView" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                                  <Component id="chkTaiKhoanUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                                               </Group>
-                                                                                              <Component id="chkNhomQuyenCreate" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                                                              <Component id="chkTaiKhoanCreate" alignment="1" min="-2" max="-2" attributes="0"/>
                                                                                           </Group>
                                                                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                                                                           <Group type="103" groupAlignment="0" attributes="0">
-                                                                                              <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
-                                                                                              <Component id="chkNhatKyDelete" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                              <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                                                                                              <Component id="chkNhanVienDelete" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                                           </Group>
                                                                                       </Group>
                                                                                       <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                                          <Component id="chkNhatKyView" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                          <Component id="chkNhatKyUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                          <Component id="chkNhanVienView" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                          <Component id="chkNhanVienUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                                       </Group>
-                                                                                      <Component id="chkNhatKyCreate" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                                                      <Component id="chkNhanVienCreate" alignment="1" min="-2" max="-2" attributes="0"/>
                                                                                   </Group>
                                                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                                                   <Group type="103" groupAlignment="0" attributes="0">
-                                                                                      <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
-                                                                                      <Component id="chkSanPhamDelete" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                      <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
+                                                                                      <Component id="chkNhomQuyenDelete" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                                   </Group>
                                                                               </Group>
                                                                               <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                                  <Component id="chkSanPhamView" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                                  <Component id="chkSanPhamUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                  <Component id="chkNhomQuyenView" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                                  <Component id="chkNhomQuyenUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                               </Group>
-                                                                              <Component id="chkSanPhamCreate" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                                              <Component id="chkNhomQuyenCreate" alignment="1" min="-2" max="-2" attributes="0"/>
                                                                           </Group>
-                                                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                                                           <Group type="103" groupAlignment="0" attributes="0">
-                                                                              <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
-                                                                              <Component id="chkKhuVucKhoDelete" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                              <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
+                                                                              <Component id="chkSanPhamDelete" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                           </Group>
                                                                       </Group>
                                                                       <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                          <Component id="chkKhuVucKhoView" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                          <Component id="chkKhuVucKhoUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                          <Component id="chkSanPhamView" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                          <Component id="chkSanPhamUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                       </Group>
-                                                                      <Component id="chkKhuVucKhoCreate" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                                      <Component id="chkSanPhamCreate" alignment="1" min="-2" max="-2" attributes="0"/>
                                                                   </Group>
                                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                                   <Group type="103" groupAlignment="0" attributes="0">
-                                                                      <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
-                                                                      <Component id="chkPhieuNhapDelete" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                      <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
+                                                                      <Component id="chkKhuVucKhoDelete" alignment="0" min="-2" max="-2" attributes="0"/>
                                                                   </Group>
                                                               </Group>
                                                               <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                  <Component id="chkPhieuNhapView" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                                  <Component id="chkPhieuNhapUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                  <Component id="chkKhuVucKhoView" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                                  <Component id="chkKhuVucKhoUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
                                                               </Group>
-                                                              <Component id="chkPhieuNhapCreate" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                              <Component id="chkKhuVucKhoCreate" alignment="1" min="-2" max="-2" attributes="0"/>
                                                           </Group>
                                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                                           <Group type="103" groupAlignment="0" attributes="0">
-                                                              <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
-                                                              <Component id="chkPhieuXuatDelete" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                              <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
+                                                              <Component id="chkPhieuNhapDelete" alignment="0" min="-2" max="-2" attributes="0"/>
                                                           </Group>
                                                       </Group>
                                                       <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                          <Component id="chkPhieuXuatView" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="chkPhieuXuatUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="chkPhieuNhapView" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="chkPhieuNhapUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
                                                       </Group>
-                                                      <Component id="chkPhieuXuatCreate" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="chkPhieuNhapCreate" alignment="1" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="chkDuyetPhieuDelete" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="chkPhieuXuatDelete" alignment="0" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                               <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                  <Component id="chkDuyetPhieuView" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="chkDuyetPhieuUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkPhieuXuatView" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="chkPhieuXuatUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
                                               </Group>
-                                              <Component id="chkDuyetPhieuCreate" alignment="1" min="-2" max="-2" attributes="0"/>
+                                              <Component id="chkPhieuXuatCreate" alignment="1" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
                                               <Component id="chkThuocTinhDelete" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -429,7 +396,6 @@
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -528,14 +494,6 @@
             <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; Quy&#x1ec1;n h&#x1ea1;n"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel11">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="14" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Xem Nh&#x1ead;t k&#xfd; ho&#x1ea1;t &#x111;&#x1ed9;ng"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="jLabel12">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -566,14 +524,6 @@
               <Font name="Segoe UI" size="14" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; Phi&#x1ebf;u xu&#x1ea5;t"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel17">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="14" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; Duy&#x1ec7;t phi&#x1ebf;u"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel18">
@@ -632,14 +582,6 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="chkNhomQuyenCreate">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="chkNhatKyDelete">
-        </Component>
-        <Component class="javax.swing.JCheckBox" name="chkNhatKyView">
-        </Component>
-        <Component class="javax.swing.JCheckBox" name="chkNhatKyCreate">
-        </Component>
-        <Component class="javax.swing.JCheckBox" name="chkNhatKyUpdate">
-        </Component>
         <Component class="javax.swing.JCheckBox" name="chkSanPhamCreate">
         </Component>
         <Component class="javax.swing.JCheckBox" name="chkSanPhamUpdate">
@@ -672,14 +614,6 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="chkPhieuXuatView">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="chkDuyetPhieuUpdate">
-        </Component>
-        <Component class="javax.swing.JCheckBox" name="chkDuyetPhieuCreate">
-        </Component>
-        <Component class="javax.swing.JCheckBox" name="chkDuyetPhieuView">
-        </Component>
-        <Component class="javax.swing.JCheckBox" name="chkDuyetPhieuDelete">
-        </Component>
         <Component class="javax.swing.JCheckBox" name="chkThuocTinhCreate">
         </Component>
         <Component class="javax.swing.JCheckBox" name="chkThuocTinhDelete">
@@ -703,6 +637,97 @@
         <Component class="javax.swing.JCheckBox" name="chkNhaCungCapDelete">
         </Component>
         <Component class="javax.swing.JCheckBox" name="chkNhaCungCapUpdate">
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="jPanel1">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder title="Qu&#x1ea3;n l&#xfd; duy&#x1ec7;t phi&#x1ebf;u">
+              <Font PropertyName="font" name="Segoe UI" size="18" style="1"/>
+            </TitledBorder>
+          </Border>
+        </Property>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="jLabel22" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
+                          <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="94" max="-2" attributes="0"/>
+                          <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Component id="chkDuyetPhieuView" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
+                          <Component id="chkDuyetPhieuCreate" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
+                          <Component id="chkDuyetPhieuUpdate" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace min="-2" pref="201" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel22" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel21" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                          <Component id="chkDuyetPhieuView" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="chkDuyetPhieuUpdate" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="chkDuyetPhieuCreate" alignment="1" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JCheckBox" name="chkDuyetPhieuCreate">
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="chkDuyetPhieuUpdate">
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="chkDuyetPhieuView">
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel11">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Chi ti&#x1ebf;t"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel21">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Ki&#x1ec3;m tra"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel22">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Xem"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

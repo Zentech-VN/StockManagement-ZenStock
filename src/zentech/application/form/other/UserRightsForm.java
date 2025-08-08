@@ -265,7 +265,7 @@ public class UserRightsForm extends javax.swing.JPanel {
                     "Vui lòng chọn nhóm quyền muốn xem chi tiết!");
             return;
         }
-        int id = (int) tblRole.getValueAt(select, 0);   // <-- LẤY MÃ NHÓM Ở CỘT 0
+        int id = (int) tblRole.getValueAt(select, 0);   
         Window parent = SwingUtilities.getWindowAncestor(this);
         UserRightsDetailsDialog dlg = new UserRightsDetailsDialog(parent, this, id);
         dlg.setVisible(true);
