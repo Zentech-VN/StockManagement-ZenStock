@@ -94,8 +94,8 @@ public class Chart extends javax.swing.JPanel {
 
         //Bán chạy
         initalTextField(txtSanPhamBanChay_SanPham, "Tìm kiếm");
-        initalTextField(txtSanPhamBanChay_TuNgay, today.toString());
-        initalTextField(txtSanPhamBanChay_DenNgay, firstDayOfMonth.toString());
+        initalTextField(txtSanPhamBanChay_TuNgay, firstDayOfMonth.toString()); 
+        initalTextField(txtSanPhamBanChay_DenNgay, today.toString());
         txtSanPhamBanChay_TuNgay.setText(firstDayOfMonth.toString());
         txtSanPhamBanChay_DenNgay.setText(today.toString());
         lblSanPhamBanChay_ThoiGian.setText(txtSanPhamBanChay_TuNgay.getText() + " đến " + txtSanPhamBanChay_DenNgay.getText());
