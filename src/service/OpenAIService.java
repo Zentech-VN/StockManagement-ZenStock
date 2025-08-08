@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import dao.EmployeeDAO;
-import entity.ChatMessage;
 import entity.Employee;
 import entity.Product;
 import java.io.BufferedReader;
@@ -55,7 +54,7 @@ public class OpenAIService {
     }
 
     // method gui tin nhan den API
-    public String sendMessage(String userMessage, List<ChatMessage> conversationHistory) {
+    public String sendMessage(String userMessage) {
         try {
             URL url = new URL(OPENAI_API_URL);
             // mở kết nối http đến API
@@ -69,7 +68,7 @@ public class OpenAIService {
             connection.setConnectTimeout(30000); //thiết lập thời gian chờ tối đa là 30s để kết nối
             connection.setReadTimeout(60000); //thiết lập thời gian chờ tối đa để đọc data từ SV
 
-            String requestBody = buildRequestBody(userMessage, conversationHistory);
+            String requestBody = buildRequestBody(userMessage);
             System.out.println(requestBody);
             try (OutputStream os = connection.getOutputStream()) {
                 os.write(requestBody.getBytes(StandardCharsets.UTF_8));
@@ -196,7 +195,7 @@ public class OpenAIService {
         return -1; // Không tìm thấy
     }
 
-    private String buildRequestBody(String userMessage, List<ChatMessage> history) {
+    private String buildRequestBody(String userMessage) {
         StringBuilder json = new StringBuilder();
         String contextData = enrichUserMessage(userMessage);
         contextData = contextData.replaceAll("[\\r\\n]+", " ");
@@ -216,11 +215,6 @@ public class OpenAIService {
         json.append("Trả lời ngắn gọn, rõ ràng và bằng tiếng Việt. ");
         json.append("Phần mềm ZenTech là phần mềm quản lý kho hàng, có các chức năng: quản lý nhân viên, quản lý sản phẩm, quản lý tài khoản, quản lý nhập xuất kho, quản lý nhà cung cấp.");
         json.append("\"},");
-        //lịch sử (nếu có)
-        for (ChatMessage msg : history) {
-            json.append("{\"role\":\"").append(msg.getRole())
-                    .append("\",\"content\":\"").append(escape(msg.getContent())).append("\"},");
-        }
         //prompt mới
         json.append("{\"role\":\"user\",\"content\":\"").append(escape(userMessage)).append("\"}");
         json.append("]}");
