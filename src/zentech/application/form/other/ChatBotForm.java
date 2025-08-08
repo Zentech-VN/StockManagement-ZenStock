@@ -1,8 +1,6 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import dao.ChatDAO;
-import entity.ChatMessage;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -19,7 +17,6 @@ import zentech.menu.mode.RoundedPanel;
 
 public class ChatBotForm extends javax.swing.JPanel {
 
-    private final ChatDAO chatDAO = new ChatDAO();
     private ProductService productService;
     private ChatBotService chatBotService;
     private JPanel chatPanel;
@@ -214,7 +211,6 @@ public class ChatBotForm extends javax.swing.JPanel {
         if (!userMessage.isEmpty()) {
             // 1. Hiển thị và lưu tin nhắn người dùng
             appendMessage("Bạn: " + userMessage, true);
-            ChatDAO.insert(new ChatMessage("user", userMessage)); // ✅ Lưu vào MongoDB
 
             // 2. Tạo bubble phản hồi AI tạm thời
             aiThinkingLabel = appendTempAIThinking();
@@ -228,9 +224,6 @@ public class ChatBotForm extends javax.swing.JPanel {
                     chatPanel.revalidate();
                     chatPanel.repaint();
                 }
-
-                // ✅ Lưu phản hồi AI
-                ChatDAO.insert(new ChatMessage("ai", response));
 
             }).start();
 
