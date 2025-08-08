@@ -91,7 +91,7 @@ public class WarehouseDeliveryDAO {
 
     public List<Client> getAllKhachHang() {
         List<Client> list = new ArrayList<>();
-        String sql = "select * from khachhang";
+        String sql = "select * from khachhang Where is_delete = 0 and trangthai= 'MoKhoa'";
         try (Connection conn = ConnectionHelper.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 Client c = new Client();
@@ -151,7 +151,7 @@ public class WarehouseDeliveryDAO {
                     pst_ctphieuxuat.setInt(2, pxct.getSanpham().getMaSanPham());
                     pst_ctphieuxuat.setBigDecimal(3, pxct.getDongia());
                     pst_ctphieuxuat.setInt(4, pxct.getSoluong());
-                    pst_ctphieuxuat.setInt(5, pxct.getSanpham().getMaSanPham());
+                    pst_ctphieuxuat.setString(5, pxct.getGhichu());
                     pst_ctphieuxuat.addBatch();
                 }
 
@@ -197,6 +197,7 @@ public class WarehouseDeliveryDAO {
                 e.printStackTrace();
                 return 0;
             }
+               conn.commit(); 
             return rs_phieunhap;
         } catch (Exception e) {
             e.printStackTrace();

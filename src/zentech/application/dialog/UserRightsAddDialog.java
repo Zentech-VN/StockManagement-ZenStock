@@ -48,7 +48,7 @@ public class UserRightsAddDialog extends JDialog {
         cbxMatrix.put("khuvuckho", row(chkKhuVucKhoView, chkKhuVucKhoCreate, chkKhuVucKhoUpdate, chkKhuVucKhoDelete));
         cbxMatrix.put("phieunhap", row(chkPhieuNhapView, chkPhieuNhapCreate, chkPhieuNhapUpdate, chkPhieuNhapDelete));
         cbxMatrix.put("phieuxuat", row(chkPhieuXuatView, chkPhieuXuatCreate, chkPhieuXuatUpdate, chkPhieuXuatDelete));
-        cbxMatrix.put("duyetphieu", row(chkDuyetPhieuView, chkDuyetPhieuCreate, chkDuyetPhieuUpdate, chkDuyetPhieuDelete));
+        cbxMatrix.put("duyetphieu", row(chkDuyetPhieuView, chkDuyetPhieuCreate, chkDuyetPhieuUpdate, null));
         cbxMatrix.put("thuoctinh", row(chkThuocTinhView, chkThuocTinhCreate, chkThuocTinhUpdate, chkThuocTinhDelete));
         cbxMatrix.put("khachhang", row(chkKhachHangView, chkKhachHangCreate, chkKhachHangUpdate, chkKhachHangDelete));
         cbxMatrix.put("nhacungcap", row(chkNhaCungCapView, chkNhaCungCapCreate, chkNhaCungCapUpdate, chkNhaCungCapDelete));
@@ -155,7 +155,6 @@ public class UserRightsAddDialog extends JDialog {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
@@ -191,10 +190,6 @@ public class UserRightsAddDialog extends JDialog {
         chkPhieuXuatCreate = new javax.swing.JCheckBox();
         chkPhieuXuatDelete = new javax.swing.JCheckBox();
         chkPhieuXuatView = new javax.swing.JCheckBox();
-        chkDuyetPhieuUpdate = new javax.swing.JCheckBox();
-        chkDuyetPhieuCreate = new javax.swing.JCheckBox();
-        chkDuyetPhieuView = new javax.swing.JCheckBox();
-        chkDuyetPhieuDelete = new javax.swing.JCheckBox();
         chkThuocTinhCreate = new javax.swing.JCheckBox();
         chkThuocTinhDelete = new javax.swing.JCheckBox();
         chkThuocTinhUpdate = new javax.swing.JCheckBox();
@@ -207,6 +202,13 @@ public class UserRightsAddDialog extends JDialog {
         chkNhaCungCapCreate = new javax.swing.JCheckBox();
         chkNhaCungCapDelete = new javax.swing.JCheckBox();
         chkNhaCungCapUpdate = new javax.swing.JCheckBox();
+        jPanel1 = new javax.swing.JPanel();
+        chkDuyetPhieuCreate = new javax.swing.JCheckBox();
+        chkDuyetPhieuUpdate = new javax.swing.JCheckBox();
+        chkDuyetPhieuView = new javax.swing.JCheckBox();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
         btnThem = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
@@ -261,9 +263,6 @@ public class UserRightsAddDialog extends JDialog {
         jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel15.setText("Quản lý Phiếu xuất");
 
-        jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel17.setText("Quản lý Duyệt phiếu");
-
         jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel18.setText("Quản lý Thuộc tính");
 
@@ -283,119 +282,114 @@ public class UserRightsAddDialog extends JDialog {
                     .addComponent(jLabel20)
                     .addComponent(jLabel19)
                     .addComponent(jLabel18)
-                    .addComponent(jLabel17)
                     .addComponent(jLabel15)
                     .addComponent(jLabel14)
                     .addComponent(jLabel13)
                     .addComponent(jLabel12)
                     .addComponent(jLabel10)
                     .addComponent(jLabel8)
-                    .addComponent(jLabel3)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTenNhomQuyen, javax.swing.GroupLayout.PREFERRED_SIZE, 687, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel1)
-                                            .addComponent(jLabel2))
-                                        .addGap(90, 90, 90)
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(jLabel4)
-                                                .addGap(90, 90, 90)
-                                                .addComponent(jLabel5)
-                                                .addGap(90, 90, 90)
-                                                .addComponent(jLabel6))
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(chkThongKeView)
-                                                .addGap(112, 112, 112)
-                                                .addComponent(chkThongKeCreate)
-                                                .addGap(122, 122, 122)
-                                                .addComponent(chkThongKeUpdate))
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(chkTaiKhoanView)
-                                                .addGap(112, 112, 112)
-                                                .addComponent(chkTaiKhoanCreate)
-                                                .addGap(122, 122, 122)
-                                                .addComponent(chkTaiKhoanUpdate))
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(chkNhanVienView)
-                                                .addGap(112, 112, 112)
-                                                .addComponent(chkNhanVienCreate)
-                                                .addGap(122, 122, 122)
-                                                .addComponent(chkNhanVienUpdate))
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(chkNhomQuyenView)
-                                                .addGap(112, 112, 112)
-                                                .addComponent(chkNhomQuyenCreate)
-                                                .addGap(122, 122, 122)
-                                                .addComponent(chkNhomQuyenUpdate))
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(chkSanPhamView)
-                                                .addGap(112, 112, 112)
-                                                .addComponent(chkSanPhamCreate)
-                                                .addGap(122, 122, 122)
-                                                .addComponent(chkSanPhamUpdate))
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(chkKhuVucKhoView)
-                                                .addGap(112, 112, 112)
-                                                .addComponent(chkKhuVucKhoCreate)
-                                                .addGap(122, 122, 122)
-                                                .addComponent(chkKhuVucKhoUpdate))
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(chkPhieuNhapView)
-                                                .addGap(112, 112, 112)
-                                                .addComponent(chkPhieuNhapCreate)
-                                                .addGap(122, 122, 122)
-                                                .addComponent(chkPhieuNhapUpdate))
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(chkPhieuXuatView)
-                                                .addGap(112, 112, 112)
-                                                .addComponent(chkPhieuXuatCreate)
-                                                .addGap(122, 122, 122)
-                                                .addComponent(chkPhieuXuatUpdate))
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(chkDuyetPhieuView)
-                                                .addGap(112, 112, 112)
-                                                .addComponent(chkDuyetPhieuCreate)
-                                                .addGap(122, 122, 122)
-                                                .addComponent(chkDuyetPhieuUpdate))
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(chkThuocTinhView)
-                                                .addGap(112, 112, 112)
-                                                .addComponent(chkThuocTinhCreate)
-                                                .addGap(122, 122, 122)
-                                                .addComponent(chkThuocTinhUpdate))
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(chkKhachHangView)
-                                                .addGap(112, 112, 112)
-                                                .addComponent(chkKhachHangCreate)
-                                                .addGap(122, 122, 122)
-                                                .addComponent(chkKhachHangUpdate))
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(chkNhaCungCapView)
-                                                .addGap(112, 112, 112)
-                                                .addComponent(chkNhaCungCapCreate)
-                                                .addGap(122, 122, 122)
-                                                .addComponent(chkNhaCungCapUpdate))))
-                                    .addComponent(jLabel9))
-                                .addGap(90, 90, 90)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(chkNhaCungCapDelete)
-                                    .addComponent(chkKhachHangDelete)
-                                    .addComponent(chkThuocTinhDelete)
-                                    .addComponent(chkDuyetPhieuDelete)
-                                    .addComponent(chkPhieuXuatDelete)
-                                    .addComponent(chkPhieuNhapDelete)
-                                    .addComponent(chkKhuVucKhoDelete)
-                                    .addComponent(chkSanPhamDelete)
-                                    .addComponent(chkNhomQuyenDelete)
-                                    .addComponent(chkTaiKhoanDelete)
-                                    .addComponent(chkThongKeDelete)
-                                    .addComponent(jLabel7)
-                                    .addComponent(chkNhanVienDelete))))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtTenNhomQuyen, javax.swing.GroupLayout.PREFERRED_SIZE, 687, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel1)
+                                                .addComponent(jLabel2))
+                                            .addGap(90, 90, 90)
+                                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                                    .addComponent(jLabel4)
+                                                    .addGap(90, 90, 90)
+                                                    .addComponent(jLabel5)
+                                                    .addGap(90, 90, 90)
+                                                    .addComponent(jLabel6))
+                                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                                    .addComponent(chkThongKeView)
+                                                    .addGap(112, 112, 112)
+                                                    .addComponent(chkThongKeCreate)
+                                                    .addGap(122, 122, 122)
+                                                    .addComponent(chkThongKeUpdate))
+                                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                                    .addComponent(chkTaiKhoanView)
+                                                    .addGap(112, 112, 112)
+                                                    .addComponent(chkTaiKhoanCreate)
+                                                    .addGap(122, 122, 122)
+                                                    .addComponent(chkTaiKhoanUpdate))
+                                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                                    .addComponent(chkNhanVienView)
+                                                    .addGap(112, 112, 112)
+                                                    .addComponent(chkNhanVienCreate)
+                                                    .addGap(122, 122, 122)
+                                                    .addComponent(chkNhanVienUpdate))
+                                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                                    .addComponent(chkNhomQuyenView)
+                                                    .addGap(112, 112, 112)
+                                                    .addComponent(chkNhomQuyenCreate)
+                                                    .addGap(122, 122, 122)
+                                                    .addComponent(chkNhomQuyenUpdate))
+                                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                                    .addComponent(chkSanPhamView)
+                                                    .addGap(112, 112, 112)
+                                                    .addComponent(chkSanPhamCreate)
+                                                    .addGap(122, 122, 122)
+                                                    .addComponent(chkSanPhamUpdate))
+                                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                                    .addComponent(chkKhuVucKhoView)
+                                                    .addGap(112, 112, 112)
+                                                    .addComponent(chkKhuVucKhoCreate)
+                                                    .addGap(122, 122, 122)
+                                                    .addComponent(chkKhuVucKhoUpdate))
+                                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                                    .addComponent(chkPhieuNhapView)
+                                                    .addGap(112, 112, 112)
+                                                    .addComponent(chkPhieuNhapCreate)
+                                                    .addGap(122, 122, 122)
+                                                    .addComponent(chkPhieuNhapUpdate))
+                                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                                    .addComponent(chkPhieuXuatView)
+                                                    .addGap(112, 112, 112)
+                                                    .addComponent(chkPhieuXuatCreate)
+                                                    .addGap(122, 122, 122)
+                                                    .addComponent(chkPhieuXuatUpdate))
+                                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                                    .addComponent(chkThuocTinhView)
+                                                    .addGap(112, 112, 112)
+                                                    .addComponent(chkThuocTinhCreate)
+                                                    .addGap(122, 122, 122)
+                                                    .addComponent(chkThuocTinhUpdate))
+                                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                                    .addComponent(chkKhachHangView)
+                                                    .addGap(112, 112, 112)
+                                                    .addComponent(chkKhachHangCreate)
+                                                    .addGap(122, 122, 122)
+                                                    .addComponent(chkKhachHangUpdate))
+                                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                                    .addComponent(chkNhaCungCapView)
+                                                    .addGap(112, 112, 112)
+                                                    .addComponent(chkNhaCungCapCreate)
+                                                    .addGap(122, 122, 122)
+                                                    .addComponent(chkNhaCungCapUpdate))))
+                                        .addComponent(jLabel9))
+                                    .addGap(90, 90, 90)
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(chkNhaCungCapDelete)
+                                        .addComponent(chkKhachHangDelete)
+                                        .addComponent(chkThuocTinhDelete)
+                                        .addComponent(chkPhieuXuatDelete)
+                                        .addComponent(chkPhieuNhapDelete)
+                                        .addComponent(chkKhuVucKhoDelete)
+                                        .addComponent(chkSanPhamDelete)
+                                        .addComponent(chkNhomQuyenDelete)
+                                        .addComponent(chkTaiKhoanDelete)
+                                        .addComponent(chkThongKeDelete)
+                                        .addComponent(jLabel7)
+                                        .addComponent(chkNhanVienDelete)))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel16)))
                 .addGap(15, 15, 15))
@@ -403,7 +397,7 @@ public class UserRightsAddDialog extends JDialog {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(10, 10, 10)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(chkNhaCungCapView)
@@ -432,89 +426,79 @@ public class UserRightsAddDialog extends JDialog {
                                                                                             .addGroup(jPanel3Layout.createSequentialGroup()
                                                                                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                                                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                                                                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                                                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                                                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                                                                    .addComponent(txtTenNhomQuyen, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                                    .addComponent(jLabel16))
-                                                                                                                .addGap(15, 15, 15)
-                                                                                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                                                                    .addComponent(jLabel1)
-                                                                                                                    .addComponent(jLabel4)
-                                                                                                                    .addComponent(jLabel5)
-                                                                                                                    .addComponent(jLabel6)
-                                                                                                                    .addComponent(jLabel7))
-                                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                                    .addComponent(jLabel2)
-                                                                                                                    .addComponent(chkThongKeView)
-                                                                                                                    .addComponent(chkThongKeUpdate)
-                                                                                                                    .addComponent(chkThongKeDelete)))
-                                                                                                            .addComponent(chkThongKeCreate))
-                                                                                                        .addGap(18, 18, 18)
+                                                                                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                                                            .addComponent(txtTenNhomQuyen, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                            .addComponent(jLabel16))
+                                                                                                        .addGap(15, 15, 15)
+                                                                                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                                                            .addComponent(jLabel1)
+                                                                                                            .addComponent(jLabel4)
+                                                                                                            .addComponent(jLabel5)
+                                                                                                            .addComponent(jLabel6)
+                                                                                                            .addComponent(jLabel7))
+                                                                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                                                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                            .addComponent(jLabel8)
-                                                                                                            .addComponent(chkTaiKhoanDelete)))
-                                                                                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                        .addComponent(chkTaiKhoanView)
-                                                                                                        .addComponent(chkTaiKhoanUpdate))
-                                                                                                    .addComponent(chkTaiKhoanCreate))
+                                                                                                            .addComponent(jLabel2)
+                                                                                                            .addComponent(chkThongKeView)
+                                                                                                            .addComponent(chkThongKeUpdate)
+                                                                                                            .addComponent(chkThongKeDelete)))
+                                                                                                    .addComponent(chkThongKeCreate))
                                                                                                 .addGap(18, 18, 18)
                                                                                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                    .addComponent(jLabel9)
-                                                                                                    .addComponent(chkNhanVienDelete)))
+                                                                                                    .addComponent(jLabel8)
+                                                                                                    .addComponent(chkTaiKhoanDelete)))
                                                                                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                .addComponent(chkNhanVienView)
-                                                                                                .addComponent(chkNhanVienUpdate))
-                                                                                            .addComponent(chkNhanVienCreate))
+                                                                                                .addComponent(chkTaiKhoanView)
+                                                                                                .addComponent(chkTaiKhoanUpdate))
+                                                                                            .addComponent(chkTaiKhoanCreate))
                                                                                         .addGap(18, 18, 18)
                                                                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                            .addComponent(jLabel10)
-                                                                                            .addComponent(chkNhomQuyenDelete)))
+                                                                                            .addComponent(jLabel9)
+                                                                                            .addComponent(chkNhanVienDelete)))
                                                                                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                        .addComponent(chkNhomQuyenView)
-                                                                                        .addComponent(chkNhomQuyenUpdate))
-                                                                                    .addComponent(chkNhomQuyenCreate))
+                                                                                        .addComponent(chkNhanVienView)
+                                                                                        .addComponent(chkNhanVienUpdate))
+                                                                                    .addComponent(chkNhanVienCreate))
                                                                                 .addGap(18, 18, 18)
                                                                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                    .addComponent(jLabel12)
-                                                                                    .addComponent(chkSanPhamDelete)))
+                                                                                    .addComponent(jLabel10)
+                                                                                    .addComponent(chkNhomQuyenDelete)))
                                                                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                .addComponent(chkSanPhamView)
-                                                                                .addComponent(chkSanPhamUpdate))
-                                                                            .addComponent(chkSanPhamCreate))
+                                                                                .addComponent(chkNhomQuyenView)
+                                                                                .addComponent(chkNhomQuyenUpdate))
+                                                                            .addComponent(chkNhomQuyenCreate))
                                                                         .addGap(18, 18, 18)
                                                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                            .addComponent(jLabel13)
-                                                                            .addComponent(chkKhuVucKhoDelete)))
+                                                                            .addComponent(jLabel12)
+                                                                            .addComponent(chkSanPhamDelete)))
                                                                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                        .addComponent(chkKhuVucKhoView)
-                                                                        .addComponent(chkKhuVucKhoUpdate))
-                                                                    .addComponent(chkKhuVucKhoCreate))
+                                                                        .addComponent(chkSanPhamView)
+                                                                        .addComponent(chkSanPhamUpdate))
+                                                                    .addComponent(chkSanPhamCreate))
                                                                 .addGap(18, 18, 18)
                                                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                    .addComponent(jLabel14)
-                                                                    .addComponent(chkPhieuNhapDelete)))
+                                                                    .addComponent(jLabel13)
+                                                                    .addComponent(chkKhuVucKhoDelete)))
                                                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                .addComponent(chkPhieuNhapView)
-                                                                .addComponent(chkPhieuNhapUpdate))
-                                                            .addComponent(chkPhieuNhapCreate))
+                                                                .addComponent(chkKhuVucKhoView)
+                                                                .addComponent(chkKhuVucKhoUpdate))
+                                                            .addComponent(chkKhuVucKhoCreate))
                                                         .addGap(18, 18, 18)
                                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                            .addComponent(jLabel15)
-                                                            .addComponent(chkPhieuXuatDelete)))
+                                                            .addComponent(jLabel14)
+                                                            .addComponent(chkPhieuNhapDelete)))
                                                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(chkPhieuXuatView)
-                                                        .addComponent(chkPhieuXuatUpdate))
-                                                    .addComponent(chkPhieuXuatCreate))
+                                                        .addComponent(chkPhieuNhapView)
+                                                        .addComponent(chkPhieuNhapUpdate))
+                                                    .addComponent(chkPhieuNhapCreate))
                                                 .addGap(18, 18, 18)
                                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel17)
-                                                    .addComponent(chkDuyetPhieuDelete)))
+                                                    .addComponent(jLabel15)
+                                                    .addComponent(chkPhieuXuatDelete)))
                                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(chkDuyetPhieuView)
-                                                .addComponent(chkDuyetPhieuUpdate))
-                                            .addComponent(chkDuyetPhieuCreate))
+                                                .addComponent(chkPhieuXuatView)
+                                                .addComponent(chkPhieuXuatUpdate))
+                                            .addComponent(chkPhieuXuatCreate))
                                         .addGap(18, 18, 18)
                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel18)
@@ -537,8 +521,56 @@ public class UserRightsAddDialog extends JDialog {
                                 .addComponent(jLabel20))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(19, 19, 19)
-                                .addComponent(chkNhaCungCapDelete)))))
-                .addGap(15, 15, 15))
+                                .addComponent(chkNhaCungCapDelete))))))
+        );
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Quản lý duyệt phiếu", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel11.setText("Chi tiết");
+
+        jLabel21.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel21.setText("Kiểm tra");
+
+        jLabel22.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel22.setText("Xem");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel22)
+                        .addGap(90, 90, 90)
+                        .addComponent(jLabel21)
+                        .addGap(94, 94, 94)
+                        .addComponent(jLabel11))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(chkDuyetPhieuView)
+                        .addGap(112, 112, 112)
+                        .addComponent(chkDuyetPhieuCreate)
+                        .addGap(122, 122, 122)
+                        .addComponent(chkDuyetPhieuUpdate)))
+                .addGap(201, 201, 201))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel22)
+                    .addComponent(jLabel21)
+                    .addComponent(jLabel11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(chkDuyetPhieuView)
+                        .addComponent(chkDuyetPhieuUpdate))
+                    .addComponent(chkDuyetPhieuCreate))
+                .addContainerGap())
         );
 
         btnThem.setText("Thêm");
@@ -559,26 +591,32 @@ public class UserRightsAddDialog extends JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnCancel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnThem))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(15, 15, 15))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThem)
                     .addComponent(btnCancel))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -599,7 +637,6 @@ public class UserRightsAddDialog extends JDialog {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnThem;
     private javax.swing.JCheckBox chkDuyetPhieuCreate;
-    private javax.swing.JCheckBox chkDuyetPhieuDelete;
     private javax.swing.JCheckBox chkDuyetPhieuUpdate;
     private javax.swing.JCheckBox chkDuyetPhieuView;
     private javax.swing.JCheckBox chkKhachHangCreate;
@@ -648,16 +685,18 @@ public class UserRightsAddDialog extends JDialog {
     private javax.swing.JCheckBox chkThuocTinhView;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -665,6 +704,7 @@ public class UserRightsAddDialog extends JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField txtTenNhomQuyen;
     // End of variables declaration//GEN-END:variables
