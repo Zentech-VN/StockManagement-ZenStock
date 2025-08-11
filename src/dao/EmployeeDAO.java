@@ -133,12 +133,27 @@ public interface EmployeeDAO {
 
     default List<Employee> searchEmployeesProc(String keyword) {
         List<Employee> list = new ArrayList<>();
-        String sql = "{CALL sp_search_employees(?)}";
+        String sql = "SELECT * "
+                + "FROM nhanvien "
+                + "WHERE (CAST(manv AS CHAR) COLLATE utf8mb4_general_ci LIKE ? COLLATE utf8mb4_general_ci "
+                + "   OR hoten COLLATE utf8mb4_general_ci LIKE ? COLLATE utf8mb4_general_ci "
+                + "   OR CAST(gioitinh AS CHAR) COLLATE utf8mb4_general_ci LIKE ? COLLATE utf8mb4_general_ci "
+                + "   OR DATE_FORMAT(ngaysinh,'%Y-%m-%d') COLLATE utf8mb4_general_ci LIKE ? COLLATE utf8mb4_general_ci "
+                + "   OR sdt COLLATE utf8mb4_general_ci LIKE ? COLLATE utf8mb4_general_ci "
+                + "   OR email COLLATE utf8mb4_general_ci LIKE ? COLLATE utf8mb4_general_ci) "
+                + "  AND is_delete = 0";
 
-        try (Connection cn = ConnectionHelper.getConnection(); CallableStatement cs = cn.prepareCall(sql)) {
+        try (Connection cn = ConnectionHelper.getConnection(); PreparedStatement ps = cn.prepareStatement(sql)) {
 
-            cs.setString(1, keyword);
-            try (ResultSet rs = cs.executeQuery()) {
+            String kw = "%" + keyword + "%";
+            ps.setString(1, kw);
+            ps.setString(2, kw);
+            ps.setString(3, kw);
+            ps.setString(4, kw);
+            ps.setString(5, kw);
+            ps.setString(6, kw);
+
+            try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Employee e = new Employee();
                     e.setManv(rs.getInt("manv"));
