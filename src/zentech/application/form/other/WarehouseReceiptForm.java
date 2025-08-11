@@ -177,7 +177,6 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
     private void initComponents() {
 
         btnLamMoi = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
         crazyPanel1 = new raven.crazypanel.CrazyPanel();
         crazyPanel2 = new raven.crazypanel.CrazyPanel();
         txtSearch = new javax.swing.JTextField();
@@ -201,9 +200,6 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
                 btnLamMoiActionPerformed(evt);
             }
         });
-
-        jButton7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton7.setText("Xuất File");
 
         crazyPanel1.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
             "background:$Table.background;[light]border:0,0,0,0,shade(@background,5%),,20;[dark]border:0,0,0,0,tint(@background,5%),,20",
@@ -377,24 +373,17 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnLamMoi)
                 .addContainerGap())
             .addComponent(crazyPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1130, Short.MAX_VALUE)
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnLamMoi, jButton7});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(39, 39, 39)
                 .addComponent(crazyPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnLamMoi)
-                    .addComponent(jButton7))
+                .addComponent(btnLamMoi)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -419,7 +408,7 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
         int id = (int) tblPhieuNhap.getValueAt(select, 0);
         String tennhacungcap = (String) tblPhieuNhap.getValueAt(select, 1);
         String trangthai = (String) tblPhieuNhap.getValueAt(select, 4);
-        if (trangthai.equalsIgnoreCase("duyet")) {
+        if (trangthai.equalsIgnoreCase("duyệt")) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không được cập nhật phiếu nhập có trạng thái duyệt!");
             return;
         } else if (trangthai.equalsIgnoreCase("hủy")) {
@@ -522,7 +511,6 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
     private raven.crazypanel.CrazyPanel crazyPanel2;
     private raven.crazypanel.CrazyPanel crazyPanel6;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCurrentPage;
     private javax.swing.JTable tblPhieuNhap;

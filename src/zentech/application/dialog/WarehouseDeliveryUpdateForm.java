@@ -548,6 +548,7 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
         txtMaSanPham.setText(tensanpham);
         txtSoLuong.setText("1");
         txtGiaSanPham.setText(String.valueOf(gia));
+        lblDonGia.setText(String.valueOf(gia));
         this.soluongcuasanpham = soluong;
 
     }//GEN-LAST:event_tblSanPhamMouseClicked
