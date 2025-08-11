@@ -1,5 +1,6 @@
 package dao;
 
+import entity.Account;
 import entity.ChiTietQuyen;
 import entity.NhomQuyen;
 import jdbc.ConnectionHelper;
@@ -280,6 +281,24 @@ public class UserRightsDAO {
                 conn.setAutoCommit(old);
                 throw e;
             }
+        }
+    }
+
+    public Account getAccountbyMaNhomQuyen(int manhomquyen) {
+        Account acc = null;
+        String sql = "select manv from taikhoan where manhomquyen = ?";
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setInt(1, manhomquyen);
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    acc = new Account();
+                    acc.setManv(rs.getInt("manv"));
+                }
+            }
+            return acc;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

@@ -20,23 +20,23 @@ import service.WarehouseReceiptService;
 import zentech.application.form.other.WarehouseReceiptForm;
 
 public class WarehouseReceiptUpdateDialog extends JDialog {
-
+    
     int maphieunhap = 0;
     String tensanpham = "";
     String tennhacungcap = "";
-
+    
     WarehouseReceiptService wrs = new WarehouseReceiptService();
     WarehouseReceiptDAO wrd = new WarehouseReceiptDAO();
-
+    
     public WarehouseReceiptUpdateDialog(Window parent, WarehouseReceiptForm warehouseReceiptForm, int id, String tennhacungcap) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         this.maphieunhap = id;
         this.tennhacungcap = tennhacungcap;
         initComponents();
         LoadData();
-
+        
     }
-
+    
     public void initUI() {
         txtMaPhieuNhap.setEditable(false);
         tblCHiTietPhieuNhap.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
@@ -45,7 +45,7 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
         tblSanPham.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
         jTextField1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
     }
-
+    
     public void LoadData() {
         wrs.loadDataCbo1(cboNhaCungCap);
         wrs.loadDataTable1(tblSanPham);
@@ -57,7 +57,7 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
             model.addRow(new Object[]{pnct.getPh().getMaphieunhap(), pnct.getP().getTenSanPham(), pnct.getDongia(), pnct.getSoluong(), pnct.getGhichu()});
         }
     }
-
+    
     public boolean kiemtrasoluong() {
         int soluonghientai = 0;
         try {
@@ -79,7 +79,7 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
             return true;
         }
     }
-
+    
     public void LoadMoney() {
         int soluong = Integer.parseInt(txtSoLuong.getText());
         double gia = Double.parseDouble(txtGiaSanPham.getText());
@@ -87,27 +87,27 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
         BigDecimal dongia1 = new BigDecimal(dongia);
         lblDonGia.setText(String.valueOf(dongia1));
     }
-
+    
     public PhieuNhapChiTiet getUpdate() {
         PhieuNhapChiTiet pnct = new PhieuNhapChiTiet();
-
+        
         PhieuNhap ph = new PhieuNhap();
         ph.setMaphieunhap(maphieunhap);
         pnct.setPh(ph);
-
+        
         Product sp = new Product();
         int maSpMoi = wrd.getMaSanPhambyTen(txtSanPham.getText().trim());
         sp.setMaSanPham(maSpMoi);
         pnct.setP(sp);
-
+        
         BigDecimal gia = new BigDecimal(txtGiaSanPham.getText().trim());
         int sl = Integer.parseInt(txtSoLuong.getText().trim());
         pnct.setSoluong(sl);
         pnct.setDongia(gia.multiply(new BigDecimal(sl)));
-
+        
         return pnct;
     }
-
+    
     public boolean checkUpdate() {
         if (txtSanPham.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập mã sản phẩm!");
@@ -124,7 +124,7 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
             return true;
         }
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -453,9 +453,9 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
                 Window parent = SwingUtilities.getWindowAncestor(this);
                 WarehouseReceiptDetailsDialog showdetail = new WarehouseReceiptDetailsDialog(parent, null, maphieunhap);
                 showdetail.setVisible(true);
-            }else {
-                        JOptionPane.showMessageDialog(this, "Cập nhật thất bại phiếu xuất có mã " + this.maphieunhap + ".");
-                    }
+            } else {
+                JOptionPane.showMessageDialog(this, "Cập nhật thất bại phiếu xuất có mã " + this.maphieunhap + ".");
+            }
         } else {
             if (checkUpdate()) {
                 if (kiemtrasoluong()) {
@@ -527,16 +527,16 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn phiếu nhập chi tiết để chọn sản phẩm muốn cập nhật!");
             return;
         }
-
+        
         int select = tblSanPham.getSelectedRow();
-
+        
         String tensanpham = (String) tblSanPham.getValueAt(select, 1);
         BigDecimal gia = (BigDecimal) tblSanPham.getValueAt(select, 2);
-
+        
         txtSanPham.setText(tensanpham);
         txtSoLuong.setText("1");
         txtGiaSanPham.setText(String.valueOf(gia));
-
+        lblDonGia.setText(String.valueOf(gia));
     }//GEN-LAST:event_tblSanPhamMouseClicked
 
     private void tblCHiTietPhieuNhapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCHiTietPhieuNhapMouseClicked
@@ -545,14 +545,14 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
         String tensanpham = (String) tblCHiTietPhieuNhap.getValueAt(selectRow, 1);
         BigDecimal dongia = (BigDecimal) tblCHiTietPhieuNhap.getValueAt(selectRow, 2);
         int soluong = (int) tblCHiTietPhieuNhap.getValueAt(selectRow, 3);
-
+        
         txtSanPham.setText(tensanpham);
         txtSoLuong.setText(String.valueOf(soluong));
         lblDonGia.setText(String.valueOf(dongia));
-
+        
         int id = wrd.getMaSanPhambyTen(tensanpham);
         txtGiaSanPham.setText(String.valueOf(wrd.getdongiabyid(id)));
-
+        
         this.tensanpham = tensanpham;
     }//GEN-LAST:event_tblCHiTietPhieuNhapMouseClicked
 

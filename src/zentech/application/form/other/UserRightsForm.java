@@ -2,6 +2,7 @@ package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import dao.UserRightsDAO;
+import entity.Account;
 import entity.ChiTietQuyen;
 import entity.Employee;
 import entity.NhomQuyen;
@@ -12,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -236,23 +238,23 @@ public class UserRightsForm extends javax.swing.JPanel {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng chọn nhóm quyền muốn sửa!");
             return;
         }
-        int id = (int) tblRole.getSelectedRow();
-        try {
-            int result = urd.xoaNhomQuyen(id);
-            if (result == 1) {
-                Notifications.getInstance().show(Notifications.Type.SUCCESS,
-                        Notifications.Location.TOP_CENTER, "Đã xoá nhóm quyền!");
-                LoadDataTable();
-            } else if (result == -1) {
-
-                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không thể xoá vì vẫn còn tài khoản đang thuộc nhóm này.\n"
-                        + "Hãy chuyển các tài khoản sang nhóm khác trước.");
-            } else {
-                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không tìm thấy nhóm để xoá.");
+        int confrim = JOptionPane.showConfirmDialog(this, "Bạn muốn xóa?", "Xóa quyền", JOptionPane.YES_NO_OPTION);
+        if (confrim == JOptionPane.YES_OPTION) {
+            int id = (int) tblRole.getValueAt(select, 0);
+            Account check = urd.getAccountbyMaNhomQuyen(id);
+            if (check != null) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vẫn còn tài khoản có quyền này!");
+                return;
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Lỗi khi xoá: " + ex.getMessage());
+            try {
+                int rs = urd.xoaNhomQuyen(id);
+                if (rs > 0) {
+                    Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Xóa nhóm quyền thành công!");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(UserRightsForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
         LoadDataTable();
     }//GEN-LAST:event_btnDeleteActionPerformed
@@ -265,7 +267,7 @@ public class UserRightsForm extends javax.swing.JPanel {
                     "Vui lòng chọn nhóm quyền muốn xem chi tiết!");
             return;
         }
-        int id = (int) tblRole.getValueAt(select, 0);   
+        int id = (int) tblRole.getValueAt(select, 0);
         Window parent = SwingUtilities.getWindowAncestor(this);
         UserRightsDetailsDialog dlg = new UserRightsDetailsDialog(parent, this, id);
         dlg.setVisible(true);

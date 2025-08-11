@@ -815,23 +815,27 @@ public class WarehouseDeliveryAddForm extends JDialog {
 
     private void btnTaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoActionPerformed
         // TODO add your handling code here:
-        if (txtMaKhachHang.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng để tạo phiếu!");
-            return;
-        }
-        if (getAllProduct() == null) {
-            JOptionPane.showMessageDialog(this, "Vui lòng thêm sản phẩm để tạo phiếu nhập");
-            return;
+        int chooser = JOptionPane.showConfirmDialog(this, "Bạn muốn tạo phiếu xuất?", "Tạo phiếu xuất", JOptionPane.YES_OPTION);
+        if (chooser == JOptionPane.YES_OPTION) {
+            if (txtMaKhachHang.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng để tạo phiếu!");
+                return;
+            }
+            if (getAllProduct() == null) {
+                JOptionPane.showMessageDialog(this, "Vui lòng thêm sản phẩm để tạo phiếu nhập");
+                return;
+            }
+
+            boolean rs = wdd.TaoPhieuXuat(getAllProduct(), getFrom());
+            if (rs == true) {
+                JOptionPane.showMessageDialog(this, "Tạo phiếu xuất thành công");
+                this.dispose();
+                Window parent = SwingUtilities.getWindowAncestor(this);
+                WarehouseDeliveryDetailForm detail = new WarehouseDeliveryDetailForm(parent, null, wdd.getMaPhieuXuatVuaTao());
+                detail.setVisible(true);
+            }
         }
 
-        boolean rs = wdd.TaoPhieuXuat(getAllProduct(), getFrom());
-        if (rs == true) {
-            JOptionPane.showMessageDialog(this, "Tạo phiếu xuất thành công");
-            this.dispose();
-            Window parent = SwingUtilities.getWindowAncestor(this);
-            WarehouseDeliveryDetailForm detail = new WarehouseDeliveryDetailForm(parent, null, wdd.getMaPhieuXuatVuaTao());
-            detail.setVisible(true);
-        }
     }//GEN-LAST:event_btnTaoActionPerformed
 
     private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
