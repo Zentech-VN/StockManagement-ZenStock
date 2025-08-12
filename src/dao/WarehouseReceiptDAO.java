@@ -279,7 +279,6 @@ public class WarehouseReceiptDAO {
     public int UpdatePhieuNhapChiTiet(PhieuNhapChiTiet pnct, int masanpham) {
         String sql = "Update ctphieunhap set masanpham = ?, soluong = ?, dongia = ? where maphieunhap = ? and masanpham = ?";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
-            
             pst.setInt(1, pnct.getP().getMaSanPham());
             pst.setInt(2, pnct.getSoluong());
             pst.setBigDecimal(3, pnct.getDongia());
@@ -334,5 +333,5 @@ public class WarehouseReceiptDAO {
         
         return count;
     }
-    
+
 }
