@@ -1,12 +1,10 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import dao.ProductAreaDAO;
 import dao.UserRightsDAO;
 import dao.WarehouseDAO;
 import entity.ChiTietQuyen;
 import entity.Employee;
-import entity.ProductArea;
 import entity.Warehouse;
 import java.awt.Component;
 import java.util.List;
@@ -35,8 +33,7 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
         }
     };
     private UserRightsDAO urd = new UserRightsDAO();
-    private Employee CurrentAcc;
-    ProductAreaDAO pad = new ProductAreaDAO();
+        private Employee CurrentAcc;
 
     public WarehouseManagementForm(Employee acc) {
         initComponents();
@@ -47,7 +44,7 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
         initUITable2(tblSanPham);
         load();
     }
-
+    
     public boolean check(List<ChiTietQuyen> list, String hanhdong, String machucnang) {
         for (ChiTietQuyen chitietquyen : list) {
             if (chitietquyen.getHanhdong() != null && chitietquyen.getHanhdong().equals(hanhdong)
@@ -345,11 +342,6 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
         int id = (int) tbl10.getValueAt(select, 0);
         int confrim = JOptionPane.showConfirmDialog(this, "Bạn muốn xóa kho có mã " + id + ".", "Delete", JOptionPane.YES_NO_OPTION);
         if (confrim == JOptionPane.YES_OPTION) {
-            int checkdelete = pad.checkdelete(id);
-            if (checkdelete > 0) {
-                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng không xóa kho có sản phẩm");
-                return;
-            }
             boolean rs = wd.deleteWarehouseById(id);
             if (rs == true) {
                 Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Xóa thành công kho có mã " + id + ".");

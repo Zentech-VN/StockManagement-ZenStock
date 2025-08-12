@@ -22,6 +22,5 @@ public class Supplier {
     String email;
     String sdt;
     Integer trangThai;
-    int is_delete;
 
 }
