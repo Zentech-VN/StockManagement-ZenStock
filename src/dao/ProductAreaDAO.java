@@ -1,6 +1,5 @@
 package dao;
 
-import entity.Product;
 import entity.ProductArea;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -42,6 +41,22 @@ public class ProductAreaDAO {
         return list;
     }
 
+    public int checkdelete(int makhuvuc) {
+        int checksanoham = 0;
+        String sql = "SELECT count(masanpham) AS total FROM zentechStockManagement.khuvuckho_sanpham WHERE makhuvuc = ?";
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+
+            pst.setInt(1, makhuvuc);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    checksanoham = rs.getInt("total");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return checksanoham;
+    }
 //    public List<ProductArea> getProduct() {
 //        List<ProductArea> lista = new ArrayList<>();
 //        String sql = "select khuvuckho_ctsanpham.maimei, sanpham.tensp, khuvuckho_ctsanpham.soluong, sanpham.gia, ctsanpham.trangthai\n"

@@ -5,6 +5,8 @@ import dao.WarehouseReceiptDAO;
 import entity.Employee;
 import entity.PhieuNhap;
 import entity.PhieuNhapChiTiet;
+import entity.ProductArea;
+import entity.Supplier;
 import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Window;
@@ -53,8 +55,8 @@ public class WarehouseReceiptAddDialog extends JDialog {
 
     public void editFrom() {
         tblSanPham.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
-        wrs.loadDataCbo1(jComboBox1);
-        wrs.loadDataTable1(tblSanPham);
+        LoadDataCBONhaCungCap();
+        LoadDataSanPham();
         txtKho.setEditable(false);
         txtMaSanPham.setEditable(false);
         txtTenSP.setEditable(false);
@@ -67,6 +69,32 @@ public class WarehouseReceiptAddDialog extends JDialog {
         txtTenSP.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tên sản phẩm...");
         txtghichu.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Ghi chú...");
         jTextField1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
+    }
+
+    public void LoadDataCBONhaCungCap() {
+        jComboBox1.removeAllItems();
+        for (Supplier s : wrd.getAllNhaCungCap()) {
+            if (s.getIs_delete() == 0) {
+                jComboBox1.addItem(s.getTenNhaCungCap());
+
+            }
+        }
+    }
+
+    public void LoadDataSanPham() {
+        DefaultTableModel model = (DefaultTableModel) tblSanPham.getModel();
+        model.setRowCount(0);
+        for (ProductArea pa : wrd.GetProducArea()) {
+            if (pa.getP().getIs_delete() == 0) {
+                model.addRow(new Object[]{
+                    pa.getP().getMaSanPham(),
+                    pa.getP().getTenSanPham(),
+                    pa.getP().getGia(),
+                    pa.getW().getMaKhuVuc(),
+                    pa.getSoluong()
+                });
+            }
+        }
     }
 
     private TableCellRenderer getAlignmentCellRender(TableCellRenderer oldRender, boolean header) {
