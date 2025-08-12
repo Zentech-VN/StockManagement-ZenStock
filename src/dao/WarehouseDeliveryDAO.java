@@ -15,9 +15,9 @@ import javax.swing.JOptionPane;
 import jdbc.ConnectionHelper;
 
 public class WarehouseDeliveryDAO {
-    
+
     int maphieuxuatvuatao = 0;
-    
+
     public int getMaSanPhambyTen(String tensanpham) {
         String sql = "select masanpham from sanpham where tensp = ?";
         int id = 0;
@@ -34,18 +34,18 @@ public class WarehouseDeliveryDAO {
             return 0;
         }
     }
-    
+
     public List<PhieuXuat> getAllPhieuNhap(int page, int pageSize) {
         List<PhieuXuat> list = new ArrayList<>();
         String sql = "select * from phieuxuat join khachhang on phieuxuat.makhachhang = khachhang.makhachhang join nhanvien on phieuxuat.nguoitao = nhanvien.manv LIMIT ? OFFSET ?";
-        
+
         int offset = (page - 1) * pageSize;
-        
+
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            
+
             ps.setInt(1, pageSize);
             ps.setInt(2, offset);
-            
+
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     PhieuXuat px = new PhieuXuat();
@@ -57,17 +57,17 @@ public class WarehouseDeliveryDAO {
                     list.add(px);
                 }
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
         return list;
     }
-    
+
     public List<ProductArea> GetProducArea() {
         List<ProductArea> list = new ArrayList<>();
-        String sql = "select khuvuckho_sanpham.makhuvuc, sanpham.masanpham, sanpham.tensp, khuvuckho.tenkhuvuc, sanpham.gia, soluong, sanpham.is_delete\n"
+        String sql = "select khuvuckho_sanpham.makhuvuc, sanpham.masanpham, sanpham.tensp, khuvuckho.tenkhuvuc, sanpham.gia, soluong\n"
                 + "from khuvuckho_sanpham join sanpham on khuvuckho_sanpham.masanpham = sanpham.masanpham\n"
                 + "join khuvuckho on khuvuckho_sanpham.makhuvuc = khuvuckho.makhuvuc";
         try (Connection conn = ConnectionHelper.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
@@ -76,9 +76,8 @@ public class WarehouseDeliveryDAO {
                 pa.getW().setMaKhuVuc(rs.getInt("khuvuckho_sanpham.makhuvuc"));
                 pa.getP().setMaSanPham(rs.getInt("sanpham.masanpham"));
                 pa.getP().setTenSanPham(rs.getString("sanpham.tensp"));
-                
+
                 pa.getP().setGia(rs.getBigDecimal("sanpham.gia"));
-                pa.getP().setIs_delete(rs.getInt("sanpham.is_delete"));
                 pa.getW().setTenKhuVuc(rs.getString("khuvuckho.tenkhuvuc"));
                 pa.setSoluong(rs.getInt("soluong"));
                 list.add(pa);
@@ -89,7 +88,7 @@ public class WarehouseDeliveryDAO {
         }
         return list;
     }
-    
+
     public List<Client> getAllKhachHang() {
         List<Client> list = new ArrayList<>();
         String sql = "select * from khachhang Where is_delete = 0 and trangthai= 'MoKhoa'";
@@ -106,16 +105,16 @@ public class WarehouseDeliveryDAO {
             return null;
         }
     }
-    
+
     public int getMaPhieuXuatVuaTao() {
         return this.maphieuxuatvuatao;
     }
-    
+
     public boolean TaoPhieuXuat(List<PhieuXuatChiTiet> list, PhieuXuat px) {
         String sql_PhieuXuat = "INSERT INTO phieuxuat (makhachhang, nguoitao, thoigian, trangthai) VALUES (?,?,?,?)";
         String sql_PhieuXuatChiTiet = "insert into ctphieuxuat values (?,?,?,?,?)";
         int maphieuxuat = 0;
-        
+
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst_PhieuXuat = conn.prepareStatement(sql_PhieuXuat, Statement.RETURN_GENERATED_KEYS)) {
             conn.setAutoCommit(false);
             //tạo phiếu xuất
@@ -123,7 +122,7 @@ public class WarehouseDeliveryDAO {
             pst_PhieuXuat.setInt(2, px.getNhanvien().getManv());
             pst_PhieuXuat.setDate(3, px.getThoigian());
             pst_PhieuXuat.setString(4, px.getTrangthai());
-            
+
             int rs_phieuxuat = pst_PhieuXuat.executeUpdate();
             if (rs_phieuxuat == 0) {
                 JOptionPane.showMessageDialog(null, "Tạo phiếu xuất thất bại!");
@@ -155,7 +154,7 @@ public class WarehouseDeliveryDAO {
                     pst_ctphieuxuat.setString(5, pxct.getGhichu());
                     pst_ctphieuxuat.addBatch();
                 }
-                
+
                 int[] rs_ctphieuxuat = pst_ctphieuxuat.executeBatch();
                 for (int i : rs_ctphieuxuat) {
                     if (i == -1) {
@@ -163,7 +162,7 @@ public class WarehouseDeliveryDAO {
                         return false;
                     }
                 }
-                
+
                 conn.commit();
                 return true;
             } catch (Exception e) {
@@ -171,13 +170,13 @@ public class WarehouseDeliveryDAO {
                 conn.rollback();
                 return false;
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
-    
+
     public int xoaphieuxuat(int id) {
         String sql_phieuxuat = "delete from phieuxuat where maphieuxuat = ?";
         String sql_ctphieuxuat = "delete from ctphieuxuat where maphieuxuat = ?";
@@ -198,14 +197,14 @@ public class WarehouseDeliveryDAO {
                 e.printStackTrace();
                 return 0;
             }
-            conn.commit();            
+               conn.commit(); 
             return rs_phieunhap;
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }
     }
-    
+
     public int capnhatphieuxuat(int maphieuxuat, int makhachhang) {
         String sql = "update phieuxuat set makhachhang = ? where maphieuxuat = ?";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
@@ -217,7 +216,7 @@ public class WarehouseDeliveryDAO {
             return 0;
         }
     }
-    
+
     public int capnhapchitietphieuxuat(PhieuXuatChiTiet pxct, int masanphamCu) {
         String sql = "UPDATE ctphieuxuat SET masanpham = ?, dongia = ?, soluong = ?, ghichu = ? WHERE maphieuxuat = ? AND masanpham = ?";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
@@ -227,14 +226,14 @@ public class WarehouseDeliveryDAO {
             pst.setString(4, pxct.getGhichu());
             pst.setInt(5, pxct.getPhieuxuat().getMaphieuxuat());
             pst.setInt(6, masanphamCu);
-            
+
             return pst.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }
     }
-    
+
     public int getMaKhachHangbyTen(String tenkhachhang) {
         String sql = "select makhachhang from khachhang where tenkhachhang = ?";
         int id = 0;
@@ -250,7 +249,7 @@ public class WarehouseDeliveryDAO {
             return 0;
         }
     }
-    
+
     public Client getKhachHangbyId(String tenkhachhang) {
         Client c = null;
         String sql = "select * from khachhang where tenkhachhang = ?";
@@ -268,7 +267,7 @@ public class WarehouseDeliveryDAO {
             return null;
         }
     }
-    
+
     public List<PhieuXuatChiTiet> getAllPhieuXuatChiTiet(int maphieuxuat) {
         List<PhieuXuatChiTiet> list = new ArrayList<>();
         String sql = "select * from ctphieuxuat join sanpham on ctphieuxuat.masanpham = sanpham.masanpham where maphieuxuat = ?";
@@ -291,7 +290,7 @@ public class WarehouseDeliveryDAO {
             return null;
         }
     }
-    
+
     public List<PhieuXuatChiTiet> getPhieuXuatById(int maphieuxuat) {
         List<PhieuXuatChiTiet> list = new ArrayList<>();
         String sql
@@ -302,7 +301,7 @@ public class WarehouseDeliveryDAO {
                 + "JOIN nhanvien nv ON px.nguoitao = nv.manv "
                 + "JOIN sanpham sp ON pxct.masanpham = sp.masanpham "
                 + "WHERE px.maphieuxuat = ?";
-        
+
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setInt(1, maphieuxuat); // Sử dụng tham số thay vì hardcode
 
@@ -323,7 +322,7 @@ public class WarehouseDeliveryDAO {
                 pxct.setDongia(rs.getBigDecimal("pxct.dongia"));
                 pxct.setSoluong(rs.getInt("pxct.soluong"));
                 pxct.setGhichu(rs.getString("pxct.ghichu"));
-                
+
                 list.add(pxct);
             }
             return list;
@@ -332,7 +331,7 @@ public class WarehouseDeliveryDAO {
             return null;
         }
     }
-    
+
     public BigDecimal getdongiabyid(int masanpham) {
         String sql = "select gia from sanpham where masanpham = ?";
         BigDecimal gia = null;
@@ -349,22 +348,22 @@ public class WarehouseDeliveryDAO {
             return null;
         }
     }
-    
+
     public int getDeliveryCount() {
         int count = 0;
         String sql = "SELECT COUNT(*) FROM phieuxuat";
-        
+
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-            
+
             if (rs.next()) {
                 count = rs.getInt(1);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return count;
     }
-    
+
 }

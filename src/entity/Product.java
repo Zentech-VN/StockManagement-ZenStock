@@ -37,7 +37,5 @@ public class Product {
     int maXuatXu;
     int maHeDieuHanh;
     int maThuongHieu;
-    
-    int is_delete;
 
 }

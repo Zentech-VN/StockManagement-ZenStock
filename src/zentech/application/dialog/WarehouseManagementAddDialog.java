@@ -20,6 +20,7 @@ public class WarehouseManagementAddDialog extends JDialog {
         initComponents();
 
         initialUI();
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sửa kho", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
     }
 
     private void initialUI() {
