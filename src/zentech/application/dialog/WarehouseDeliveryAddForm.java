@@ -88,14 +88,16 @@ public class WarehouseDeliveryAddForm extends JDialog {
         DefaultTableModel model = (DefaultTableModel) tblSanPham.getModel();
         model.setRowCount(0);
         for (ProductArea pa : wdd.GetProducArea()) {
-            model.addRow(
-                    new Object[]{
-                        pa.getP().getMaSanPham(),
-                        pa.getP().getTenSanPham(),
-                        pa.getP().getGia(),
-                        pa.getW().getMaKhuVuc(),
-                        pa.getSoluong()
-                    });
+            if (pa.getP().getIs_delete() == 0) {
+                model.addRow(
+                        new Object[]{
+                            pa.getP().getMaSanPham(),
+                            pa.getP().getTenSanPham(),
+                            pa.getP().getGia(),
+                            pa.getW().getMaKhuVuc(),
+                            pa.getSoluong()
+                        });
+            }
         }
     }
 

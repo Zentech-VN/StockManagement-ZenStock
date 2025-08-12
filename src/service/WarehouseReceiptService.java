@@ -60,7 +60,6 @@ public class WarehouseReceiptService {
 //        };
 //        worker.execute();
 //    }
-
     public void loadDataCbo1(JComboBox<String> nhacungcap) {
         SwingWorker<List<Supplier>, Void> worker = new SwingWorker<List<Supplier>, Void>() {
             @Override
@@ -74,7 +73,9 @@ public class WarehouseReceiptService {
                     List<Supplier> list = get();
                     nhacungcap.removeAllItems();
                     for (Supplier s : list) {
-                        nhacungcap.addItem(s.getTenNhaCungCap());
+                        if (s.getIs_delete() == 0) {
+                            nhacungcap.addItem(s.getTenNhaCungCap());
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -100,13 +101,15 @@ public class WarehouseReceiptService {
                     model.setRowCount(0);
 
                     for (ProductArea pa : list) {
-                        model.addRow(new Object[]{
-                            pa.getP().getMaSanPham(),
-                            pa.getP().getTenSanPham(),
-                            pa.getP().getGia(),
-                            pa.getW().getMaKhuVuc(),
-                            pa.getSoluong()
-                        });
+                        if (pa.getP().getIs_delete() == 0) {
+                            model.addRow(new Object[]{
+                                pa.getP().getMaSanPham(),
+                                pa.getP().getTenSanPham(),
+                                pa.getP().getGia(),
+                                pa.getW().getMaKhuVuc(),
+                                pa.getSoluong()
+                            });
+                        }
                     }
 
                 } catch (Exception e) {

@@ -450,7 +450,7 @@ public class UserRightsUpdateDialog extends JDialog {
                                                 .addGap(122, 122, 122)
                                                 .addComponent(jCheckBox52))))
                                     .addComponent(jLabel9))
-                                .addGap(137, 137, 137)
+                                .addGap(112, 112, 112)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jCheckBox51)
                                     .addComponent(jCheckBox46)
