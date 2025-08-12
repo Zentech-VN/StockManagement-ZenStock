@@ -182,6 +182,11 @@ public class CustomerManagement extends javax.swing.JPanel {
         ));
 
         jTextField3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField3KeyReleased(evt);
+            }
+        });
         crazyPanel4.add(jTextField3);
 
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -302,6 +307,11 @@ public class CustomerManagement extends javax.swing.JPanel {
         ));
 
         jTextField4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextField4.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField4KeyReleased(evt);
+            }
+        });
         crazyPanel2.add(jTextField4);
 
         jButton8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -471,6 +481,16 @@ public class CustomerManagement extends javax.swing.JPanel {
         loadDataTable(jTable1, jTable2, true);
         loadDataTable(jTable1, jTable2, false);
     }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jTextField3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyReleased
+        // TODO add your handling code here:
+        cls.search(jTable1, jTextField3);
+    }//GEN-LAST:event_jTextField3KeyReleased
+
+    private void jTextField4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField4KeyReleased
+        // TODO add your handling code here:
+        cls.search(jTable2, jTextField4);
+    }//GEN-LAST:event_jTextField4KeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
