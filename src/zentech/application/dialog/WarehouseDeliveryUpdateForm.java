@@ -601,7 +601,7 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
                 return;
             }
             if (kiemtrasoluong()) {
-                int rs = wdd.capnhapchitietphieuxuat(getFrom(), wdd.getMaSanPhambyTen(txtMaSanPham.getText()));
+                int rs = wdd.capnhapchitietphieuxuat(getFrom(), wdd.getMaSanPhambyTen(this.tensanpham));
                 if (rs > 0) {
                     JOptionPane.showMessageDialog(this, "Cập nhật thành công phiếu xuất có mã " + this.maphieuxuat + ".");
                     this.dispose();

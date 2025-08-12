@@ -39,7 +39,7 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
     private int currentPage = 1;
     private final int pageSize = 50;  // số dòng mỗi trang
     private int totalPages = 1;
-    
+
     public WarehouseReceiptForm(Employee acc) {
         this.CurrentAcc = acc;
         initComponents();
@@ -47,7 +47,7 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
         loadDataTable();
         load();
     }
-    
+
     public boolean check(List<ChiTietQuyen> list, String hanhdong, String machucnang) {
         for (ChiTietQuyen chitietquyen : list) {
             if (chitietquyen.getHanhdong() != null && chitietquyen.getHanhdong().equals(hanhdong)
@@ -110,7 +110,7 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
             }
         };
     }
-    
+
     public String settrangthai(String trangthai) {
         if (trangthai.equalsIgnoreCase("choduyet")) {
             return "Chờ duyệt";
@@ -120,7 +120,7 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
             return "Hủy";
         }
     }
-    
+
     public void loadDataTable() {
         SwingWorker<List<Object[]>, Void> worker = new SwingWorker<List<Object[]>, Void>() {
             @Override
@@ -450,7 +450,6 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Vui lòng chọn phiếu nhập để xóa!");
             return;
         }
-        int id = (int) tblPhieuNhap.getValueAt(select, 0);
         String trangthai = (String) tblPhieuNhap.getValueAt(select, 4);
         if (trangthai.equalsIgnoreCase("duyệt")) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không được xóa phiếu nhập có trạng thái duyệt!");
@@ -459,9 +458,13 @@ public class WarehouseReceiptForm extends javax.swing.JPanel {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Không được xóa phiếu có trạng thái hủy!");
             return;
         }
-        int rs = wrd.xoaphieunhap(id);
-        if (rs > 0) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Xóa thành công phiếu nhập có mã " + id + "!");
+        int confrim = JOptionPane.showConfirmDialog(this, "Bạn muốn xóa phiếu nhập", "Xóa phiếu nhập", JOptionPane.YES_NO_OPTION);
+        if (confrim == JOptionPane.YES_OPTION) {
+            int id = (int) tblPhieuNhap.getValueAt(select, 0);
+            int rs = wrd.xoaphieunhap(id);
+            if (rs > 0) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Xóa thành công phiếu nhập có mã " + id + "!");
+            }
         }
         loadDataTable();
     }//GEN-LAST:event_jButton1ActionPerformed

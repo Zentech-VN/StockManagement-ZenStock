@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.RowFilter;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
 import javax.swing.SwingConstants;
@@ -52,7 +53,7 @@ public class ProductForm extends javax.swing.JPanel {
         initSearchListener();
         load();
     }
-    
+
     public boolean check(List<ChiTietQuyen> list, String hanhdong, String machucnang) {
         for (ChiTietQuyen chitietquyen : list) {
             if (chitietquyen.getHanhdong() != null && chitietquyen.getHanhdong().equals(hanhdong)
@@ -343,6 +344,11 @@ public class ProductForm extends javax.swing.JPanel {
         ));
 
         txtSearch.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
         crazyPanel2.add(txtSearch);
 
         btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -598,6 +604,14 @@ public class ProductForm extends javax.swing.JPanel {
             }
         });
     }//GEN-LAST:event_btnLastActionPerformed
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        // TODO add your handling code here:
+        DefaultTableModel ob = (DefaultTableModel) tblSanPham.getModel();
+        TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(ob);
+        tblSanPham.setRowSorter(obj);
+        obj.setRowFilter(RowFilter.regexFilter(txtSearch.getText()));
+    }//GEN-LAST:event_txtSearchKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;

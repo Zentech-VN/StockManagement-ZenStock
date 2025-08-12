@@ -278,11 +278,11 @@ public class WarehouseReceiptDAO {
         String sql = "Update ctphieunhap set masanpham = ?, soluong = ?, dongia = ? where maphieunhap = ? and masanpham = ?";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
 
-            pst.setInt(1, masanpham);
+            pst.setInt(1, pnct.getP().getMaSanPham());
             pst.setInt(2, pnct.getSoluong());
             pst.setBigDecimal(3, pnct.getDongia());
             pst.setInt(4, pnct.getPh().getMaphieunhap());
-            pst.setInt(5, pnct.getP().getMaSanPham());
+            pst.setInt(5, masanpham);
             return pst.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -295,7 +295,6 @@ public class WarehouseReceiptDAO {
         String sql_ctphieunhap = "delete from ctphieunhap where maphieunhap = ?";
         int rs_phieunhap = 0;
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst_ctphieunhap = conn.prepareStatement(sql_ctphieunhap)) {
-            conn.setAutoCommit(false);
             pst_ctphieunhap.setInt(1, id);
             int rs_ctphieunhap = pst_ctphieunhap.executeUpdate();
             if (rs_ctphieunhap == -1) {
@@ -333,5 +332,5 @@ public class WarehouseReceiptDAO {
 
         return count;
     }
-    
+
 }
