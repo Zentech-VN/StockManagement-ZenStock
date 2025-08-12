@@ -18,9 +18,9 @@ import javax.swing.JOptionPane;
 import jdbc.ConnectionHelper;
 
 public class WarehouseReceiptDAO {
-
+    
     int getmaphieunhap = 0;
-
+    
     public int getMaSanPhambyTen(String tensanpham) {
         String sql = "select masanpham from sanpham where tensp = ?";
         int id = 0;
@@ -37,7 +37,7 @@ public class WarehouseReceiptDAO {
             return 0;
         }
     }
-
+    
     public BigDecimal getdongiabyid(int masanpham) {
         String sql = "select gia from sanpham where masanpham = ?";
         BigDecimal gia = null;
@@ -54,18 +54,18 @@ public class WarehouseReceiptDAO {
             return null;
         }
     }
-
+    
     public List<PhieuNhap> getAllentries(int page, int pageSize) {
         List<PhieuNhap> listp = new ArrayList<>();
         String sql = "select * from phieunhap join nhanvien on phieunhap.nguoitao = nhanvien.manv join nhacungcap on phieunhap.manhacungcap = nhacungcap.manhacungcap LIMIT ? OFFSET ?";
-
+        
         int offset = (page - 1) * pageSize;
-
+        
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
+            
             ps.setInt(1, pageSize);
             ps.setInt(2, offset);
-
+            
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     PhieuNhap p = new PhieuNhap();
@@ -78,14 +78,14 @@ public class WarehouseReceiptDAO {
                     listp.add(p);
                 }
             }
-
+            
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
         return listp;
     }
-
+    
     public List<Supplier> getAllNhaCungCap() {
         List<Supplier> list = new ArrayList<>();
         String sql = "SELECT * FROM nhacungcap";
@@ -98,21 +98,22 @@ public class WarehouseReceiptDAO {
                 s.setDiaChi(rs.getString("diachi"));
                 s.setEmail(rs.getString("email"));
                 s.setSdt(rs.getString("sdt"));
+                s.setIs_delete(rs.getInt("is_delete"));
 
                 // Chuyển enum sang int: MoKhoa = 0, Khoa = 1
                 String trangThaiStr = rs.getString("trangthai");
                 int trangThai = "MoKhoa".equalsIgnoreCase(trangThaiStr) ? 0 : 1;
                 s.setTrangThai(trangThai);
-
+                
                 list.add(s);
             }
-
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
     }
-
+    
     public int getMaNhaCungCap(String tennhacungcap) {
         String sql = "select manhacungcap from nhacungcap where tennhacungcap = ?";
         int id = 0;
@@ -129,10 +130,10 @@ public class WarehouseReceiptDAO {
             return 0;
         }
     }
-
+    
     public List<ProductArea> GetProducArea() {
         List<ProductArea> list = new ArrayList<>();
-        String sql = "select khuvuckho_sanpham.makhuvuc, sanpham.masanpham, sanpham.tensp, khuvuckho.tenkhuvuc, sanpham.gia, soluong\n"
+        String sql = "select khuvuckho_sanpham.makhuvuc, sanpham.masanpham, sanpham.tensp, khuvuckho.tenkhuvuc, sanpham.gia, soluong, sanpham.is_delete\n"
                 + "from khuvuckho_sanpham join sanpham on khuvuckho_sanpham.masanpham = sanpham.masanpham\n"
                 + "join khuvuckho on khuvuckho_sanpham.makhuvuc = khuvuckho.makhuvuc";
         try (Connection conn = ConnectionHelper.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
@@ -141,8 +142,9 @@ public class WarehouseReceiptDAO {
                 pa.getW().setMaKhuVuc(rs.getInt("khuvuckho_sanpham.makhuvuc"));
                 pa.getP().setMaSanPham(rs.getInt("sanpham.masanpham"));
                 pa.getP().setTenSanPham(rs.getString("sanpham.tensp"));
-
+                
                 pa.getP().setGia(rs.getBigDecimal("sanpham.gia"));
+                pa.getP().setIs_delete(rs.getInt("sanpham.is_delete"));
                 pa.getW().setTenKhuVuc(rs.getString("khuvuckho.tenkhuvuc"));
                 pa.setSoluong(rs.getInt("soluong"));
                 list.add(pa);
@@ -153,7 +155,7 @@ public class WarehouseReceiptDAO {
         }
         return list;
     }
-
+    
     public boolean checkProduct(String tenkho, String tensanpham) {
         String sql = "select sanpham.tensp \n"
                 + "from khuvuckho_sanpham join sanpham on khuvuckho_sanpham.masanpham = sanpham.masanpham\n"
@@ -166,33 +168,33 @@ public class WarehouseReceiptDAO {
         } catch (Exception e) {
             return false;
         }
-
+        
     }
-
+    
     public int getMaPhieuNhap() {
         return this.getmaphieunhap;
     }
-
+    
     public boolean TaoPhieuNhap(PhieuNhap pn, List<PhieuNhapChiTiet> listpnct) {
         String sql_phieunhap = "INSERT INTO phieunhap (manhacungcap, nguoitao, thoigian, trangthai) VALUES (?, ?, ?, ?)";
         String sql_phieunhapchitiet = "INSERT INTO ctphieunhap (maphieunhap, masanpham, dongia, soluong, ghichu) VALUES (?, ?, ?, ?, ?)";
         int maphieunhap = -1;
-
+        
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql_phieunhap, Statement.RETURN_GENERATED_KEYS)) {
-
+            
             conn.setAutoCommit(false);
-
+            
             pst.setInt(1, pn.getS().getMaNhaCungCap());
             pst.setInt(2, pn.getE().getManv());
             pst.setDate(3, (Date) pn.getNgaytao());
             pst.setString(4, "ChoDuyet");
-
+            
             if (pst.executeUpdate() == 0) {
                 conn.rollback();
                 JOptionPane.showMessageDialog(null, "Không thể tạo phiếu nhập.");
                 return false;
             }
-
+            
             try (ResultSet rs = pst.getGeneratedKeys()) {
                 if (rs.next()) {
                     maphieunhap = rs.getInt(1);
@@ -203,7 +205,7 @@ public class WarehouseReceiptDAO {
                     return false;
                 }
             }
-
+            
             try (PreparedStatement pst1 = conn.prepareStatement(sql_phieunhapchitiet)) {
                 for (PhieuNhapChiTiet pnct : listpnct) {
                     pst1.setInt(1, maphieunhap);
@@ -213,7 +215,7 @@ public class WarehouseReceiptDAO {
                     pst1.setString(5, pnct.getGhichu());
                     pst1.addBatch();
                 }
-
+                
                 int[] result = pst1.executeBatch();
                 for (int i : result) {
                     if (i == Statement.EXECUTE_FAILED) {
@@ -223,16 +225,16 @@ public class WarehouseReceiptDAO {
                     }
                 }
             }
-
+            
             conn.commit();
             return true;
-
+            
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
-
+    
     public List<PhieuNhapChiTiet> getAllPhieuNhapbyID(int id) {
         List<PhieuNhapChiTiet> listpnct = new ArrayList<>();
         String sql = "select * from phieunhap join ctphieunhap on phieunhap.maphieunhap = ctphieunhap.maphieunhap join sanpham on ctphieunhap.masanpham = sanpham.masanpham\n"
@@ -260,7 +262,7 @@ public class WarehouseReceiptDAO {
             return null;
         }
     }
-
+    
     public int UpdatePhieunhap(int maphieunhap, int manhacungcap) {
         String sql = "update phieunhap set manhacungcap = ? where maphieunhap = ?;";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
@@ -271,13 +273,13 @@ public class WarehouseReceiptDAO {
             e.printStackTrace();
             return -1;
         }
-
+        
     }
-
+    
     public int UpdatePhieuNhapChiTiet(PhieuNhapChiTiet pnct, int masanpham) {
         String sql = "Update ctphieunhap set masanpham = ?, soluong = ?, dongia = ? where maphieunhap = ? and masanpham = ?";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
-
+            
             pst.setInt(1, pnct.getP().getMaSanPham());
             pst.setInt(2, pnct.getSoluong());
             pst.setBigDecimal(3, pnct.getDongia());
@@ -289,7 +291,7 @@ public class WarehouseReceiptDAO {
             return -1;
         }
     }
-
+    
     public int xoaphieunhap(int id) {
         String sql_phieunhap = "delete from phieunhap where maphieunhap = ?";
         String sql_ctphieunhap = "delete from ctphieunhap where maphieunhap = ?";
@@ -315,22 +317,22 @@ public class WarehouseReceiptDAO {
             return 0;
         }
     }
-
+    
     public int getReciptCount() {
         int count = 0;
         String sql = "SELECT COUNT(*) FROM phieunhap";
-
+        
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-
+            
             if (rs.next()) {
                 count = rs.getInt(1);
             }
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        
         return count;
     }
-
+    
 }

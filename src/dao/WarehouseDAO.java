@@ -84,6 +84,23 @@ public interface WarehouseDAO {
         }
     }
 
+    default int checkdelete(int makhuvuc) {
+        int checksanoham = 0;
+        String sql = "SELECT count(masanpham) AS total FROM zentechStockManagement.khuvuckho_sanpham WHERE makhuvuc = ?";
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+
+            pst.setInt(1, makhuvuc);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) { // chỉ 1 dòng kết quả thôi
+                    checksanoham = rs.getInt("total");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return checksanoham;
+    }
+
     // Kiểm tra mã khu vực có tồn tại
     default boolean maKhuVucTonTai(int maKhuVuc) {
         String sql = "SELECT 1 FROM khuvuckho WHERE makhuvuc = ?";

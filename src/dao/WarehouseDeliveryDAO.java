@@ -67,7 +67,7 @@ public class WarehouseDeliveryDAO {
 
     public List<ProductArea> GetProducArea() {
         List<ProductArea> list = new ArrayList<>();
-        String sql = "select khuvuckho_sanpham.makhuvuc, sanpham.masanpham, sanpham.tensp, khuvuckho.tenkhuvuc, sanpham.gia, soluong\n"
+        String sql = "select khuvuckho_sanpham.makhuvuc, sanpham.masanpham, sanpham.tensp, khuvuckho.tenkhuvuc, sanpham.gia, soluong,sanpham.is_delete\n"
                 + "from khuvuckho_sanpham join sanpham on khuvuckho_sanpham.masanpham = sanpham.masanpham\n"
                 + "join khuvuckho on khuvuckho_sanpham.makhuvuc = khuvuckho.makhuvuc";
         try (Connection conn = ConnectionHelper.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
@@ -78,6 +78,7 @@ public class WarehouseDeliveryDAO {
                 pa.getP().setTenSanPham(rs.getString("sanpham.tensp"));
 
                 pa.getP().setGia(rs.getBigDecimal("sanpham.gia"));
+                pa.getP().setIs_delete(rs.getInt("sanpham.is_delete"));
                 pa.getW().setTenKhuVuc(rs.getString("khuvuckho.tenkhuvuc"));
                 pa.setSoluong(rs.getInt("soluong"));
                 list.add(pa);

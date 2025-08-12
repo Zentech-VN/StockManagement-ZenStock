@@ -191,7 +191,7 @@
                                       </Group>
                                       <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="137" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jCheckBox51" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jCheckBox46" alignment="0" min="-2" max="-2" attributes="0"/>
