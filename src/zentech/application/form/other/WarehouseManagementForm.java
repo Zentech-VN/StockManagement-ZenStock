@@ -328,7 +328,7 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
         jTextField1.setText("");
         DefaultTableModel model = (DefaultTableModel) tblSanPham.getModel();
         model.setRowCount(0);
-        lblSp.setText("Sản phẩm có trong kho:");
+        lblSp.setText("Sản phẩm có trong kho: ");
         ws.LoadDataKho(tbl10);
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -338,6 +338,7 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
         WarehouseManagementAddDialog w = new WarehouseManagementAddDialog(parent, null);
         w.setVisible(true);
         ws.LoadDataKho(tbl10);
+
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -367,7 +368,7 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
         // TODO add your handling code here:
-         DefaultTableModel ob = (DefaultTableModel) tbl10.getModel();
+        DefaultTableModel ob = (DefaultTableModel) tbl10.getModel();
         TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(ob);
         tbl10.setRowSorter(obj);
         obj.setRowFilter(javax.swing.RowFilter.regexFilter(jTextField1.getText()));
