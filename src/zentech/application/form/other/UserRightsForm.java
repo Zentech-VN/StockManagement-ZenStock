@@ -19,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import raven.toast.Notifications;
 import zentech.application.dialog.UserRightsAddDialog;
 import zentech.application.dialog.UserRightsDetailsDialog;
@@ -127,6 +128,12 @@ public class UserRightsForm extends javax.swing.JPanel {
                 "width 400"
             }
         ));
+
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
         crazyPanel2.add(txtSearch);
 
         btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -272,6 +279,14 @@ public class UserRightsForm extends javax.swing.JPanel {
         UserRightsDetailsDialog dlg = new UserRightsDetailsDialog(parent, this, id);
         dlg.setVisible(true);
     }//GEN-LAST:event_btnDetailsActionPerformed
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        // TODO add your handling code here:
+         DefaultTableModel ob = (DefaultTableModel) tblRole.getModel();
+        TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(ob);
+        tblRole.setRowSorter(obj);
+        obj.setRowFilter(javax.swing.RowFilter.regexFilter(txtSearch.getText()));
+    }//GEN-LAST:event_txtSearchKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;

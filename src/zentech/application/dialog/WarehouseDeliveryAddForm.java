@@ -854,9 +854,9 @@ public class WarehouseDeliveryAddForm extends JDialog {
 
     private void txtSearch1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearch1KeyReleased
         // TODO add your handling code here:
-        DefaultTableModel ob = (DefaultTableModel) tblSanPham.getModel();
+        DefaultTableModel ob = (DefaultTableModel) tblKhachHang.getModel();
         TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(ob);
-        tblSanPham.setRowSorter(obj);
+        tblKhachHang.setRowSorter(obj);
         obj.setRowFilter(javax.swing.RowFilter.regexFilter(txtSearch1.getText()));
     }//GEN-LAST:event_txtSearch1KeyReleased
 

@@ -195,7 +195,7 @@
                                           </Group>
                                           <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="chkNhaCungCapDelete" min="-2" max="-2" attributes="0"/>
                                           <Component id="chkKhachHangDelete" min="-2" max="-2" attributes="0"/>
@@ -213,11 +213,10 @@
                                   </Group>
                               </Group>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -611,6 +610,9 @@
         <Component class="javax.swing.JCheckBox" name="chkPhieuXuatCreate">
         </Component>
         <Component class="javax.swing.JCheckBox" name="chkPhieuXuatDelete">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkPhieuXuatDeleteActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JCheckBox" name="chkPhieuXuatView">
         </Component>
