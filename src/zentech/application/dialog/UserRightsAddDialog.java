@@ -272,6 +272,12 @@ public class UserRightsAddDialog extends JDialog {
         jLabel20.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel20.setText("Quản lý Nhà cung cấp");
 
+        chkPhieuXuatDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkPhieuXuatDeleteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -376,7 +382,7 @@ public class UserRightsAddDialog extends JDialog {
                                                     .addGap(122, 122, 122)
                                                     .addComponent(chkNhaCungCapUpdate))))
                                         .addComponent(jLabel9))
-                                    .addGap(90, 90, 90)
+                                    .addGap(112, 112, 112)
                                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(chkNhaCungCapDelete)
                                         .addComponent(chkKhachHangDelete)
@@ -390,9 +396,8 @@ public class UserRightsAddDialog extends JDialog {
                                         .addComponent(chkThongKeDelete)
                                         .addComponent(jLabel7)
                                         .addComponent(chkNhanVienDelete)))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel16)))
-                .addGap(15, 15, 15))
+                .addGap(6, 6, 6))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -631,6 +636,10 @@ public class UserRightsAddDialog extends JDialog {
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void chkPhieuXuatDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPhieuXuatDeleteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chkPhieuXuatDeleteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

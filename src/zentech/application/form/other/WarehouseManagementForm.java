@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableRowSorter;
 import raven.toast.Notifications;
 import service.WarehouseManagementService;
 
@@ -150,6 +151,11 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
+            }
+        });
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
             }
         });
         crazyPanel4.add(jTextField1);
@@ -322,6 +328,7 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
         jTextField1.setText("");
         DefaultTableModel model = (DefaultTableModel) tblSanPham.getModel();
         model.setRowCount(0);
+        lblSp.setText("Sản phẩm có trong kho:");
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -356,6 +363,14 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
         }
         ws.LoadDataKho(tbl10);
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        // TODO add your handling code here:
+         DefaultTableModel ob = (DefaultTableModel) tbl10.getModel();
+        TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(ob);
+        tbl10.setRowSorter(obj);
+        obj.setRowFilter(javax.swing.RowFilter.regexFilter(jTextField1.getText()));
+    }//GEN-LAST:event_jTextField1KeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

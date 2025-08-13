@@ -165,7 +165,7 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
 
         jLabel1.setText("Mã Phiếu nhập");
 
-        jLabel2.setText("Nhà ccung cấp");
+        jLabel2.setText("Nhà cung cấp");
 
         cboNhaCungCap.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 

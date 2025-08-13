@@ -641,7 +641,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Qunar l&#xfd; duy&#x1ec7;t phi&#x1ebf;u">
+            <TitledBorder title="Qu&#x1ea3;n l&#xfd; duy&#x1ec7;t phi&#x1ebf;u">
               <Font PropertyName="font" name="Segoe UI" size="18" style="1"/>
             </TitledBorder>
           </Border>

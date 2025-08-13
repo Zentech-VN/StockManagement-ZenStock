@@ -72,7 +72,7 @@ public class WarehouseReceiptService {
                 try {
                     List<Supplier> list = get();
                     nhacungcap.removeAllItems();
-                    for (Supplier s : list) {
+                    for (Supplier s : list ) {
                         if (s.getIs_delete() == 0) {
                             nhacungcap.addItem(s.getTenNhaCungCap());
                         }
