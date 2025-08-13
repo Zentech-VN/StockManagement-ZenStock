@@ -329,6 +329,7 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblSanPham.getModel();
         model.setRowCount(0);
         lblSp.setText("Sản phẩm có trong kho:");
+        ws.LoadDataKho(tbl10);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
