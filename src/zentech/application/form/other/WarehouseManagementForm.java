@@ -314,7 +314,6 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
-        ws.Find(tbl10, jTextField1);
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void tbl10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl10MouseClicked
@@ -329,6 +328,7 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblSanPham.getModel();
         model.setRowCount(0);
         lblSp.setText("Sản phẩm có trong kho:");
+        ws.LoadDataKho(tbl10);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -366,7 +366,7 @@ public class WarehouseManagementForm extends javax.swing.JPanel {
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
         // TODO add your handling code here:
-         DefaultTableModel ob = (DefaultTableModel) tbl10.getModel();
+        DefaultTableModel ob = (DefaultTableModel) tbl10.getModel();
         TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(ob);
         tbl10.setRowSorter(obj);
         obj.setRowFilter(javax.swing.RowFilter.regexFilter(jTextField1.getText()));
