@@ -60,7 +60,8 @@ public class WarehouseReceiptService {
 //        };
 //        worker.execute();
 //    }
-    public void loadDataCbo1(JComboBox<String> nhacungcap) {
+    public void loadDataCbo1(JTable nhacungcap) {
+
         SwingWorker<List<Supplier>, Void> worker = new SwingWorker<List<Supplier>, Void>() {
             @Override
             protected List<Supplier> doInBackground() throws Exception {
@@ -71,10 +72,11 @@ public class WarehouseReceiptService {
             protected void done() {
                 try {
                     List<Supplier> list = get();
-                    nhacungcap.removeAllItems();
-                    for (Supplier s : list ) {
-                        if (s.getIs_delete() == 0) {
-                            nhacungcap.addItem(s.getTenNhaCungCap());
+                    DefaultTableModel model = (DefaultTableModel) nhacungcap.getModel();
+                    model.setRowCount(0);
+                    for (Supplier s : list) {
+                        if (s.getIs_delete() == 0 && s.getTrangThai().equals("MoKhoa")) {
+                            model.addRow(new Object[]{s.getMaNhaCungCap(), s.getTenNhaCungCap()});
                         }
                     }
                 } catch (Exception e) {
