@@ -54,9 +54,9 @@ public class WarehouseDeliveryAddForm extends JDialog {
         jLabel1.setText(CurrentAcc.getHoten());
 //        JTextField
         txtGhiChu.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "...");
-        txtMaKhachHang.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "0");
-        txtMaKho.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "0");
-        txtMaSanPham.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "0");
+        txtMaKhachHang.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Mã khách hàng");
+        txtMaKho.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Mã kho");
+        txtMaSanPham.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Mã sản phẩm");
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "...");
         txtSearch1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "...");
         txtTenSanPham.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Samsung");
