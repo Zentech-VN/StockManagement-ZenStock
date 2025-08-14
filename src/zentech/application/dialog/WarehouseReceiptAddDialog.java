@@ -68,6 +68,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
         txtTenSP.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tên sản phẩm...");
         txtghichu.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Ghi chú...");
         jTextField1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
+        txtSearch1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
         txtNhaCungCap.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Nhà cung cấp");
     }
     
@@ -311,7 +312,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tạo phiếu nhập", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thêm sản phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
         jPanel3.setMaximumSize(new java.awt.Dimension(100, 100));
 
         jLabel2.setText("Tên sản phẩm");
