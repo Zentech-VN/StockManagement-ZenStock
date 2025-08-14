@@ -277,7 +277,7 @@ public interface ProductDAO {
                 + "JOIN thuonghieu th ON sp.thuonghieu = th.mathuonghieu "
                 + "JOIN hedieuhanh hdh ON sp.hedieuhanh = hdh.mahedieuhanh "
                 + "JOIN xuatxu xx ON sp.xuatxu = xx.maxuatxu "
-                + "WHERE sp.tensp LIKE ? AND is_delete = 0";
+                + "WHERE sp.tensp LIKE ? AND sp.is_delete = 0";
 
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
