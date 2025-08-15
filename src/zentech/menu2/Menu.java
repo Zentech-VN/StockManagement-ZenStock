@@ -44,8 +44,6 @@ public class Menu extends JPanel {
         {"Thuộc tính"},
         {"Khách hàng"},
         {"Nhà cung cấp"},
-        {"~HỖ TRỢ~"},
-        {"Nhắn tin nội bộ"},
         {"~KHÁC~"},
         {"Đăng xuất"}
     };

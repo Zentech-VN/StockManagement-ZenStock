@@ -23,7 +23,6 @@ import raven.toast.Notifications;
 import zentech.application.Application;
 import zentech.application.form.other.AccountForm;
 import zentech.application.form.other.AttributeForm;
-import zentech.application.form.other.ChatForm;
 import zentech.application.form.other.CustomerManagement;
 import zentech.application.form.other.EmployeeForm;
 import zentech.application.form.other.FormHomePage;
@@ -33,7 +32,6 @@ import zentech.application.form.other.SupplierForm;
 import zentech.application.form.other.WarehouseManagementForm;
 import zentech.application.form.other.WarehouseReceiptForm;
 import zentech.application.form.other.Chart;
-import zentech.application.form.other.ChatForm;
 import zentech.application.form.other.ReceiptApprovalForm;
 import zentech.application.form.other.WarehouseDeliveryForm;
 import zentech.menu2.Menu;
@@ -175,8 +173,6 @@ public class MainForm extends JLayeredPane {
                 }
                 Application.showForm(new SupplierForm(acc));
             } else if (index == 13) {
-                Application.showForm(new ChatForm());
-            } else if (index == 14) {
                 Application.logout();
             } else {
                 action.cancel();
