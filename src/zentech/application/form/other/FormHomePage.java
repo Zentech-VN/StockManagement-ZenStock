@@ -204,7 +204,7 @@ public class FormHomePage extends javax.swing.JPanel {
 
         lb.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lb.setText("PHẦN MỀM QUẢN LÝ ĐIỆN THOẠI THEO MÃ IMEI");
+        lb.setText("PHẦN MỀM QUẢN LÝ KHO HÀNG ĐIỆN THOẠI");
 
         crazyPanel3.setFlatLafStyleComponent(new raven.crazypanel.FlatLafStyleComponent(
             "background:$Info.background;[light]border:0,0,0,0,shade(@background,5%),,20;[dark]border:0,0,0,0,tint(@background,5%),,20",
