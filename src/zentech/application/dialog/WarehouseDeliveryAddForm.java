@@ -823,8 +823,8 @@ public class WarehouseDeliveryAddForm extends JDialog {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng để tạo phiếu!");
                 return;
             }
-            if (getAllProduct() == null) {
-                JOptionPane.showMessageDialog(this, "Vui lòng thêm sản phẩm để tạo phiếu nhập");
+            if (getAllProduct() == null || getAllProduct().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng thêm sản phẩm để tạo phiếu nhập!");
                 return;
             }
 

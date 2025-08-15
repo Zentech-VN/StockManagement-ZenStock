@@ -36,13 +36,13 @@ import service.WarehouseReceiptService;
 import zentech.application.form.other.WarehouseReceiptForm;
 
 public class WarehouseReceiptAddDialog extends JDialog {
-    
+
     WarehouseReceiptService wrs = new WarehouseReceiptService();
     WarehouseReceiptDAO wrd = new WarehouseReceiptDAO();
     private Employee currentacc;
-    
+
     List<Object> listo = new ArrayList<>();
-    
+
     public WarehouseReceiptAddDialog(Window parent, WarehouseReceiptForm warehouseReceiptForm, Employee acc) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         this.currentacc = acc;
@@ -52,7 +52,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
         tblSanPham.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
         tblCho.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
     }
-    
+
     public void editFrom() {
         tblSanPham.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
         wrs.loadDataTable1(tblSanPham);
@@ -71,7 +71,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
         txtSearch1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
         txtNhaCungCap.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Nhà cung cấp");
     }
-    
+
     public void LoadDataNCC() {
         DefaultTableModel model = (DefaultTableModel) tblNhaCungCap.getModel();
         model.setRowCount(0);
@@ -81,7 +81,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
             }
         }
     }
-    
+
     private TableCellRenderer getAlignmentCellRender(TableCellRenderer oldRender, boolean header) {
         return new DefaultTableCellRenderer() {
             @Override
@@ -103,43 +103,42 @@ public class WarehouseReceiptAddDialog extends JDialog {
             }
         };
     }
-    
-    public void LoadMoney() {
-        int soluong = 0;
-        double giatien = 0;
-        double dem = 0;
-        BigDecimal tong = BigDecimal.ZERO;
-        
-        for (int i = 0; i < tblCho.getRowCount(); i++) {
-            Object slObj = tblCho.getValueAt(i, 3);
-            if (slObj instanceof Integer) {
-                soluong = (Integer) slObj;
-            } else {
-                soluong = Integer.parseInt(slObj.toString().trim());
+
+  public void LoadMoney() {
+    BigDecimal tong = BigDecimal.ZERO;
+
+    for (int i = 0; i < tblCho.getRowCount(); i++) {
+        // Lấy đơn giá
+        BigDecimal dongia = BigDecimal.ZERO;
+        Object gtObj = tblCho.getValueAt(i, 5);
+
+        if (gtObj instanceof BigDecimal) {
+            dongia = (BigDecimal) gtObj;
+        } else if (gtObj instanceof Double) {
+            dongia = BigDecimal.valueOf((Double) gtObj);
+        } else if (gtObj != null) {
+            try {
+                dongia = new BigDecimal(gtObj.toString().trim());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Lỗi định dạng đơn giá ở dòng " + (i + 1));
+                continue;
             }
-            
-            Object gtObj = tblCho.getValueAt(i, 5);
-            if (gtObj instanceof java.math.BigDecimal) {
-                giatien = ((java.math.BigDecimal) gtObj).doubleValue();
-            } else if (gtObj instanceof Double) {
-                giatien = (Double) gtObj;
-            } else {
-                giatien = Double.parseDouble(gtObj.toString().trim());
-            }
-            
-            dem += soluong * giatien;
         }
-        
-        tong = new BigDecimal(dem);
-        
-        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
-        symbols.setGroupingSeparator('.');
-        symbols.setDecimalSeparator(',');
-        DecimalFormat formatter = new DecimalFormat("#,##0", symbols);
-        
-        jLabel4.setText(formatter.format(tong));
+
+        // Cộng dồn
+        tong = tong.add(dongia);
     }
-    
+
+    // Format kết quả
+    DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+    symbols.setGroupingSeparator('.');
+    symbols.setDecimalSeparator(',');
+    DecimalFormat formatter = new DecimalFormat("#,##0", symbols);
+
+    jLabel4.setText(formatter.format(tong));
+}
+
+
     public boolean checkAddProduct() {
         String tensp = "";
         String tenkho = "";
@@ -161,10 +160,10 @@ public class WarehouseReceiptAddDialog extends JDialog {
             JOptionPane.showMessageDialog(this, "Sản phẩm đã có trong bản chờ.");
             return false;
         }
-        
+
         return true;
     }
-    
+
     public boolean checksoluong() {
         int soluonghientai = 0;
         try {
@@ -186,7 +185,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
             return true;
         }
     }
-    
+
     public void addProduct() {
         int soluonghientai = 0;
         if (txtMaSanPham.getText().isEmpty()) {
@@ -211,23 +210,23 @@ public class WarehouseReceiptAddDialog extends JDialog {
             model.addRow(new Object[]{txtKho.getText(), txtMaSanPham.getText(), txtTenSP.getText(), txtSoluong.getText(), txtghichu.getText(), dongia1});
         }
     }
-    
+
     public List<PhieuNhapChiTiet> getProduct() {
         List<PhieuNhapChiTiet> listpnct = new ArrayList<>();
         try {
             for (int i = 0; i < tblCho.getRowCount(); i++) {
                 PhieuNhapChiTiet pnct = new PhieuNhapChiTiet();
-                
+
                 int maSP = Integer.parseInt(tblCho.getValueAt(i, 1).toString());
                 int soLuong = Integer.parseInt(tblCho.getValueAt(i, 3).toString());
                 double gia = Double.parseDouble(tblCho.getValueAt(i, 5).toString());
                 String ghiChu = tblCho.getValueAt(i, 4) != null ? tblCho.getValueAt(i, 4).toString() : "";
-                
+
                 pnct.getP().setMaSanPham(maSP);
                 pnct.setSoluong(soLuong);
                 pnct.setDongia(BigDecimal.valueOf(gia));
                 pnct.setGhichu(ghiChu);
-                
+
                 listpnct.add(pnct);
             }
             return listpnct;
@@ -236,7 +235,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
             return null;
         }
     }
-    
+
     public PhieuNhap getFrom() {
         PhieuNhap pn = new PhieuNhap();
         String tennhacungcap = txtNhaCungCap.getText();
@@ -759,12 +758,12 @@ public class WarehouseReceiptAddDialog extends JDialog {
         // Khi thêm trạng thái luôn luôn là ChoDuyet
         int chooser = JOptionPane.showConfirmDialog(this, "Bạn muốn tạo phiếu nhập?", "Tạo phiếu nhập", JOptionPane.YES_OPTION);
         if (chooser == JOptionPane.YES_OPTION) {
-            if (getProduct() == null || getProduct().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn ít nhất một sản phẩm khi tạo phiếu nhập.");
+            if (txtNhaCungCap.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp!");
                 return;
             }
-            if (getFrom() == null || getProduct().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Nhân viên không tồn tại");
+            if (getProduct() == null || getProduct().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn ít nhất một sản phẩm khi tạo phiếu nhập.");
                 return;
             }
             boolean rs = wrd.TaoPhieuNhap(getFrom(), getProduct());
@@ -772,10 +771,10 @@ public class WarehouseReceiptAddDialog extends JDialog {
                 JOptionPane.showMessageDialog(this, "Tạo phiếu nhập thành công.");
                 Window parent = SwingUtilities.getWindowAncestor(this);
                 this.dispose();
-                
+
                 WarehouseReceiptDetailsDialog showdetail = new WarehouseReceiptDetailsDialog(parent, null, wrd.getMaPhieuNhap());
                 showdetail.setVisible(true);
-                
+
             }
         }
     }//GEN-LAST:event_btnThemActionPerformed
@@ -867,13 +866,13 @@ public class WarehouseReceiptAddDialog extends JDialog {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn một sản phẩm trong bảng chờ để cập nhật số lượng.");
             return;
         }
-        
+
         String currentQtyStr = tblCho.getValueAt(selectedRow, 3).toString();
         JTextField inputField = new JTextField(currentQtyStr);
         JPanel panel = new JPanel();
         panel.add(new JLabel("Nhập số lượng mới:"));
         panel.add(inputField);
-        
+
         int result = JOptionPane.showConfirmDialog(
                 this,
                 panel,
@@ -881,7 +880,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE
         );
-        
+
         if (result == JOptionPane.OK_OPTION) {
             try {
                 int newQty = Integer.parseInt(inputField.getText().trim());
@@ -889,19 +888,19 @@ public class WarehouseReceiptAddDialog extends JDialog {
                     JOptionPane.showMessageDialog(this, "Số lượng phải nằm trong khoảng từ 1 đến 10000.");
                     return;
                 }
-                
+
                 tblCho.setValueAt(newQty, selectedRow, 3);
-                
+
                 Object unitPriceObj = tblCho.getValueAt(selectedRow, 5);
                 double totalPriceOld = Double.parseDouble(unitPriceObj.toString());
                 int oldQty = Integer.parseInt(currentQtyStr);
-                
+
                 if (oldQty > 0) {
                     double unitPrice = totalPriceOld / oldQty;
                     double newTotal = unitPrice * newQty;
                     tblCho.setValueAt(newTotal, selectedRow, 5);
                 }
-                
+
                 LoadMoney();
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Số lượng không hợp lệ.");
@@ -922,7 +921,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
         int select = tblNhaCungCap.getSelectedRow();
         String ten = (String) tblNhaCungCap.getValueAt(select, 1);
         txtNhaCungCap.setText(ten);
-        
+
     }//GEN-LAST:event_tblNhaCungCapMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
