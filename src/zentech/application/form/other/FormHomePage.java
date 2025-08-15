@@ -37,6 +37,10 @@ public class FormHomePage extends javax.swing.JPanel {
     }
 
     private void initalUI(JTable table) {
+        table.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
+        table.setRowHeight(30);
+        table.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
+        
         panel1.putClientProperty("FlatLaf.style",
                 "[light]border:0,0,0,0,shade(@background,5%),,20;"
                 + "[dark]border:0,0,0,0,tint(@background,5%),,20;");
@@ -72,8 +76,8 @@ public class FormHomePage extends javax.swing.JPanel {
                 Component com = oldRender.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 if (com instanceof JLabel) {
                     JLabel label = (JLabel) com;
-                    if (column == 0) {
-                        label.setHorizontalAlignment(SwingConstants.LEFT);
+                    if (column == 0 || column == 1 || column == 2 || column == 3 || column == 4 || column == 5) {
+                        label.setHorizontalAlignment(SwingConstants.LEFT); //Căn trái
                     } else {
                         label.setHorizontalAlignment(SwingConstants.CENTER);
                     }
@@ -359,6 +363,7 @@ public class FormHomePage extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tblSanPham.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblSanPham);
 
         crazyPanel1.add(jScrollPane1);

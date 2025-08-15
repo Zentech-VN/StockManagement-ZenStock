@@ -161,9 +161,7 @@ public class ProductForm extends javax.swing.JPanel {
                 Component com = oldRender.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 if (com instanceof JLabel) {
                     JLabel label = (JLabel) com;
-                    if (column == 1) {
-                        label.setHorizontalAlignment(SwingConstants.CENTER); //Căn giữa
-                    } else if (column == 0 || column == 2 || column == 3 || column == 4 || column == 5) {
+                    if (column == 0 || column == 1 || column == 2 || column == 3 || column == 4 || column == 5) {
                         label.setHorizontalAlignment(SwingConstants.LEFT); //Căn trái
                     } else {
                         label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -394,7 +392,7 @@ public class ProductForm extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã", "Tên sản phẩm", "Thương hiệu", "Giá bán", "Hệ điều hành", "Xuất xứ", "Trạng thái"
+                "Mã", "Tên sản phẩm", "Thương hiệu", "Hệ điều hành", "Xuất xứ", "Giá bán", "Trạng thái"
             }
         ) {
             boolean[] canEdit = new boolean [] {
