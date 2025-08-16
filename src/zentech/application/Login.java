@@ -82,7 +82,6 @@ public class Login extends javax.swing.JFrame {
 
         lbUser.setText("Tài khoản");
 
-        txtUser.setText("khoi");
         txtUser.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         txtUser.setMinimumSize(new java.awt.Dimension(68, 40));
 

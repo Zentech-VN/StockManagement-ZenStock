@@ -545,7 +545,7 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
             } else {
                 JOptionPane.showMessageDialog(this, "Cập nhật thất bại phiếu xuất có mã " + this.maphieunhap + ".");
             }
-        } else {
+        } else if(luachon == 1){
             if (checkUpdate()) {
                 if (kiemtrasoluong()) {
                     int rs = wrd.UpdatePhieuNhapChiTiet(getUpdate(), wrd.getMaSanPhambyTen(tensanpham));

@@ -600,7 +600,7 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
                 JOptionPane.showMessageDialog(this, "Cập nhật thất bại phiếu xuất có mã " + this.maphieuxuat + ".");
 
             }
-        } else {
+        } else if (luachon == 1) {
             if (txtMaSanPham.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm để cập nhật");
                 return;
