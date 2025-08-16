@@ -173,7 +173,7 @@ public class WarehouseDeliveryAddForm extends JDialog {
             return false;
         }
 
-        if (!maKhoTrongBang.equalsIgnoreCase(maKhoTrongBang)) {
+        if (!maKhoTrongBang.equalsIgnoreCase(maKhoMoi) && !maKhoTrongBang.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Chỉ được phép thêm sản phẩm từ cùng một kho (Hiện tại: Kho " + maKhoTrongBang + ")");
             return false;
         }
@@ -313,13 +313,25 @@ public class WarehouseDeliveryAddForm extends JDialog {
             new String [] {
                 "Mã khách hàng", "Tên khách hàng"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblKhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblKhachHangMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(tblKhachHang);
+        if (tblKhachHang.getColumnModel().getColumnCount() > 0) {
+            tblKhachHang.getColumnModel().getColumn(0).setResizable(false);
+            tblKhachHang.getColumnModel().getColumn(1).setResizable(false);
+        }
 
         jLabel8.setText("Search");
 
@@ -535,13 +547,28 @@ public class WarehouseDeliveryAddForm extends JDialog {
             new String [] {
                 "Mã sản phẩm", "Tên sản phẩm", "Giá", "Mã kho", "Số lượng"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblSanPham.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblSanPhamMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblSanPham);
+        if (tblSanPham.getColumnModel().getColumnCount() > 0) {
+            tblSanPham.getColumnModel().getColumn(0).setResizable(false);
+            tblSanPham.getColumnModel().getColumn(1).setResizable(false);
+            tblSanPham.getColumnModel().getColumn(2).setResizable(false);
+            tblSanPham.getColumnModel().getColumn(3).setResizable(false);
+            tblSanPham.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -588,6 +615,14 @@ public class WarehouseDeliveryAddForm extends JDialog {
             }
         });
         jScrollPane4.setViewportView(tblCho);
+        if (tblCho.getColumnModel().getColumnCount() > 0) {
+            tblCho.getColumnModel().getColumn(0).setResizable(false);
+            tblCho.getColumnModel().getColumn(1).setResizable(false);
+            tblCho.getColumnModel().getColumn(2).setResizable(false);
+            tblCho.getColumnModel().getColumn(3).setResizable(false);
+            tblCho.getColumnModel().getColumn(4).setResizable(false);
+            tblCho.getColumnModel().getColumn(5).setResizable(false);
+        }
 
         jButton1.setText("Cập nhập số lượng");
         jButton1.setPreferredSize(new java.awt.Dimension(75, 30));

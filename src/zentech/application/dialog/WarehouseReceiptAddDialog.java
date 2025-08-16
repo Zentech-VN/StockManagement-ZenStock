@@ -148,7 +148,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
             }
         }
         if (!tenkho.equals(txtKho.getText()) && !tenkho.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Đang thêm sản phẩm cho kho " + tenkho + ".");
+            JOptionPane.showMessageDialog(this, "Chỉ được phép thêm sản phẩm từ cùng một kho (Hiện tại: Kho " + tenkho + ")");
             return false;
         }
         if (wrd.checkProduct(txtKho.getText(), tensp) == false) {
@@ -650,13 +650,25 @@ public class WarehouseReceiptAddDialog extends JDialog {
             new String [] {
                 "Mã nhà cung cấp", "Tên nhà cung cấp"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblNhaCungCap.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblNhaCungCapMouseClicked(evt);
             }
         });
         jScrollPane3.setViewportView(tblNhaCungCap);
+        if (tblNhaCungCap.getColumnModel().getColumnCount() > 0) {
+            tblNhaCungCap.getColumnModel().getColumn(0).setResizable(false);
+            tblNhaCungCap.getColumnModel().getColumn(1).setResizable(false);
+        }
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);

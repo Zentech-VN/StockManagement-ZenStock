@@ -316,6 +316,13 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
             }
         });
         jScrollPane3.setViewportView(tblCHiTietPhieuNhap);
+        if (tblCHiTietPhieuNhap.getColumnModel().getColumnCount() > 0) {
+            tblCHiTietPhieuNhap.getColumnModel().getColumn(0).setResizable(false);
+            tblCHiTietPhieuNhap.getColumnModel().getColumn(1).setResizable(false);
+            tblCHiTietPhieuNhap.getColumnModel().getColumn(2).setResizable(false);
+            tblCHiTietPhieuNhap.getColumnModel().getColumn(3).setResizable(false);
+            tblCHiTietPhieuNhap.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -357,6 +364,13 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
             }
         });
         jScrollPane8.setViewportView(tblSanPham);
+        if (tblSanPham.getColumnModel().getColumnCount() > 0) {
+            tblSanPham.getColumnModel().getColumn(0).setResizable(false);
+            tblSanPham.getColumnModel().getColumn(1).setResizable(false);
+            tblSanPham.getColumnModel().getColumn(2).setResizable(false);
+            tblSanPham.getColumnModel().getColumn(3).setResizable(false);
+            tblSanPham.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         jTextField7.setPreferredSize(new java.awt.Dimension(71, 32));
         jTextField7.addActionListener(new java.awt.event.ActionListener() {
@@ -419,13 +433,25 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
             new String [] {
                 "Mã nhà cung cấp", "Tên nhà cung cấp"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+        }
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -642,7 +668,6 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -653,18 +678,14 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JLabel lblDonGia;
     private javax.swing.JTable tblCHiTietPhieuNhap;
     private javax.swing.JTable tblSanPham;
-    private javax.swing.JTable tblSanPham5;
     private javax.swing.JTextField txtGiaSanPham;
     private javax.swing.JTextField txtMaPhieuNhap;
     private javax.swing.JTextField txtNhaCungCap;
