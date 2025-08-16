@@ -474,6 +474,10 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
             }
         });
         jScrollPane2.setViewportView(tblKhachHang);
+        if (tblKhachHang.getColumnModel().getColumnCount() > 0) {
+            tblKhachHang.getColumnModel().getColumn(0).setResizable(false);
+            tblKhachHang.getColumnModel().getColumn(1).setResizable(false);
+        }
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -644,6 +648,10 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
             int slht = 0;
             slht = Integer.parseInt(txtSoLuong.getText());
             int tangsoluong = slht + 1;
+            if (tangsoluong > this.soluongcuasanpham) {
+                JOptionPane.showMessageDialog(this, "Số lượng không được lớn hơn số lượng của sản phẩm");
+                tangsoluong = this.soluongcuasanpham; // đảm bảo không lớn hơn 10000
+            }
             txtSoLuong.setText(String.valueOf(tangsoluong));
             LoadMoney();
         }
@@ -655,6 +663,10 @@ public class WarehouseDeliveryUpdateForm extends JDialog {
             int slht = 0;
             slht = Integer.parseInt(txtSoLuong.getText());
             int trusoluong = slht - 1;
+            if (trusoluong < 1) {
+                JOptionPane.showMessageDialog(this, "Số lượng không được nhỏ hơn 1");
+                trusoluong = 1;
+            }
             txtSoLuong.setText(String.valueOf(trusoluong));
             LoadMoney();
         }

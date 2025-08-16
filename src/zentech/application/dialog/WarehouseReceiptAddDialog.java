@@ -104,40 +104,39 @@ public class WarehouseReceiptAddDialog extends JDialog {
         };
     }
 
-  public void LoadMoney() {
-    BigDecimal tong = BigDecimal.ZERO;
+    public void LoadMoney() {
+        BigDecimal tong = BigDecimal.ZERO;
 
-    for (int i = 0; i < tblCho.getRowCount(); i++) {
-        // Lấy đơn giá
-        BigDecimal dongia = BigDecimal.ZERO;
-        Object gtObj = tblCho.getValueAt(i, 5);
+        for (int i = 0; i < tblCho.getRowCount(); i++) {
+            // Lấy đơn giá
+            BigDecimal dongia = BigDecimal.ZERO;
+            Object gtObj = tblCho.getValueAt(i, 5);
 
-        if (gtObj instanceof BigDecimal) {
-            dongia = (BigDecimal) gtObj;
-        } else if (gtObj instanceof Double) {
-            dongia = BigDecimal.valueOf((Double) gtObj);
-        } else if (gtObj != null) {
-            try {
-                dongia = new BigDecimal(gtObj.toString().trim());
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Lỗi định dạng đơn giá ở dòng " + (i + 1));
-                continue;
+            if (gtObj instanceof BigDecimal) {
+                dongia = (BigDecimal) gtObj;
+            } else if (gtObj instanceof Double) {
+                dongia = BigDecimal.valueOf((Double) gtObj);
+            } else if (gtObj != null) {
+                try {
+                    dongia = new BigDecimal(gtObj.toString().trim());
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Lỗi định dạng đơn giá ở dòng " + (i + 1));
+                    continue;
+                }
             }
+
+            // Cộng dồn
+            tong = tong.add(dongia);
         }
 
-        // Cộng dồn
-        tong = tong.add(dongia);
+        // Format kết quả
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+        symbols.setGroupingSeparator('.');
+        symbols.setDecimalSeparator(',');
+        DecimalFormat formatter = new DecimalFormat("#,##0", symbols);
+
+        jLabel4.setText(formatter.format(tong));
     }
-
-    // Format kết quả
-    DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
-    symbols.setGroupingSeparator('.');
-    symbols.setDecimalSeparator(',');
-    DecimalFormat formatter = new DecimalFormat("#,##0", symbols);
-
-    jLabel4.setText(formatter.format(tong));
-}
-
 
     public boolean checkAddProduct() {
         String tensp = "";
@@ -165,25 +164,28 @@ public class WarehouseReceiptAddDialog extends JDialog {
     }
 
     public boolean checksoluong() {
-        int soluonghientai = 0;
+        int soluongHienTai;
         try {
-            soluonghientai = Integer.parseInt(txtSoluong.getText());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Sô lượng không hợp lệ.");
+            soluongHienTai = Integer.parseInt(txtSoluong.getText().trim());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Số lượng không hợp lệ.");
             txtSoluong.setText("1");
             return false;
         }
-        if (soluonghientai > 10000) {
-            JOptionPane.showMessageDialog(this, "Số lượng không được lớn hơn 10000");
-            txtSoluong.setText("10000");
-            return false;
-        } else if (soluonghientai < 1) {
+
+        if (soluongHienTai < 1) {
             JOptionPane.showMessageDialog(this, "Số lượng không được nhỏ hơn 1");
             txtSoluong.setText("1");
             return false;
-        } else {
-            return true;
         }
+
+        if (soluongHienTai > 10000) {
+            JOptionPane.showMessageDialog(this, "Số lượng không được lớn hơn 10000");
+            txtSoluong.setText("10000");
+            return false;
+        }
+
+        return true;
     }
 
     public void addProduct() {
@@ -740,7 +742,7 @@ public class WarehouseReceiptAddDialog extends JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnThem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnThem)
                             .addComponent(btnHuy))
                         .addGap(6, 6, 6))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -748,6 +750,8 @@ public class WarehouseReceiptAddDialog extends JDialog {
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnHuy, btnThem, jButton5});
 
         pack();
         setLocationRelativeTo(null);
@@ -803,9 +807,12 @@ public class WarehouseReceiptAddDialog extends JDialog {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         if (checksoluong()) {
-            int slht = 0;
-            slht = Integer.parseInt(txtSoluong.getText());
+            int slht = Integer.parseInt(txtSoluong.getText());
             int trusoluong = slht - 1;
+            if (trusoluong < 1) {
+                JOptionPane.showMessageDialog(this, "Số lượng không được nhỏ hơn 1");
+                trusoluong = 1; // đảm bảo không nhỏ hơn 1
+            }
             txtSoluong.setText(String.valueOf(trusoluong));
         }
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -813,9 +820,12 @@ public class WarehouseReceiptAddDialog extends JDialog {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         if (checksoluong()) {
-            int slht = 0;
-            slht = Integer.parseInt(txtSoluong.getText());
+            int slht = Integer.parseInt(txtSoluong.getText());
             int tangsoluong = slht + 1;
+            if (tangsoluong > 10000) {
+                JOptionPane.showMessageDialog(this, "Số lượng không được lớn hơn 10000");
+                tangsoluong = 10000; // đảm bảo không lớn hơn 10000
+            }
             txtSoluong.setText(String.valueOf(tangsoluong));
         }
     }//GEN-LAST:event_jButton3ActionPerformed

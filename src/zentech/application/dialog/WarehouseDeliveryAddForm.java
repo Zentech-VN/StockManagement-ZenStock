@@ -730,6 +730,10 @@ public class WarehouseDeliveryAddForm extends JDialog {
             int slht = 0;
             slht = Integer.parseInt(txtSoLuong.getText());
             int tangsoluong = slht + 1;
+            if (tangsoluong > this.soluongcuasanpham) {
+                JOptionPane.showMessageDialog(this, "Số lượng không được lớn hơn số lượng của sản phẩm");
+                tangsoluong = this.soluongcuasanpham; 
+            }
             txtSoLuong.setText(String.valueOf(tangsoluong));
         }
     }//GEN-LAST:event_btnTangActionPerformed
@@ -740,6 +744,10 @@ public class WarehouseDeliveryAddForm extends JDialog {
             int slht = 0;
             slht = Integer.parseInt(txtSoLuong.getText());
             int trusoluong = slht - 1;
+            if (trusoluong < 1) {
+                JOptionPane.showMessageDialog(this, "Số lượng không được nhỏ hơn 1");
+                trusoluong = 1;
+            }
             txtSoLuong.setText(String.valueOf(trusoluong));
         }
     }//GEN-LAST:event_btnTruActionPerformed

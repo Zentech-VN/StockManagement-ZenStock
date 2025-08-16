@@ -549,6 +549,10 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
             int slht = 0;
             slht = Integer.parseInt(txtSoLuong.getText());
             int trusoluong = slht - 1;
+            if (trusoluong < 1) {
+                JOptionPane.showMessageDialog(this, "Số lượng không được nhỏ hơn 1");
+                trusoluong = 1;
+            }
             txtSoLuong.setText(String.valueOf(trusoluong));
             LoadMoney();
         }
@@ -562,6 +566,10 @@ public class WarehouseReceiptUpdateDialog extends JDialog {
             int slht = 0;
             slht = Integer.parseInt(txtSoLuong.getText());
             int tangsoluong = slht + 1;
+            if (tangsoluong > 10000) {
+                JOptionPane.showMessageDialog(this, "Số lượng không được lớn hơn 10000");
+                tangsoluong = 10000;
+            }
             txtSoLuong.setText(String.valueOf(tangsoluong));
             LoadMoney();
         }
